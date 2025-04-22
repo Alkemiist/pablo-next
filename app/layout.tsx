@@ -1,5 +1,3 @@
-// /app/layout.tsx
-
 import './globals.css'; // Optional: global styles
 
 export const metadata = {

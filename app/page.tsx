@@ -1,9 +1,12 @@
+import Button from "./components/ui/button/button";
+
 function Home() {
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <h1>Hello World</h1>
+        <div>
+            <h1 className="text-4xl font-bold flex justify-center items-center h-screen">Hello world, we in this bitch.</h1>
+            <Button>Click Me</Button>
         </div>
     )
 }
 
-export default Home;    
+export default Home;
