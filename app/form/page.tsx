@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '../components/ui/button/button';
+import Link from 'next/link';
 
 export default function SignupForm() {
 
@@ -19,7 +20,12 @@ export default function SignupForm() {
   };
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="space-y-4 max-w-md ">
+    <>
+
+    {/* could be a header component */}
+    <Link href='/' className='bg-blue-600 text-white px-4 py-2 rounded'>Back</Link> 
+
+    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="p-6 mx-auto w-1/4 flex flex-col gap-8 justify-center h-screen">
       <div>
 
         <label className="block mb-1 font-medium">Name</label>
@@ -47,5 +53,6 @@ export default function SignupForm() {
         Submit
       </Button>
     </form>
+    </>
   );
 }

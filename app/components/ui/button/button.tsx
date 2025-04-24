@@ -26,21 +26,21 @@ export default function Button({
 
   // these are the styles for the button depending on the variant
   if ( variant === "primary" ) {
-    styles = 'bg-blue-600 text-white px-4 py-2 rounded';
+    styles = 'bg-blue-600 text-white px-4 py-4 rounded';
   } else if ( variant === "secondary" ) {
-    styles = 'bg-gray-600 text-white px-4 py-2 rounded ';
+    styles = 'bg-gray-600 text-white px-4 py-4 rounded ';
   }
 
   //these are the sizes for the button
-let buttonSize = '';
+// let buttonSize = '';
 
-  if( size === 'small' ) {
-    buttonSize = 'px-4 py-2 rounded w-[100px] h-[32px]';
-  } else if( size === 'medium' ) {
-    buttonSize = 'px-4 py-2 rounded w-[200px] h-[42px]';
-  } else if( size === 'large' ) {
-    buttonSize = 'px-4 py-2 rounded w-[400px] h-[52px]';
-  }
+//   if( size === 'small' ) {
+//     buttonSize = 'px-4 py-2 rounded w-[100px] h-[32px]';
+//   } else if( size === 'medium' ) {
+//     buttonSize = 'px-4 py-2 rounded w-[200px] h-[42px]';
+//   } else if( size === 'large' ) {
+//     buttonSize = 'px-4 py-2 rounded w-[400px] h-[52px]';
+//   }
 
   // this is the disabled state of the button
   const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed' : '';
@@ -48,7 +48,7 @@ let buttonSize = '';
   return (
 
     <button 
-      className={`${styles} ${disabledStyles} ${buttonSize} rounded font-bold`} 
+      className={`${styles} ${disabledStyles} rounded font-bold`} 
       onClick={disabled ? undefined : onClick}
     >
       {children}
