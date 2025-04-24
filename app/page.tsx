@@ -3,6 +3,7 @@
 // imports
 import { useState } from 'react';
 import Button from "./components/ui/button/button";
+import SignupForm from "./form/form";
 
 
 // this is the home component
@@ -13,8 +14,9 @@ function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="m-16 text-4xl font-bold">Click to Count</h1>
-            <Button variant="primary" disabled={false} size="large" onClick={() => setCount(count + 1)}>You clicked {count} times</Button>
+            {/* <h1 className="m-16 text-4xl font-bold">Hello, there!</h1> */}
+            {/* <Button variant="primary" disabled={false} size="large" onClick={() => setCount(count + 1)}>You clicked {count} times</Button> */}
+            <SignupForm />
         </div>
     )
 }
