@@ -11,7 +11,6 @@ export default function SignupForm() {
   const [email, setEmail] = useState('');
 
   // This boolean tracks whether the form is valid
-  // if the name and email are not empty, the form is valid
   const isFormValid = name.trim() !== '' && email.trim() !== '';
 
   const handleSubmit = () => {

@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 // these are the props that the button component will receive
 type ButtonProps = {
   children: React.ReactNode; // this is the button text
@@ -19,8 +17,6 @@ export default function Button({
   disabled = false,
   size = 'large',
  }: ButtonProps) {
-
-  // this is the state of the button
 
   let styles = '';
 
