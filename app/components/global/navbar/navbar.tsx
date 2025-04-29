@@ -11,22 +11,21 @@ import { useState, useEffect } from 'react';
 export default function Navbar() {
 
     const pathname = usePathname();
-    const [isOpen, setIsOpen] = useState(false); // sets the nav to closed to start
+    const [isOpen, setIsOpen] = useState(false); 
 
-    useEffect(() => {
-        const storedNavState = localStorage.getItem('navState')
-        if ( storedNavState === 'true' ) {
-            setIsOpen(true);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const storedNavState = localStorage.getItem('navState')
+    //     if ( storedNavState === 'true' ) {
+    //         setIsOpen(true);
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        localStorage.setItem('navState', isOpen.toString());
-    }, [isOpen]);
+    // useEffect(() => {
+    //     localStorage.setItem('navState', isOpen.toString());
+    // }, [isOpen]);
 
     const handleNav = () => {
         setIsOpen(!isOpen);
-        console.log(isOpen);
     }
 
     // these are the nav items
@@ -52,6 +51,7 @@ export default function Navbar() {
         <button onClick={handleNav} className="absolute bottom-24 left-1/2 transform -translate-x-1/2 m-full hover:bg-slate-800 rounded-lg p-2"> 
             {isOpen ? <ArrowLeft size={20} /> : <ArrowRight size={20} />} 
         </button>
+
     </div>
     )
 }

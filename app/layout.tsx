@@ -15,7 +15,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        <main className="ml-16 p-4 bg-slate-950 h-screen">
+        {/* this is what needs to change in order to leave space for the navbar  */}
+        <main className="ml-16 p-4 bg-slate-950 h-screen"> 
         {children}
         </main>
       </body>

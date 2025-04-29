@@ -20,7 +20,6 @@ export default function Button({
   size = 'large',
  }: ButtonProps) {
 
-  // this is the state of the button
 
   let styles = '';
 
