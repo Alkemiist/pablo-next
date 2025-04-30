@@ -3,6 +3,10 @@
 import { ContextProvider } from '@/app/context/appContext';
 import { ReactNode } from 'react';
 
-export default function ContextWrapper({ children }: { children: ReactNode }) {
+interface ContextWrapperProps {
+  children: ReactNode;
+}
+
+export default function ContextWrapper({ children }: ContextWrapperProps) {
   return <ContextProvider>{children}</ContextProvider>;
 } 
