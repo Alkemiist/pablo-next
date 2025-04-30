@@ -1,5 +1,8 @@
+
 import './globals.css'; // Optional: global styles
 import Navbar from './components/global/navbar/navbar';
+import { ReactNode } from 'react';
+import { ContextProvider } from './context/appContext';
 
 export const metadata = {
   title: 'My App',
@@ -14,11 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {/* this is what needs to change in order to leave space for the navbar  */}
-        <main className="ml-16 p-4 bg-slate-950 h-screen"> 
-        {children}
-        </main>
+        <ContextProvider>
+          <Navbar />
+          <main className="ml-16 p-4 bg-slate-950 h-screen"> 
+            {children}
+          </main>
+        </ContextProvider>
       </body>
     </html>
   );

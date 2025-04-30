@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import TopBar from '../components/global/top-bar/top-bar';
+
 export const metadata: Metadata = {
     title: 'Analysis',
     description: 'Analysis page',

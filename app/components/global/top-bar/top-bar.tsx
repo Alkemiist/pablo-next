@@ -13,13 +13,14 @@ export default function TopBar() {
     // Nav options for the user or search 
     const analysisNav = [
         { label: "My Analysis", href: "/analysis" },
-        { label: "Search Profiles", href: "/search" },
+        { label: "Search Profiles", href: "/analysis/search" },
     ];
     
     return(
 
         <div className=" bg-slate-900 h-16 flex items-center px-6">
             
+            {/* These are going to be the self analysis tab and the search tab */}
             <div className="flex gap-8">
             { analysisNav.map( item => (
                 <Link
@@ -32,7 +33,10 @@ export default function TopBar() {
             ) ) }
             </div>
 
-        
+            {/* These are going to be the analysis tabs */}
+            <div className='...' >
+
+            </div>
        
         </div>
 

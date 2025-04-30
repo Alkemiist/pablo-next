@@ -4,9 +4,9 @@ export default function Analysis() {
 
     return (
         
-        <div className="border ">
+        <div className="...">
 
-         <h1>Hello this is the analysis page</h1>
+            <h1>Hello this is the analysis page</h1>
 
         </div>
 
