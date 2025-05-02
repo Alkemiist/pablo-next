@@ -20,7 +20,7 @@ interface ContextProviderProps {
 // Create a provider component. This is the context we are providing to the app
 export function ContextProvider({ children }: ContextProviderProps) {
     const mainCharacter = 'Pablo';
-    const characters = ['Pablo', 'Enzo', 'Finn'];
+    const characters = ['Rosy', 'Enzo', 'Finn'];
 
     return (
         <AppContext.Provider value={{ mainCharacter, characters }}>

@@ -20,6 +20,14 @@ function Home() {
             {/* <Button variant="primary" disabled={false} size="large" onClick={() => setCount(count + 1)}>You clicked {count} times</Button> */}
             {/* <Link href='/form' className='bg-blue-600 text-white px-24 py-2 rounded'>Sign up</Link> */}
             <h1>{ mainCharacter }</h1>
+            <h1>Characters:</h1>
+            <div>
+                {characters.map(person => {
+                    return (
+                        <h1>{ person }</h1>
+                    )
+                })}
+            </div>
         </div>
     )
 }
