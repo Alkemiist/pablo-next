@@ -16,18 +16,18 @@ function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            {/* <h1 className="m-16 text-4xl font-bold">Hello There, Pablo.</h1> */}
+            <h1 className="m-16 text-4xl font-bold">Hello There, Pablo.</h1>
             {/* <Button variant="primary" disabled={false} size="large" onClick={() => setCount(count + 1)}>You clicked {count} times</Button> */}
             {/* <Link href='/form' className='bg-blue-600 text-white px-24 py-2 rounded'>Sign up</Link> */}
-            <h1>{ mainCharacter }</h1>
+            {/* <h1>{ mainCharacter }</h1>
             <h1>Characters:</h1>
             <div>
                 {characters.map(person => {
                     return (
-                        <h1>{ person }</h1>
+                        <h1 key={person}>{ person }</h1>
                     )
                 })}
-            </div>
+            </div> */}
         </div>
     )
 }

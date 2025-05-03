@@ -4,11 +4,11 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
-
+import { ButtonStack } from '@/app/components/ui/button/button-stack';
 
 
 // this is the brief page 1 component
-export default function BriefPage1() {
+export default function BriefDetailsPage() {
 
     // variables & state
     const pathname = usePathname();
@@ -17,13 +17,13 @@ export default function BriefPage1() {
     const [productDescription, setProductDescription] = useState('');
     const [targetAudience, setTargetAudience] = useState('');
 
-
     // this is the handle submit function
     const handleSubmit = () => {
         console.log('Form submitted');
     }
 
     return (
+
         <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="flex flex-col gap-12 justify-center items-center h-full">
 
             {/* This is the input for the brief name */}
@@ -31,6 +31,7 @@ export default function BriefPage1() {
                 <label htmlFor="brief-name" className="block mb-1 font-medium">Brief Name</label>
                 <input 
                 type="text" 
+                onChange={(e) => setBriefName(e.target.value)}
                 id="brief-name" 
                 name="brief-name" 
                 placeholder="Ex. Next Great Campaign"
@@ -49,6 +50,7 @@ export default function BriefPage1() {
                 <textarea 
                 id="about-brand" 
                 name="about-brand" 
+                onChange={(e) => setBrandDescription(e.target.value)}
                 placeholder="Give us your brand name and a brief description"
                 className="border border-slate-700 rounded-lg px-4 py-2 text-sm text-left align-top w-200 h-32 resize-none" 
                 />
@@ -65,6 +67,7 @@ export default function BriefPage1() {
                 <textarea 
                 id="about-product" 
                 name="about-product" 
+                onChange={(e) => setProductDescription(e.target.value)}
                 placeholder="Give us the product name and a brief description"
                 className="border border-slate-700 rounded-lg px-4 py-2 text-sm text-left align-top w-200 h-32 resize-none" 
                 />
@@ -81,6 +84,7 @@ export default function BriefPage1() {
                 <textarea 
                 id="about-product" 
                 name="about-product" 
+                onChange={(e) => setTargetAudience(e.target.value)}
                 placeholder="Give us a brief description of your target audience"
                 className="border border-slate-700 rounded-lg px-4 py-2 text-sm text-left align-top w-200 h-32 resize-none" 
                 />

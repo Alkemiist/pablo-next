@@ -21,6 +21,8 @@ const briefPages = [
 ]
 
 
+
+
 export default function BriefTopBar() {
 
     const pathname = usePathname();
