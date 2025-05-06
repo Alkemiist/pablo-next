@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
 import { ButtonStack } from '@/app/components/ui/button/button-stack';
+import { useBriefData } from '@/app/context/briefcontext';
 
 
 // this is the brief page 1 component
@@ -12,15 +13,15 @@ export default function BriefDetailsPage() {
 
     // variables & state
     const pathname = usePathname();
-    const [briefName, setBriefName] = useState('');
-    const [brandDescription, setBrandDescription] = useState('');
-    const [productDescription, setProductDescription] = useState('');
-    const [targetAudience, setTargetAudience] = useState('');
+
+    // hooks
+    const { briefName, setBriefName, brandDescription, setBrandDescription, productDescription, setProductDescription, targetAudience, setTargetAudience } = useBriefData();
 
     // this is the handle submit function
     const handleSubmit = () => {
         console.log('Form submitted');
     }
+
 
     return (
 
@@ -89,6 +90,8 @@ export default function BriefDetailsPage() {
                 className="border border-slate-700 rounded-lg px-4 py-2 text-sm text-left align-top w-200 h-32 resize-none" 
                 />
             </div>
+
+            <Link href="/brief/page-2">Continue</Link>
 
 
         </form>

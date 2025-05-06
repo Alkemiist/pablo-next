@@ -19,6 +19,8 @@ export function ButtonStack() {
     // button actions
     const primaryClick = () => {
 
+        console.log( 'primary button clicked' );
+
         if ( pathname === '/brief/page-1' ) {
             routeToPage = '/brief/page-2';
         } else if ( pathname === '/brief/page-2' ) {
@@ -32,6 +34,8 @@ export function ButtonStack() {
         } else if ( pathname === '/brief/page-6' ) {
             routeToPage = '/brief/page-7';
         } 
+
+        console.log( 'routeToPage', routeToPage );
         
     }
 
