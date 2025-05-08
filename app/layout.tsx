@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <ContextProvider>
           <Navbar />
-          <main className="ml-16 p-4 bg-slate-950 h-screen"> 
+          <main className="ml-16 bg-slate-950 h-screen"> 
             {children}
           </main>
         </ContextProvider>
