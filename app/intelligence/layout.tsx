@@ -8,9 +8,8 @@ interface IntelligenceLayoutProps {
 
 export default function IntelligenceLayout({ children }: IntelligenceLayoutProps) {
 
-
     return (
-        <div>
+        <div className="bg-slate-950">
             <IntelligenceTopBar />
             {children}
         </div>

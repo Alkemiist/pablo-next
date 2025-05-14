@@ -5,6 +5,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the type for our context data
 interface BriefContextType {
+
     briefName: string;
     setBriefName: (value: string) => void;
     brandDescription: string;
@@ -25,6 +26,7 @@ interface BriefContextType {
     setTone: (value: string) => void;
     style: string;
     setStyle: (value: string) => void;
+    
 }
 
 // create the context

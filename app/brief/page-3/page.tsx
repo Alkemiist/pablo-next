@@ -120,7 +120,7 @@ const hybrid = [
 export default function tacticsPage() {
   return (
     // this is the main container for the page
-    <div className="flex flex-col gap-4 overflow-y-auto">
+    <div className="flex flex-col items-center gap-4 overflow-y-auto">
       {/* This is the header component */}
       <div className="flex flex-col gap-4 justify-center items-center mt-12">
         <h1 className="text-2xl font-bold">
@@ -135,10 +135,11 @@ export default function tacticsPage() {
 
       {/* This parent div to the multi sections */}
       <div className="flex flex-col">
+
         {/* This is the text-only div */}
-        <div className="p-8 flex flex-col gap-8 justify-center items-center">
+        <div className=" p-8 flex flex-col gap-8 justify-center items-center">
           <h1 className="text-xl font-bold">Text-Only Content</h1>
-          <div className="flex flex-wrap gap-4 justify-center items-center overflow-y-auto">
+          <div className="flex flex-wrap gap-4 justify-center items-center">
             {textOnly.map((choice) => {
               return (
                 <div

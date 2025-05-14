@@ -10,6 +10,9 @@ import { ChevronUp } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { FileText } from "lucide-react";
+import { Video } from "lucide-react";
+import { Image } from "lucide-react";
 
 
 export default function IntelligenceTopBar() {
@@ -18,6 +21,7 @@ export default function IntelligenceTopBar() {
     const [ search, setSearch ] = useState( '' );
     const [ filterOpen, setFilterOpen ] = useState( false );
     const [ sortOpen, setSortOpen ] = useState( false );
+    const [ createOpen, setCreateOpen ] = useState( false );
 
     console.log( filterOpen );
     console.log( sortOpen );
@@ -26,7 +30,7 @@ export default function IntelligenceTopBar() {
     return (
 
         // the parent div bg-slate-900
-        <div className="flex items-center px-12 py-3 pt-8"> 
+        <div className=" sticky top-0 z-10 flex items-center px-12 py-3 pt-8 pb-4 bg-slate-950 shadow-lg"> 
 
             {/* the left side of the top bar */}
             <div className="flex-1 flex gap-8 text-left relative items-center">
@@ -41,10 +45,10 @@ export default function IntelligenceTopBar() {
                     {
                         filterOpen && (
                             <div className="absolute flex flex-col border mt-4 md:w-60 bg-slate-900 border-slate-700 text-white rounded-md">
-                                <a href="#" className="hover:bg-slate-800 transition-colors duration-300 px-4 py-4">Filter Number One</a> 
-                                <a href="#" className="hover:bg-slate-800 transition-colors duration-300 px-4 py-4">Filter Number Two</a>
-                                <a href="#" className="hover:bg-slate-800 transition-colors duration-300 px-4 py-4">Filter Number Three</a>
-                                <a href="#" className="hover:bg-slate-800 transition-colors duration-300 px-4 py-4">Filter Number Four</a>
+                                <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter Number One</a> 
+                                <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter Number Two</a>
+                                <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter Number Three</a>
+                                <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter Number Four</a>
                             </div>
                         )
                     } 
@@ -56,8 +60,8 @@ export default function IntelligenceTopBar() {
                     {
                         sortOpen && (
                             <div className="absolute flex flex-col border mt-4 md:w-60 bg-slate-900 border-slate-700 text-white rounded-md">
-                                <a href="#" className="hover:bg-slate-800 transition-colors duration-300 px-4 py-4">Sort Number One</a>
-                                <a href="#" className="hover:bg-slate-800 transition-colors duration-300 px-4 py-4">Sort Number Two</a>
+                                <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Sort Number One</a>
+                                <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Sort Number Two</a>
                             </div>
                         )
                     }
@@ -68,7 +72,22 @@ export default function IntelligenceTopBar() {
             {/* the right side of the top bar */}
             <div className="flex flex-1 gap-4 justify-end sm:flex-none">
                 <button className="flex items-center justify-center gap-4 bg-slate-900 border border-slate-700 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer"><Pencil className="w-4 h-4" /></button>
-                <button className="flex items-center justify-center gap-4 bg-slate-900 border border-slate-700 text-white px-8 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer">Create<Plus className="w-4 h-4 mr-2" /></button>
+                <button 
+                    className="flex items-center justify-center gap-4 bg-slate-900 border border-slate-700 text-white px-8 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer relative"
+                    onClick={ () => setCreateOpen( !createOpen ) }
+                >
+                    Create
+                    <Plus className="w-4 h-4 mr-2" />
+                </button>
+                {
+                    createOpen && (
+                        <div className="absolute flex flex-col border mt-14 md:w-60 bg-slate-900 border-slate-700 text-white rounded-md shadow-xl">
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Image <Image className="w-5 h-5 stroke-slate-600" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Video <Video className="w-5 h-5 stroke-slate-600" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Brief <FileText className="w-5 h-5 stroke-slate-600" /></a>
+                        </div>
+                    )
+                }
             </div>
             
             

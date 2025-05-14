@@ -15,9 +15,7 @@ const briefPages = [
     { href: '/brief/page-3', label: 'Tactics' },
     { href: '/brief/page-4', label: 'Message & Objective' },
     { href: '/brief/page-5', label: 'Tone & Style' },
-    { href: '/brief/page-6', label: 'Inpiration' },
     { href: '/brief/page-7', label: 'Review' },
-
 ]
 
 

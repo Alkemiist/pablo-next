@@ -111,11 +111,14 @@ const intentChoices = [
 
 export default function IntentPage() {
 
-    const { intent, setIntent } = useBriefData();
+    const { briefName, brandDescription, productDescription, targetAudience, intent, setIntent } = useBriefData();
     // this is the state for the selected card
     const [ selectedCard, setSelectedCard ] = useState<number>( 0 );
-    
 
+    console.log( briefName );
+    console.log( brandDescription );
+    console.log( productDescription );
+    console.log( targetAudience );
 
     return (
 
