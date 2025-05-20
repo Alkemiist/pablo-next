@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen } from 'lucide-react';
+import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -33,6 +33,8 @@ export default function Navbar() {
         { href: '/', label: 'Home', icon: <Home size={20} /> },
         { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         { href: '/brief/page-1', label: 'Brief', icon: <NotebookPen size={20} /> },
+        { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },
+        { href: '/products', label: 'Products', icon: <Barcode size={20} /> },
     ];
 
     // the return statement
