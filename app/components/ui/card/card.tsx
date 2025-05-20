@@ -30,7 +30,7 @@ export default function Card() {
 
             {/* This is the card visual frame */}
             <div className='bg-slate-800 rounded-lg h-48'>
-                {/* This is where the visual logic of the card will go */}
+                {/* Switch logic for the card visual */}
             </div>
 
             {/* This is the card meta */}
