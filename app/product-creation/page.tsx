@@ -36,7 +36,7 @@ export default function ProductCreation() {
         
 
         // reset form
-        reset();
+        reset(); 
     }
 
     // image picker functionality
