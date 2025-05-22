@@ -34,7 +34,7 @@ export default function Navbar() {
         { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         { href: '/brief/page-1', label: 'Brief', icon: <NotebookPen size={20} /> },
         { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },
-        { href: '/products', label: 'Products', icon: <Barcode size={20} /> },
+        { href: '/product-creation', label: 'Products', icon: <Barcode size={20} /> },
     ];
 
     // the return statement

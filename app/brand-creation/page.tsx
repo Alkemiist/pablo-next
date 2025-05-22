@@ -5,51 +5,76 @@ import { useForm } from 'react-hook-form';
 import TextareaAutosize from 'react-textarea-autosize';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { brandSchema, type BrandSchema } from '@/lib/brandSchema';
-import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
-import Image from 'next/image';
+import { useRef, useState } from 'react';
+import { X } from 'lucide-react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function BrandCreation() {
-    const [preview, setPreview] = useState<string | null>(null);
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
 
     const { register, reset, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<BrandSchema>({
         resolver: zodResolver(brandSchema),
     });
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        const file = acceptedFiles[0];
-        if (file) {
-            setValue('brandImage', file);
-            setSelectedFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    }, [setValue]);
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept: {
-            'image/*': ['.png', '.jpg', '.jpeg', '.gif']
-        },
-        maxFiles: 1
-    });
-
     const onSubmit = async(data: BrandSchema) => {
-        console.log(data);
-        reset();
-        setPreview(null);
-        setSelectedFile(null);
+        
+        try {
+            // create form data
+            const brandData = new FormData();
+
+            // append data to form data
+            brandData.append("brandName", data.brandName);
+            brandData.append("brandDescription", data.brandDescription);
+            brandData.append("brandPersonality", data.brandPersonality);
+            brandData.append("brandCategory", data.brandCategory);
+            brandData.append("websiteURL", data.websiteURL);
+            if (data.brandImage) {
+                brandData.append("brandImage", data.brandImage);
+            }
+
+            // show loading toast
+            const toastId = toast.loading("Creating brand...");
+
+            // send form data to backend using axios
+            const response = await axios.post("YOUR_API_ENDPOINT", brandData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            // handle successful response
+            console.log('Success:', response.data);
+            toast.success("Brand created successfully", { id: toastId });
+            reset();
+            setFileName(null);
+
+        } catch (error) {
+            // handle error
+            if (axios.isAxiosError(error)) {
+                console.error('Error:', error.response?.data || error.message);
+            } else {
+                console.error('Error:', error);
+            }
+        }
+    };
+
+    // image picker functionality
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [ fileName, setFileName ] = useState<string | null>(null);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setFileName(file.name);
+        }
     };
 
     return (
-       <div className='flex flex-col gap-4 justify-center items-center h-screen px-4 overflow-y-auto'>
+       <div className='flex flex-col gap-4 items-center justify-center px-4 py-12 overflow-y-auto bg-slate-950'>
 
-            <div className="flex flex-col w-full lg:w-80% max-w-3xl text-center mb-4">
-                <h1 className='text-2xl font-bold mb-8'>Create Brand</h1>
+            <div className="flex flex-col w-full lg:w-80% max-w-3xl text-center mb-2">
+                <h1 className='text-2xl font-bold mb-4'>Create Brand</h1>
                 <p className='text-slate-500'>
                     Set up your brand once to reuse it across the entire platform. 
                     This ensures every project, asset, and AI-generated output stays consistent with your brand’s identity.
@@ -57,6 +82,7 @@ export default function BrandCreation() {
             </div>
 
             <form action="" className='flex flex-col gap-4 justify-center items-center w-full max-w-3xl'>
+                
                 {/* Brand Name */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="brandName" className='text-sm font-medium'>Brand Name</label>
@@ -68,6 +94,7 @@ export default function BrandCreation() {
                     />
                     {errors.brandName && <p className='text-red-500 text-sm'>{errors.brandName.message}</p>}
                 </div>
+
                 {/* Brand Description */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="brandDescription" className='text-sm font-medium'>Brand Description</label>
@@ -81,6 +108,7 @@ export default function BrandCreation() {
                     />
                     {errors.brandDescription && <p className='text-red-500 text-sm'>{errors.brandDescription.message}</p>}
                 </div>
+
                 {/* Brand Personality */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="brandPersonality" className='text-sm font-medium'>Brand Personality</label>
@@ -93,7 +121,8 @@ export default function BrandCreation() {
                     />
                     {errors.brandPersonality && <p className='text-red-500 text-sm'>{errors.brandPersonality.message}</p>}
                 </div>
-                {/* Instagram Handle */}
+
+                {/* Category */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="brandCategory" className='text-sm font-medium'>Category</label>
                     <input 
@@ -104,6 +133,7 @@ export default function BrandCreation() {
                     />
                     {errors.brandCategory && <p className='text-red-500 text-sm'>{errors.brandCategory.message}</p>}
                 </div>
+
                 {/* Website URL */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="websiteURL" className='text-sm font-medium'>Website URL</label>
@@ -115,75 +145,33 @@ export default function BrandCreation() {
                     />
                     {errors.websiteURL && <p className='text-red-500 text-sm'>{errors.websiteURL.message}</p>}
                 </div>
+
                 {/* Image Picker */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="brandImage" className='text-sm font-medium'>Brand Image</label>
                     <div 
-                        {...getRootProps()} 
-                        className={`border-2 border-dashed border-slate-700 rounded-lg p-6 text-center cursor-pointer transition-colors
-                            ${isDragActive ? 'border-indigo-500 bg-indigo-50' : 'hover:border-indigo-500'}`}
-                        onClick={(e) => {
-                            // Prevent the default click behavior
-                            e.stopPropagation();
-                            // Trigger the file input click
-                            const input = document.querySelector('input[type="file"]') as HTMLInputElement;
-                            if (input) input.click();
-                        }}
+                        className='flex justify-between items-center gap-2 border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left border-dashed cursor-pointer hover:border-indigo-700 transition-all duration-300' 
+                        onClick={() => fileInputRef.current?.click()}
                     >
-                        <input 
-                            {...getInputProps()} 
-                            {...register("brandImage")}
-                            type="file"
-                            className="hidden"
+                        {fileName ? fileName : 'Upload Image'}
+                        <X 
+                            className='w-4 h-4 stroke-slate-500 cursor-pointer' 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setFileName(null);
+                            }} 
                         />
-                        {preview ? (
-                            <div className="flex flex-col gap-4">
-                                <div className="relative w-full h-48">
-                                    <Image
-                                        src={preview}
-                                        alt="Preview"
-                                        fill
-                                        className="object-contain"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <p className="text-sm font-medium text-slate-700">
-                                        {selectedFile?.name}
-                                    </p>
-                                    <p className="text-xs text-slate-500">
-                                        {selectedFile?.size ? (selectedFile.size / 1024 / 1024).toFixed(2) : '0'} MB
-                                    </p>
-                                    <button
-                                        type="button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setPreview(null);
-                                            setSelectedFile(null);
-                                            setValue('brandImage', undefined);
-                                        }}
-                                        className="text-xs text-red-500 hover:text-red-600 mt-2"
-                                    >
-                                        Remove image
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="flex flex-col items-center gap-2">
-                                <p className="text-sm text-slate-500">
-                                    {isDragActive ? (
-                                        "Drop the image here..."
-                                    ) : (
-                                        "Drag and drop an image here, or click to select"
-                                    )}
-                                </p>
-                                <p className="text-xs text-slate-400">
-                                    Supports: PNG, JPG, JPEG, GIF
-                                </p>
-                            </div>
-                        )}
                     </div>
-                    {errors.brandImage && <p className='text-red-500 text-sm'>{errors.brandImage.message}</p>}
+
+                    {/* Hidden file input */}
+                    <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        onChange={handleImageChange} 
+                        className='hidden' 
+                    />
                 </div>
+
                 {/* Submit Button */}
                 <button 
                     type='submit' 
