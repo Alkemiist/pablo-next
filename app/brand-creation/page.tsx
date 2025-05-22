@@ -71,7 +71,7 @@ export default function BrandCreation() {
     };
 
     return (
-       <div className='flex flex-col gap-4 items-center justify-center px-4 py-12 overflow-y-auto bg-slate-950'>
+       <div className='flex flex-col gap-4 items-center px-4 py-12 overflow-y-auto bg-slate-950'>
 
             <div className="flex flex-col w-full lg:w-80% max-w-3xl text-center mb-2">
                 <h1 className='text-2xl font-bold mb-4'>Create Brand</h1>
@@ -148,12 +148,12 @@ export default function BrandCreation() {
 
                 {/* Image Picker */}
                 <div className='w-full flex flex-col gap-2'>
-                    <label htmlFor="brandImage" className='text-sm font-medium'>Brand Image</label>
+                    <label htmlFor="brandImage" className='text-sm font-medium'>Brand Logo</label>
                     <div 
                         className='flex justify-between items-center gap-2 border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left border-dashed cursor-pointer hover:border-indigo-700 transition-all duration-300' 
                         onClick={() => fileInputRef.current?.click()}
                     >
-                        {fileName ? fileName : 'Upload Image'}
+                        {fileName ? fileName : 'Upload Logo'}
                         <X 
                             className='w-4 h-4 stroke-slate-500 cursor-pointer' 
                             onClick={(e) => {
