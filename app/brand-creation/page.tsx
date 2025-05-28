@@ -7,57 +7,33 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { brandSchema, type BrandSchema } from '@/lib/brandSchema';
 import { useRef, useState } from 'react';
 import { X } from 'lucide-react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 
 export default function BrandCreation() {
 
 
+    // this is the form hook that will handle the form data
     const { register, reset, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<BrandSchema>({
         resolver: zodResolver(brandSchema),
     });
 
-    const onSubmit = async(data: BrandSchema) => {
+    // this is the function that will handle the form submission
+    const onSubmit = (data: BrandSchema) => {
         
-        try {
-            // create form data
-            const brandData = new FormData();
+        // create form data
+        const brandData = new FormData();
 
-            // append data to form data
-            brandData.append("brandName", data.brandName);
-            brandData.append("brandDescription", data.brandDescription);
-            brandData.append("brandPersonality", data.brandPersonality);
-            brandData.append("brandCategory", data.brandCategory);
-            brandData.append("websiteURL", data.websiteURL);
-            if (data.brandImage) {
-                brandData.append("brandImage", data.brandImage);
-            }
-
-            // show loading toast
-            const toastId = toast.loading("Creating brand...");
-
-            // send form data to backend using axios
-            const response = await axios.post("YOUR_API_ENDPOINT", brandData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            // handle successful response
-            console.log('Success:', response.data);
-            toast.success("Brand created successfully", { id: toastId });
-            reset();
-            setFileName(null);
-
-        } catch (error) {
-            // handle error
-            if (axios.isAxiosError(error)) {
-                console.error('Error:', error.response?.data || error.message);
-            } else {
-                console.error('Error:', error);
-            }
+        // append data to form data
+        brandData.append('brandName', data.brandName);
+        brandData.append('brandDescription', data.brandDescription);
+        brandData.append('brandPersonality', data.brandPersonality);
+        brandData.append('brandCategory', data.brandCategory);
+        brandData.append('websiteURL', data.websiteURL);
+        if (data.brandImage) {
+            brandData.append('brandImage', data.brandImage);
         }
-    };
+
+        // here we will send the form data to the backend
+    }
 
     // image picker functionality
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -73,11 +49,12 @@ export default function BrandCreation() {
     return (
        <div className='flex flex-col gap-4 items-center px-4 py-12 overflow-y-auto bg-slate-950'>
 
+            {/* Title Section */}
             <div className="flex flex-col w-full lg:w-80% max-w-3xl text-center mb-2">
                 <h1 className='text-2xl font-bold mb-4'>Create Brand</h1>
                 <p className='text-slate-500'>
                     Set up your brand once to reuse it across the entire platform. 
-                    This ensures every project, asset, and AI-generated output stays consistent with your brand’s identity.
+                    This ensures every project, asset, and AI-generated output stays consistent with your brand's identity.
                 </p>
             </div>
 
@@ -90,7 +67,7 @@ export default function BrandCreation() {
                         type="text" 
                         placeholder='ex. Lumen' 
                         {...register("brandName")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.brandName && <p className='text-red-500 text-sm'>{errors.brandName.message}</p>}
                 </div>
@@ -104,7 +81,7 @@ export default function BrandCreation() {
                             and empowering.' 
                         minRows={3}
                         {...register("brandDescription")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left resize-none'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left resize-none focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.brandDescription && <p className='text-red-500 text-sm'>{errors.brandDescription.message}</p>}
                 </div>
@@ -117,7 +94,7 @@ export default function BrandCreation() {
                             aim to inspire trust without sounding too formal.' 
                         minRows={3}
                         {...register("brandPersonality")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left resize-none'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left resize-none focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.brandPersonality && <p className='text-red-500 text-sm'>{errors.brandPersonality.message}</p>}
                 </div>
@@ -129,7 +106,7 @@ export default function BrandCreation() {
                         type="text" 
                         placeholder='ex. Technology, Wellness, Fashion, etc.' 
                         {...register("brandCategory")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.brandCategory && <p className='text-red-500 text-sm'>{errors.brandCategory.message}</p>}
                 </div>
@@ -141,7 +118,7 @@ export default function BrandCreation() {
                         type="text" 
                         placeholder='ex. https://www.lumen.com' 
                         {...register("websiteURL")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.websiteURL && <p className='text-red-500 text-sm'>{errors.websiteURL.message}</p>}
                 </div>
@@ -179,7 +156,7 @@ export default function BrandCreation() {
                     onClick={handleSubmit(onSubmit)}
                     disabled={isSubmitting}
                     >
-                    {isSubmitting ? "Submitting..." : "Submit"}
+                    {isSubmitting ? "Submitting..." : "Create Brand"}
                 </button>
             </form>
 

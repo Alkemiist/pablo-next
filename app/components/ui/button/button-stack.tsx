@@ -19,23 +19,7 @@ export function ButtonStack() {
     // button actions
     const primaryClick = () => {
 
-        console.log( 'primary button clicked' );
-
-        if ( pathname === '/brief/page-1' ) {
-            routeToPage = '/brief/page-2';
-        } else if ( pathname === '/brief/page-2' ) {
-            routeToPage = '/brief/page-3';
-        } else if ( pathname === '/brief/page-3' ) {
-            routeToPage = '/brief/page-4';
-        } else if ( pathname === '/brief/page-4' ) {
-            routeToPage = '/brief/page-5';
-        } else if ( pathname === '/brief/page-5' ) {
-            routeToPage = '/brief/page-6';
-        } else if ( pathname === '/brief/page-6' ) {
-            routeToPage = '/brief/page-7';
-        } 
-
-        console.log( 'routeToPage', routeToPage );
+        // button routing logic
         
     }
 

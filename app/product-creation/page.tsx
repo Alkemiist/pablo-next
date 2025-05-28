@@ -55,6 +55,7 @@ export default function ProductCreation() {
 
     return (
 
+        
         <div className='flex flex-col gap-4 items-center px-4 py-12 overflow-y-auto bg-slate-950'>
 
             <div className="flex flex-col w-full lg:w-80% max-w-3xl text-center mb-2">
@@ -74,7 +75,7 @@ export default function ProductCreation() {
                         type="text" 
                         placeholder='ex. Lumen Halo' 
                         {...register("productName")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.productName && <p className='text-red-500 text-sm'>{errors.productName.message}</p>}
                 </div>
@@ -87,7 +88,7 @@ export default function ProductCreation() {
                         bulbs while delivering a soft, even glow. Paired with the Halo app, you can customize brightness, schedule lighting, and monitor energy savings from your phone.' 
                         minRows={3}
                         {...register("productDescription")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left resize-none'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left resize-none focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     {errors.productDescription && <p className='text-red-500 text-sm'>{errors.productDescription.message}</p>}
                 </div>
@@ -99,7 +100,7 @@ export default function ProductCreation() {
                         type="text" 
                         placeholder='ex. https://www.lumen.com/halo' 
                         {...register("productLink")}
-                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left'
+                        className='border border-slate-700 w-full text-sm rounded-lg px-4 py-4 text-left focus:border-indigo-700 focus:outline-none hover:border-indigo-700'
                     />
                     
                     {errors.productLink && <p className='text-red-500 text-sm'>{errors.productLink.message}</p>}
@@ -109,7 +110,7 @@ export default function ProductCreation() {
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="brandAffiliation" className='text-sm font-medium'>Brand Affiliation</label>
                     <Select>
-                        <SelectTrigger className='border-slate-700 w-full rounded-lg text-left px-4 py-6'>
+                        <SelectTrigger className='border-slate-700 w-full rounded-lg text-left px-4 py-6 hover:border-indigo-700 cursor-pointer'>
                             <SelectValue placeholder="Select a brand" />
                         </SelectTrigger>
                         <SelectContent className='bg-slate-950'>
@@ -155,7 +156,7 @@ export default function ProductCreation() {
                     onClick={handleSubmit(onSubmit)}
                     disabled={isSubmitting}
                     >
-                    {isSubmitting ? "Submitting..." : "Submit"}
+                    {isSubmitting ? "Submitting..." : "Create Product"}
                 </button>
             </form>
 

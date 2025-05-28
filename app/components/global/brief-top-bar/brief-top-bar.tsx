@@ -2,7 +2,6 @@
 'use client';
 
 // imports
-
 import { Directionals } from '../../ui/button/directionals';
 import { ButtonStack } from '../../ui/button/button-stack';
 import { usePathname } from 'next/navigation';
@@ -10,22 +9,20 @@ import { usePathname } from 'next/navigation';
 
 // brief pages options
 const briefPages = [
+
     { href: '/brief/page-1', label: 'Brief Details' },
     { href: '/brief/page-2', label: 'Intent' },
     { href: '/brief/page-3', label: 'Tactics' },
     { href: '/brief/page-4', label: 'Message & Objective' },
     { href: '/brief/page-5', label: 'Tone & Style' },
     { href: '/brief/page-7', label: 'Review' },
+
 ]
-
-
 
 
 export default function BriefTopBar() {
 
     const pathname = usePathname();
-
-    console.log(pathname);
 
     return (
        
