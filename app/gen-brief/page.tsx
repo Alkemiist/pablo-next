@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 // imports
 import { useState } from 'react';
@@ -120,6 +120,8 @@ export default function GenBrief() {
                 />
             {errors.brand && <p className='text-red-500 text-sm'>{errors.brand.message}</p>}
             </div>
+
+
 
             {/* Product */}
             <div className='w-full flex flex-col gap-2'>

@@ -7,6 +7,7 @@ export const productSchema = z.object({
     productDescription: z.string().min(100, "Product description is not long enough"),
     productImage: z.instanceof(File).optional(),
     productLink: z.string().url("Invalid URL"),
+    brandAffiliation: z.string().optional(),
 
 });
 

@@ -8,6 +8,9 @@ import { useRef, useState } from "react";
 import { X } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import axios from "axios";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose, DrawerTrigger } from "@/components/ui/drawer";
+
 
 // component
 export default function ProductCreation() {
@@ -102,6 +105,21 @@ export default function ProductCreation() {
                     {errors.productLink && <p className='text-red-500 text-sm'>{errors.productLink.message}</p>}
                 </div>
 
+                {/* Brand Affiliation Select */}
+                <div className='w-full flex flex-col gap-2'>
+                    <label htmlFor="brandAffiliation" className='text-sm font-medium'>Brand Affiliation</label>
+                    <Select>
+                        <SelectTrigger className='border-slate-700 w-full rounded-lg text-left px-4 py-6'>
+                            <SelectValue placeholder="Select a brand" />
+                        </SelectTrigger>
+                        <SelectContent className='bg-slate-950'>
+                            <SelectItem value="brandOne" className='bg-slate-950 hover:bg-slate-800 h-12'>Brand One</SelectItem>
+                            <SelectItem value="brandTwo" className='bg-slate-950 hover:bg-slate-800 h-12'>Brand Two</SelectItem>
+                            <SelectItem value="brandThree" className='bg-slate-950 hover:bg-slate-800 h-12'>Brand Three</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 {/* Image Picker */}
                 <div className='w-full flex flex-col gap-2'>
                     <label htmlFor="productImage" className='text-sm font-medium'>Product Image</label>
@@ -127,6 +145,8 @@ export default function ProductCreation() {
                         className='hidden' 
                     />
                 </div>
+
+                
 
                 {/* Submit Button */}
                 <button 
