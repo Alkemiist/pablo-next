@@ -18,6 +18,7 @@ export default function Card() {
                 <Camera className='p-2 w-9 h-9 rounded-lg border border-slate-700 stroke-slate-300 stroke-1' />
                 <EllipsisVertical className='w-6 h-6 relative cursor-pointer' onClick={ () => setIsMenuOpen( !isMenuOpen ) } />
                     {
+                        // if the menu is open, show the menu
                         isMenuOpen && (
                             <div className="absolute ml-85 mt-22 flex flex-col border md:w-60 bg-slate-900 border-slate-700 text-white rounded-md shadow-lg">
                                 <a href="#" className="flex items-center justify-between hover:bg-slate-800 transition-colors duration-100 px-4 py-4 cursor-pointer">Edit <Pencil className="w-4 h-4 stroke-slate-500" /></a>

@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain } from 'lucide-react';
+import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -25,6 +25,8 @@ export default function Navbar() {
         { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },
         { href: '/product-creation', label: 'Products', icon: <Barcode size={20} /> },
         { href: '/intelligence', label: 'Intelligence', icon: <Brain size={20} /> },
+        { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
+        { href: '/home-bases', label: 'Home Bases', icon: <Layers size={20} /> },
 
     ];
 

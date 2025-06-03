@@ -42,11 +42,11 @@ export default function CreativeBrief() {
             {/* Title Section */}
             <div className='flex flex-col gap-2 items-center justify-center mb-4'>
                 <div className="text-2xl font-bold text-center px-4">
-                    Describe your project in detail
+                    Describe your creative brief in detail
                 </div>
 
                 <p className='text-sm text-center px-4 py-4 max-w-3xl text-slate-500'>
-                    Think of this as your creative brief—what you say here guides the tone, style, and story we generate.
+                    This is the brief that will be used to generate the creative. Answer the questions below to create a brief.
                 </p>
             </div>
 

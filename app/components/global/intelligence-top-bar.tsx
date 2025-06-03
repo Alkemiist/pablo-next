@@ -9,14 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function IntelligenceTopBar() {
     
     // initialise state
-    const [ search, setSearch ] = useState( '' );
-    const [ filterOpen, setFilterOpen ] = useState( false );
-    const [ sortOpen, setSortOpen ] = useState( false );
     const [ createOpen, setCreateOpen ] = useState( false );
     const createRef = useRef<HTMLDivElement>(null);
     
 
-    // Click outside of create ref
+    // Click outside of create ref ( the create button )
     useEffect(() => {
 
         function handleClickOutside(event: MouseEvent) {
@@ -50,9 +47,9 @@ export default function IntelligenceTopBar() {
                         <SelectValue placeholder="Filter" />
                     </SelectTrigger>
                     <SelectContent className="bg-slate-900 text-white rounded-md shadow-xl border border-slate-700 w-56 ">
-                        <SelectItem value="brands" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Brands</SelectItem>
-                        <SelectItem value="products" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Products</SelectItem>
-                        <SelectItem value="creative-briefs" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Creative Briefs</SelectItem>
+                        <SelectItem value="Filter One" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter One</SelectItem>
+                        <SelectItem value="Filter Two" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter Two</SelectItem>
+                        <SelectItem value="Filter Three" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Filter Three</SelectItem>
                     </SelectContent>
                 </Select>
 
@@ -64,7 +61,8 @@ export default function IntelligenceTopBar() {
                     <SelectContent className="bg-slate-900 text-white rounded-md shadow-xl w-56 border border-slate-700">
                         <SelectItem value="date-created" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Date Created</SelectItem>
                         <SelectItem value="date-updated" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Date Updated</SelectItem>
-                        <SelectItem value="name" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Name A-Z</SelectItem>
+                        <SelectItem value="name-asc" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Name A-Z</SelectItem>
+                        <SelectItem value="name-desc" className="cursor-pointer hover:bg-slate-800 transition-colors duration-100 px-4 py-4">Name Z-A</SelectItem>
                     </SelectContent>
                 </Select>
 
@@ -83,9 +81,9 @@ export default function IntelligenceTopBar() {
                 {
                     createOpen && (
                         <div ref={createRef} className="absolute flex flex-col border mt-14 md:w-60 bg-slate-900 border-slate-700 text-white rounded-md shadow-xl">
-                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Brand <Image className="w-5 h-5 stroke-slate-600" /></a>
-                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Product <Video className="w-5 h-5 stroke-slate-600" /></a>
-                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Creative Brief <FileText className="w-5 h-5 stroke-slate-600" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing One <Image className="w-5 h-5 stroke-slate-600" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing Two <Video className="w-5 h-5 stroke-slate-600" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing Three <FileText className="w-5 h-5 stroke-slate-600" /></a>
                         </div>
                     )
                 }
