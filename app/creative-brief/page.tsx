@@ -98,16 +98,20 @@ export default function CreativeBrief() {
                 {errors.outputType && <p className='text-red-500 text-sm'>{errors.outputType.message}</p>}
             </div>
 
+            {/* Exit and Continue Buttons */}   
             <div className='flex items-center justify-center gap-2 w-full max-w-3xl mt-8'>
-                <Link href='/creative-brief' className='flex items-center justify-center gap-2 border border-slate-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-red-800 transition-all duration-300 cursor-pointer'>Exit</Link>
-                <button 
-                    type='submit'
-                    disabled={isSubmitting}
-                    onClick={handleSubmit(onSubmit)} 
+                <Link 
+                    href='/creative-brief/context-step' 
+                    className='flex items-center justify-center gap-2 border border-slate-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-red-800 transition-all duration-300 cursor-pointer'
+                    >
+                        Exit
+                    </Link>
+                <Link 
+                    href='/creative-brief/context-step'
                     className='flex items-center justify-center gap-2 bg-indigo-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-indigo-800 transition-all duration-300 cursor-pointer disabled:opacity-50'
                 >
-                    {isSubmitting ? 'Submitting...' : 'Continue'} <ArrowRight className='w-4 h-4' />
-                </button>
+                    Continue <ArrowRight className='w-4 h-4' />
+                </Link>
             </div>
 
         </form>

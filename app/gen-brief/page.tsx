@@ -9,6 +9,7 @@ import { GenBriefSchema, genBriefSchema } from '@/lib/genBriefSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import React from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 export default function GenBrief() {
@@ -186,6 +187,23 @@ export default function GenBrief() {
             {errors.constraints && <p className='text-red-500 text-sm'>{errors.constraints.message}</p>}
             </div>
 
+            {/* Type */}
+            <div className='w-full flex flex-col gap-2'>
+                <label htmlFor="productName" className='text-sm font-medium'>Type</label>
+            <Select>
+                            <SelectTrigger className='border-slate-700 w-full rounded-lg text-left px-4 py-6 hover:border-indigo-700 cursor-pointer'>
+                                <SelectValue placeholder="Select output type" />
+                            </SelectTrigger>
+                            <SelectContent className='bg-slate-950 border border-slate-700'>
+                                <SelectItem value="image" className='bg-slate-950 hover:bg-slate-900 h-12 cursor-pointer'>Image</SelectItem>
+                                <SelectItem value="text" className='bg-slate-950 hover:bg-slate-900 h-12 cursor-pointer'>Text</SelectItem>
+                                <SelectItem value="video" className='bg-slate-950 hover:bg-slate-900 h-12 cursor-pointer'>Video</SelectItem>
+                                <SelectItem value="hybrid" className='bg-slate-950 hover:bg-slate-900 h-12 cursor-pointer'>Image + Text</SelectItem>
+                            </SelectContent>
+                </Select>
+            </div>
+
+            {/* Generate Brief Button */}
             <button 
                 type="submit"
                 className='bg-indigo-800 text-white px-4 py-2 rounded-lg w-full mt-8 hover:bg-indigo-900 cursor-pointer' 
