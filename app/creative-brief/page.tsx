@@ -26,19 +26,9 @@ export default function CreativeBrief() {
     // handle form submission
     const onSubmit = async (data: GenBriefSchema) => {
         try {
-            
-            // create form data
-            const creativeBriefData = new FormData();
+            // POST the JSON directly
+            const response = await axios.post("/api/creative-brief", data);
 
-            // append data to form data object
-            creativeBriefData.append("briefName", data.briefName);
-            creativeBriefData.append("briefDescription", data.briefDescription);
-            creativeBriefData.append("outputType", data.outputType);
-
-            // send form data to backend
-            const response = await axios.post("/api/creative-brief", creativeBriefData);
-
-            // reset form
             reset();
         } catch (error) {
             // error logic here
@@ -113,6 +103,7 @@ export default function CreativeBrief() {
                 <button 
                     type='submit'
                     disabled={isSubmitting}
+                    onClick={handleSubmit(onSubmit)} 
                     className='flex items-center justify-center gap-2 bg-indigo-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-indigo-800 transition-all duration-300 cursor-pointer disabled:opacity-50'
                 >
                     {isSubmitting ? 'Submitting...' : 'Continue'} <ArrowRight className='w-4 h-4' />
