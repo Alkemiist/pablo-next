@@ -42,7 +42,7 @@ export default function CreativeBrief() {
             {/* Title Section */}
             <div className='flex flex-col gap-2 items-center justify-center mb-4'>
                 <div className="text-2xl font-bold text-center px-4">
-                    Describe your creative brief in detail
+                    Step 1: Describe your creative brief in detail
                 </div>
 
                 <p className='text-sm text-center px-4 py-4 max-w-3xl text-slate-500'>
@@ -66,9 +66,9 @@ export default function CreativeBrief() {
             <div className='w-full flex flex-col gap-2 max-w-3xl'>
                 <label htmlFor="creativeBriefDescription" className='text-sm font-medium'>Brief Description</label>
                 <TextareaAutosize 
-                placeholder="Ex. 30s commercial for 'Chromatique'—a makeup-inspired electric car brand. Show bold color, sleek design, and self-expression. Target creative, fashion-forward drivers. Tone: stylish, modern, and empowering. End with a CTA to book a test drive. " 
+                placeholder="Ex. 30s commercial for 'Chromatique'—a makeup-inspired electric car brand. Show bold color, sleek design, and self-expression. Target creative, fashion-forward drivers. " 
                 className='w-full border px-4 py-4 resize-none border-slate-600 rounded-md max-w-3xl focus:border-indigo-700 focus:outline-none hover:border-indigo-700 animate-in fade-in-0 duration-300' 
-                minRows={5}
+                minRows={4}
                 maxRows={10}
                 {...register('briefDescription')}
             />
@@ -101,7 +101,7 @@ export default function CreativeBrief() {
             {/* Exit and Continue Buttons */}   
             <div className='flex items-center justify-center gap-2 w-full max-w-3xl mt-8'>
                 <Link 
-                    href='/creative-brief/context-step' 
+                    href='/creative-brief' 
                     className='flex items-center justify-center gap-2 border border-slate-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-red-800 transition-all duration-300 cursor-pointer'
                     >
                         Exit

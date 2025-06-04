@@ -26,7 +26,7 @@ export default function Navbar() {
         { href: '/product-creation', label: 'Products', icon: <Barcode size={20} /> },
         { href: '/intelligence', label: 'Intelligence', icon: <Brain size={20} /> },
         { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
-        { href: '/home-bases', label: 'Home Bases', icon: <Layers size={20} /> },
+        // { href: '/home-bases', label: 'Home Bases', icon: <Layers size={20} /> },
 
     ];
 
