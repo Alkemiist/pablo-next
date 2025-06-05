@@ -3,13 +3,14 @@
 // imports
 import TextareaAutosize from 'react-textarea-autosize';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, X } from 'lucide-react';
 import Link from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GenBriefSchema, genBriefSchema } from '@/lib/genBriefSchema';
 import { z } from 'zod';
 import axios from 'axios';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 export default function CreativeBrief() {
 
@@ -39,8 +40,28 @@ export default function CreativeBrief() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='ml-2 flex flex-col gap-4 items-center justify-center px-4 h-screen'>
 
+            {/* Exit Button */}
+            <AlertDialog>
+                <AlertDialogTrigger>
+                    <X className='w-10 h-10 absolute top-8 right-8 text-slate-500 hover:text-white transition-all duration-300 cursor-pointer bg-slate-900 rounded-lg p-2 border border-slate-800 hover:bg-slate-800' />
+                </AlertDialogTrigger>
+                <AlertDialogContent className='bg-slate-950 border border-slate-700'>
+                    <AlertDialogHeader className='flex flex-col mb-4'>
+                        <AlertDialogTitle>Are you sure you want to exit?</AlertDialogTitle>
+                        <AlertDialogDescription className='text-slate-500'>
+                            This action cannot be undone. This will permanently delete your brief
+                            and you will have to start over.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel className='bg-slate-950 border border-slate-700 text-white hover:bg-slate-800 transition-all duration-300 cursor-pointer'>Cancel</AlertDialogCancel>
+                        <AlertDialogAction className='bg-indigo-700 text-white hover:bg-indigo-800 transition-all duration-300 cursor-pointer'>Delete Brief</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
             {/* Title Section */}
-            <div className='flex flex-col gap-2 items-center justify-center mb-4'>
+            <div className='flex flex-col gap-2 items-center justify-center'>
                 <div className="text-2xl font-bold text-center px-4">
                     Step 1: Describe your creative brief in detail
                 </div>
@@ -99,13 +120,7 @@ export default function CreativeBrief() {
             </div>
 
             {/* Exit and Continue Buttons */}   
-            <div className='flex items-center justify-center gap-2 w-full max-w-3xl mt-8'>
-                <Link 
-                    href='/creative-brief' 
-                    className='flex items-center justify-center gap-2 border border-slate-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-red-800 transition-all duration-300 cursor-pointer'
-                    >
-                        Exit
-                    </Link>
+            <div className='flex items-center justify-center gap-2 w-full max-w-3xl'>
                 <Link 
                     href='/creative-brief/context-step'
                     className='flex items-center justify-center gap-2 bg-indigo-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-indigo-800 transition-all duration-300 cursor-pointer disabled:opacity-50'

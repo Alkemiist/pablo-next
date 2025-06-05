@@ -25,6 +25,14 @@ export default function ContextStep() {
     return (
         <form className='flex flex-col gap-4 max-w-3xl mx-auto justify-center items-center h-screen'>
 
+            {/* Exit Button */}
+            <Link 
+                href='/...' 
+                className='absolute top-8 right-8 text-slate-500 hover:text-white transition-all duration-300 cursor-pointer bg-slate-900 rounded-lg p-2 border border-slate-800 hover:bg-slate-800'
+            >
+                <X className='w-6 h-6' />
+            </Link>
+
             {/* Title Section */}
             <div className='flex flex-col items-center justify-center'>
                 <div className="text-2xl font-bold text-center px-4">
@@ -109,7 +117,7 @@ export default function ContextStep() {
                 </div>
 
             {/* Exit and Continue Buttons */}   
-            <div className='flex items-center justify-center gap-2 w-full max-w-3xl mt-8'>
+            <div className='flex items-center justify-center gap-2 w-full max-w-3xl'>
                 <Link 
                     href='/creative-brief/context-step' 
                     className='flex items-center justify-center gap-2 border border-slate-700 text-white px-4 py-2 rounded-md w-full max-w-3xl mt-8 hover:bg-slate-800 transition-all duration-300 cursor-pointer'

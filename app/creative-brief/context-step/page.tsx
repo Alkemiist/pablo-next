@@ -3,13 +3,21 @@
 // imports 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import TextareaAutosize from 'react-textarea-autosize';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import Link from 'next/link';
 
 
 export default function ContextStep() {
     return (
         <form className='flex flex-col gap-4 max-w-3xl mx-auto justify-center items-center h-screen'>
+
+            {/* Exit Button */}
+            <Link 
+                href='/...' 
+                className='absolute top-8 right-8 text-slate-500 hover:text-white transition-all duration-300 cursor-pointer bg-slate-900 rounded-lg p-2 border border-slate-800 hover:bg-slate-800'
+            >
+                <X className='w-6 h-6' />
+            </Link>
 
             {/* Title Section */}
             <div className='flex flex-col items-center justify-center'>

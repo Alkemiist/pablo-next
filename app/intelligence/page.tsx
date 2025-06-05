@@ -9,7 +9,7 @@ export default function IntelligencePage() {
     return (
 
         // This holds all of the cards
-        <div className="flex flex-wrap gap-8 items-center justify-center px-6 mt-12">
+        <div className="flex flex-wrap gap-4 items-center justify-center px-6 mt-12">
                 <Card />
                 <Card />
                 <Card />
