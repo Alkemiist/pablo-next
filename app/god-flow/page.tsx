@@ -3,7 +3,7 @@
 // imports 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
-import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade } from "lucide-react";
+import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade, Settings2 } from "lucide-react";
 import TextAreaAutosize from "react-textarea-autosize";
 
 // object that contains the suggestions
@@ -30,6 +30,13 @@ const suggestionObject = {
     "Descriptive",
     "Expository",
     "Explanatory",
+    "Technical",
+    "Educational",
+    "Motivational",
+    "Inspiring",
+    "Persuasive",
+    "Narrative",
+    "Poetic",
   ],
   image: [
     "Photorealistic",
@@ -103,6 +110,12 @@ export default function GodFlow() {
     const [contentType, setContentType] = useState("text")
     const [ textInput, setTextInput ] = useState("")
 
+    // function to add a suggestion to the typed text + suggestion
+    const addSuggestion = (suggestion: string) => {
+      setTextInput(textInput + " " + suggestion)
+    }
+    
+
     return (
       <div>
 
@@ -148,7 +161,10 @@ export default function GodFlow() {
               maxRows={16}
               onChange={(e) => setTextInput(e.target.value)}
             />
-            <button className="absolute right-4 bottom-4 bg-blue-700 border border-slate-700 rounded-md px-2 py-2 hover:bg-slate-800 transition-all duration-300 cursor-pointer">
+            <button 
+              className="absolute right-4 bottom-4 bg-blue-700 border border-slate-700 rounded-md px-2 py-2 hover:bg-blue-800 transition-all duration-300 cursor-pointer"
+              onClick={() => console.log(textInput)}
+            >
               <SendIcon className="w-4 h-4" />
             </button>
           </div>
@@ -157,7 +173,11 @@ export default function GodFlow() {
           <div className='border border-slate-800 rounded-lg h-65 overflow-y-auto w-full flex flex-wrap gap-2 p-2'>
             {
               suggestionObject[contentType as keyof typeof suggestionObject].map((suggestion, index) => (
-                <div key={index} className='border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-300 bg-slate-800'>
+                <div 
+                  key={index} 
+                  className='border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-300 bg-slate-800'
+                  onClick={() => setTextInput(suggestion)}
+                >
                   <Plus className="w-4 h-4 text-slate-400" />
                   {suggestion}
                 </div>
@@ -168,7 +188,7 @@ export default function GodFlow() {
           {/* Button stack bar */}
           <div className="flex items-center gap-2">
             <button className="bg-slate-900 border w-12 border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
-              <SettingsIcon className="w-4 h-4" />
+              <Settings2 className="w-4 h-4" />
             </button>
             <button className="flex-1 flex items-center justify-center gap-2 text-sm bg-slate-900 border border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
               <UploadIcon className="w-4 h-4" /> Upload Files
