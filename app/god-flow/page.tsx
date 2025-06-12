@@ -109,14 +109,33 @@ export default function GodFlow() {
     // state
     const [contentType, setContentType] = useState("text")
     const [ textInput, setTextInput ] = useState("")
+    
+    // array to store the clicked suggestions
+    const clickedSuggestions: string[] = [];
 
     // function to add a suggestion to the typed text + suggestion
-    const addSuggestion = (suggestion: string) => {
-      setTextInput(textInput + " " + suggestion)
+    const addSuggestionToTextInput = (clickedSuggestion: string) => {
+      
+      // add the suggestion to the text input
+      const newTextInput = textInput + " " + clickedSuggestion;
+      // set the text input to the new text input
+      setTextInput(newTextInput)
+
     }
-    
+
+    {/* placeholder text */}
+    let placeholderText = `Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal.`
+
+    if (contentType === "text") {
+      placeholderText = `Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal.` 
+    } else if (contentType === "image") {
+      placeholderText = "Ex. Create an image of a cat in a Santa hat in the middle of a tornado trying to grab a slice of cake floating around."
+    } else if (contentType === "video") {
+      placeholderText = "Ex. Create a video of a cat in a Santa hat running around a Christmas tree. Make it fun, playful and cinematic. The cat should be running around the tree and trying to grab a slice of cake floating around."
+    }
 
     return (
+
       <div>
 
         {/* Entire god Flow Component */}
@@ -152,11 +171,12 @@ export default function GodFlow() {
                 </Tabs>
             </div>
 
-          {/* input box */}
+          {/* prompt box */}
           <div className="relative">
             <TextAreaAutosize
               className="resize-none w-full bg-slate-900 border border-slate-800 rounded-2xl p-4 text-slate-400 focus:outline-none focus:ring focus:ring-indigo-600"
-              placeholder="Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal."
+              placeholder={placeholderText}
+              value={textInput}
               minRows={16}
               maxRows={16}
               onChange={(e) => setTextInput(e.target.value)}
@@ -174,9 +194,12 @@ export default function GodFlow() {
             {
               suggestionObject[contentType as keyof typeof suggestionObject].map((suggestion, index) => (
                 <div 
-                  key={index} 
-                  className='border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-300 bg-slate-800'
-                  onClick={() => setTextInput(suggestion)}
+                  key={index}
+                  className={`border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-300 bg-slate-800`}
+                  onClick={() => {
+                    addSuggestionToTextInput(suggestion)
+                    clickedSuggestions.push(suggestion)
+                  }}
                 >
                   <Plus className="w-4 h-4 text-slate-400" />
                   {suggestion}
