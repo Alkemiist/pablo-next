@@ -3,7 +3,7 @@
 // imports 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
-import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade, Settings2 } from "lucide-react";
+import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade, Settings2, X, Check } from "lucide-react";
 import TextAreaAutosize from "react-textarea-autosize";
 
 // object that contains the suggestions
@@ -106,25 +106,21 @@ const suggestionObject = {
 
 export default function GodFlow() {
 
-    // state
+    // State Variables
     const [contentType, setContentType] = useState("text")
     const [ textInput, setTextInput ] = useState("")
     
-    // array to store the clicked suggestions
+    // Array to store the clicked suggestions
     const clickedSuggestions: string[] = [];
 
-    // function to add a suggestion to the typed text + suggestion
+    // Function to add a suggestion to the prompt box
     const addSuggestionToTextInput = (clickedSuggestion: string) => {
-      
-      // add the suggestion to the text input
       const newTextInput = textInput + " " + clickedSuggestion;
-      // set the text input to the new text input
       setTextInput(newTextInput)
-
     }
 
-    {/* placeholder text */}
-    let placeholderText = `Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal.`
+    // Placeholder variables for the prompt box
+    let placeholderText = ``;
 
     if (contentType === "text") {
       placeholderText = `Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal.` 
@@ -138,10 +134,10 @@ export default function GodFlow() {
 
       <div>
 
-        {/* Entire god Flow Component */}
+        {/* Entire Component ------------------------------------------------------------ */}
         <div className="flex flex-col gap-4 absolute right-8 top-1/2 -translate-y-1/2 bg-slate-900 rounded-2xl p-4 border border-slate-800 min-w-[500px] max-w-[500px]">
 
-          {/* content type title // icon selector */}
+          {/* content type title // icon selector ------------------------------------------------------------ */}
             <div className="flex items-center justify-between">
               <p className='text-slate-400 text-sm'>Content Type:</p>
               <Tabs defaultValue="text" className="flex">
@@ -171,7 +167,7 @@ export default function GodFlow() {
                 </Tabs>
             </div>
 
-          {/* prompt box */}
+          {/* Prompt box ------------------------------------------------------------ */}
           <div className="relative">
             <TextAreaAutosize
               className="resize-none w-full bg-slate-900 border border-slate-800 rounded-2xl p-4 text-slate-400 focus:outline-none focus:ring focus:ring-indigo-600"
@@ -189,26 +185,28 @@ export default function GodFlow() {
             </button>
           </div>
 
-          {/* bubble suggestions */}
+          {/* Bubble suggestions ------------------------------------------------------------ */}
           <div className='border border-slate-800 rounded-lg h-65 overflow-y-auto w-full flex flex-wrap gap-2 p-2'>
             {
               suggestionObject[contentType as keyof typeof suggestionObject].map((suggestion, index) => (
                 <div 
                   key={index}
-                  className={`border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-300 bg-slate-800`}
+                  className={`border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-0 bg-slate-800`}
                   onClick={() => {
                     addSuggestionToTextInput(suggestion)
                     clickedSuggestions.push(suggestion)
                   }}
                 >
-                  <Plus className="w-4 h-4 text-slate-400" />
+                  {
+                    // if the suggestion is in the clickedSuggestions array, show the check icon
+                  }
                   {suggestion}
                 </div>
               ))
             }
           </div>
 
-          {/* Button stack bar */}
+          {/* Button stack bar ------------------------------------------------------------ */}
           <div className="flex items-center gap-2">
             <button className="bg-slate-900 border w-12 border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
               <Settings2 className="w-4 h-4" />
