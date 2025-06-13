@@ -109,14 +109,20 @@ export default function GodFlow() {
     // State Variables
     const [contentType, setContentType] = useState("text")
     const [ textInput, setTextInput ] = useState("")
+    const [clickedSuggestions, setClickedSuggestions] = useState<string[]>([]);
     
-    // Array to store the clicked suggestions
-    const clickedSuggestions: string[] = [];
-
     // Function to add a suggestion to the prompt box
     const addSuggestionToTextInput = (clickedSuggestion: string) => {
       const newTextInput = textInput + " " + clickedSuggestion;
       setTextInput(newTextInput)
+      setClickedSuggestions(prev => [...prev, clickedSuggestion]);
+    }
+
+    // Function to remove a suggestion from the prompt box
+    const removeSuggestionFromTextInput = (clickedSuggestion: string) => {
+      const newTextInput = textInput.replace(clickedSuggestion, "");
+      setTextInput(newTextInput)
+      setClickedSuggestions(prev => prev.filter(suggestion => suggestion !== clickedSuggestion));
     }
 
     // Placeholder variables for the prompt box
@@ -179,7 +185,7 @@ export default function GodFlow() {
             />
             <button 
               className="absolute right-4 bottom-4 bg-blue-700 border border-slate-700 rounded-md px-2 py-2 hover:bg-blue-800 transition-all duration-300 cursor-pointer"
-              onClick={() => console.log(textInput)}
+              onClick={() => console.log(textInput, clickedSuggestions)}
             >
               <SendIcon className="w-4 h-4" />
             </button>
@@ -193,13 +199,12 @@ export default function GodFlow() {
                   key={index}
                   className={`border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-0 bg-slate-800`}
                   onClick={() => {
-                    addSuggestionToTextInput(suggestion)
-                    clickedSuggestions.push(suggestion)
+                    addSuggestionToTextInput(suggestion);
+                    setClickedSuggestions(prev => [...prev, suggestion]);
+                    
                   }}
                 >
-                  {
-                    // if the suggestion is in the clickedSuggestions array, show the check icon
-                  }
+                  {clickedSuggestions.includes(suggestion) ? <Check className="w-4 h-4 text-slate-400" /> : <Plus className="w-4 h-4 text-slate-400" />}
                   {suggestion}
                 </div>
               ))
@@ -208,13 +213,20 @@ export default function GodFlow() {
 
           {/* Button stack bar ------------------------------------------------------------ */}
           <div className="flex items-center gap-2">
-            <button className="bg-slate-900 border w-12 border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
+            {/* Settings button */}
+            <button 
+              className="bg-slate-900 border w-12 border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer"
+            >
               <Settings2 className="w-4 h-4" />
             </button>
-            <button className="flex-1 flex items-center justify-center gap-2 text-sm bg-slate-900 border border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
+            {/* Upload Files button */}
+            <button 
+              className="flex-1 flex items-center justify-center gap-2 text-sm bg-slate-900 border border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
               <UploadIcon className="w-4 h-4" /> Upload Files
             </button>
-            <button className="flex-1 flex items-center justify-center gap-2 text-sm bg-slate-900 border border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
+            {/* Use Assets button */}
+            <button 
+              className="flex-1 flex items-center justify-center gap-2 text-sm bg-slate-900 border border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
               <Spade className="w-4 h-4" /> Use Assets
             </button>
           </div>
