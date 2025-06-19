@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade, Settings2, X, Check } from "lucide-react";
 import TextAreaAutosize from "react-textarea-autosize";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 
 // object that contains the suggestions
 const suggestionObject = {
@@ -138,14 +139,19 @@ export default function GodFlow() {
 
     return (
 
-      <div>
+      <div className="flex gap-4 w-full">
 
-        {/* Entire Component ------------------------------------------------------------ */}
-        <div className="flex flex-col gap-4 absolute right-8 top-1/2 -translate-y-1/2 bg-slate-900 rounded-2xl p-4 border border-slate-800 min-w-[500px] max-w-[500px]">
+        {/* Output UI ------------------------------------------------------------ */}
+        <div className="flex justify-center items-center border border-slate-800 rounded-2xl p-4 flex-1 h-screen">
+          <p>Output Frame</p>
+        </div>
+
+        {/* Entire God Flow Component ------------------------------------------------------------ */}
+        <div className="flex flex-col gap-4 bg-slate-900 rounded-2xl p-4 border border-slate-800 w-[500px] my-auto mr-4">
 
           {/* content type title // icon selector ------------------------------------------------------------ */}
             <div className="flex items-center justify-between">
-              <p className='text-slate-400 text-sm'>Content Type:</p>
+              <p className='text-slate-400 text-sm ml-2'>Content Type:</p>
               <Tabs defaultValue="text" className="flex">
                   <TabsList className='bg-slate-900 border border-slate-800 rounded-lg px-2 gap-8'>
                     <TabsTrigger 
@@ -179,17 +185,20 @@ export default function GodFlow() {
               className="resize-none w-full bg-slate-900 border border-slate-800 rounded-2xl p-4 text-slate-400 focus:outline-none focus:ring focus:ring-indigo-600"
               placeholder={placeholderText}
               value={textInput}
-              minRows={16}
-              maxRows={16}
+              minRows={20}
+              maxRows={20}
               onChange={(e) => setTextInput(e.target.value)}
             />
             <button 
               className="absolute right-4 bottom-4 bg-blue-700 border border-slate-700 rounded-md px-2 py-2 hover:bg-blue-800 transition-all duration-300 cursor-pointer"
               onClick={() => console.log(textInput, clickedSuggestions)}
             >
-              <SendIcon className="w-4 h-4" />
+              <SendIcon className="w-4 h-4" /> 
             </button>
           </div>
+
+          {/* Divider */}
+          <div className="w-full h-px bg-slate-800 my-2"></div>
 
           {/* Bubble suggestions ------------------------------------------------------------ */}
           <div className='border border-slate-800 rounded-lg h-65 overflow-y-auto w-full flex flex-wrap gap-2 p-2'>
@@ -197,11 +206,14 @@ export default function GodFlow() {
               suggestionObject[contentType as keyof typeof suggestionObject].map((suggestion, index) => (
                 <div 
                   key={index}
-                  className={`border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-0 bg-slate-800`}
+                  className={`${clickedSuggestions.includes(suggestion) ? 'border border-blue-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-0 bg-blue-800' : 'border border-slate-700 text-xs px-5 cursor-pointer hover:bg-slate-700 rounded-md p-2 w-fit flex items-center gap-2 transition-all duration-0 bg-slate-800'}`}
                   onClick={() => {
-                    addSuggestionToTextInput(suggestion);
-                    setClickedSuggestions(prev => [...prev, suggestion]);
-                    
+                    if (clickedSuggestions.includes(suggestion)) {
+                      removeSuggestionFromTextInput(suggestion);
+                    } else {
+                      addSuggestionToTextInput(suggestion);
+
+                    }
                   }}
                 >
                   {clickedSuggestions.includes(suggestion) ? <Check className="w-4 h-4 text-slate-400" /> : <Plus className="w-4 h-4 text-slate-400" />}

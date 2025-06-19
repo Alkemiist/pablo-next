@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, } from 'lucide-react';
+import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -22,11 +22,12 @@ export default function Navbar() {
         { href: '/', label: 'Home', icon: <Home size={20} /> },
         // { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         { href: '/gen-brief', label: 'Brief', icon: <NotebookPen size={20} /> },
-        { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },
-        { href: '/product-creation', label: 'Products', icon: <Barcode size={20} /> },
+        // { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },
+        // { href: '/product-creation', label: 'Products', icon: <Barcode size={20} /> },
         { href: '/intelligence', label: 'Intelligence', icon: <Brain size={20} /> },
         { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
         { href: '/god-flow', label: 'God Flow', icon: <Atom size={20} /> },
+        { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> },
 
     ];
 
