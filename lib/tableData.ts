@@ -5,85 +5,70 @@ export const tableData = {
     topBrands: [
         {
             name: "TaylorMade",
-            value: 336000,
-            icon: "taylorMade"
+            percentage: 99.4,
         },
         {
             name: "Titleist",
-            value: 236000,
-            icon: "titleist"
+            percentage: 98.2,
         },
 
         {
             name: "Wilson",
-            value: 211000,
-            icon: "wilson"
+            percentage: 97.1,
         },
         {
             name: "Oddysey",
-            value: 199000,
-            icon: "oddysey"
+            percentage: 96.0,
         },
         {
             name: "Callaway",
-            value: 188000,
-            icon: "callaway"
+            percentage: 94.9,
         }
     ],
 
-    topProducts: [
+    topNamedEntities: [
         {
             name: "TaylorMade M3",
-            value: 336000,
-            icon: "taylorMade"
+            percentage: 99.4,
         },
         {
-            name: "Titleist Pro V1",
-            value: 236000,
-            icon: "titleist"
+            name: "US Open Golf",
+            percentage: 98.2,
         },
         {
-            name: "Wilson Clash",
-            value: 211000,
-            icon: "wilson"
+            name: "Golf Clubs",
+            percentage: 97.1,
         },
         {
-            name: "Oddysey White",
-            value: 199000,
-            icon: "oddysey"
+            name: "U.S.A. Politics",
+            percentage: 96.0,
         },
         {
-            name: "Callaway Rogue",
-            value: 188000,
-            icon: "callaway"
+            name: "Iran War",
+            percentage: 94.9,
         }
     ],
 
-    topDemographics: [
+    topCategories: [
         {
-            name: "Hispanic",
-            value: 336000,
-            icon: "hispanic"
+            name: "Automotive",
+            percentage: 98.4,
         },
         {
-            name: "Asian",
-            value: 236000,
-            icon: "asian"
+            name: "Golf",
+            percentage: 97.2,
         },
         {
-            name: "Black",
-            value: 211000,
-            icon: "black"
+            name: "Video Games",
+            percentage: 96.1,
         },
         {
-            name: "White",
-            value: 199000,
-            icon: "white"
+            name: "Sports",
+            percentage: 95.0,
         },
         {
-            name: "Other",
-            value: 188000,
-            icon: "other"
+            name: "Fashion",
+            percentage: 93.9,
         }
     ],
 
@@ -117,27 +102,27 @@ export const tableData = {
     topConversations: [
         {
             name: "Top Sim Racing Products for Beginners",
-            description: "Sim racing enthusiasts discussed top products for enhancing the virtual driving experience. They recommended high-quality raiung wheels, pedals, and other gear.",
-            audienceSize: 427145,
+            description: "Sim racers shared top gear picks, recommending high-quality wheels, pedals, and accessories.",
+            number: 427145,
             sentiment: "Positive",
         },
         {
             name: "Best Golf Clubs for Beginners",
-            description: "Golf enthusiasts discussed the best clubs for beginners, focusing on drivers, irons, and wedges. They recommended brands like TaylorMade, Titleist, and Callaway.",
-            audienceSize: 312000,
+            description: "Golfers shared top beginner club picks, highlighting drivers, irons, wedges, and brands like TaylorMade, Titleist, and Callaway.",
+            number: 312000,
             sentiment: "Neutral",
         },
         {
             name: "Best Video Game Controllers for Gaming",
-            description: "Video game enthusiasts discussed the best controllers for gaming, focusing on high-performance models. They recommended brands like Logitech, Razer, and Corsair.",
-            audienceSize: 256000,
+            description: "Gamers shared top high-performance controllers, recommending brands like Logitech, Razer, and Corsair.",
+            number: 256000,
             sentiment: "Positive",
         },
         {
             name: "Best Golf Balls for Beginners",
-            description: "Golf enthusiasts discussed the best balls for beginners, focusing on distance and control. They recommended brands like Titleist, Callaway, and Bridgestone.",
-            audienceSize: 208000,
-            sentiment: "Neutral",
+            description: "Golfers shared the best beginner balls for distance and control, recommending Titleist, Callaway, and Bridgestone.",
+            number: 208000,
+            sentiment: "Negative",
         },
         
     ]

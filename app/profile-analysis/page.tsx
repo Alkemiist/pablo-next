@@ -1,27 +1,35 @@
+'use client'
 
 // imports
 import * as React from "react"; 
 import { Users } from "lucide-react";
 import { tableData } from "@/lib/tableData";
+import { useState } from "react";
+import { TrendingUp, TrendingDown, TrendingUpDown, Info, Gauge, CircleSlash2 } from "lucide-react";
+import { AnalysisChart } from "../components/global/area chart/analysis-chart";
 
 export default function ProfileAnalysis() {
 
     const topBrands = tableData.topBrands;
-    const topProducts = tableData.topProducts;
-    const topDemographics = tableData.topDemographics;
+    const topNamedEntities = tableData.topNamedEntities;
+    const topCategories = tableData.topCategories;
     const topPersonas = tableData.topPersonas;
     const topConversations = tableData.topConversations;
+
+    // create sentiment state
+    const [sentiment, setSentiment] = useState<string>("");
 
     return (
         
         <div className="flex gap-4 h-screen">  
 
             {/* Left Side: Area Chart + Top Brands, Top Products, Top Demographics Tables  ------------------------------------------------------------ */}
-            <div className="flex flex-1 flex-col gap-4 rounded-2xl p-4">
+            <div className="flex flex-1 flex-col gap-4 rounded-2xl p-4 w-[66%] ml-4">
 
                 {/* Area Chart */}
-                <div className="rounded-2xl p-4 h-[70%]">
+                <div className=" flex flex-col gap-8 rounded-2xl pt-8 h-[60%]">
 
+                        {/* Title and Description */}
                         <div className="flex flex-col gap-2">
                             <h1 className="text-lg font-bold">Overall Sentiment Relative to Engagement</h1>
                             <p className="text-sm text-gray-400">
@@ -30,161 +38,148 @@ export default function ProfileAnalysis() {
                             </p>
                         </div>
 
+                        {/* Chart */}
+                        <div className="h-full w-full">
+                            <AnalysisChart />
+                        </div>
 
                 </div>
 
                 {/* Top Brands, Top Products, Top Demographics Tables */}
-                <div className="flex gap-4 h-[50%]">
+                <div className="flex gap-4 h-[40%]">
 
                     {/* Top Brands Table */}
-                    <div className="flex flex-col rounded-2xl p-4 border border-slate-800 w-1/3 px-6 py-6 overflow-y-auto">
+                    <div className="flex flex-col rounded-2xl border border-slate-800 w-1/3 overflow-y-auto">
 
                         {/* Title and Description */}
-                        <div className="flex flex-col gap-2 mb-8">
-                            <h1 className="text-md font-bold">
+                        <div className="flex gap-2 items-center p-4 border-b border-slate-800 sticky top-0 bg-gray-900 justify-between h-[20%]">
+                            <h1 className="text-sm font-bold">
                                 Top Brands
                             </h1>
-                            <p className="text-sm text-gray-400">
-                                Top brands consistently mentined on a user's profile, revealing the most influential and frequently discussed names.
-                            </p>
+                            {/* Icon */}
+                            <div className="flex items-center gap-2 text-sm text-gray-400">
+                                <Info className="w-4 h-4 text-gray-400" />
+                            </div>
                         </div>
 
-                        {/* Table */}
-                        <div>
+                        {/* Top Brands Table */}
+                        <div className="flex flex-col justify-between px-4 py-8 h-[80%]">
                             {/* Row 1 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">1. {topBrands[0].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topBrands[0].value}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[0].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 2 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">2. {topBrands[1].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topBrands[1].value}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[1].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 3 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">3. {topBrands[2].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topBrands[2].value}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[2].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 4 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">4. {topBrands[3].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topBrands[3].value}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[3].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
-                            {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
-                            {/* Row 5 */}
-                            <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">5. {topBrands[4].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topBrands[4].value}</div>
-                            </div>
-                            
                         </div>  
                     </div>
 
-                    {/* Top Products Table */}
-                    <div className="flex flex-col rounded-2xl p-4 border border-slate-800 w-1/3 px-6 py-6 overflow-y-auto">
+                    {/* Top Named Entities Table */}
+                    <div className="flex flex-col rounded-2xl border border-slate-800 w-1/3 overflow-y-auto">
                         {/* Title and Description */}
-                        <div className="flex flex-col gap-2 mb-8">
-                            <h1 className="text-md font-bold">
-                                Top Products
+                        <div className="flex gap-2 items-center p-4 border-b border-slate-800 sticky top-0 bg-gray-900 justify-between h-[20%]">
+                            <h1 className="text-sm font-bold">
+                                Top Named Entities
                             </h1>
-                            <p className="text-sm text-gray-400">
-                                Top products consistently mentined on a user's profile, revealing the most influential and frequently discussed names.
-                            </p>
-                        </div>  
+                            {/* Icon */}
+                            <div className="flex items-center gap-2 text-sm text-gray-400">
+                                <Info className="w-4 h-4 text-gray-400" />
+                            </div>
+                        </div> 
 
-                        {/* Table */}
-                        <div>
+                        {/* Top Named Entities Table */}
+                        <div className="flex flex-col justify-between px-4 py-8 h-[80%]">
                             {/* Row 1 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">1. {topProducts[0].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topProducts[0].value}</div>
+                                <div className="text-sm font-bold">1. {topNamedEntities[0].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[0].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 2 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">2. {topProducts[1].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topProducts[1].value}</div>
+                                <div className="text-sm font-bold">2. {topNamedEntities[1].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[1].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 3 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">3. {topProducts[2].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topProducts[2].value}</div>
+                                <div className="text-sm font-bold">3. {topNamedEntities[2].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[2].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 4 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">4. {topProducts[3].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topProducts[3].value}</div>
-                            </div>
-                            {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
-                            {/* Row 5 */}
-                            <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">5. {topProducts[4].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topProducts[4].value}</div>
+                                <div className="text-sm font-bold">4. {topNamedEntities[3].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[3].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                         </div>
                     </div>  
 
-                    {/* Top Demographics Table */}
-                    <div className="flex flex-col rounded-2xl p-4 border border-slate-800 w-1/3 px-6 py-6 overflow-y-auto">
+                    {/* Top Categories Table */}
+                    <div className="flex flex-col rounded-2xl border border-slate-800 w-1/3 overflow-y-auto">
+
                         {/* Title and Description */}
-                        <div className="flex flex-col gap-2 mb-8">
-                            <h1 className="text-md font-bold">
-                                Top Demographics
+                        <div className="flex gap-2 items-center p-4 border-b border-slate-800 sticky top-0 bg-gray-900 justify-between h-[20%]">
+                            <h1 className="text-sm font-bold">
+                                Top Categories
                             </h1>
-                            <p className="text-sm text-gray-400">
-                                Top demographics engaging with a user's profile, offering insights into the most active and influential audience segments.
-                            </p>
+                            {/* Icon */}
+                            <div className="flex items-center gap-2 text-sm text-gray-400">
+                                <Info className="w-4 h-4 text-gray-400" />
+                            </div>
                         </div>
 
-                        {/* Table */}
-                        <div>
+                        {/* Top Categories Table */}
+                        <div className="flex flex-col justify-between px-4 py-8 h-[80%]">
                             {/* Row 1 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">1. {topDemographics[0].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topDemographics[0].value}</div>
+                                <div className="text-sm font-bold">1. {topCategories[0].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[0].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 2 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">2. {topDemographics[1].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topDemographics[1].value}</div>
+                                <div className="text-sm font-bold">2. {topCategories[1].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[1].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 3 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">3. {topDemographics[2].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topDemographics[2].value}</div>
+                                <div className="text-sm font-bold">3. {topCategories[2].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[2].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
                             {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
+                            <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 4 */}
                             <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">4. {topDemographics[3].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topDemographics[3].value}</div>
+                                <div className="text-sm font-bold">4. {topCategories[3].name}</div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[3].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
                             </div>
-                            {/* Divider */}
-                            <div className="w-full h-px bg-slate-800 my-6"></div>
-                            {/* Row 5 */}
-                            <div className="flex justify-between items-center">
-                                <div className="text-sm font-bold">5. {topDemographics[4].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400"><Users className="w-4 h-4" /> {topDemographics[4].value}</div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -192,10 +187,10 @@ export default function ProfileAnalysis() {
             </div>
 
             {/* Right Side: Top Personas, Top Conversations ------------------------------------------------------------ */}
-            <div className="flex flex-col gap-4 w-[30%] bg-gray-900 p-4 border border-gray-800">
+            <div className="flex flex-col gap-4 w-[33%] bg-gray-900 p-4 border border-gray-800">
 
                 {/* Top Personas ----------------------------- */}
-                <div className="bg-gray-900 rounded-2xl p-4 border-gray-800 h-[50%] px-6 py-6 overflow-y-auto scrollbar-hide scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-900">
+                <div className="bg-gray-900 rounded-2xl p-4 border-gray-800 h-[50%] px-6 py-6">
 
                     {/* Title and Description */}
                     <div className="flex flex-col gap-2 mb-8">
@@ -211,11 +206,13 @@ export default function ProfileAnalysis() {
                     <div className="">
 
                         {/* Row 1 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
                             {/* image */}
-                            <div className="bg-gray-800 h-12 w-12 rounded-4xl">
-                                {/* This is where the image goes */}
-                            </div>
+                            <img 
+                                src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
+                                alt={`${topPersonas[0].name} avatar`}
+                                className="h-12 w-12 rounded-full object-cover"
+                            />
 
                             {/* card intel */}
                             <div className="flex-1">
@@ -239,11 +236,13 @@ export default function ProfileAnalysis() {
                         </div>
 
                         {/* Row 2 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
                             {/* image */}
-                            <div className="bg-gray-800 h-12 w-12 rounded-4xl">
-                                {/* This is where the image goes */}
-                            </div>
+                            <img 
+                                src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
+                                alt={`${topPersonas[1].name} avatar`}
+                                className="h-12 w-12 rounded-full object-cover"
+                            />
 
                             {/* card intel */}
                             <div className="flex-1">
@@ -267,11 +266,13 @@ export default function ProfileAnalysis() {
                         </div>
 
                         {/* Row 3 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-2 items-center shadow-lg">
                             {/* image */}
-                            <div className="bg-gray-800 h-12 w-12 rounded-4xl">
-                                {/* This is where the image goes */}
-                            </div>
+                            <img 
+                                src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
+                                alt={`${topPersonas[2].name} avatar`}
+                                className="h-12 w-12 rounded-full object-cover"
+                            />
 
                             {/* card intel */}
                             <div className="flex-1">
@@ -294,44 +295,100 @@ export default function ProfileAnalysis() {
                             </div>
                         </div>
 
-                        {/* Row 4 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center">
-                            {/* image */}
-                            <div className="bg-gray-800 h-12 w-12 rounded-4xl">
-                                {/* This is where the image goes */}
-                            </div>
+                    </div>
+
+                </div>
+
+                {/* Top Conversations ----------------------------- */}
+                <div className="bg-gray-900 rounded-2xl p-4 border-gray-800 h-[50%] px-6 py-6">
+
+                    {/* Title and Description */}
+                    <div className="flex flex-col gap-2 mb-8">
+                        <h1 className="text-md font-bold">
+                            Top Conversations
+                        </h1>
+                        <p className="text-sm text-gray-400">
+                            Top conversations we've identified, providing key insights into their audience for more targeted and effective engagement.
+                        </p>
+                    </div>
+
+                    {/* Top Personas Data */}
+                    <div className="">
+
+                        {/* Row 1 */}
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+
 
                             {/* card intel */}
                             <div className="flex-1">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
                                     <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topPersonas[3].name}</h1>
-                                        {/* <p className="text-xs text-gray-400">{topPersonas[3].demographics}</p> */}
+                                        <h1 className="text-sm font-bold">{topConversations[0].name}</h1>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <p className="text-sm font-bold">{topPersonas[3].percentage}%</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className={`text-xs font-bold ${topConversations[0].sentiment === "Positive" ? "text-green-500" : topConversations[0].sentiment === "Negative" ? "text-red-500" : "text-gray-400"}`}>{topConversations[0].sentiment}</p>
+                                        { topConversations[0].sentiment === "Positive" ? <TrendingUp className="w-4 h-4 text-green-500 stroke3" /> : topConversations[0].sentiment === "Negative" ? <TrendingDown className="w-4 h-4 text-red-500 stroke-2" /> : <TrendingUpDown className="w-4 h-4 text-gray-400 stroke-2" /> }
                                     </div>
                                 </div>
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topPersonas[3].description}</p>
+                                    <p className="text-sm text-gray-400">{topConversations[0].description}</p>
                                 </div>
 
                             </div>
                         </div>
 
+                        {/* Row 2 */}
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+
+                            {/* card intel */}
+                            <div className="flex-1">
+                                {/* top section: name, demo + % */}
+                                <div className="flex justify-between items-center gap-2 mb-2">
+                                    <div className="flex gap-2 items-center">
+                                        <h1 className="text-sm font-bold">{topConversations[1].name}</h1>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className={`text-xs font-bold ${topConversations[1].sentiment === "Positive" ? "text-green-500" : topConversations[1].sentiment === "Negative" ? "text-red-500" : "text-gray-400"}`}>{topConversations[1].sentiment}</p>
+                                        { topConversations[1].sentiment === "Positive" ? <TrendingUp className="w-4 h-4 text-green-500" /> : topConversations[1].sentiment === "Negative" ? <TrendingDown className="w-4 h-4 text-red-500" /> : <TrendingUpDown className="w-4 h-4 text-gray-400" /> }
+                                    </div>
+                                </div>
+
+                                {/* bottom section: description */}
+                                <div>
+                                    <p className="text-sm text-gray-400">{topConversations[1].description}</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {/* Row 3 */}
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+
+                            {/* card intel */}
+                            <div className="flex-1">
+                                {/* top section: name, demo + % */}
+                                <div className="flex justify-between items-center gap-2 mb-2">
+                                    <div className="flex gap-2 items-center">
+                                        <h1 className="text-sm font-bold">{topConversations[2].name}</h1>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className={`text-xs font-bold ${topConversations[2].sentiment === "Positive" ? "text-green-500" : topConversations[2].sentiment === "Negative" ? "text-red-500" : "text-gray-400"}`}>{topConversations[2].sentiment}</p>
+                                        { topConversations[2].sentiment === "Positive" ? <TrendingUp className="w-4 h-4 text-green-500" /> : topConversations[2].sentiment === "Negative" ? <TrendingDown className="w-4 h-4 text-red-500" /> : <TrendingUpDown className="w-4 h-4 text-gray-400" /> }
+                                    </div>
+                                </div>
+
+                                {/* bottom section: description */}
+                                <div>
+                                    <p className="text-sm text-gray-400">{topConversations[2].description}</p>
+                                </div>
+
+                            </div>
+                        </div>
 
                     </div>
-
-                </div>
-
-                {/* Divider */}
-                <div className="w-full h-px bg-slate-800 my-6"></div>
-
-                {/* Top Conversations ----------------------------- */}
-                <div className="bg-gray-900 rounded-2xl p-4 border border-gray-800 h-[50%]">
 
                 </div>
 
