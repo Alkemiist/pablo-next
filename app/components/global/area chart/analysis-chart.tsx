@@ -154,13 +154,13 @@ export function AnalysisChart() {
             <SelectValue placeholder="Last 3 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl bg-gray-900 border border-gray-800">
-            <SelectItem value="90d" className="rounded-lg">
+            <SelectItem value="90d" className="rounded-lg cursor-pointer hover:bg-gray-800 transition-all duration-100">
               Last 3 months
             </SelectItem>
-            <SelectItem value="30d" className="rounded-lg">
+            <SelectItem value="30d" className="rounded-lg cursor-pointer hover:bg-gray-800 transition-all duration-100">
               Last 30 days
             </SelectItem>
-            <SelectItem value="7d" className="rounded-lg">
+            <SelectItem value="7d" className="rounded-lg cursor-pointer hover:bg-gray-800 transition-all duration-100">
               Last 7 days
             </SelectItem>
           </SelectContent>
@@ -232,6 +232,7 @@ export function AnalysisChart() {
                     })
                   }}
                   indicator="dot"
+                  className="bg-gray-900 border border-gray-600 w-40 shadow-lg"
                 />
               }
             />

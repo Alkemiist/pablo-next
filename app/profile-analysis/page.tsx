@@ -21,13 +21,13 @@ export default function ProfileAnalysis() {
 
     return (
         
-        <div className="flex gap-4 h-screen">  
+        <div className="flex gap-4">  
 
             {/* Left Side: Area Chart + Top Brands, Top Products, Top Demographics Tables  ------------------------------------------------------------ */}
-            <div className="flex flex-1 flex-col gap-4 rounded-2xl p-4 w-[66%] ml-4">
+            <div className="flex flex-1 flex-col gap-6 rounded-2xl p-4 w-[66%] ml-4">
 
                 {/* Area Chart */}
-                <div className=" flex flex-col gap-8 rounded-2xl pt-8 h-[60%]">
+                <div className=" flex flex-col gap-8 rounded-2xl pt-2 h-[60%]">
 
                         {/* Title and Description */}
                         <div className="flex flex-col gap-2">
@@ -187,13 +187,13 @@ export default function ProfileAnalysis() {
             </div>
 
             {/* Right Side: Top Personas, Top Conversations ------------------------------------------------------------ */}
-            <div className="flex flex-col gap-4 w-[33%] bg-gray-900 p-4 border border-gray-800">
+            <div className="flex flex-col gap-2 w-[33%] bg-gray-950 border-l border-gray-800 h-[calc(100vh-60px)] overflow-y-scroll">
 
-                {/* Top Personas ----------------------------- */}
-                <div className="bg-gray-900 rounded-2xl p-4 border-gray-800 h-[50%] px-6 py-6">
+                {/* Top Personas Component ----------------------------- */}
+                <div className="bg-gray-950 rounded-2xl p-4 border-gray-800 px-6 flex-1">
 
                     {/* Title and Description */}
-                    <div className="flex flex-col gap-2 mb-8">
+                    <div className="flex flex-col gap-2 mb-6">
                         <h1 className="text-md font-bold">
                             Top Personas
                         </h1>
@@ -211,7 +211,7 @@ export default function ProfileAnalysis() {
                             <img 
                                 src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
                                 alt={`${topPersonas[0].name} avatar`}
-                                className="h-12 w-12 rounded-full object-cover"
+                                className="h-12 w-12 rounded-full object-cover border shadow-md"
                             />
 
                             {/* card intel */}
@@ -241,7 +241,7 @@ export default function ProfileAnalysis() {
                             <img 
                                 src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
                                 alt={`${topPersonas[1].name} avatar`}
-                                className="h-12 w-12 rounded-full object-cover"
+                                className="h-12 w-12 rounded-full object-cover border shadow-md"
                             />
 
                             {/* card intel */}
@@ -271,7 +271,7 @@ export default function ProfileAnalysis() {
                             <img 
                                 src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
                                 alt={`${topPersonas[2].name} avatar`}
-                                className="h-12 w-12 rounded-full object-cover"
+                                className="h-12 w-12 rounded-full object-cover border shadow-md"
                             />
 
                             {/* card intel */}
@@ -300,10 +300,10 @@ export default function ProfileAnalysis() {
                 </div>
 
                 {/* Top Conversations ----------------------------- */}
-                <div className="bg-gray-900 rounded-2xl p-4 border-gray-800 h-[50%] px-6 py-6">
+                <div className="bg-gray-950 rounded-2xl p-4 border-gray-800 px-6 flex-1">
 
                     {/* Title and Description */}
-                    <div className="flex flex-col gap-2 mb-8">
+                    <div className="flex flex-col gap-2 mb-6">
                         <h1 className="text-md font-bold">
                             Top Conversations
                         </h1>
@@ -312,7 +312,7 @@ export default function ProfileAnalysis() {
                         </p>
                     </div>
 
-                    {/* Top Personas Data */}
+                    {/* Top Conversations Data */}
                     <div className="">
 
                         {/* Row 1 */}
