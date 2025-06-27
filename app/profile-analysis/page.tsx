@@ -67,28 +67,28 @@ export default function ProfileAnalysis() {
                             {/* Row 1 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">1. {topBrands[0].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[0].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[0].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 2 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">2. {topBrands[1].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[1].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[1].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 3 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">3. {topBrands[2].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[2].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[2].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 4 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">4. {topBrands[3].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[3].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topBrands[3].percentage}%</div>
                             </div>
                         </div>  
                     </div>
@@ -111,28 +111,28 @@ export default function ProfileAnalysis() {
                             {/* Row 1 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">1. {topNamedEntities[0].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[0].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[0].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 2 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">2. {topNamedEntities[1].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[1].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[1].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 3 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">3. {topNamedEntities[2].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[2].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[2].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 4 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">4. {topNamedEntities[3].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[3].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topNamedEntities[3].percentage}% </div>
                             </div>
                         </div>
                     </div>  
@@ -156,28 +156,28 @@ export default function ProfileAnalysis() {
                             {/* Row 1 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">1. {topCategories[0].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[0].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[0].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 2 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">2. {topCategories[1].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[1].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[1].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 3 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">3. {topCategories[2].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[2].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[2].percentage}%</div>
                             </div>
                             {/* Divider */}
                             <div className="w-full h-px bg-slate-800"></div>
                             {/* Row 4 */}
                             <div className="flex justify-between items-center">
                                 <div className="text-sm font-bold">4. {topCategories[3].name}</div>
-                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[3].percentage}% <CircleSlash2 className="w-3 h-3" /> </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">{topCategories[3].percentage}%</div>
                             </div>
 
                         </div>

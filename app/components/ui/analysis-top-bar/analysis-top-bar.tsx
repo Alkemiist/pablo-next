@@ -11,7 +11,7 @@ export default function AnalysisTopBar() {
     const pathname = usePathname();
 
     return (
-        <div className="bg-gray-900 p-4 border border-gray-800 flex justify-between items-center h-[60px]">
+        <div className="bg-gray-950 p-4 border border-gray-800 flex justify-between items-center h-[60px]">
             
             {/* left section: profile image + name + date */}
             <div className="flex items-center gap-2">
@@ -25,11 +25,11 @@ export default function AnalysisTopBar() {
             {/* middle section: tabs  */}
             <div className="flex items-center gap-2">
                 <Tabs defaultValue="summary" className="flex">
-                    <TabsList className='bg-gray-900 border border-gray-700 rounded-xl px-2 gap-8'>
+                    <TabsList className='bg-gray-950 border border-gray-700 rounded-xl px-2 gap-8'>
                         <Link href="/profile-analysis">
                             <TabsTrigger 
                                 value="summary"
-                                className={`text-xs font-bold cursor-pointer ${pathname === '/profile-analysis' ? 'bg-slate-800 border border-gray-700' : ''}`}
+                                className={`text-xs font-bold cursor-pointer ${pathname === '/profile-analysis' ? 'bg-slate-900 border border-gray-700' : ''}`}
                             >
                                 Summary
                             </TabsTrigger>
@@ -37,7 +37,7 @@ export default function AnalysisTopBar() {
                         <Link href="/profile-analysis/personas">
                             <TabsTrigger 
                                 value="personas" 
-                                className={`text-xs font-bold cursor-pointer ${pathname === '/profile-analysis/personas' ? 'bg-gray-800 border border-gray-700' : ''}`}
+                                className={`text-xs font-bold cursor-pointer ${pathname === '/profile-analysis/personas' ? 'bg-gray-900 border border-gray-700' : ''}`}
                                 
                             >
                                 Personas
@@ -46,7 +46,7 @@ export default function AnalysisTopBar() {
                         <Link href="/profile-analysis/sentiment">
                             <TabsTrigger 
                                 value="sentiment" 
-                                className={`text-xs font-bold cursor-pointer ${pathname === '/profile-analysis/sentiment' ? 'bg-gray-800 border border-gray-700' : ''}`}
+                                className={`text-xs font-bold cursor-pointer ${pathname === '/profile-analysis/sentiment' ? 'bg-gray-900 border border-gray-700' : ''}`}
                             >
                                 Sentiment
                             </TabsTrigger>
