@@ -30,14 +30,19 @@ export default function PersonasPage() {
                 />
             </div>
 
-            {/* Right Side: Persona Description */}
-            <div className="w-[40%] border-l border-slate-700 h-full overflow-y-auto relative">
+            {/* Right Side: Persona Description */}  
+            <div className="w-[40%] border-l border-slate-700 h-full overflow-y-auto relative pb-8">
+
+                {/* Persona: Persona Image Banner */}
+                {/* <div className="flex justify-center items-center px-8 py-4 h-[300px] rounded-xl overflow-hidden">
+                    <img src={activePersonaData.imageUrl} alt={activePersonaData.name} className="w-full h-full object-cover rounded-xl" />
+                </div> */}
                 
                 {/* Section Title + Save Icon */}
-                <div className="flex justify-between items-center px-8 py-8">
+                <div className="flex justify-between items-center px-8 pt-8 pb-4">
                     <h1 className="text-2xl font-bold">{activePersonaData.name}</h1>
-                    <button className="text-2xl border border-slate-700 rounded-lg p-2 hover:bg-slate-700 transition-colors duration-100 cursor-pointer">
-                        <Bookmark className="w-4 h-4" />
+                    <button className="flex items-center gap-2 px-4 text-xs border border-slate-700 rounded-lg p-2 hover:bg-slate-700 transition-colors duration-100 cursor-pointer">
+                        Save Audience <Bookmark className="w-4 h-4" />
                     </button>
                 </div>
 
@@ -82,9 +87,9 @@ export default function PersonasPage() {
                 </div>
 
                 {/* Persona: CTA to see more */}
-                <div className="flex justify-center items-center px-8 py-4 absolute bottom-0 left-0 right-0 bg-blue-800 hover:bg-blue-900 cursor-pointer">
-                    <button className="text-md font-bold cursor-pointer">Explore {activePersonaData.name}</button>
-                </div>
+                {/* <div className="flex justify-center items-center px-8 py-2 absolute bottom-0 left-0 right-0 bg-blue-800 hover:bg-blue-900 cursor-pointer">
+                    <button className="text-sm font-bold cursor-pointer">Save Audience</button>
+                </div> */}
 
             </div>
 

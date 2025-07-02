@@ -7,9 +7,11 @@ export const personaChartInfo = {
             lifestyleAndBehavior: "These individuals are highly competitive and detail-oriented. They often spend 10-20 hours per week practicing in racing simulators, participating in online leagues, and analyzing telemetry data to improve their lap times.",
             commonInterests: "Racing games, motorsports, car modifications, competitive gaming, esports, racing equipment (wheels, pedals, VR headsets), Formula 1, GT racing, and track days.",
             demographicsAndCharacteristics: "Primarily male, aged 18-45, with disposable income for gaming equipment. They tend to be tech-savvy, competitive, and have a strong interest in automotive culture and engineering.",
-            value: 500,
+            percentage: 50,
             color: "#352D8F",
+            imageUrl: "https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             topBrands: "SimRacingPro, iRacing, Assetto Corsa, Gran Turismo, Forza Horizon, Project Cars, Assetto Corsa Competizione, iRacing, Gran Turismo, Forza Horizon, Project Cars, Assetto Corsa Competizione",
+            
         },
         {
             name: "Tech Enthusiasts",
@@ -17,8 +19,9 @@ export const personaChartInfo = {
             lifestyleAndBehavior: "These individuals are constantly researching and purchasing new technology. They follow tech blogs, attend conferences, and are often the go-to person for tech advice among friends and family.",
             commonInterests: "Smartphones, laptops, smart home devices, AI/ML, programming, cryptocurrency, VR/AR, gaming, productivity apps, and emerging technologies.",
             demographicsAndCharacteristics: "Diverse age range (20-50), higher education levels, comfortable with technology, often work in tech-related fields, and have disposable income for gadgets.",
-            value: 200,
+            percentage: 25,
             color: "#EBEBEB",
+            imageUrl: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             topBrands: "Apple, Google, Microsoft, Samsung, Sony, Nintendo, Xbox, PlayStation, Steam, Epic Games, Origin, Ubisoft, EA, Activision Blizzard, Rockstar Games, Bethesda, EA Sports, Ubisoft, Activision Blizzard, Rockstar Games, Bethesda",
         },
         {
@@ -27,8 +30,9 @@ export const personaChartInfo = {
             lifestyleAndBehavior: "These individuals typically play 1-2 rounds per week, often on weekends. They enjoy the social aspect of golf, networking opportunities, and the mental challenge of the game.",
             commonInterests: "Golf equipment, golf courses, golf lessons, golf apparel, country clubs, golf tournaments, golf travel, and sports in general.",
             demographicsAndCharacteristics: "Typically older demographic (30-65), middle to upper-middle class, business professionals, and those who value outdoor activities and social networking.",
-            value: 100,
+            percentage: 10,
             color: "#A4E0EA",
+            imageUrl: "https://images.pexels.com/photos/573945/pexels-photo-573945.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             topBrands: "TaylorMade, Callaway, Ping, Titleist, Nike, Adidas, Puma, Under Armour, New Balance, Brooks, Callaway, Ping, Titleist, Nike, Adidas, Puma, Under Armour, New Balance, Brooks",
         },
         {
@@ -37,8 +41,9 @@ export const personaChartInfo = {
             lifestyleAndBehavior: "These individuals maintain regular workout routines, follow strict nutrition plans, and often participate in competitive sports or fitness challenges. They track their progress meticulously.",
             commonInterests: "Fitness equipment, sports nutrition, workout apps, athletic wear, sports leagues, personal training, health supplements, and various sports activities.",
             demographicsAndCharacteristics: "Age range 18-50, health-conscious, disciplined, goal-oriented, and willing to invest in fitness equipment and training programs.",
-            value: 100,
+            percentage: 10,
             color: "#54AEC8",
+            imageUrl: "https://images.pexels.com/photos/4498294/pexels-photo-4498294.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             topBrands: "Nike, Adidas, Puma, Under Armour, New Balance, Brooks, Callaway, Ping, Titleist, Nike, Adidas, Puma, Under Armour, New Balance, Brooks",
         }, 
         {
@@ -47,8 +52,9 @@ export const personaChartInfo = {
             lifestyleAndBehavior: "This group has diverse lifestyles and behaviors, making them harder to categorize. They may have niche interests or combine elements from multiple persona types.",
             commonInterests: "Varied interests including arts, music, cooking, travel, reading, crafts, outdoor activities, and other niche hobbies that don't align with the main categories.",
             demographicsAndCharacteristics: "Diverse demographic makeup with varying ages, income levels, and backgrounds. They represent the long tail of consumer interests and behaviors.",
-            value: 100,
+            percentage: 5,
             color: "#506EC1",
+            imageUrl: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             topBrands: "Nike, Adidas, Puma, Under Armour, New Balance, Brooks, Callaway, Ping, Titleist, Nike, Adidas, Puma, Under Armour, New Balance, Brooks",
         }
     ]

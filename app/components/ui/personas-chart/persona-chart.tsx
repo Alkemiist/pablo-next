@@ -11,14 +11,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export const description = "An interactive pie chart"
 
-// This is the data being mapped to the chart
+// This is the data being mapped to the chart - looping through the personas and mapping the name, value, and color to the chart
 const personaData = personaChartInfo.personas.map((persona) => ({
   name: persona.name,
-  value: persona.value,
+  percentage: persona.percentage,
   fill: persona.color,
 }))
 
-// Chart Config
+// Chart Config: This is the configuration for the chart - mapping the name, value, and color to the chart
 const chartConfig = {
   
   "sim-racers": {
@@ -43,13 +43,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-// Define the props interface for the component
+// Define the props interface for the component - activePersona and setActivePersona
 interface PersonaChartProps {
   activePersona: string;
   setActivePersona: (persona: string) => void;
 }
 
-// This is the component that renders the chart
+// This is the component that renders the chart - the pie chart
 export function PersonaChart({ activePersona, setActivePersona }: PersonaChartProps) {
 
   const id = "pie-interactive"
@@ -129,17 +129,23 @@ export function PersonaChart({ activePersona, setActivePersona }: PersonaChartPr
             />
             <Pie
               data={personaData}
-              dataKey="value"
+              dataKey="percentage"
+              className="cursor-pointer"
               nameKey="name"
-              innerRadius={200}
+              innerRadius={125}
               strokeWidth={5}
               activeIndex={activeIndex}
+              onClick={(data) => {
+                if (data && data.name) {
+                  setActivePersona(data.name);
+                }
+              }}
               activeShape={({
                 outerRadius = 0,
                 ...props
               }: PieSectorDataItem) => (
                 <g>
-                  <Sector {...props} outerRadius={outerRadius + 60} />
+                  <Sector {...props} outerRadius={outerRadius + 30} />
                   <Sector
                     {...props}
                     outerRadius={outerRadius + 25}
@@ -158,20 +164,23 @@ export function PersonaChart({ activePersona, setActivePersona }: PersonaChartPr
                         textAnchor="middle"
                         dominantBaseline="middle"
                       >
+                        {/* Value */}
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold"
+                          className="fill-blue-500 text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold border"
                         >
-                          {personaData[activeIndex].value.toLocaleString()}
+                          {personaData[activeIndex].percentage.toLocaleString()}%
                         </tspan>
-                        <tspan
+
+                        {/* Name */}
+                        {/* <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 20}
-                          className="fill-muted-foreground text-xs sm:text-sm lg:text-base"
+                          className="fill-gray-400 text-xs sm:text-sm lg:text-base"
                         >
                           {personaData[activeIndex].name}
-                        </tspan>
+                        </tspan> */}
                       </text>
                     )
                   }
