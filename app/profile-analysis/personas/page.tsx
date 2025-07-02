@@ -4,26 +4,38 @@
 import { PersonaChart } from "@/app/components/ui/personas-chart/persona-chart";    
 import { Bookmark } from "lucide-react";
 import { personaChartInfo } from "@/lib/persona-chart-info";
+import { useState, useMemo } from "react";
 
 export default function PersonasPage() {
 
     // get personas from personaChartInfo
     const personas = personaChartInfo.personas;
+    
+    // Lift state up - manage activePersona at the parent level
+    const [activePersona, setActivePersona] = useState(personas[0].name);
+    
+    // Find the active persona data based on the selected persona name
+    const activePersonaData = useMemo(() => {
+        return personas.find(persona => persona.name === activePersona) || personas[0];
+    }, [activePersona, personas]);
 
     return (
-        <div className="flex">
+        <div className="flex h-[calc(100vh-60px)]">
             
             {/* Left Side: Persona Chart */}
-            <div className="w-[60%]">
-                <PersonaChart />
+            <div className="w-[60%] h-full">
+                <PersonaChart 
+                    activePersona={activePersona}
+                    setActivePersona={setActivePersona}
+                />
             </div>
 
             {/* Right Side: Persona Description */}
-            <div className="w-[40%] border-l border-slate-700">
+            <div className="w-[40%] border-l border-slate-700 h-full overflow-y-auto relative">
                 
                 {/* Section Title + Save Icon */}
-                <div className="flex justify-between items-center px-8 py-4">
-                    <h1 className="text-xl font-bold">Persona Name goes here</h1>
+                <div className="flex justify-between items-center px-8 py-8">
+                    <h1 className="text-2xl font-bold">{activePersonaData.name}</h1>
                     <button className="text-2xl border border-slate-700 rounded-lg p-2 hover:bg-slate-700 transition-colors duration-100 cursor-pointer">
                         <Bookmark className="w-4 h-4" />
                     </button>
@@ -31,42 +43,51 @@ export default function PersonasPage() {
 
                 {/* Persona: Summary */}
                 <div className="flex flex-col gap-2 px-8 py-4">
-                    <div className="text-sm font-bold">Summary:</div>
+                    <div className="text-md font-bold">Summary:</div>
                     <div className="text-sm text-slate-500">
-                        A storyteller at heart, this persona centers their content on family gatherings, 
-                        personal milestones, and everyday celebrations that underscore community and warmth.
+                        {activePersonaData.summary}
                     </div>
                 </div>
 
                 {/* Persona: Lifestyle and Behavior */}
                 <div className="flex flex-col gap-2 px-8 py-4">
-                    <div className="text-sm font-bold">Lifestyle and Behavior:</div>
+                    <div className="text-md font-bold">Lifestyle and Behavior:</div>
                     <div className="text-sm text-slate-500">
-                        This persona is a family-oriented individual who values traditions, community, and shared experiences. 
-                        They are likely to be active in local events, church activities, and family gatherings.
+                        {activePersonaData.lifestyleAndBehavior}
                     </div>
                 </div>
 
                 {/* Persona: Common interests */}
                 <div className="flex flex-col gap-2 px-8 py-4">
-                    <div className="text-sm font-bold">Common interests:</div>
+                    <div className="text-md font-bold">Common interests:</div>
                     <div className="text-sm text-slate-500">
-                        This persona is interested in family, community, and shared experiences. 
-                        They are likely to be active in local events, church activities, and family gatherings.
+                        {activePersonaData.commonInterests}
                     </div>
                 </div>
 
                 {/* Persona Demographics and Characteristics */}
                 <div className="flex flex-col gap-2 px-8 py-4">
-                    <div className="text-sm font-bold">Demographics and Characteristics:</div>
+                    <div className="text-md font-bold">Demographics and Characteristics:</div>
                     <div className="text-sm text-slate-500">
-                        This persona is a family-oriented individual who values traditions, community, and shared experiences. 
-                        They are likely to be active in local events, church activities, and family gatherings.
+                        {activePersonaData.demographicsAndCharacteristics}
                     </div>
+                </div>
+
+                { /* Persona: Top Brands */}
+                <div className="flex flex-col gap-2 px-8 py-4">
+                    <div className="text-md font-bold">Top Brands:</div>
+                    <div className="text-sm text-slate-500">
+                        {activePersonaData.topBrands}
+                    </div>
+                </div>
+
+                {/* Persona: CTA to see more */}
+                <div className="flex justify-center items-center px-8 py-4 absolute bottom-0 left-0 right-0 bg-blue-800 hover:bg-blue-900 cursor-pointer">
+                    <button className="text-md font-bold cursor-pointer">Explore {activePersonaData.name}</button>
                 </div>
 
             </div>
 
-        </div   >
+        </div>
     )
 }

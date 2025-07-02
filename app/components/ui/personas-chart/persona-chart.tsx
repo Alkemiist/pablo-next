@@ -1,107 +1,186 @@
 "use client"
 
-// imports
-import { TrendingUp } from "lucide-react"
+import * as React from "react"
 import { Label, Pie, PieChart, Sector } from "recharts"
-import { PieSectorDataItem } from "recharts/types/polar/Pie"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { personaChartInfo } from "@/lib/persona-chart-info";
 
-// description
-export const description = "A donut chart with an active sector"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartConfig, ChartContainer, ChartStyle, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-// data
-const chartData = [
-  { persona: "Sim Racers", audience: 275, fill: "#352d8f" },
-  { persona: "Weekend Golfers", audience: 200, fill: "#A4E0EA" },
-  { persona: "Athletes", audience: 187, fill: "#506EC1" },
-  { persona: "Tech Enthusiasts", audience: 173, fill: "#54AEC8" },
-  { browser: "other", visitors: 90, fill: "#EBEBEB" },
-]
+export const description = "An interactive pie chart"
 
-// config: This is what it does: 
-// 1. It defines the labels for the chart
-// 2. It defines the colors for the chart
-// 3. It defines the data for the chart
-// 4. It defines the configuration for the chart
-// 5. It defines the data for the chart
-// 6. It defines the configuration for the chart
+// This is the data being mapped to the chart
+const personaData = personaChartInfo.personas.map((persona) => ({
+  name: persona.name,
+  value: persona.value,
+  fill: persona.color,
+}))
+
+// Chart Config
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  
+  "sim-racers": {
+    label: "Sim Racers",
+    color: "#352D8F",
   },
-  chrome: {
-    label: "Chrome",
-    color: "#352d8f",
-  },
-  safari: {
-    label: "Safari",
-    color: "#A4E0EA",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "#506EC1",
-  },
-  edge: {
-    label: "Edge",
-    color: "#54AEC8",
-  },
-  other: {
-    label: "Other",
+  "tech-enthusiasts": {
+    label: "Tech Enthusiasts", 
     color: "#EBEBEB",
   },
-} satisfies ChartConfig // This is a type assertion that tells TypeScript that the chartConfig object satisfies the ChartConfig type
+  "weekend-golfers": {
+    label: "Weekend Golfers",
+    color: "#A4E0EA",
+  },
+  "athletes": {
+    label: "Athletes",
+    color: "#54AEC8",
+  },
+  "other": {
+    label: "Other",
+    color: "#506EC1",
+  },
+} satisfies ChartConfig
 
-// component
-export function PersonaChart() {
+// Define the props interface for the component
+interface PersonaChartProps {
+  activePersona: string;
+  setActivePersona: (persona: string) => void;
+}
+
+// This is the component that renders the chart
+export function PersonaChart({ activePersona, setActivePersona }: PersonaChartProps) {
+
+  const id = "pie-interactive"
+
+  const activeIndex = React.useMemo(
+    () => personaData.findIndex((item) => item.name === activePersona),
+    [activePersona]
+  )
+  const personaNames = React.useMemo(() => personaData.map((item) => item.name), [])
+
   return (
-    <Card className="flex flex-col border-none">
 
-        {/* Header */}
-      <CardHeader className="items-center pb-0">
-        {/* <CardTitle>Pie Chart - Donut Active</CardTitle>
-        <CardDescription>January - June 2024</CardDescription> */}
+    <Card data-chart={id} className="flex flex-col h-full w-full border-none">
+      <ChartStyle id={id} config={chartConfig} />
+
+      {/* Header */}
+      <CardHeader className="flex items-start space-y-0 pb-4 flex-shrink-0">
+
+        {/* Title */}
+        <div className="grid gap-1">
+          <CardTitle>Persona Chart</CardTitle>
+          <CardDescription>Select a persona to view their data</CardDescription>
+        </div>
+
+        {/* Select Persona Trigger */}
+        <Select value={activePersona} onValueChange={setActivePersona}>
+          <SelectTrigger
+            className="ml-auto h-8 w-auto min-w-[140px] rounded-lg pl-2.5 border border-slate-700 hover:border-slate-600 cursor-pointer w-50"
+            aria-label="Select a persona"
+          >
+            <SelectValue placeholder="Select persona" />
+          </SelectTrigger>
+
+          {/* Select Persona Content */}
+          <SelectContent align="end" className="rounded-xl">
+            {personaNames.map((personaName) => {
+              const configKey = personaName.toLowerCase().replace(/\s+/g, '-')
+              const config = chartConfig[configKey as keyof typeof chartConfig]
+
+              if (!config) {
+                return null
+              }
+
+              return (
+                <SelectItem
+                  key={personaName}
+                  value={personaName}
+                  className=" [&_span]:flex hover:bg-slate-800 cursor-pointer"
+                >
+                  <div className="flex items-center gap-2 text-xs">
+                    <span
+                      className="flex h-3 w-3 shrink-0 rounded-xs"
+                      style={{
+                        backgroundColor: config.color,
+                      }}
+                    />
+                    {config?.label}
+                  </div>
+                </SelectItem>
+              )
+            })}
+          </SelectContent>
+        </Select>
       </CardHeader>
 
       {/* Content */}
-      <CardContent className="flex-1 pb-0 border-none">
+      <CardContent className="flex flex-1 items-center justify-center min-h-0">
         <ChartContainer
+          id={id}
           config={chartConfig}
-          className="mx-auto aspect-square"
+          className="w-full h-full"
         >
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent hideLabel className="bg-slate-800 w-60" />}
             />
             <Pie
-              data={chartData}
-              dataKey="audience"
-              nameKey="persona"
-              innerRadius={225}
+              data={personaData}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={200}
               strokeWidth={5}
-              activeIndex={0}
+              activeIndex={activeIndex}
               activeShape={({
                 outerRadius = 0,
                 ...props
               }: PieSectorDataItem) => (
-                <Sector {...props} outerRadius={outerRadius + 40} />
+                <g>
+                  <Sector {...props} outerRadius={outerRadius + 60} />
+                  <Sector
+                    {...props}
+                    outerRadius={outerRadius + 25}
+                    innerRadius={outerRadius + 12}
+                  />
+                </g>
               )}
-            />
+            >
+              <Label
+                content={({ viewBox }) => {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                    return (
+                      <text
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                      >
+                        <tspan
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          className="fill-foreground text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold"
+                        >
+                          {personaData[activeIndex].value.toLocaleString()}
+                        </tspan>
+                        <tspan
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 20}
+                          className="fill-muted-foreground text-xs sm:text-sm lg:text-base"
+                        >
+                          {personaData[activeIndex].name}
+                        </tspan>
+                      </text>
+                    )
+                  }
+                }}
+              />
+            </Pie>
           </PieChart>
         </ChartContainer>
       </CardContent>
-
-      {/* Footer */}
-      {/* <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter> */}
-
     </Card>
   )
 }
