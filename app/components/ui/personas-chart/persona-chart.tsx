@@ -33,12 +33,12 @@ const chartConfig = {
     label: "Weekend Golfers",
     color: "#A4E0EA",
   },
-  "athletes": {
-    label: "Athletes",
+  "weekend-athletes": {
+    label: "Weekend Athletes",
     color: "#54AEC8",
   },
-  "other": {
-    label: "Other",
+  "the-generics": {
+    label: "The Generics",
     color: "#506EC1",
   },
 } satisfies ChartConfig
@@ -70,8 +70,8 @@ export function PersonaChart({ activePersona, setActivePersona }: PersonaChartPr
 
         {/* Title */}
         <div className="grid gap-1">
-          <CardTitle>Persona Chart</CardTitle>
-          <CardDescription>Select a persona to view their data</CardDescription>
+          <CardTitle className="">Persona Chart</CardTitle>
+          <CardDescription className="text-slate-500">Select a persona to view their data</CardDescription>
         </div>
 
         {/* Select Persona Trigger */}
@@ -145,7 +145,7 @@ export function PersonaChart({ activePersona, setActivePersona }: PersonaChartPr
                 ...props
               }: PieSectorDataItem) => (
                 <g>
-                  <Sector {...props} outerRadius={outerRadius + 30} />
+                  <Sector {...props} outerRadius={outerRadius + 30}  />
                   <Sector
                     {...props}
                     outerRadius={outerRadius + 25}
@@ -171,6 +171,15 @@ export function PersonaChart({ activePersona, setActivePersona }: PersonaChartPr
                           className="fill-blue-500 text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold border"
                         >
                           {personaData[activeIndex].percentage.toLocaleString()}%
+                        </tspan>
+
+                        {/* Percentage from audience */}
+                        <tspan
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          className="fill-gray-400 text-xs sm:text-sm lg:text-base"
+                        >
+                          {}
                         </tspan>
 
                         {/* Name */}

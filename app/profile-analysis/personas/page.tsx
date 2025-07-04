@@ -19,6 +19,9 @@ export default function PersonasPage() {
         return personas.find(persona => persona.name === activePersona) || personas[0];
     }, [activePersona, personas]);
 
+    // Get top brands
+    const topBrands = activePersonaData.topBrands;
+
     return (
         <div className="flex h-[calc(100vh-60px)]">
             
@@ -34,9 +37,9 @@ export default function PersonasPage() {
             <div className="w-[40%] border-l border-slate-700 h-full overflow-y-auto relative pb-8">
 
                 {/* Persona: Persona Image Banner */}
-                {/* <div className="flex justify-center items-center px-8 py-4 h-[300px] rounded-xl overflow-hidden">
-                    <img src={activePersonaData.imageUrl} alt={activePersonaData.name} className="w-full h-full object-cover rounded-xl" />
-                </div> */}
+                <div className="flex justify-center items-center px-8 py-4 h-[500px] rounded-xl overflow-hidden">
+                    <img src={activePersonaData.imageUrl} alt={activePersonaData.name} className="w-full h-full object-cover rounded-xl border shadow-lg" />
+                </div>
                 
                 {/* Section Title + Save Icon */}
                 <div className="flex justify-between items-center px-8 pt-8 pb-4">
@@ -79,10 +82,17 @@ export default function PersonasPage() {
                 </div>
 
                 { /* Persona: Top Brands */}
-                <div className="flex flex-col gap-2 px-8 py-4">
+                <div className="flex flex-col gap-4 px-8 py-4">
                     <div className="text-md font-bold">Top Brands:</div>
-                    <div className="text-sm text-slate-500">
-                        {activePersonaData.topBrands}
+                    <div className="text-sm text-slate-500 flex flex-wrap gap-2">
+                        {topBrands.map((brand: string) => (
+                            <div 
+                                key={brand} 
+                                className="text-sm text-slate-500 border border-slate-700 rounded-lg px-4 py-2"
+                            >
+                                    {brand}
+                            </div>
+                        ))}
                     </div>
                 </div>
 

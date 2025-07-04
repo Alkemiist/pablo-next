@@ -1,9 +1,17 @@
 
+// imports
+import { SentimentBar } from "@/app/components/ui/sentiment-bar/sentiment-bar"; 
 
 export default function SentimentPage() {
+
+    // work area
+
+    // return component 
     return (
-        <div>
-            <h1>Sentiment Page</h1>
+
+        <div className="ml-1 h-[calc(100vh-60px)]">
+            <SentimentBar />
         </div>
     )
+
 }
