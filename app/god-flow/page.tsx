@@ -3,9 +3,10 @@
 // imports 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
-import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade, Settings2, X, Check } from "lucide-react";
+import { TextIcon, ImageIcon, VideoIcon, SendIcon, CheckIcon, Plus, SettingsIcon, UploadIcon, Spade, Settings2, X, Check, Loader2 } from "lucide-react";
 import TextAreaAutosize from "react-textarea-autosize";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
+import axios from "axios";
 
 // object that contains the suggestions
 const suggestionObject = {
@@ -111,6 +112,9 @@ export default function GodFlow() {
     const [contentType, setContentType] = useState("text")
     const [ textInput, setTextInput ] = useState("")
     const [clickedSuggestions, setClickedSuggestions] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [generatedContent, setGeneratedContent] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
     
     // Function to add a suggestion to the prompt box
     const addSuggestionToTextInput = (clickedSuggestion: string) => {
@@ -126,11 +130,46 @@ export default function GodFlow() {
       setClickedSuggestions(prev => prev.filter(suggestion => suggestion !== clickedSuggestion));
     }
 
+    // Function to generate content using OpenAI
+    const generateContent = async () => {
+      if (!textInput.trim()) {
+        setError("Please enter a prompt");
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+      setGeneratedContent(null);
+
+      try {
+        const response = await axios.post('/api/generate', {
+          prompt: textInput,
+          contentType: contentType,
+          model: "gpt-image-1",
+        });
+
+        if (response.data.success) {
+          if (contentType === 'text') {
+            setGeneratedContent(response.data.data.choices[0].message.content);
+          } else if (contentType === 'image') {
+            setGeneratedContent(response.data.data.data[0].url);
+          }
+        } else {
+          setError(response.data.error || 'Failed to generate content');
+        }
+      } catch (err: any) {
+        console.error('Generation error:', err);
+        setError(err.response?.data?.error || 'Failed to generate content. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     // Placeholder variables for the prompt box
     let placeholderText = ``;
 
     if (contentType === "text") {
-      placeholderText = `Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal.` 
+      placeholderText = `Ex. Write a press release addressing a new product I am releasing in Christmas. Make it fun but formal. Make it 1000 words` 
     } else if (contentType === "image") {
       placeholderText = "Ex. Create an image of a cat in a Santa hat in the middle of a tornado trying to grab a slice of cake floating around."
     } else if (contentType === "video") {
@@ -141,12 +180,51 @@ export default function GodFlow() {
 
       <div className="flex gap-4 w-full">
 
-        {/* Output UI ------------------------------------------------------------ */}
-        <div className="flex justify-center items-center border border-slate-800 rounded-2xl p-4 flex-1 h-screen">
-          <p>Output Frame</p>
+        {/* Left Side: Output UI ------------------------------------------------------------ */}
+        <div className="flex justify-center items-center border border-slate-800 p-4 flex-1 h-screen mx-2">
+          <div className="w-full h-full flex flex-col">
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center h-full">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-4" />
+                <p className="text-slate-400">Generating your {contentType}...</p>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center h-full">
+                <p className="text-red-400 text-center mb-4">{error}</p>
+                <button 
+                  onClick={generateContent}
+                  className="bg-blue-700 border border-slate-700 rounded-md px-4 py-2 text-slate-200 hover:bg-blue-800 transition-all duration-300"
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : generatedContent ? (
+              <div className="w-full h-full overflow-auto">
+                {contentType === 'text' ? (
+                  <div className="prose prose-invert max-w-none">
+                    <pre className="whitespace-pre-wrap text-slate-300 font-mono text-sm leading-relaxed">
+                      {generatedContent}
+                    </pre>
+                  </div>
+                ) : contentType === 'image' ? (
+                  <div className="flex items-center justify-center h-full">
+                    <img 
+                      src={generatedContent} 
+                      alt="Generated content" 
+                      className="max-w-full max-h-full object-contain rounded-lg"
+                    />
+                  </div>
+                ) : (
+                  <p className="text-slate-400">Generated content will appear here</p>
+                )}
+              </div>
+            ) : (
+              <p className="text-slate-400">Generated content will appear here</p>
+            )}
+          </div>
         </div>
 
-        {/* Entire God Flow Component ------------------------------------------------------------ */}
+        {/* Right Side: God Flow Component ------------------------------------------------------------ */}
         <div className="flex flex-col gap-4 bg-slate-900 rounded-2xl p-4 border border-slate-800 w-[500px] my-auto mr-4">
 
           {/* content type title // icon selector ------------------------------------------------------------ */}
@@ -185,15 +263,16 @@ export default function GodFlow() {
               className="resize-none w-full bg-slate-900 border border-slate-800 rounded-2xl p-4 text-slate-400 focus:outline-none focus:ring focus:ring-indigo-600"
               placeholder={placeholderText}
               value={textInput}
-              minRows={20}
-              maxRows={20}
+              minRows={14}
+              maxRows={14}
               onChange={(e) => setTextInput(e.target.value)}
             />
             <button 
-              className="absolute right-4 bottom-4 bg-blue-700 border border-slate-700 rounded-md px-2 py-2 hover:bg-blue-800 transition-all duration-300 cursor-pointer"
-              onClick={() => console.log(textInput, clickedSuggestions)}
+              className="absolute right-4 bottom-4 bg-blue-700 border border-slate-700 rounded-md px-2 py-2 hover:bg-blue-800 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={generateContent}
+              disabled={isLoading || !textInput.trim()}
             >
-              <SendIcon className="w-4 h-4" /> 
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <SendIcon className="w-4 h-4" />}
             </button>
           </div>
 
@@ -226,11 +305,11 @@ export default function GodFlow() {
           {/* Button stack bar ------------------------------------------------------------ */}
           <div className="flex items-center gap-2">
             {/* Settings button */}
-            <button 
+            {/* <button 
               className="bg-slate-900 border w-12 border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer"
             >
               <Settings2 className="w-4 h-4" />
-            </button>
+            </button> */}
             {/* Upload Files button */}
             <button 
               className="flex-1 flex items-center justify-center gap-2 text-sm bg-slate-900 border border-slate-800 rounded-md px-4 py-2 text-slate-400 hover:bg-slate-700 transition-all duration-300 cursor-pointer">
