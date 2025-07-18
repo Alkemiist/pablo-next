@@ -145,7 +145,7 @@ export default function GodFlow() {
         const response = await axios.post('/api/generate', {
           prompt: textInput,
           contentType: contentType,
-          model: "gpt-image-1",
+          model: "gpt-image-3.5-turbo",
         });
 
         if (response.data.success) {
