@@ -19,13 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <InspoProvider>
-          <Toaster />
-          <Navbar />
-          <main className="ml-16 bg-slate-950 h-screen"> 
-            {children}
-          </main>
-        </InspoProvider>
+        <ContextProvider>
+          <InspoProvider>
+            <Toaster />
+            <Navbar />
+            <main className="ml-16 bg-slate-950 h-screen"> 
+              {children}
+            </main>
+          </InspoProvider>
+        </ContextProvider>
       </body>
     </html>
   );
