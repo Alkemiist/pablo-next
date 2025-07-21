@@ -4,6 +4,7 @@ import Navbar from './components/global/navbar/navbar';
 import { ReactNode } from 'react';
 import { ContextProvider } from './context/appContext';
 import { Toaster } from 'react-hot-toast';
+import { InspoProvider } from './context/inspoContext';
 
 export const metadata = {
   title: 'My App',
@@ -18,13 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ContextProvider>
+        <InspoProvider>
           <Toaster />
           <Navbar />
           <main className="ml-16 bg-slate-950 h-screen"> 
             {children}
           </main>
-        </ContextProvider>
+        </InspoProvider>
       </body>
     </html>
   );

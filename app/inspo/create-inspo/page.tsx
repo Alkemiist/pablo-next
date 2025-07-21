@@ -1,19 +1,14 @@
 'use client'
 
 // imports
-import { useState } from "react"
+import { useInspoContext } from "@/app/context/inspoContext";
 
 
 // The full component
 export default function CreateInspoPage() {
 
-    // state of inputs
-    const [brand, setBrand] = useState<string>('');
-    const [product, setProduct] = useState<string>('');
-    const [persona, setPersona] = useState<string>('');
-    const [goal, setGoal] = useState<string>('');
-    const [visualGuide, setVisualGuide] = useState<string>('');
-
+    // react context state 
+    const { brand, setBrand, product, setProduct, persona, setPersona, goal, setGoal, visualGuide, setVisualGuide } = useInspoContext();
     
     return (
 
