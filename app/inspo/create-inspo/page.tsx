@@ -2,15 +2,52 @@
 
 // imports
 import { useInspoContext } from "@/app/context/inspoContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Modal } from "@/components/ui/modal";
 import { ImageUpload } from "@/components/ui/image-upload";
-import { generateTactics, validateContext } from "@/lib/api/tactics";
+import { validateContext } from "@/lib/api/tactics";
 import { Tactic } from "@/lib/types/tactics";
+
+// Typewriter component for intelligence-style text reveal
+interface TypewriterTextProps {
+    text: string;
+    speed?: number;
+    className?: string;
+}
+
+const TypewriterText: React.FC<TypewriterTextProps> = ({ text, speed = 50, className = "" }) => {
+    const [displayedText, setDisplayedText] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if (currentIndex < text.length) {
+            const timer = setTimeout(() => {
+                setDisplayedText(prev => prev + text[currentIndex]);
+                setCurrentIndex(prev => prev + 1);
+            }, speed);
+            return () => clearTimeout(timer);
+        }
+    }, [currentIndex, text, speed]);
+
+    useEffect(() => {
+        // Reset when text changes
+        setDisplayedText("");
+        setCurrentIndex(0);
+    }, [text]);
+
+    return (
+        <span className={className}>
+            {displayedText}
+            {currentIndex < text.length && (
+                <span className="animate-pulse">|</span>
+            )}
+        </span>
+    );
+};
 
 // The full component
 export default function CreateInspoPage() {
@@ -41,6 +78,51 @@ export default function CreateInspoPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [generationError, setGenerationError] = useState<string | null>(null);
 
+    // Individual card loading states
+    const [cardLoadingStates, setCardLoadingStates] = useState<{
+        [key: number]: {
+            isLoading: boolean;
+            stage: string;
+            progress: number;
+        }
+    }>({
+        0: { isLoading: false, stage: '', progress: 0 },
+        1: { isLoading: false, stage: '', progress: 0 },
+        2: { isLoading: false, stage: '', progress: 0 },
+        3: { isLoading: false, stage: '', progress: 0 },
+    });
+
+    // Helper function to update individual card loading state
+    const updateCardLoadingState = (cardIndex: number, stage: string, progress: number) => {
+        setCardLoadingStates(prev => ({
+            ...prev,
+            [cardIndex]: {
+                isLoading: true,
+                stage,
+                progress
+            }
+        }));
+    };
+
+    // Helper function to complete card loading
+    const completeCardLoading = (cardIndex: number, tactic: Tactic) => {
+        setCardLoadingStates(prev => ({
+            ...prev,
+            [cardIndex]: {
+                isLoading: false,
+                stage: 'completed',
+                progress: 100
+            }
+        }));
+        
+        // Update tactics array
+        setTactics(prev => {
+            const newTactics = [...prev];
+            newTactics[cardIndex] = tactic;
+            return newTactics;
+        });
+    };
+
     // Helper function to handle form submission
     const handleSubmit = (type: string, value: string, setter: (value: string) => void, setIsOpen: (value: boolean) => void) => {
         setter(value);
@@ -64,8 +146,8 @@ export default function CreateInspoPage() {
     // Helper function to check if a section is completed
     const isCompleted = (value: string) => value.trim().length > 0;
 
-    // Function to generate tactics
-    const handleGenerateTactics = async () => {
+    // Function to generate tactics progressively
+    const handleGenerateTacticsProgressively = async () => {
         if (!validateContext({ brand, product, persona, goal, visualGuide })) {
             setGenerationError('Please complete all sections before generating tactics');
             return;
@@ -73,21 +155,86 @@ export default function CreateInspoPage() {
 
         setIsGenerating(true);
         setGenerationError(null);
+        setTactics([]); // Clear previous results
 
         try {
-            const result = await generateTactics({
-                brand,
-                product,
-                persona,
-                goal,
-                visualGuide
-            });
+            // Start all 4 cards in loading state
+            for (let i = 0; i < 4; i++) {
+                updateCardLoadingState(i, 'INITIALIZING INTELLIGENCE PROTOCOLS...', 5);
+            }
 
-            setTactics(result.tactics);
-            console.log('Generated tactics:', result.tactics);
+            // Generate each tactic individually
+            const generateSingleTactic = async (cardIndex: number) => {
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    updateCardLoadingState(cardIndex, 'ANALYZING TARGET DEMOGRAPHICS...', 15);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 1200));
+                    updateCardLoadingState(cardIndex, 'CROSS-REFERENCING BRAND DATA...', 25);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    updateCardLoadingState(cardIndex, 'GENERATING TACTICAL CONCEPT...', 40);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    updateCardLoadingState(cardIndex, 'REQUESTING VISUAL ASSET...', 55);
+                    
+                    // Generate the tactic with image
+                    const tacticsResponse = await fetch('/api/generate-tactics', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            brand,
+                            product,
+                            persona,
+                            goal,
+                            visualGuide,
+                            cardIndex, 
+                            generateSingle: true 
+                        })
+                    });
+
+                    if (!tacticsResponse.ok) {
+                        throw new Error('Failed to generate tactic');
+                    }
+
+                    updateCardLoadingState(cardIndex, 'RENDERING HIGH-RES IMAGE...', 75);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    const tacticsData = await tacticsResponse.json();
+                    const finalTactic = tacticsData.tactics[0]; // Get the single tactic with image
+
+                    updateCardLoadingState(cardIndex, 'COMPILING FINAL INTELLIGENCE...', 90);
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    updateCardLoadingState(cardIndex, 'TACTICAL BRIEF COMPLETE', 100);
+                    
+                    // Small delay for smooth transition
+                    setTimeout(() => {
+                        completeCardLoading(cardIndex, finalTactic);
+                    }, 1000);
+
+                } catch (error) {
+                    console.error(`Error generating tactic ${cardIndex}:`, error);
+                    setCardLoadingStates(prev => ({
+                        ...prev,
+                        [cardIndex]: {
+                            isLoading: false,
+                            stage: 'INTELLIGENCE PROTOCOL FAILED',
+                            progress: 0
+                        }
+                    }));
+                }
+            };
+
+            // Start all 4 generations in parallel
+            const generationPromises = Array.from({ length: 4 }, (_, i) => generateSingleTactic(i));
+            
+            // Wait for all to complete
+            await Promise.all(generationPromises);
+
         } catch (error) {
-            console.error('Error generating tactics:', error);
-            setGenerationError(error instanceof Error ? error.message : 'Failed to generate tactics');
+            console.error('Error in progressive generation:', error);
+            setGenerationError('Failed to generate tactics');
         } finally {
             setIsGenerating(false);
         }
@@ -197,17 +344,31 @@ export default function CreateInspoPage() {
 
                 
                 {/* Right Side: Is the "imagine" button that triggers the generative to start with all of the added context -------------------------------- */}
-                <button 
-                    className={`px-8 h-12 rounded-lg border text-sm font-semibold transition-colors ${
-                        isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)
-                            ? 'bg-blue-600 border-blue-500 hover:bg-blue-700 cursor-pointer text-white'
-                            : 'bg-slate-800 border-slate-700 text-slate-400 cursor-not-allowed'
-                    }`}
-                    disabled={!(isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)) || isGenerating}
-                    onClick={handleGenerateTactics}
-                >
-                    {isGenerating ? 'Generating...' : 'Generate Inspo'}
-                </button>
+                                 <button 
+                     className={`px-8 h-12 rounded-lg border text-sm font-semibold transition-all duration-200 flex items-center gap-3 ${
+                         isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)
+                             ? isGenerating 
+                                 ? 'bg-amber-600 border-amber-500 text-white cursor-wait'
+                                 : 'bg-blue-600 border-blue-500 hover:bg-blue-700 cursor-pointer text-white'
+                             : 'bg-slate-800 border-slate-700 text-slate-400 cursor-not-allowed'
+                     }`}
+                     disabled={!(isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)) || isGenerating}
+                     onClick={handleGenerateTacticsProgressively}
+                 >
+                     {isGenerating ? (
+                         <>
+                             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                             <span className="font-mono tracking-wider">INTEL GATHERING...</span>
+                         </>
+                     ) : (
+                         <>
+                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                             </svg>
+                             <span className="font-mono tracking-wider">Imagine</span>
+                         </>
+                     )}
+                 </button>
 
             </div>
 
@@ -222,88 +383,476 @@ export default function CreateInspoPage() {
             <div className='mx-8 h-[calc(100vh-80px)] grid grid-cols-2 grid-rows-2 gap-4 p-8'>
                 
                 {/* Generated Card 1 */}
-                <div className="rounded-lg p-4 border border-slate-700 shadow-lg bg-slate-900">
-                    {tactics[0] ? (
-                        <div className="space-y-3">
-                            <div className="w-full h-32 bg-slate-800 rounded-lg flex items-center justify-center">
-                                <span className="text-slate-500 text-sm">Image: {tactics[0].image}</span>
-                            </div>
-                            <h3 className="text-white font-semibold text-lg">{tactics[0].title}</h3>
-                            <p className="text-blue-400 text-sm font-medium">{tactics[0].oneLinerSummary}</p>
-                            <p className="text-slate-300 text-sm">{tactics[0].fullDescription}</p>
-                            <div className="pt-2 border-t border-slate-700">
-                                <p className="text-slate-400 text-xs font-medium">Why it works:</p>
-                                <p className="text-slate-300 text-xs">{tactics[0].whyItWorks}</p>
+                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                    {cardLoadingStates[0].isLoading ? (
+                        /* Individual Loading State with Dark Background */
+                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                            {/* Animated Shimmer Background - Dark Theme */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]"></div>
+                            
+                            {/* Loading Content */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section Loading */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label Skeleton */}
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-1 animate-pulse">
+                                        <div className="h-4 w-12 bg-white/20 rounded mb-1"></div>
+                                        <div className="h-3 w-16 bg-white/20 rounded"></div>
+                                    </div>
+                                    
+                                    {/* Action Icons Skeleton */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                    </div>
+                                </div>
+                                
+                                {/* Center Loading Spinner with Progress */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-4 text-center">
+                                        <div className="relative">
+                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                                <TypewriterText 
+                                                    text={cardLoadingStates[0].stage}
+                                                    speed={30}
+                                                />
+                                            </div>
+                                            <div className="w-48 bg-slate-800 rounded-full h-2">
+                                                <div 
+                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
+                                                    style={{ width: `${cardLoadingStates[0].progress}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section Loading */}
+                                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
+                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
+                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
+                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
+                                </div>
                             </div>
                         </div>
+                    ) : tactics[0] ? (
+                        <>
+                            {/* Background Image */}
+                            <div className="absolute inset-0">
+                                <img 
+                                    src={tactics[0].image} 
+                                    alt={tactics[0].title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/20"></div>
+                            </div>
+                            
+                            {/* Content Overlay */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label */}
+                                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
+                                        <p className="text-white text-sm font-medium">Tactic:</p>
+                                        <p className="text-slate-300 text-xs">{tactics[0].platform}</p>
+                                    </div>
+                                    
+                                    {/* Action Icons */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section */}
+                                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4">
+                                    <h3 className="text-white font-bold text-lg mb-2">{tactics[0].title}</h3>
+                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[0].oneLinerSummary}</p>
+                                </div>
+                            </div>
+                        </>
                     ) : (
-                        <div className="flex items-center justify-center h-full">
+                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
                             <p className="text-slate-500 text-sm">Tactic 1 will appear here</p>
                         </div>
                     )}
                 </div>
 
                 {/* Generated Card 2 */}
-                <div className="rounded-lg p-4 border border-slate-700 shadow-lg bg-slate-900">
-                    {tactics[1] ? (
-                        <div className="space-y-3">
-                            <div className="w-full h-32 bg-slate-800 rounded-lg flex items-center justify-center">
-                                <span className="text-slate-500 text-sm">Image: {tactics[1].image}</span>
-                            </div>
-                            <h3 className="text-white font-semibold text-lg">{tactics[1].title}</h3>
-                            <p className="text-blue-400 text-sm font-medium">{tactics[1].oneLinerSummary}</p>
-                            <p className="text-slate-300 text-sm">{tactics[1].fullDescription}</p>
-                            <div className="pt-2 border-t border-slate-700">
-                                <p className="text-slate-400 text-xs font-medium">Why it works:</p>
-                                <p className="text-slate-300 text-xs">{tactics[1].whyItWorks}</p>
+                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                    {cardLoadingStates[1].isLoading ? (
+                        /* Individual Loading State with Dark Background */
+                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                            {/* Animated Shimmer Background - Dark Theme */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '0.5s'}}></div>
+                            
+                            {/* Loading Content */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section Loading */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label Skeleton */}
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-1 animate-pulse">
+                                        <div className="h-4 w-12 bg-white/20 rounded mb-1"></div>
+                                        <div className="h-3 w-16 bg-white/20 rounded"></div>
+                                    </div>
+                                    
+                                    {/* Action Icons Skeleton */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                    </div>
+                                </div>
+                                
+                                {/* Center Loading Spinner with Progress */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-4 text-center">
+                                        <div className="relative">
+                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                                <TypewriterText 
+                                                    text={cardLoadingStates[1].stage}
+                                                    speed={30}
+                                                />
+                                            </div>
+                                            <div className="w-48 bg-slate-800 rounded-full h-2">
+                                                <div 
+                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
+                                                    style={{ width: `${cardLoadingStates[1].progress}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section Loading */}
+                                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
+                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
+                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
+                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
+                                </div>
                             </div>
                         </div>
+                    ) : tactics[1] ? (
+                        <>
+                            {/* Background Image */}
+                            <div className="absolute inset-0">
+                                <img 
+                                    src={tactics[1].image} 
+                                    alt={tactics[1].title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/20"></div>
+                            </div>
+                            
+                            {/* Content Overlay */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label */}
+                                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
+                                        <p className="text-white text-sm font-medium">Tactic:</p>
+                                        <p className="text-slate-300 text-xs">{tactics[1].platform}</p>
+                                    </div>
+                                    
+                                    {/* Action Icons */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section */}
+                                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4">
+                                    <h3 className="text-white font-bold text-lg mb-2">{tactics[1].title}</h3>
+                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[1].oneLinerSummary}</p>
+                                </div>
+                            </div>
+                        </>
                     ) : (
-                        <div className="flex items-center justify-center h-full">
+                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
                             <p className="text-slate-500 text-sm">Tactic 2 will appear here</p>
                         </div>
                     )}
                 </div>
 
                 {/* Generated Card 3 */}
-                <div className="rounded-lg p-4 border border-slate-700 shadow-lg bg-slate-900">
-                    {tactics[2] ? (
-                        <div className="space-y-3">
-                            <div className="w-full h-32 bg-slate-800 rounded-lg flex items-center justify-center">
-                                <span className="text-slate-500 text-sm">Image: {tactics[2].image}</span>
-                            </div>
-                            <h3 className="text-white font-semibold text-lg">{tactics[2].title}</h3>
-                            <p className="text-blue-400 text-sm font-medium">{tactics[2].oneLinerSummary}</p>
-                            <p className="text-slate-300 text-sm">{tactics[2].fullDescription}</p>
-                            <div className="pt-2 border-t border-slate-700">
-                                <p className="text-slate-400 text-xs font-medium">Why it works:</p>
-                                <p className="text-slate-300 text-xs">{tactics[2].whyItWorks}</p>
+                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                    {cardLoadingStates[2].isLoading ? (
+                        /* Individual Loading State with Dark Background */
+                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                            {/* Animated Shimmer Background - Dark Theme */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1s'}}></div>
+                            
+                            {/* Loading Content */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section Loading */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label Skeleton */}
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-1 animate-pulse">
+                                        <div className="h-4 w-12 bg-white/20 rounded mb-1"></div>
+                                        <div className="h-3 w-16 bg-white/20 rounded"></div>
+                                    </div>
+                                    
+                                    {/* Action Icons Skeleton */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                    </div>
+                                </div>
+                                
+                                {/* Center Loading Spinner with Progress */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-4 text-center">
+                                        <div className="relative">
+                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                                <TypewriterText 
+                                                    text={cardLoadingStates[2].stage}
+                                                    speed={30}
+                                                />
+                                            </div>
+                                            <div className="w-48 bg-slate-800 rounded-full h-2">
+                                                <div 
+                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
+                                                    style={{ width: `${cardLoadingStates[2].progress}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section Loading */}
+                                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
+                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
+                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
+                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
+                                </div>
                             </div>
                         </div>
+                    ) : tactics[2] ? (
+                        <>
+                            {/* Background Image */}
+                            <div className="absolute inset-0">
+                                <img 
+                                    src={tactics[2].image} 
+                                    alt={tactics[2].title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/20"></div>
+                            </div>
+                            
+                            {/* Content Overlay */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label */}
+                                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
+                                        <p className="text-white text-sm font-medium">Tactic:</p>
+                                        <p className="text-slate-300 text-xs">{tactics[2].platform}</p>
+                                    </div>
+                                    
+                                    {/* Action Icons */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section */}
+                                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4">
+                                    <h3 className="text-white font-bold text-lg mb-2">{tactics[2].title}</h3>
+                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[2].oneLinerSummary}</p>
+                                </div>
+                            </div>
+                        </>
                     ) : (
-                        <div className="flex items-center justify-center h-full">
+                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
                             <p className="text-slate-500 text-sm">Tactic 3 will appear here</p>
                         </div>
                     )}
                 </div>
 
                 {/* Generated Card 4 */}
-                <div className="rounded-lg p-4 border border-slate-700 shadow-lg bg-slate-900">
-                    {tactics[3] ? (
-                        <div className="space-y-3">
-                            <div className="w-full h-32 bg-slate-800 rounded-lg flex items-center justify-center">
-                                <span className="text-slate-500 text-sm">Image: {tactics[3].image}</span>
-                            </div>
-                            <h3 className="text-white font-semibold text-lg">{tactics[3].title}</h3>
-                            <p className="text-blue-400 text-sm font-medium">{tactics[3].oneLinerSummary}</p>
-                            <p className="text-slate-300 text-sm">{tactics[3].fullDescription}</p>
-                            <div className="pt-2 border-t border-slate-700">
-                                <p className="text-slate-400 text-xs font-medium">Why it works:</p>
-                                <p className="text-slate-300 text-xs">{tactics[3].whyItWorks}</p>
+                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                    {cardLoadingStates[3].isLoading ? (
+                        /* Individual Loading State with Dark Background */
+                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                            {/* Animated Shimmer Background - Dark Theme */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1.5s'}}></div>
+                            
+                            {/* Loading Content */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section Loading */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label Skeleton */}
+                                    <div className="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-1 animate-pulse">
+                                        <div className="h-4 w-12 bg-white/20 rounded mb-1"></div>
+                                        <div className="h-3 w-16 bg-white/20 rounded"></div>
+                                    </div>
+                                    
+                                    {/* Action Icons Skeleton */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                        <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg animate-pulse"></div>
+                                    </div>
+                                </div>
+                                
+                                {/* Center Loading Spinner with Progress */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-4 text-center">
+                                        <div className="relative">
+                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                                <TypewriterText 
+                                                    text={cardLoadingStates[3].stage}
+                                                    speed={30}
+                                                />
+                                            </div>
+                                            <div className="w-48 bg-slate-800 rounded-full h-2">
+                                                <div 
+                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
+                                                    style={{ width: `${cardLoadingStates[3].progress}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section Loading */}
+                                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
+                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
+                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
+                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
+                                </div>
                             </div>
                         </div>
+                    ) : tactics[3] ? (
+                        <>
+                            {/* Background Image */}
+                            <div className="absolute inset-0">
+                                <img 
+                                    src={tactics[3].image} 
+                                    alt={tactics[3].title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/20"></div>
+                            </div>
+                            
+                            {/* Content Overlay */}
+                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                                {/* Top Section */}
+                                <div className="flex justify-between items-start">
+                                    {/* Platform Label */}
+                                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
+                                        <p className="text-white text-sm font-medium">Tactic:</p>
+                                        <p className="text-slate-300 text-xs">{tactics[3].platform}</p>
+                                    </div>
+                                    
+                                    {/* Action Icons */}
+                                    <div className="flex gap-2">
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-lg flex items-center justify-center cursor-pointer hover:bg-black/70 transition-colors">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Bottom Section */}
+                                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4">
+                                    <h3 className="text-white font-bold text-lg mb-2">{tactics[3].title}</h3>
+                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[3].oneLinerSummary}</p>
+                                </div>
+                            </div>
+                        </>
                     ) : (
-                        <div className="flex items-center justify-center h-full">
+                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
                             <p className="text-slate-500 text-sm">Tactic 4 will appear here</p>
                         </div>
                     )}

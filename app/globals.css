@@ -30,6 +30,15 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 @keyframes slide-out-to-right {
   from {
     transform: translateX(0);
