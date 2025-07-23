@@ -12,6 +12,83 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { validateContext } from "@/lib/api/tactics";
 import { Tactic } from "@/lib/types/tactics";
 
+// Helper functions for image handling
+const getImageFormat = (base64String: string): string => {
+    if (base64String.startsWith('/9j/')) return 'jpeg';
+    if (base64String.startsWith('iVBORw0KGgo')) return 'png';
+    if (base64String.startsWith('R0lGODlh')) return 'gif';
+    if (base64String.startsWith('UklGR')) return 'webp';
+    return 'png'; // default
+};
+
+const createBlobUrl = (base64String: string, mimeType: string = 'image/png'): string => {
+    try {
+        const byteCharacters = atob(base64String);
+        const byteNumbers = new Array(byteCharacters.length);
+        
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: mimeType });
+        return URL.createObjectURL(blob);
+    } catch (error) {
+        console.error('Error creating blob URL:', error);
+        return '';
+    }
+};
+
+const getImageSrc = (imageData: string | null): string | null => {
+    if (!imageData) return null;
+    
+    // If it's already a complete URL or data URL, return as-is
+    if (imageData.startsWith('http') || imageData.startsWith('data:')) {
+        return imageData;
+    }
+    
+    // If it's a base64 string, create data URL
+    if (imageData.length > 100) { // Rough check for base64 string
+        const format = getImageFormat(imageData);
+        return `data:image/${format};base64,${imageData}`;
+    }
+    
+    return null;
+};
+
+const validateAndSanitizeImageData = (imageData: string | null): boolean => {
+    if (!imageData) return false;
+    
+    try {
+        // Check if it's a valid URL
+        if (imageData.startsWith('http')) {
+            new URL(imageData);
+            return true;
+        }
+        
+        // Check if it's a valid data URL
+        if (imageData.startsWith('data:image/')) {
+            const base64Part = imageData.split(',')[1];
+            if (base64Part && base64Part.length > 0) {
+                // Try to decode base64 to validate it
+                atob(base64Part);
+                return true;
+            }
+        }
+        
+        // Check if it's a raw base64 string
+        if (imageData.length > 100) {
+            atob(imageData);
+            return true;
+        }
+        
+        return false;
+    } catch (error) {
+        console.warn('Invalid image data:', error);
+        return false;
+    }
+};
+
 // Typewriter component for intelligence-style text reveal
 interface TypewriterTextProps {
     text: string;
@@ -72,6 +149,10 @@ export default function CreateInspoPage() {
     const [isPersonaOpen, setIsPersonaOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [isVisualGuideOpen, setIsVisualGuideOpen] = useState(false);
+    
+    // Tactic detail modal state
+    const [selectedTactic, setSelectedTactic] = useState<Tactic | null>(null);
+    const [isTacticModalOpen, setIsTacticModalOpen] = useState(false);
 
     // Generated tactics state
     const [tactics, setTactics] = useState<Tactic[]>([]);
@@ -123,6 +204,19 @@ export default function CreateInspoPage() {
         });
     };
 
+    // Cleanup function for blob URLs (memory management)
+    useEffect(() => {
+        return () => {
+            // Clean up any blob URLs when component unmounts
+            tactics.forEach((tactic, index) => {
+                if (tactic?.image && tactic.image.startsWith('blob:')) {
+                    URL.revokeObjectURL(tactic.image);
+                    console.log(`Cleaned up blob URL for tactic ${index + 1}`);
+                }
+            });
+        };
+    }, [tactics]);
+
     // Helper function to handle form submission
     const handleSubmit = (type: string, value: string, setter: (value: string) => void, setIsOpen: (value: boolean) => void) => {
         setter(value);
@@ -146,6 +240,12 @@ export default function CreateInspoPage() {
     // Helper function to check if a section is completed
     const isCompleted = (value: string) => value.trim().length > 0;
 
+    // Helper function to open tactic detail modal
+    const handleTacticClick = (tactic: Tactic) => {
+        setSelectedTactic(tactic);
+        setIsTacticModalOpen(true);
+    };
+
     // Function to generate tactics progressively
     const handleGenerateTacticsProgressively = async () => {
         if (!validateContext({ brand, product, persona, goal, visualGuide })) {
@@ -167,16 +267,16 @@ export default function CreateInspoPage() {
             const generateSingleTactic = async (cardIndex: number) => {
                 try {
                     await new Promise(resolve => setTimeout(resolve, 800));
-                    updateCardLoadingState(cardIndex, 'ANALYZING TARGET DEMOGRAPHICS...', 15);
+                    updateCardLoadingState(cardIndex, 'Analyzing target demographics...', 15);
                     
                     await new Promise(resolve => setTimeout(resolve, 1200));
-                    updateCardLoadingState(cardIndex, 'CROSS-REFERENCING BRAND DATA...', 25);
+                    updateCardLoadingState(cardIndex, 'Cross-referencing brand data...', 25);
                     
                     await new Promise(resolve => setTimeout(resolve, 1000));
-                    updateCardLoadingState(cardIndex, 'GENERATING TACTICAL CONCEPT...', 40);
+                    updateCardLoadingState(cardIndex, 'Generating tactical concept...', 40);
                     
                     await new Promise(resolve => setTimeout(resolve, 800));
-                    updateCardLoadingState(cardIndex, 'REQUESTING VISUAL ASSET...', 55);
+                    updateCardLoadingState(cardIndex, 'Requesting visual asset...', 55);
                     
                     // Generate the tactic with image
                     const tacticsResponse = await fetch('/api/generate-tactics', {
@@ -197,16 +297,16 @@ export default function CreateInspoPage() {
                         throw new Error('Failed to generate tactic');
                     }
 
-                    updateCardLoadingState(cardIndex, 'RENDERING HIGH-RES IMAGE...', 75);
+                    updateCardLoadingState(cardIndex, 'Rendering high-res image...', 75);
                     await new Promise(resolve => setTimeout(resolve, 1000));
 
                     const tacticsData = await tacticsResponse.json();
                     const finalTactic = tacticsData.tactics[0]; // Get the single tactic with image
 
-                    updateCardLoadingState(cardIndex, 'COMPILING FINAL INTELLIGENCE...', 90);
+                    updateCardLoadingState(cardIndex, 'Compiling final intelligence...', 90);
                     await new Promise(resolve => setTimeout(resolve, 800));
 
-                    updateCardLoadingState(cardIndex, 'TACTICAL BRIEF COMPLETE', 100);
+                    updateCardLoadingState(cardIndex, 'Tactical brief complete', 100);
                     
                     // Small delay for smooth transition
                     setTimeout(() => {
@@ -219,7 +319,7 @@ export default function CreateInspoPage() {
                         ...prev,
                         [cardIndex]: {
                             isLoading: false,
-                            stage: 'INTELLIGENCE PROTOCOL FAILED',
+                            stage: 'Intelligence protocol failed',
                             progress: 0
                         }
                     }));
@@ -348,7 +448,7 @@ export default function CreateInspoPage() {
                      className={`px-8 h-12 rounded-lg border text-sm font-semibold transition-all duration-200 flex items-center gap-3 ${
                          isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)
                              ? isGenerating 
-                                 ? 'bg-amber-600 border-amber-500 text-white cursor-wait'
+                                 ? 'bg-blue-600 border-blue-500 text-white cursor-wait'
                                  : 'bg-blue-600 border-blue-500 hover:bg-blue-700 cursor-pointer text-white'
                              : 'bg-slate-800 border-slate-700 text-slate-400 cursor-not-allowed'
                      }`}
@@ -383,7 +483,10 @@ export default function CreateInspoPage() {
             <div className='mx-8 h-[calc(100vh-80px)] grid grid-cols-2 grid-rows-2 gap-4 p-8'>
                 
                 {/* Generated Card 1 */}
-                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                <div 
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                    onClick={() => tactics[0] && handleTacticClick(tactics[0])}
+                >
                     {cardLoadingStates[0].isLoading ? (
                         /* Individual Loading State with Dark Background */
                         <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
@@ -449,9 +552,20 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={tactics[0].image} 
+                                    src={validateAndSanitizeImageData(tactics[0].image) 
+                                        ? getImageSrc(tactics[0].image)! 
+                                        : `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+1`} 
                                     alt={tactics[0].title}
                                     className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        // Fallback to placeholder if image fails to load
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = 'https://via.placeholder.com/1792x1024/64748b/ffffff?text=Image+Error';
+                                        console.warn('Image failed to load for Tactic 1');
+                                    }}
+                                    onLoad={() => {
+                                        console.log('Tactic 1 image loaded successfully');
+                                    }}
                                 />
                                 <div className="absolute inset-0 bg-black/20"></div>
                             </div>
@@ -502,7 +616,10 @@ export default function CreateInspoPage() {
                 </div>
 
                 {/* Generated Card 2 */}
-                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                <div 
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                    onClick={() => tactics[1] && handleTacticClick(tactics[1])}
+                >
                     {cardLoadingStates[1].isLoading ? (
                         /* Individual Loading State with Dark Background */
                         <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
@@ -568,9 +685,17 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={tactics[1].image} 
+                                    src={getImageSrc(tactics[1].image) || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+2`} 
                                     alt={tactics[1].title}
                                     className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        // Fallback to placeholder if image fails to load
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = 'https://via.placeholder.com/1792x1024/64748b/ffffff?text=Image+Error';
+                                    }}
+                                    onLoad={() => {
+                                        console.log('Tactic 2 image loaded successfully');
+                                    }}
                                 />
                                 <div className="absolute inset-0 bg-black/20"></div>
                             </div>
@@ -621,7 +746,10 @@ export default function CreateInspoPage() {
                 </div>
 
                 {/* Generated Card 3 */}
-                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                <div 
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                    onClick={() => tactics[2] && handleTacticClick(tactics[2])}
+                >
                     {cardLoadingStates[2].isLoading ? (
                         /* Individual Loading State with Dark Background */
                         <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
@@ -687,9 +815,17 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={tactics[2].image} 
+                                    src={getImageSrc(tactics[2].image) || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+3`} 
                                     alt={tactics[2].title}
                                     className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        // Fallback to placeholder if image fails to load
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = 'https://via.placeholder.com/1792x1024/64748b/ffffff?text=Image+Error';
+                                    }}
+                                    onLoad={() => {
+                                        console.log('Tactic 3 image loaded successfully');
+                                    }}
                                 />
                                 <div className="absolute inset-0 bg-black/20"></div>
                             </div>
@@ -740,7 +876,10 @@ export default function CreateInspoPage() {
                 </div>
 
                 {/* Generated Card 4 */}
-                <div className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200">
+                <div 
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+                    onClick={() => tactics[3] && handleTacticClick(tactics[3])}
+                >
                     {cardLoadingStates[3].isLoading ? (
                         /* Individual Loading State with Dark Background */
                         <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
@@ -806,9 +945,17 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={tactics[3].image} 
+                                    src={getImageSrc(tactics[3].image) || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+4`} 
                                     alt={tactics[3].title}
                                     className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        // Fallback to placeholder if image fails to load
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = 'https://via.placeholder.com/1792x1024/64748b/ffffff?text=Image+Error';
+                                    }}
+                                    onLoad={() => {
+                                        console.log('Tactic 4 image loaded successfully');
+                                    }}
                                 />
                                 <div className="absolute inset-0 bg-black/20"></div>
                             </div>
@@ -1070,6 +1217,108 @@ export default function CreateInspoPage() {
                         </Button>
                     </div>
                 </div>
+            </Modal>
+
+            {/* Tactic Detail Modal */}
+            <Modal 
+                isOpen={isTacticModalOpen} 
+                onClose={() => setIsTacticModalOpen(false)}
+                title={selectedTactic?.title || "Tactic Details"}
+                description="Complete marketing tactic breakdown and next steps"
+                maxWidth="max-w-[80vw]"
+            >
+                {selectedTactic && (
+                    <div className="flex gap-10 max-h-[70vh] overflow-hidden">
+                        {/* Left Side - Image */}
+                        <div className="w-2/5 flex-shrink-0">
+                            <div className="relative h-full min-h-[400px] rounded-lg overflow-hidden bg-slate-800">
+                                <img 
+                                    src={validateAndSanitizeImageData(selectedTactic.image) 
+                                        ? getImageSrc(selectedTactic.image)! 
+                                        : `https://via.placeholder.com/600x400/64748b/ffffff?text=Tactic+Image`} 
+                                    alt={selectedTactic.title}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.src = 'https://via.placeholder.com/600x400/64748b/ffffff?text=Image+Error';
+                                    }}
+                                />
+                                <div className="absolute top-4 right-4 ">
+                                    <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
+                                        <p className="text-white text-sm font-medium">Platform:</p>
+                                        <p className="text-slate-300 text-xs">{selectedTactic.platform}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Side - Information */}
+                        <div className="w-3/5 flex flex-col justify-between overflow-y-auto pr-2">
+                            <div className="space-y-6">
+                                {/* Title */}
+                                <div>
+                                    <h2 className="text-white text-2xl font-bold mb-2">"{selectedTactic.title}"</h2>
+                                </div>
+
+                                {/* Key Information Stack */}
+                                <div className="space-y-4">
+                                    <div className="flex gap-2">
+                                        <p className="text-white text-sm font-semibold">Hook:</p>
+                                        <p className="text-slate-300 text-sm">{selectedTactic.oneLinerSummary}</p>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <p className="text-white text-sm font-semibold">Core Message:</p>
+                                        <p className="text-slate-400 text-sm">{selectedTactic.coreMessage}</p>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <p className="text-white text-sm font-semibold">Goal:</p>
+                                        <p className="text-slate-300 text-sm">{selectedTactic.goal}</p>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <p className="text-white text-sm font-semibold">Primary Tactic:</p>
+                                        <p className="text-slate-300 text-sm">{selectedTactic.platform}</p>
+                                    </div>
+                                </div>
+
+                                {/* divider */}
+                                <div className="h-px bg-slate-700 w-full"></div>
+
+                                {/* Description Section */}
+                                <div>
+                                    <h4 className="text-white font-semibold mb-3">Description:</h4>
+                                    <p className="text-slate-300 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
+                                </div>
+
+                                {/* Why This Works Section */}
+                                <div>
+                                    <h4 className="text-white font-semibold mb-3">Why This Works:</h4>
+                                    <p className="text-slate-300 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons at Bottom */}
+                            <div className="mt-8 pt-6 border-t border-slate-700">
+                                <div className="grid grid-cols-2 gap-3">
+                                    <button className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm font-medium transition-colors cursor-pointer">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        Generate User Experience
+                                    </button>
+                                    <button className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm font-medium transition-colors cursor-pointer">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        Generate Creative Brief
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </Modal>
 
         </div>

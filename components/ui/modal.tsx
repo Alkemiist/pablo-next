@@ -8,9 +8,10 @@ interface ModalProps {
   children: React.ReactNode
   title: string
   description?: string
+  maxWidth?: string
 }
 
-export function Modal({ isOpen, onClose, children, title, description }: ModalProps) {
+export function Modal({ isOpen, onClose, children, title, description, maxWidth = "max-w-2xl" }: ModalProps) {
   if (!isOpen) return null
 
   return (
@@ -23,7 +24,8 @@ export function Modal({ isOpen, onClose, children, title, description }: ModalPr
       
       {/* Modal Content */}
       <div className={cn(
-        "relative w-full max-w-2xl bg-slate-950 border border-slate-700 rounded-xl shadow-2xl transform transition-all duration-300 ease-out",
+        "relative w-full bg-slate-950 border border-slate-700 rounded-xl shadow-2xl transform transition-all duration-300 ease-out",
+        maxWidth,
         isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
       )}>
         {/* Header */}

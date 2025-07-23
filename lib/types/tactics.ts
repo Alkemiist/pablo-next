@@ -4,6 +4,8 @@ export interface Tactic {
   title: string; // Title for the tactic
   platform: string; // Platform/medium (e.g., "TikTok Post", "Instagram Reel")
   oneLinerSummary: string; // One-liner summary of tactic
+  coreMessage: string; // Core message that captures the essence of the tactic (max 1 sentence)
+  goal: string; // The goal of the tactic (max 1 sentence)
   fullDescription: string; // Full description of the idea (max 4 sentences)
   whyItWorks: string; // Why this is a great idea and how it works with the intel (max 4 sentences)
 }
