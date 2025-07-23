@@ -11,6 +11,7 @@ import { Modal } from "@/components/ui/modal";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { validateContext } from "@/lib/api/tactics";
 import { Tactic } from "@/lib/types/tactics";
+import { Bookmark, Download, Share } from "lucide-react";
 
 // Helper functions for image handling
 const getImageFormat = (base64String: string): string => {
@@ -1220,17 +1221,31 @@ export default function CreateInspoPage() {
             </Modal>
 
             {/* Tactic Detail Modal */}
+            {/*  */}
             <Modal 
                 isOpen={isTacticModalOpen} 
                 onClose={() => setIsTacticModalOpen(false)}
                 title={selectedTactic?.title || "Tactic Details"}
-                description="Complete marketing tactic breakdown and next steps"
+                // description="Complete marketing tactic breakdown and next steps"
                 maxWidth="max-w-[80vw]"
             >
+                {/* Action Button Stack - Positioned next to close button */}
+                <div className="absolute top-6 right-16 z-50 flex gap-2">
+                    <button className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                        <Bookmark className="w-4 h-4 text-white" />
+                    </button>
+                    <button className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                        <Download className="w-4 h-4 text-white" />
+                    </button>
+                    <button className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                        <Share className="w-4 h-4 text-white" />
+                    </button>
+                </div>
+
                 {selectedTactic && (
                     <div className="flex gap-10 max-h-[70vh] overflow-hidden">
                         {/* Left Side - Image */}
-                        <div className="w-2/5 flex-shrink-0">
+                        <div className="w-2/5 flex-shrink-0 shadow-lg">
                             <div className="relative h-full min-h-[400px] rounded-lg overflow-hidden bg-slate-800">
                                 <img 
                                     src={validateAndSanitizeImageData(selectedTactic.image) 
@@ -1243,12 +1258,13 @@ export default function CreateInspoPage() {
                                         target.src = 'https://via.placeholder.com/600x400/64748b/ffffff?text=Image+Error';
                                     }}
                                 />
-                                <div className="absolute top-4 right-4 ">
+                                {/* Platform Label */}
+                                {/* <div className="absolute top-4 right-4 ">
                                     <div className="bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                                         <p className="text-white text-sm font-medium">Platform:</p>
                                         <p className="text-slate-300 text-xs">{selectedTactic.platform}</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
@@ -1256,9 +1272,9 @@ export default function CreateInspoPage() {
                         <div className="w-3/5 flex flex-col justify-between overflow-y-auto pr-2">
                             <div className="space-y-6">
                                 {/* Title */}
-                                <div>
+                                {/* <div>
                                     <h2 className="text-white text-2xl font-bold mb-2">"{selectedTactic.title}"</h2>
-                                </div>
+                                </div> */}
 
                                 {/* Key Information Stack */}
                                 <div className="space-y-4">
@@ -1284,7 +1300,7 @@ export default function CreateInspoPage() {
                                 </div>
 
                                 {/* divider */}
-                                <div className="h-px bg-slate-700 w-full"></div>
+                                <div className="h-px bg-slate-800 w-full"></div>
 
                                 {/* Description Section */}
                                 <div>
@@ -1300,7 +1316,7 @@ export default function CreateInspoPage() {
                             </div>
 
                             {/* Action Buttons at Bottom */}
-                            <div className="mt-8 pt-6 border-t border-slate-700">
+                            <div className="mt-8 pt-6 border-t border-slate-800">
                                 <div className="grid grid-cols-2 gap-3">
                                     <button className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm font-medium transition-colors cursor-pointer">
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

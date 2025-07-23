@@ -29,7 +29,7 @@ export function Modal({ isOpen, onClose, children, title, description, maxWidth 
         isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
       )}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
+        <div className="flex items-center justify-between p-6 border-b border-slate-800">
           <div>
             <h2 className="text-xl font-semibold text-white">{title}</h2>
             {description && (
@@ -38,9 +38,9 @@ export function Modal({ isOpen, onClose, children, title, description, maxWidth 
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+            className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer transition-colors"
           >
-            <XIcon className="w-5 h-5 text-slate-400" />
+            <XIcon className="w-4 h-4 text-white" />
           </button>
         </div>
         
