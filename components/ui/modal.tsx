@@ -38,7 +38,7 @@ export function Modal({ isOpen, onClose, children, title, description, maxWidth 
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center cursor-pointer transition-colors"
+            className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors"
           >
             <XIcon className="w-4 h-4 text-white" />
           </button>

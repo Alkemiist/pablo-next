@@ -1,3 +1,5 @@
+
+// imports
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { Tactic, GenerateTacticsRequest, GenerateTacticsResponse, ErrorResponse } from '@/lib/types/tactics';
@@ -50,19 +52,22 @@ export async function POST(request: NextRequest) {
 	    •	Emotionally resonant, culturally current, and behaviorally impactful
 	    •	Visually iconic, suitable for global recognition and platform-native engagement
 	    •	Rooted in modern creative platforms (e.g., TikTok-native ideas, IG Reels, YouTube Shorts, IRL activations amplified online)
+      •	Unique and different from each other
 
       For each tactic, provide:
-      1. A creative title (max 8 words)
-      2. The specific platform/medium (e.g., "TikTok Post", "Instagram Reel", "YouTube Short")
+      1. A creative title (max 8 words and not repeatable with other 3 tactics)
+      2. The specific platform/medium (e.g., "TikTok Post", "Instagram Reel", "YouTube Short", "TV", "")
       3. A one-liner summary that captures the essence of the tactic (max 15 words)
       4. A core message that captures the essence of the tactic (max 1 sentence)
       5. The goal of the tactic (max 1 sentence)
       6. A full description explaining the tactic in detail (max 4 sentences)
       7. Why this tactic works specifically for this brand/product/persona combination (max 4 sentences)
       8. A descriptive image prompt that would represent this tactic visually (be specific about style, mood, colors, composition). IMPORTANT: Request HYPER-REALISTIC, photographic quality images with natural lighting, sharp details, and professional composition. Avoid cartoon, illustration, or artistic styles.
+      9. A performance hook that would make this idea scroll-stopping, shareable, or addictive to engage with (max 1 sentence)
+      10. An influencer match that would execute this best (max 1 sentence)
 
       Style and output:
-      •	Ensure no repetition across tactics—each idea must stand alone.
+      •	Ensure no repetition across tactics—each idea must stand alone. Title's and one-liners should be unique and different from each other.
       •	Prioritize fresh thinking, bold creativity, and channel-native storytelling.
       •	Avoid clichés. Lean into what will get people to stop scrolling and act.
 
@@ -105,7 +110,7 @@ export async function POST(request: NextRequest) {
           content: prompt
         }
       ],
-      temperature: 0.8,
+      temperature: 0.5,
     });
 
     // Parse the response
@@ -146,11 +151,10 @@ export async function POST(request: NextRequest) {
         console.log('🔍 Attempting to use gpt-image-1 model...');
         console.log('🔑 API Key available:', process.env.OPENAI_API_KEY ? 'Yes' : 'No');
         
-        const enhancedPrompt = `ULTRA HIGH-DEFINITION PHOTOREALISTIC IMAGE: ${tactic.imagePrompt || `Creative marketing visual for: ${tactic.title}`}
+        const enhancedPrompt = `PHOTOREALISTIC IMAGE: ${tactic.imagePrompt || `Creative marketing visual for: ${tactic.title}`}
 
             CRITICAL SPECIFICATIONS:
             - Shot with professional DSLR camera, 85mm lens (or what ever lens is best for the image)
-            - 8K resolution quality, RAW image processing
             - Hyperrealistic skin textures, fabric details, surface materials
             - Perfect focus, shallow depth of field, cinematic composition (if applicable)
             - Color grading: rich saturation, professional color balance
@@ -174,7 +178,6 @@ export async function POST(request: NextRequest) {
             - Photojournalistic authenticity with artistic flair
 
             TECHNICAL REQUIREMENTS:
-            - Aspect ratio: 16:9 landscape orientation
             - Resolution: Maximum available (1792x1024)
             - Quality: Highest definition possible
             - Style: Natural photographic realism`;
