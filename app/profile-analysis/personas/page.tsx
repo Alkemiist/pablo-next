@@ -44,8 +44,8 @@ export default function PersonasPage() {
                 {/* Section Title + Save Icon */}
                 <div className="flex justify-between items-center px-8 pt-8 pb-4">
                     <h1 className="text-2xl font-bold">{activePersonaData.name}</h1>
-                    <button className="flex items-center gap-2 px-4 text-xs border border-slate-700 rounded-lg p-2 hover:bg-slate-700 transition-colors duration-100 cursor-pointer">
-                        Save Audience <Bookmark className="w-4 h-4" />
+                    <button title="Save Audience" className="flex items-center gap-2 px-4 text-xs border border-slate-700 rounded-lg p-2 hover:bg-slate-700 transition-colors duration-100 cursor-pointer">
+                        Save Audience <Bookmark className="w-4 h-4"  />
                     </button>
                 </div>
 

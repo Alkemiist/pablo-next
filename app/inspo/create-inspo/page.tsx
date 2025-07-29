@@ -11,7 +11,7 @@ import { Modal } from "@/components/ui/modal";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { validateContext } from "@/lib/api/tactics";
 import { Tactic } from "@/lib/types/tactics";
-import { Bookmark, Download, Share, Bubbles, RotateCcw } from "lucide-react";
+import { Bookmark, Download, Share, Bubbles, RotateCcw, Save } from "lucide-react";
 
 // Helper functions for image handling
 const getImageFormat = (base64String: string): string => {
@@ -166,8 +166,9 @@ export default function CreateInspoPage() {
     // Guided generation state
     const [generatedSections, setGeneratedSections] = useState<any[]>([]);
     const [isGeneratingFrames, setIsGeneratingFrames] = useState(false);
-    const [currentGenerationType, setCurrentGenerationType] = useState<'user-experience' | 'creative-brief' | 'moodboard' | 'marketing-brief' | null>(null);
+    const [currentGenerationType, setCurrentGenerationType] = useState<'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | null>(null);
     const [frameGenerationError, setFrameGenerationError] = useState<string | null>(null);
+    const [isRegeneratingCaption, setIsRegeneratingCaption] = useState(false);
 
     // Individual card loading states
     const [cardLoadingStates, setCardLoadingStates] = useState<{
@@ -411,7 +412,7 @@ export default function CreateInspoPage() {
     };
 
     // Function to generate guided frame breakdown
-    const handleGenerateFrames = async (type: 'user-experience' | 'creative-brief' | 'moodboard' | 'marketing-brief', sectionIdToReplace?: number) => {
+    const handleGenerateFrames = async (type: 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script', sectionIdToReplace?: number) => {
         if (!selectedTactic) return;
 
         setIsGeneratingFrames(true);
@@ -419,43 +420,21 @@ export default function CreateInspoPage() {
         setFrameGenerationError(null);
 
         try {
-            // For moodboard and marketing-brief, always use mock data for now
-            let frames;
-            if (type === 'moodboard' || type === 'marketing-brief') {
-                console.log('Generating', type, 'using mock data');
-                frames = await generateMockFrames(type, selectedTactic);
-            } else {
-                // Try API call for other types
-                const response = await fetch('/api/generate-frames', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        tactic: selectedTactic,
-                        brand,
-                        product,
-                        persona,
-                        goal,
-                        visualGuide,
-                        generationType: type
-                    })
-                });
-
-                if (!response.ok) {
-                    // For now, generate mock data if API doesn't exist
-                    frames = await generateMockFrames(type, selectedTactic);
-                } else {
-                    const data = await response.json();
-                    frames = data.frames || [];
-                }
-            }
+            // Always use mock data for now
+            console.log('Generating', type, 'using mock data');
+            const frames = await generateMockFrames(type, selectedTactic);
 
             // Create a new section with generated frames
             const getSectionTitle = (type: string) => {
                 switch(type) {
-                    case 'user-experience': return 'User Experience Breakdown';
-                    case 'creative-brief': return 'Creative Brief Framework';
-                    case 'moodboard': return 'Visual Moodboard';
-                    case 'marketing-brief': return 'Marketing Brief';
+                    case 'audience-journey': return 'Audience Journey Map';
+                    case 'social-post': return 'Social Media Posts';
+                    case 'caption-pack': return 'Caption Pack';
+                    case 'blog-outline': return 'Blog/Article Outline';
+                    case 'email-campaign': return 'Email Campaign';
+                    case 'influencer-brief': return 'Influencer Brief';
+                    case 'evergreen-plan': return 'Evergreen Content Plan';
+                    case 'script': return '30-Second Ad Script';
                     default: return 'Generated Content';
                 }
             };
@@ -492,7 +471,7 @@ export default function CreateInspoPage() {
             
             const getSectionTitle = (type: string) => {
                 switch(type) {
-                    case 'user-experience': return 'User Experience Breakdown';
+                    case 'social-posts': return 'Social Media Content';
                     case 'creative-brief': return 'Creative Brief Framework';
                     case 'moodboard': return 'Visual Moodboard';
                     case 'marketing-brief': return 'Marketing Brief';
@@ -530,191 +509,202 @@ export default function CreateInspoPage() {
         }
     };
 
-    // Mock frame generation for demonstration - now uses specific tactic data
-    const generateMockFrames = async (type: 'user-experience' | 'creative-brief' | 'moodboard' | 'marketing-brief', tactic: Tactic): Promise<any[]> => {
-        // Simulate loading delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
+    // Helper function to generate tailored images based on tactic content
+    const getImageForTactic = (tactic: Tactic, brand: string, product: string, orientation: 'vertical' | 'horizontal'): string => {
+        // Create a unique seed based on tactic content for consistent but different images
+        const contentSeed = `${tactic.title}-${brand}-${product}`.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const hash = contentSeed.split('').reduce((a, b) => {
+            a = ((a << 5) - a) + b.charCodeAt(0);
+            return a & a;
+        }, 0);
 
-        if (type === 'user-experience') {
-            return [
+        // Curated image collections based on content analysis
+        const getImageCollection = (tactic: Tactic, brand: string, product: string): string[] => {
+            const allContent = `${tactic.title} ${tactic.oneLinerSummary} ${tactic.fullDescription}`.toLowerCase();
+            
+            // High-quality, relevant image IDs from Unsplash
+            const collections: { [key: string]: string[] } = {
+                lifestyle: [
+                    '1544947987-2738bb93b73b', '1522202757-0b59db2cffce', '1494790108755-2616fd77a890',
+                    '1507003211-a9b9bc474f4f', '1502164047217-40b8f8f21de8', '1492136031628-b44c2893d44a'
+                ],
+                product: [
+                    '1560472354-b33ff0c44a43', '1606107557808-91a58da01e39', '1441986300917-64674bd600d8',
+                    '1542744173-05336fcc7ad4', '1496181133206-80ce9b88a853', '1581291518183-935e0fe6b44f'
+                ],
+                aesthetic: [
+                    '1449824913935-59a10b8d2000', '1529258283598-e19b83a3afcc', '1508739773434-c26b3d09e071',
+                    '1550745165-9bc0b687726d', '1586953208448-b95a79798f07', '1493723843671-1d1a1c1eae6d'
+                ],
+                social: [
+                    '1529156069596-61bea5f6ee8b', '1557804506-0eeec5d25c24', '1522202757-0b59db2cffce',
+                    '1556484687-30636164049f', '1523240795-5d5ee8c12ec8', '1543269865-86b4e3e47158'
+                ],
+                technology: [
+                    '1581291518183-b4c48eff0e9b', '1551650975-87deedd5443e', '1486312338219-ce68d2c6f44d',
+                    '1533709752211-118fcaf03312', '1604580864527-3aae04c08103', '1551288049-14018e65b7d2'
+                ],
+                premium: [
+                    '1552519507-da3b142c6e3d', '1586953208448-b95a79798f07', '1449824913935-59a10b8d2000',
+                    '1544197150-b72de1c3b0f4', '1507914464-4c9e4b8b42c8', '1553062407-98eeb64c6a62'
+                ]
+            };
+
+            // Determine best category
+            if (allContent.includes('authentic') || allContent.includes('lifestyle') || allContent.includes('behind')) {
+                return collections.lifestyle;
+            } else if (allContent.includes('product') || allContent.includes('demo') || allContent.includes('showcase')) {
+                return collections.product;
+            } else if (allContent.includes('aesthetic') || allContent.includes('minimal') || allContent.includes('clean')) {
+                return collections.aesthetic;
+            } else if (allContent.includes('social') || allContent.includes('community') || allContent.includes('people')) {
+                return collections.social;
+            } else if (allContent.includes('tech') || allContent.includes('app') || allContent.includes('digital')) {
+                return collections.technology;
+            } else if (allContent.includes('premium') || allContent.includes('luxury') || allContent.includes('quality')) {
+                return collections.premium;
+            }
+            
+            return collections.lifestyle; // default
+        };
+
+        const imageCollection = getImageCollection(tactic, brand, product);
+        const selectedImageId = imageCollection[Math.abs(hash) % imageCollection.length];
+        
+        // Proper dimensions for each orientation
+        const width = orientation === 'vertical' ? 400 : 700;
+        const height = orientation === 'vertical' ? 700 : 400;
+        
+        return `https://images.unsplash.com/photo-${selectedImageId}?w=${width}&h=${height}&fit=crop&crop=center&auto=format&q=75`;
+    };
+
+    // Function to regenerate caption only
+    const regenerateCaption = async (sectionId: number) => {
+        if (!selectedTactic) return;
+
+        setIsRegeneratingCaption(true);
+        
+        try {
+            // Simulate loading delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Generate new caption variations
+            const captionVariations = [
                 {
-                    id: 1,
-                    title: "Opening Hook",
-                    role: "Attention Grabber", 
-                    visual: `${tactic.platform} video opens with: ${tactic.oneLinerSummary}. Focus on ${brand} ${product} in context relevant to the target persona.`,
-                    audio: `Background music that matches ${tactic.platform} trends and resonates with the target demographic`,
-                    text: `Hook text: "${tactic.oneLinerSummary}"`
+                    hook: `${selectedTactic.oneLinerSummary} ✨`,
+                    body: `${selectedTactic.coreMessage}\n\nCrafted for visionaries who demand excellence.`,
+                    cta: `Discover ${product} → Link in bio`,
+                    hashtags: `#${brand.replace(/\s+/g, '')} #${product.replace(/\s+/g, '')} #luxury #premium #innovation #trending #viral #aesthetic #lifestyle #quality #excellence #exclusive`
                 },
                 {
-                    id: 2,
-                    title: "Core Message Delivery",
-                    role: "Value Proposition",
-                    visual: `Show ${product} in action, demonstrating: ${tactic.coreMessage}. Visual storytelling emphasizes the key benefits.`,
-                    audio: "Music builds to emphasize the core message delivery",
-                    text: `"${tactic.coreMessage}"`
+                    hook: `${selectedTactic.oneLinerSummary} 🔥`,
+                    body: `${selectedTactic.coreMessage}\n\nFor those who choose extraordinary over average.`,
+                    cta: `Shop ${product} now → Bio link`,
+                    hashtags: `#${brand.replace(/\s+/g, '')} #${product.replace(/\s+/g, '')} #exclusive #premium #luxury #trending #viral #innovation #lifestyle #quality #excellence #aesthetic`
                 },
                 {
-                    id: 3,
-                    title: "Call to Action",
-                    role: "Conversion Driver",
-                    visual: `Clear visual of ${product} with ${brand} branding. End frame optimized for ${tactic.platform} with clear next steps.`,
-                    audio: "Music outro that leaves memorable impression",
-                    text: `"Learn more about ${product}" or platform-specific CTA`
+                    hook: `${selectedTactic.oneLinerSummary} ⭐`,
+                    body: `${selectedTactic.coreMessage}\n\nElevating standards. Exceeding expectations.`,
+                    cta: `Experience ${product} → Link below`,
+                    hashtags: `#${brand.replace(/\s+/g, '')} #${product.replace(/\s+/g, '')} #innovation #premium #trending #viral #luxury #aesthetic #lifestyle #quality #excellence #exclusive`
                 }
             ];
-        } else if (type === 'creative-brief') {
-            return [{
-                id: 1,
-                type: 'document',
-                title: "Creative Brief",
-                content: {
-                    projectName: `${brand} ${product} - ${tactic.title}`,
-                    briefOverview: `This creative brief outlines the strategic direction for ${brand}'s ${product} campaign, specifically designed for ${tactic.platform} to achieve ${tactic.goal}.`,
-                    
-                    objective: `${tactic.goal}`,
-                    
-                    targetAudience: `${persona}`,
-                    
-                    keyMessage: `${tactic.coreMessage}`,
-                    
-                    creativeConcept: `${tactic.fullDescription}`,
-                    
-                    toneAndStyle: `The creative should embody ${tactic.oneLinerSummary}. ${visualGuide}`,
-                    
-                    platformConsiderations: `Optimized for ${tactic.platform} with content that leverages platform-specific features and user behaviors.`,
-                    
-                    whyThisWorks: `${tactic.whyItWorks}`,
-                    
-                    mandatoryElements: [
-                        `${brand} branding integration`,
-                        `${product} feature highlights`,
-                        `Clear call-to-action`,
-                        `Platform-appropriate format for ${tactic.platform}`
-                    ],
-                    
-                    successCriteria: `Campaign success will be measured by ${tactic.goal} achievement, with content performance optimized for ${tactic.platform} engagement metrics.`
-                }
-            }];
-        } else if (type === 'moodboard') {
-            return [{
-                id: 1,
-                type: 'moodboard',
-                title: "Visual Moodboard",
-                content: {
-                    overview: `Visual direction for ${brand} ${product} campaign emphasizing ${tactic.oneLinerSummary}`,
-                    
-                    colorPalette: {
-                        primary: "#2563eb", // Professional blue
-                        secondary: "#7c3aed", // Creative purple  
-                        accent: "#059669", // Success green
-                        neutral: "#64748b" // Sophisticated gray
-                    },
-                    
-                    toneAndStyle: `${tactic.whyItWorks} The visual language should feel premium, aspirational, and authentic to resonate with ${persona}.`,
-                    
-                    visualElements: [
-                        {
-                            id: 1,
-                            title: "Hero Composition",
-                            category: "Primary Visual",
-                            image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop&crop=center",
-                            description: `Main campaign visual showcasing ${brand} ${product} in premium lifestyle context`,
-                            attributes: ["Premium feel", "Aspirational lifestyle", "Clean composition", "Strong brand presence"]
-                        },
-                        {
-                            id: 2,
-                            title: "Color & Atmosphere",
-                            category: "Mood & Tone",
-                            image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center",
-                            description: `Atmospheric elements that support ${tactic.coreMessage} and platform optimization for ${tactic.platform}`,
-                            attributes: ["Warm undertones", "Natural lighting", "Emotional resonance", "Platform-optimized"]
-                        },
-                        {
-                            id: 3,
-                            title: "Product Integration",
-                            category: "Brand Elements",
-                            image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=400&fit=crop&crop=center",
-                            description: `Strategic product placement emphasizing key benefits and features`,
-                            attributes: ["Clear product focus", "Benefit demonstration", "Quality emphasis", "Brand integration"]
-                        },
-                        {
-                            id: 4,
-                            title: "Lifestyle Context",
-                            category: "Audience Connection",
-                            image: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&h=400&fit=crop&crop=center",
-                            description: `Target audience lifestyle representation supporting the campaign narrative`,
-                            attributes: ["Authentic moments", "Relatable scenarios", "Aspirational lifestyle", "Emotional connection"]
+
+            // Select a random variation
+            const newCaption = captionVariations[Math.floor(Math.random() * captionVariations.length)];
+
+            // Update the section with new caption
+            setGeneratedSections(prev => 
+                prev.map(section => 
+                    section.id === sectionId 
+                        ? {
+                            ...section,
+                            frames: [{
+                                ...section.frames[0],
+                                content: {
+                                    ...section.frames[0].content,
+                                    caption: newCaption
+                                }
+                            }]
                         }
-                    ],
-                    
-                    designPrinciples: [
-                        "Clean, uncluttered compositions",
-                        "Consistent color temperature",
-                        "Premium materials and textures",
-                        "Natural, authentic moments",
-                        `Optimized for ${tactic.platform} format`
-                    ],
-                    
-                    applicationNotes: `${visualGuide} Apply this visual direction consistently across all campaign touchpoints to maintain brand coherence and maximize ${tactic.goal} achievement.`
-                }
-            }];
-        } else { // marketing-brief
+                        : section
+                )
+            );
+
+        } catch (error) {
+            console.error('Error regenerating caption:', error);
+        } finally {
+            setIsRegeneratingCaption(false);
+        }
+    };
+
+    // AI-powered frame generation - replaces hard-coded mock data
+    const generateMockFrames = async (type: 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script', tactic: Tactic): Promise<any[]> => {
+        try {
+            // Call the new content generation API
+            const response = await fetch('/api/generate-content', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type,
+                    tactic,
+                    brand,
+                    product,
+                    persona,
+                    goal,
+                    visualGuide
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`API call failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to generate content');
+            }
+
+            // Return the generated content in the expected format
             return [{
                 id: 1,
-                type: 'document',
-                title: "Marketing Brief",
+                type: type,
+                title: getTitleForType(type),
+                content: data.content
+            }];
+
+        } catch (error) {
+            console.error(`Error generating ${type} content:`, error);
+            
+            // Fallback to basic structure if generation fails
+            return [{
+                id: 1,
+                type: type,
+                title: getTitleForType(type),
                 content: {
-                    projectTitle: `${brand} ${product} Marketing Campaign`,
-                    campaignName: `${tactic.title}`,
-                    
-                    executiveSummary: `This marketing brief presents a comprehensive strategy for ${brand}'s ${product} campaign. The initiative focuses on ${tactic.goal} through strategic ${tactic.platform} content that leverages ${tactic.oneLinerSummary} to drive meaningful engagement with our target audience.`,
-                    
-                    brandOverview: {
-                        brand: `${brand}`,
-                        product: `${product}`,
-                        positioning: `${brand} positions ${product} as a premium solution that delivers exceptional value and experience.`
-                    },
-                    
-                    marketingObjectives: [
-                        `Primary: ${tactic.goal}`,
-                        `Platform Focus: Drive engagement on ${tactic.platform}`,
-                        `Brand Awareness: Increase ${brand} recognition`,
-                        `Product Adoption: Encourage ${product} consideration`
-                    ],
-                    
-                    targetAudienceProfile: `${persona}`,
-                    
-                    keyInsight: `${tactic.whyItWorks}`,
-                    
-                    strategicApproach: `${tactic.fullDescription}`,
-                    
-                    coreMessaging: {
-                        primaryMessage: `${tactic.coreMessage}`,
-                        supportingMessages: [
-                            `${tactic.oneLinerSummary}`,
-                            `Quality and reliability of ${product}`,
-                            `${brand}'s commitment to customer satisfaction`
-                        ]
-                    },
-                    
-                    channelStrategy: `Primary channel: ${tactic.platform}. Content will be optimized for platform-specific engagement patterns and user behaviors.`,
-                    
-                    creativeDirection: `${visualGuide}`,
-                    
-                    successMetrics: [
-                        `${tactic.goal} achievement`,
-                        `${tactic.platform} engagement rates`,
-                        `Brand awareness lift`,
-                        `Conversion tracking`,
-                        `Content performance optimization`
-                    ],
-                    
-                    timeline: "Campaign launch aligned with strategic marketing calendar and platform optimization windows.",
-                    
-                    budget: "Resource allocation optimized for maximum ROI on primary channel with supporting cross-platform amplification."
+                    error: 'Content generation failed. Please try again.',
+                    fallbackMessage: `Unable to generate ${type} content at this time.`
                 }
             }];
         }
+    };
+
+    // Helper function to get display titles for different content types
+    const getTitleForType = (type: string): string => {
+        const titles = {
+            'audience-journey': 'Audience Journey Map',
+            'social-post': 'Social Media Posts',
+            'caption-pack': 'Caption Pack - 5 Variations',
+            'blog-outline': 'Blog/Article Outline',
+            'email-campaign': 'Email Campaign',
+            'influencer-brief': 'Influencer Brief',
+            'script': '30-Second Ad Script',
+            'evergreen-plan': 'Evergreen Content Plan'
+        };
+        return titles[type as keyof typeof titles] || 'Generated Content';
     };
 
     return (
@@ -1525,10 +1515,10 @@ export default function CreateInspoPage() {
             >
                 {/* Action Button Stack - Positioned next to close button */}
                 <div className="absolute top-6 right-16 z-50 flex gap-2">
-                    <button className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
-                        <Bookmark className="w-4 h-4 text-white" />
+                    <button title="Save Tactic" className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                        <Save className="w-4 h-4 text-white" />
                     </button>
-                    <button className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                    <button title="Download Tactic" className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
                         <Download className="w-4 h-4 text-white" />
                     </button>
                     <button className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
@@ -1538,10 +1528,10 @@ export default function CreateInspoPage() {
 
                 {selectedTactic && (
                     <div className="max-h-[80vh] overflow-y-auto pr-2">
-                        <div className="flex gap-10 mb-8">
+                        <div className="flex gap-10 mb-8 items-stretch">
                             {/* Left Side - Image */}
                             <div className="w-2/5 flex-shrink-0 shadow-lg">
-                                <div className="relative h-[600px] rounded-lg overflow-hidden bg-slate-800">
+                                <div className="relative w-full h-full rounded-lg overflow-hidden bg-slate-800">
                                     <img 
                                         src={validateAndSanitizeImageData(selectedTactic.image) 
                                             ? getImageSrc(selectedTactic.image)! 
@@ -1587,7 +1577,7 @@ export default function CreateInspoPage() {
                             </div>
 
                             {/* Right Side - Information */}
-                            <div className="w-3/5 flex flex-col justify-between overflow-y-auto pr-2">
+                            <div className="w-3/5 flex flex-col justify-between pr-2">
                                 <div className="space-y-6">
                                     {/* Key Information Stack */}
                                     <div className="space-y-4">
@@ -1632,49 +1622,7 @@ export default function CreateInspoPage() {
                                     </div>
                                 </div>
 
-                                {/* Action Buttons at Bottom */}
-                                <div className="mt-8 pt-6 border-t border-slate-800">
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <button 
-                                            className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                            onClick={() => handleGenerateFrames('user-experience')}
-                                            disabled={isGeneratingFrames}
-                                        >
-                                            {isGeneratingFrames && currentGenerationType === 'user-experience' ? (
-                                                <>
-                                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                                    <span>Generating...</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                    Generate User Experience
-                                                </>
-                                            )}
-                                        </button>
-                                        <button 
-                                            className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                            onClick={() => handleGenerateFrames('creative-brief')}
-                                            disabled={isGeneratingFrames}
-                                        >
-                                            {isGeneratingFrames && currentGenerationType === 'creative-brief' ? (
-                                                <>
-                                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                                    <span>Generating...</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                    Generate Creative Brief
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
 
@@ -1699,7 +1647,7 @@ export default function CreateInspoPage() {
                                             className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center"
                                             onClick={() => {
                                                 console.log('Regenerating section:', section.type, section.id);
-                                                handleGenerateFrames(section.type as 'user-experience' | 'creative-brief' | 'moodboard' | 'marketing-brief', section.id);
+                                                handleGenerateFrames(section.type as 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script', section.id);
                                             }}
                                             title="Regenerate section"
                                         >
@@ -1718,7 +1666,344 @@ export default function CreateInspoPage() {
                                 </div>
                                 
                                 {/* Content Display Based on Type */}
-                                {section.frames[0]?.type === 'document' ? (
+                                {section.frames[0]?.type === 'audience-journey' ? (
+                                    /* Audience Journey Map Layout */
+                                    <div className="space-y-6">
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h3 className="text-white font-semibold mb-3">Journey Overview</h3>
+                                            <p className="text-slate-300 text-sm mb-4">Target Audience: {section.frames[0].content.targetAudience}</p>
+                                        </div>
+
+                                        {/* Journey Stages */}
+                                        <div className="space-y-4">
+                                            {(section.frames[0].content.stages as any[]).map((stage: any, index: number) => (
+                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                            <span className="text-white text-sm font-bold">{index + 1}</span>
+                                                        </div>
+                                                        <h4 className="text-white font-semibold text-lg">{stage.stage}</h4>
+                                                    </div>
+                                                    <p className="text-slate-300 text-sm mb-4">{stage.description}</p>
+                                                    
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                                        <div>
+                                                            <h5 className="text-blue-400 font-medium mb-2">Touchpoints</h5>
+                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                                {(stage.touchpoints as string[]).map((point: string, i: number) => (
+                                                                    <li key={i} className="flex items-start gap-2">
+                                                                        <span className="text-blue-400 mt-1">•</span>
+                                                                        {point}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="text-green-400 font-medium mb-2">Emotions</h5>
+                                                            <div className="flex flex-wrap gap-1">
+                                                                {(stage.emotions as string[]).map((emotion: string, i: number) => (
+                                                                    <span key={i} className="bg-green-900/30 text-green-300 text-xs px-2 py-1 rounded">
+                                                                        {emotion}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="text-purple-400 font-medium mb-2">Actions</h5>
+                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                                {(stage.actions as string[]).map((action: string, i: number) => (
+                                                                    <li key={i} className="flex items-start gap-2">
+                                                                        <span className="text-purple-400 mt-1">•</span>
+                                                                        {action}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="text-red-400 font-medium mb-2">Barriers</h5>
+                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                                {(stage.barriers as string[]).map((barrier: string, i: number) => (
+                                                                    <li key={i} className="flex items-start gap-2">
+                                                                        <span className="text-red-400 mt-1">•</span>
+                                                                        {barrier}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Key Insights & Opportunities */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Key Insights</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.keyInsights as string[]).map((insight: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-yellow-400 mt-1">💡</span>
+                                                            {insight}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Optimization Opportunities</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.optimizationOpportunities as string[]).map((opportunity: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-green-400 mt-1">🎯</span>
+                                                            {opportunity}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'social-post' ? (
+                                    /* Social Posts Layout */
+                                    <div className="space-y-6">
+                                        {/* Platform Posts */}
+                                        <div className="space-y-4">
+                                            {(section.frames[0].content.platforms as any[]).map((platform: any, index: number) => (
+                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                                                            <span className="text-white text-sm font-bold">{platform.platform[0]}</span>
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="text-white font-semibold">{platform.platform}</h4>
+                                                            <p className="text-slate-400 text-sm">{platform.format}</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="bg-slate-800 rounded-lg p-4 mb-4">
+                                                        <pre className="text-slate-300 text-sm whitespace-pre-wrap font-sans">{platform.caption}</pre>
+                                                        <div className="mt-3 pt-3 border-t border-slate-700">
+                                                            <p className="text-blue-400 text-sm font-medium">{platform.cta}</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                                        <div>
+                                                            <span className="text-green-400 font-medium">Best Times:</span>
+                                                            <span className="text-slate-300 ml-2">{platform.bestTimes}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span className="text-purple-400 font-medium">Considerations:</span>
+                                                            <span className="text-slate-300 ml-2">{platform.considerations}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Content Strategy */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Content Pillars</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.contentPillars as string[]).map((pillar: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-blue-400 mt-1">•</span>
+                                                            {pillar}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Engagement Strategy</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.engagementStrategy as string[]).map((strategy: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-green-400 mt-1">•</span>
+                                                            {strategy}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'caption-pack' ? (
+                                    /* Caption Pack Layout */
+                                    <div className="space-y-6">
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h3 className="text-white font-semibold mb-2">Caption Variations</h3>
+                                            <p className="text-slate-300 text-sm">Concept: {section.frames[0].content.concept}</p>
+                                        </div>
+
+                                        {/* Caption Variations */}
+                                        <div className="space-y-4">
+                                            {(section.frames[0].content.variations as any[]).map((variation: any, index: number) => (
+                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <h4 className="text-white font-semibold">Variation {index + 1}: {variation.style}</h4>
+                                                        <span className="bg-blue-900/30 text-blue-300 text-xs px-2 py-1 rounded">{variation.tone}</span>
+                                                    </div>
+                                                    
+                                                    <div className="bg-slate-800 rounded-lg p-4 mb-4">
+                                                        <pre className="text-slate-300 text-sm whitespace-pre-wrap font-sans">{variation.caption}</pre>
+                                                    </div>
+                                                    
+                                                    <p className="text-slate-400 text-sm"><span className="text-green-400 font-medium">Best for:</span> {variation.bestFor}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Testing & Metrics */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">A/B Testing Guide</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.abTestingGuide as string[]).map((guide: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-purple-400 mt-1">•</span>
+                                                            {guide}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Performance Metrics</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.performanceMetrics as string[]).map((metric: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-orange-400 mt-1">•</span>
+                                                            {metric}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'script' ? (
+                                    /* Script Layout */
+                                    <div className="space-y-6">
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h2 className="text-xl font-bold text-white mb-2">{section.frames[0].content.scriptTitle}</h2>
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                                <div>
+                                                    <span className="text-blue-400 font-medium">Duration:</span>
+                                                    <span className="text-slate-300 ml-2">{section.frames[0].content.duration}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-purple-400 font-medium">Target:</span>
+                                                    <span className="text-slate-300 ml-2">{section.frames[0].content.targetAudience}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-green-400 font-medium">Objective:</span>
+                                                    <span className="text-slate-300 ml-2">{section.frames[0].content.objective}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Script Breakdown */}
+                                        <div className="space-y-4">
+                                            {Object.entries(section.frames[0].content.script).map(([key, scene]: [string, any], index: number) => (
+                                                <div key={key} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <h4 className="text-white font-semibold text-lg capitalize">{key === 'cta' ? 'Call to Action' : key}</h4>
+                                                        <span className="bg-orange-900/30 text-orange-300 text-xs px-2 py-1 rounded">{scene.timeframe}</span>
+                                                    </div>
+                                                    
+                                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                        <div>
+                                                            <h5 className="text-blue-400 font-medium mb-2">Visual</h5>
+                                                            <p className="text-slate-300 text-sm">{scene.visual}</p>
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="text-green-400 font-medium mb-2">Voiceover</h5>
+                                                            <p className="text-slate-300 text-sm italic">"{scene.voiceover}"</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="mt-4 pt-4 border-t border-slate-700">
+                                                        <p className="text-slate-400 text-xs"><span className="text-purple-400 font-medium">Note:</span> {scene.note}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Production Details */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Production Notes</h4>
+                                                <div className="space-y-3">
+                                                    <div>
+                                                        <span className="text-blue-400 font-medium text-sm">Tone:</span>
+                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.tone}</p>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-green-400 font-medium text-sm">Pacing:</span>
+                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.pacing}</p>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-purple-400 font-medium text-sm">Music:</span>
+                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.music}</p>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-orange-400 font-medium text-sm">Voiceover Style:</span>
+                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.voiceoverStyle}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Technical Specs</h4>
+                                                <div className="space-y-2 text-sm">
+                                                    {Object.entries(section.frames[0].content.technicalSpecs).map(([key, value]) => (
+                                                        <div key={key} className="flex justify-between">
+                                                            <span className="text-slate-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <span className="text-slate-300 text-right max-w-[60%]">
+                                                                {Array.isArray(value) ? (value as string[]).join(', ') : value as string}
+                                                            </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Call to Action & Performance */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Call to Action Strategy</h4>
+                                                <div className="space-y-2">
+                                                    {Object.entries(section.frames[0].content.callToAction).map(([key, value]) => (
+                                                        <div key={key} className="flex justify-between">
+                                                            <span className="text-slate-400 text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <span className="text-green-400 text-sm font-medium">{value as string}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Success Metrics</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.measurableGoals as string[]).map((goal: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-green-400 mt-1">🎯</span>
+                                                            {goal}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        {/* Target Platforms */}
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h4 className="text-white font-semibold mb-3">Target Platforms</h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {(section.frames[0].content.targetPlatforms as string[]).map((platform: string, i: number) => (
+                                                    <span key={i} className="bg-blue-900/30 text-blue-300 text-xs px-3 py-1 rounded-full">
+                                                        {platform}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'document' ? (
                                     /* Document Layout for Creative & Marketing Briefs */
                                     <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-8">
                                         {section.type === 'creative-brief' ? (
@@ -1900,73 +2185,110 @@ export default function CreateInspoPage() {
                                             </div>
                                         )}
                                     </div>
-                                ) : section.frames[0]?.type === 'moodboard' ? (
-                                    /* Moodboard Layout */
+                                ) : section.frames[0]?.type === 'blog-outline' ? (
+                                    /* Blog Outline Layout */
                                     <div className="space-y-6">
-                                        {/* Moodboard Overview */}
                                         <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
-                                            <div className="mb-6">
-                                                <h3 className="text-white font-semibold mb-2">Visual Direction</h3>
-                                                <p className="text-slate-300 text-sm mb-4">{section.frames[0].content.overview}</p>
-                                                <p className="text-slate-300 text-sm italic">{section.frames[0].content.toneAndStyle}</p>
-                                            </div>
+                                            <h2 className="text-xl font-bold text-white mb-2">{section.frames[0].content.title}</h2>
+                                            <h3 className="text-lg text-blue-400 mb-4">{section.frames[0].content.subtitle}</h3>
+                                            <p className="text-slate-300 text-sm"><span className="text-green-400 font-medium">Total Word Count:</span> {section.frames[0].content.totalWordCount}</p>
+                                        </div>
 
-                                            {/* Color Palette */}
-                                            <div className="mb-6">
-                                                <h4 className="text-white font-semibold mb-3">Color Palette</h4>
-                                                <div className="flex gap-4">
-                                                    {Object.entries(section.frames[0].content.colorPalette).map(([name, color]) => (
-                                                        <div key={name} className="flex flex-col items-center">
-                                                            <div 
-                                                                className="w-12 h-12 rounded-lg border border-slate-600 mb-2"
-                                                                style={{ backgroundColor: color as string }}
-                                                            ></div>
-                                                            <span className="text-slate-400 text-xs capitalize">{name}</span>
-                                                            <span className="text-slate-500 text-xs font-mono">{color}</span>
+                                        {/* Article Outline */}
+                                        <div className="space-y-4">
+                                            {(section.frames[0].content.outline as any[]).map((outlineSection: any, index: number) => (
+                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <h4 className="text-white font-semibold text-lg">{outlineSection.section}</h4>
+                                                        <span className="bg-purple-900/30 text-purple-300 text-xs px-2 py-1 rounded">{outlineSection.wordCount}</span>
+                                                    </div>
+                                                    <ul className="text-slate-300 text-sm space-y-2">
+                                                        {(outlineSection.content as string[]).map((item: string, i: number) => (
+                                                            <li key={i} className="flex items-start gap-2">
+                                                                <span className="text-blue-400 mt-1">•</span>
+                                                                {item}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* SEO & Content Upgrades */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">SEO Strategy</h4>
+                                                <div className="space-y-3">
+                                                    <div>
+                                                        <span className="text-blue-400 font-medium text-sm">Primary Keyword:</span>
+                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.seoStrategy.primaryKeyword}</p>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-green-400 font-medium text-sm">Secondary Keywords:</span>
+                                                        <div className="flex flex-wrap gap-1 mt-1">
+                                                            {(section.frames[0].content.seoStrategy.secondaryKeywords as string[]).map((keyword: string, i: number) => (
+                                                                <span key={i} className="bg-green-900/30 text-green-300 text-xs px-2 py-1 rounded">{keyword}</span>
+                                                            ))}
                                                         </div>
-                                                    ))}
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-purple-400 font-medium text-sm">Meta Description:</span>
+                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.seoStrategy.metaDescription}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            {/* Design Principles */}
-                                            <div>
-                                                <h4 className="text-white font-semibold mb-2">Design Principles</h4>
-                                                <ul className="text-slate-300 text-sm space-y-1">
-                                                    {section.frames[0].content.designPrinciples.map((principle: string, index: number) => (
-                                                        <li key={index} className="flex items-start gap-2">
-                                                            <span className="text-blue-400 mt-1">•</span>
-                                                            {principle}
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Content Upgrades</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.contentUpgrades as string[]).map((upgrade: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-orange-400 mt-1">📎</span>
+                                                            {upgrade}
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </div>
                                         </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'email-campaign' ? (
+                                    /* Email Campaign Layout */
+                                    <div className="space-y-6">
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h3 className="text-white font-semibold mb-2">{section.frames[0].content.campaignName}</h3>
+                                            <p className="text-slate-300 text-sm">Objective: {section.frames[0].content.objective}</p>
+                                        </div>
 
-                                        {/* Visual Elements - Horizontal Grid */}
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {section.frames[0].content.visualElements.map((element: any) => (
-                                                <div key={element.id} className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
-                                                    {/* Horizontal Image */}
-                                                    <div className="aspect-[2/1] bg-slate-800 relative">
-                                                        <img 
-                                                            src={element.image} 
-                                                            alt={element.title}
-                                                            className="w-full h-full object-cover"
-                                                        />
-                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                                        <div className="absolute bottom-0 left-0 right-0 p-4">
-                                                            <h5 className="text-white font-semibold text-sm">{element.title}</h5>
-                                                            <p className="text-slate-300 text-xs">{element.category}</p>
+                                        {/* Email Sequence */}
+                                        <div className="space-y-4">
+                                            {(section.frames[0].content.emails as any[]).map((email: any, index: number) => (
+                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <h4 className="text-white font-semibold">Email {index + 1}: {email.type}</h4>
+                                                        <div className="text-right">
+                                                            <p className="text-green-400 text-sm font-medium">{email.sendTime}</p>
+                                                            <p className="text-slate-400 text-xs">Expected: {email.expectedOpenRate}</p>
                                                         </div>
                                                     </div>
-                                                    {/* Element Details */}
-                                                    <div className="p-4">
-                                                        <p className="text-slate-300 text-xs leading-relaxed mb-3">{element.description}</p>
-                                                        <div className="flex flex-wrap gap-1">
-                                                            {element.attributes.map((attr: string, index: number) => (
-                                                                <span key={index} className="bg-slate-800 text-slate-300 text-xs px-2 py-1 rounded">
-                                                                    {attr}
-                                                                </span>
+                                                    
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                                        <div>
+                                                            <span className="text-blue-400 font-medium text-sm">Subject:</span>
+                                                            <p className="text-slate-300 text-sm">{email.subject}</p>
+                                                        </div>
+                                                        <div>
+                                                            <span className="text-purple-400 font-medium text-sm">Preview:</span>
+                                                            <p className="text-slate-300 text-sm">{email.preview}</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="bg-slate-800 rounded-lg p-4">
+                                                        <h5 className="text-white font-medium mb-3">Email Content:</h5>
+                                                        <div className="space-y-2 text-sm">
+                                                            {Object.entries(email.content).map(([key, value]) => (
+                                                                <div key={key}>
+                                                                    <span className="text-slate-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                                    <p className="text-slate-300 ml-2">{value as string}</p>
+                                                                </div>
                                                             ))}
                                                         </div>
                                                     </div>
@@ -1974,10 +2296,291 @@ export default function CreateInspoPage() {
                                             ))}
                                         </div>
 
-                                        {/* Application Notes */}
+                                        {/* Campaign Metrics & Strategy */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Expected Metrics</h4>
+                                                <div className="space-y-2">
+                                                    {Object.entries(section.frames[0].content.campaignMetrics).map(([key, value]) => (
+                                                        <div key={key} className="flex justify-between">
+                                                            <span className="text-slate-400 text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <span className="text-green-400 text-sm font-medium">{value as string}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Follow-up Strategy</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.followUpStrategy as string[]).map((strategy: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-blue-400 mt-1">•</span>
+                                                            {strategy}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'influencer-brief' ? (
+                                    /* Influencer Brief Layout */
+                                    <div className="space-y-6">
                                         <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
-                                            <h4 className="text-white font-semibold mb-2">Application Notes</h4>
-                                            <p className="text-slate-300 text-sm leading-relaxed">{section.frames[0].content.applicationNotes}</p>
+                                            <h3 className="text-white font-semibold mb-2">{section.frames[0].content.campaignName}</h3>
+                                            <p className="text-slate-300 text-sm">{section.frames[0].content.briefOverview}</p>
+                                        </div>
+
+                                        {/* Campaign Details */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Campaign Objectives</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.campaignObjectives as string[]).map((objective: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-green-400 mt-1">•</span>
+                                                            {objective}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Target Influencers</h4>
+                                                <div className="space-y-2 text-sm">
+                                                    {Object.entries(section.frames[0].content.targetInfluencers).map(([key, value]) => (
+                                                        <div key={key}>
+                                                            <span className="text-blue-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <p className="text-slate-300 ml-2">{Array.isArray(value) ? (value as string[]).join(', ') : value as string}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Content Requirements & Deliverables */}
+                                        <div className="space-y-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Content Requirements</h4>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <div>
+                                                        <h5 className="text-green-400 font-medium mb-2">Mandatory Elements</h5>
+                                                        <ul className="text-slate-300 text-sm space-y-1">
+                                                            {(section.frames[0].content.contentRequirements.mandatoryElements as string[]).map((element: string, i: number) => (
+                                                                <li key={i} className="flex items-start gap-2">
+                                                                    <span className="text-green-400 mt-1">•</span>
+                                                                    {element}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                    <div>
+                                                        <h5 className="text-blue-400 font-medium mb-2">Creative Freedom</h5>
+                                                        <ul className="text-slate-300 text-sm space-y-1">
+                                                            {(section.frames[0].content.contentRequirements.creativeFreedom as string[]).map((freedom: string, i: number) => (
+                                                                <li key={i} className="flex items-start gap-2">
+                                                                    <span className="text-blue-400 mt-1">•</span>
+                                                                    {freedom}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Deliverables</h4>
+                                                <div className="space-y-4">
+                                                    {(section.frames[0].content.deliverables as any[]).map((deliverable: any, index: number) => (
+                                                        <div key={index} className="border-l-2 border-purple-400 pl-4">
+                                                            <div className="flex items-center justify-between mb-2">
+                                                                <h5 className="text-white font-medium">{deliverable.platform} - {deliverable.format}</h5>
+                                                                <span className="text-orange-400 text-xs">{deliverable.timeline}</span>
+                                                            </div>
+                                                            <p className="text-slate-300 text-sm mb-1">{deliverable.specifications}</p>
+                                                            <p className="text-slate-400 text-xs">{deliverable.requirements}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Success Metrics */}
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h4 className="text-white font-semibold mb-3">Success Metrics</h4>
+                                            <ul className="text-slate-300 text-sm space-y-2">
+                                                {(section.frames[0].content.successMetrics as string[]).map((metric: string, i: number) => (
+                                                    <li key={i} className="flex items-start gap-2">
+                                                        <span className="text-orange-400 mt-1">📊</span>
+                                                        {metric}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'evergreen-plan' ? (
+                                    /* Evergreen Content Plan Layout */
+                                    <div className="space-y-6">
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h3 className="text-white font-semibold mb-2">{section.frames[0].content.planName}</h3>
+                                            <p className="text-slate-300 text-sm">{section.frames[0].content.conceptOverview}</p>
+                                        </div>
+
+                                        {/* Content Series */}
+                                        <div className="space-y-4">
+                                            {(section.frames[0].content.contentSeries as any[]).map((series: any, index: number) => (
+                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <h4 className="text-white font-semibold">{series.seriesName}</h4>
+                                                        <div className="text-right">
+                                                            <span className="text-green-400 text-sm font-medium">{series.frequency}</span>
+                                                            <p className="text-slate-400 text-xs">{series.duration}</p>
+                                                        </div>
+                                                    </div>
+                                                    <p className="text-slate-300 text-sm mb-4">{series.description}</p>
+                                                    
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <h5 className="text-blue-400 font-medium mb-2">Content Types</h5>
+                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                                {(series.contentTypes as string[]).map((type: string, i: number) => (
+                                                                    <li key={i} className="flex items-start gap-2">
+                                                                        <span className="text-blue-400 mt-1">•</span>
+                                                                        {type}
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="text-purple-400 font-medium mb-2">Platforms</h5>
+                                                            <div className="flex flex-wrap gap-1">
+                                                                {(series.platforms as string[]).map((platform: string, i: number) => (
+                                                                    <span key={i} className="bg-purple-900/30 text-purple-300 text-xs px-2 py-1 rounded">{platform}</span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Content Calendar & Strategy */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Content Calendar</h4>
+                                                <div className="space-y-2">
+                                                    {Object.entries(section.frames[0].content.contentCalendar).map(([key, value]) => (
+                                                        key !== 'notes' && (
+                                                            <div key={key} className="flex justify-between">
+                                                                <span className="text-slate-400 text-sm capitalize">{key}:</span>
+                                                                <span className="text-slate-300 text-sm">{value as string}</span>
+                                                            </div>
+                                                        )
+                                                    ))}
+                                                    {section.frames[0].content.contentCalendar.notes && (
+                                                        <p className="text-slate-400 text-xs mt-3 italic">{section.frames[0].content.contentCalendar.notes}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <h4 className="text-white font-semibold mb-3">Success Metrics</h4>
+                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                    {(section.frames[0].content.successMetrics as string[]).map((metric: string, i: number) => (
+                                                        <li key={i} className="flex items-start gap-2">
+                                                            <span className="text-green-400 mt-1">📈</span>
+                                                            {metric}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : section.frames[0]?.type === 'social-posts' ? (
+                                    /* Social Posts Layout */
+                                    <div className="space-y-6">
+                                        {/* Campaign Overview */}
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="mb-4">
+                                                <h3 className="text-white font-semibold mb-2">{section.frames[0].content.campaign}</h3>
+                                                <p className="text-slate-300 text-sm leading-relaxed">{section.frames[0].content.overview}</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Format Examples */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            {(section.frames[0].content.formats as any[]).map((format: any) => (
+                                                <div key={format.id} className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
+                                                    {/* Format Header */}
+                                                    <div className="p-4 border-b border-slate-800">
+                                                        <h4 className="text-white font-semibold text-sm">{format.format}</h4>
+                                                        <p className="text-slate-400 text-xs">{format.dimensions}</p>
+                                                    </div>
+                                                    
+                                                    {/* Generated Image */}
+                                                    <div className={`${format.format.includes('9:16') ? 'aspect-[9/16] max-w-sm' : 'aspect-[16/9] max-w-lg'} bg-slate-800 relative mx-auto`}>
+                                                        <img 
+                                                            src={format.image} 
+                                                            alt={format.format}
+                                                            className="w-full h-full object-cover rounded-lg"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg"></div>
+                                                        <div className={`absolute ${format.format.includes('9:16') ? 'top-4 left-4' : 'top-4 right-4'}`}>
+                                                            <div className="bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
+                                                                <span className="text-white text-xs font-semibold">{section.frames[0].content.campaign.split(' - ')[0]}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className={`absolute ${format.format.includes('9:16') ? 'bottom-4 left-4 right-4' : 'top-1/2 left-4 right-4 -translate-y-1/2'}`}>
+                                                            <div className="bg-black/60 backdrop-blur-sm p-3 rounded-lg">
+                                                                <div className="text-white text-sm font-semibold mb-1">{section.frames[0].content.caption.hook}</div>
+                                                                <div className="text-slate-300 text-xs">{section.frames[0].content.caption.cta}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Post Caption */}
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <h4 className="text-white font-semibold">Post Caption</h4>
+                                                <button
+                                                    onClick={() => regenerateCaption(section.id)}
+                                                    disabled={isRegeneratingCaption}
+                                                    className="flex items-center gap-2 px-3 py-1 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-600/50 rounded-lg text-white text-xs font-medium transition-colors"
+                                                >
+                                                    {isRegeneratingCaption ? (
+                                                        <>
+                                                            <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin"></div>
+                                                            <span>Regenerating...</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                            </svg>
+                                                            <span>Regenerate</span>
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                            <div className="bg-slate-800 rounded-lg p-4 font-mono text-sm">
+                                                <div className="text-white mb-2">{section.frames[0].content.caption.hook}</div>
+                                                <div className="text-slate-300 whitespace-pre-line mb-3">{section.frames[0].content.caption.body}</div>
+                                                <div className="text-blue-400 mb-3">{section.frames[0].content.caption.cta}</div>
+                                                <div className="text-purple-400 text-xs">{section.frames[0].content.caption.hashtags}</div>
+                                            </div>
+                                        </div>
+
+                                        {/* Performance Optimization */}
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <h4 className="text-white font-semibold mb-4">Performance Optimization</h4>
+                                            <ul className="text-slate-300 text-sm space-y-2">
+                                                {(section.frames[0].content.performanceOptimization as string[]).map((item: string, index: number) => (
+                                                    <li key={index} className="flex items-start gap-3">
+                                                        <span className="text-green-400 mt-1">✓</span>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
                                     </div>
                                 ) : (
@@ -2040,71 +2643,60 @@ export default function CreateInspoPage() {
                             </div>
                         ))}
 
-                        {/* Bottom CTA Buttons - Always at the bottom */}
-                        {(() => {
-                            // Get existing section types
-                            const existingTypes = generatedSections.map(section => section.type);
-                            
-                            // Define all available options
-                            const allOptions = [
-                                {
-                                    type: 'user-experience',
-                                    label: 'User Experience',
-                                    icon: 'M12 4v16m8-8H4'
-                                },
-                                {
-                                    type: 'creative-brief',
-                                    label: 'Creative Brief', 
-                                    icon: 'M12 4v16m8-8H4'
-                                },
-                                {
-                                    type: 'moodboard',
-                                    label: 'Generate Moodboard',
-                                    icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
-                                },
-                                {
-                                    type: 'marketing-brief',
-                                    label: 'Marketing Brief',
-                                    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                                }
-                            ];
 
-                            // Filter out already generated types
-                            const availableOptions = allOptions.filter(option => !existingTypes.includes(option.type));
 
-                            return (generatedSections.length > 0 || isGeneratingFrames) && availableOptions.length > 0 && (
-                                <div className="mt-8 pt-8 border-t border-slate-800">
-                                    <div className="flex items-center gap-3 mb-6">
-                                        <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                                        <h3 className="text-white text-lg font-semibold">Continue Building</h3>
-                                    </div>
-                                    <div className={`grid gap-4 ${availableOptions.length === 1 ? 'grid-cols-1' : availableOptions.length === 2 ? 'grid-cols-2' : availableOptions.length === 3 ? 'grid-cols-3' : 'grid-cols-4'}`}>
-                                        {availableOptions.map(option => (
-                                            <button 
-                                                key={option.type}
-                                                className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                                onClick={() => handleGenerateFrames(option.type as 'user-experience' | 'creative-brief' | 'moodboard' | 'marketing-brief')}
-                                                disabled={isGeneratingFrames}
-                                            >
-                                                {isGeneratingFrames && currentGenerationType === option.type ? (
-                                                    <>
-                                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                                        <span>Generating...</span>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={option.icon} />
+                        {/* All Generation Options - Always Visible at Bottom */}
+                        <div className="mt-8 pt-8 border-t border-slate-800">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <h3 className="text-white text-lg font-semibold">Generation Options</h3>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                {[
+                                    { type: 'audience-journey', label: 'Generate Audience Journey Map', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+                                    { type: 'social-post', label: 'Generate Social Posts', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2M7 4h10M7 4l-1 14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2L17 4M10 9v6M14 9v6' },
+                                    { type: 'caption-pack', label: 'Generate Caption Pack', icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z' },
+                                    { type: 'blog-outline', label: 'Generate Blog/Article Outline', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+                                    { type: 'email-campaign', label: 'Generate Email Campaign', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+                                    { type: 'influencer-brief', label: 'Generate Influencer Brief', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+                                    { type: 'evergreen-plan', label: 'Generate Evergreen Content Plan', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+                                    { type: 'script', label: 'Generate Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' }
+                                ].map(option => {
+                                    const isAlreadyGenerated = generatedSections.some(section => section.type === option.type);
+                                    return (
+                                        <button 
+                                            key={option.type}
+                                            className={`flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                                                isAlreadyGenerated 
+                                                    ? 'bg-green-900/30 border border-green-700/50 text-green-300' 
+                                                    : 'bg-slate-800 hover:bg-slate-700 text-white'
+                                            }`}
+                                            onClick={() => handleGenerateFrames(option.type as 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script')}
+                                            disabled={isGeneratingFrames}
+                                        >
+                                            {isGeneratingFrames && currentGenerationType === option.type ? (
+                                                <>
+                                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                                    <span className="hidden sm:inline">Generating...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={option.icon} />
+                                                    </svg>
+                                                    <span className="text-center leading-tight text-xs sm:text-sm">{option.label}</span>
+                                                    {isAlreadyGenerated && (
+                                                        <svg className="w-3 h-3 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                                         </svg>
-                                                        {option.label}
-                                                    </>
-                                                )}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            );
-                        })()}
+                                                    )}
+                                                </>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                 )}
             </Modal>
