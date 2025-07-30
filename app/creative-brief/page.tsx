@@ -114,7 +114,7 @@ export default function CreativeBrief() {
                         </Select>
                     )}
                 />
-                {errors.outputType && <p className='text-red-500 text-sm'>{errors.outputType.message}</p>}
+                {errors.type && <p className='text-red-500 text-sm'>{errors.type.message}</p>}
             </div>
 
             {/* Exit and Continue Buttons */}   
