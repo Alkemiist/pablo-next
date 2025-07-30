@@ -4,14 +4,13 @@
 import { useInspoContext } from "@/app/context/inspoContext";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Modal } from "@/components/ui/modal";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { validateContext } from "@/lib/api/tactics";
 import { Tactic } from "@/lib/types/tactics";
-import { Bookmark, Download, Share, Bubbles, RotateCcw, Save } from "lucide-react";
+import { Download, Share, RotateCcw, Save } from "lucide-react";
 
 // Helper functions for image handling
 const getImageFormat = (base64String: string): string => {
@@ -22,23 +21,7 @@ const getImageFormat = (base64String: string): string => {
     return 'png'; // default
 };
 
-const createBlobUrl = (base64String: string, mimeType: string = 'image/png'): string => {
-    try {
-        const byteCharacters = atob(base64String);
-        const byteNumbers = new Array(byteCharacters.length);
-        
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: mimeType });
-        return URL.createObjectURL(blob);
-    } catch (error) {
-        console.error('Error creating blob URL:', error);
-        return '';
-    }
-};
+
 
 const getImageSrc = (imageData: string | null): string | null => {
     if (!imageData) return null;
@@ -166,7 +149,7 @@ export default function CreateInspoPage() {
     // Guided generation state
     const [generatedSections, setGeneratedSections] = useState<any[]>([]);
     const [isGeneratingFrames, setIsGeneratingFrames] = useState(false);
-    const [currentGenerationType, setCurrentGenerationType] = useState<'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | null>(null);
+    const [currentGenerationType, setCurrentGenerationType] = useState<'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | 'agent-chat' | null>(null);
     const [frameGenerationError, setFrameGenerationError] = useState<string | null>(null);
     const [isRegeneratingCaption, setIsRegeneratingCaption] = useState(false);
 
@@ -412,7 +395,7 @@ export default function CreateInspoPage() {
     };
 
     // Function to generate guided frame breakdown
-    const handleGenerateFrames = async (type: 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script', sectionIdToReplace?: number) => {
+    const handleGenerateFrames = async (type: 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | 'agent-chat', sectionIdToReplace?: number) => {
         if (!selectedTactic) return;
 
         setIsGeneratingFrames(true);
@@ -429,12 +412,13 @@ export default function CreateInspoPage() {
                 switch(type) {
                     case 'audience-journey': return 'Audience Journey Map';
                     case 'social-post': return 'Social Media Posts';
-                    case 'caption-pack': return 'Caption Pack';
+                    // case 'caption-pack': return 'Caption Pack'; // This is the one that we are changing to agent chat
                     case 'blog-outline': return 'Blog/Article Outline';
                     case 'email-campaign': return 'Email Campaign';
                     case 'influencer-brief': return 'Influencer Brief';
                     case 'evergreen-plan': return 'Evergreen Content Plan';
                     case 'script': return '30-Second Ad Script';
+                    case 'agent-chat': return 'AI Agent Assistant';
                     default: return 'Generated Content';
                 }
             };
@@ -509,75 +493,6 @@ export default function CreateInspoPage() {
         }
     };
 
-    // Helper function to generate tailored images based on tactic content
-    const getImageForTactic = (tactic: Tactic, brand: string, product: string, orientation: 'vertical' | 'horizontal'): string => {
-        // Create a unique seed based on tactic content for consistent but different images
-        const contentSeed = `${tactic.title}-${brand}-${product}`.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const hash = contentSeed.split('').reduce((a, b) => {
-            a = ((a << 5) - a) + b.charCodeAt(0);
-            return a & a;
-        }, 0);
-
-        // Curated image collections based on content analysis
-        const getImageCollection = (tactic: Tactic, brand: string, product: string): string[] => {
-            const allContent = `${tactic.title} ${tactic.oneLinerSummary} ${tactic.fullDescription}`.toLowerCase();
-            
-            // High-quality, relevant image IDs from Unsplash
-            const collections: { [key: string]: string[] } = {
-                lifestyle: [
-                    '1544947987-2738bb93b73b', '1522202757-0b59db2cffce', '1494790108755-2616fd77a890',
-                    '1507003211-a9b9bc474f4f', '1502164047217-40b8f8f21de8', '1492136031628-b44c2893d44a'
-                ],
-                product: [
-                    '1560472354-b33ff0c44a43', '1606107557808-91a58da01e39', '1441986300917-64674bd600d8',
-                    '1542744173-05336fcc7ad4', '1496181133206-80ce9b88a853', '1581291518183-935e0fe6b44f'
-                ],
-                aesthetic: [
-                    '1449824913935-59a10b8d2000', '1529258283598-e19b83a3afcc', '1508739773434-c26b3d09e071',
-                    '1550745165-9bc0b687726d', '1586953208448-b95a79798f07', '1493723843671-1d1a1c1eae6d'
-                ],
-                social: [
-                    '1529156069596-61bea5f6ee8b', '1557804506-0eeec5d25c24', '1522202757-0b59db2cffce',
-                    '1556484687-30636164049f', '1523240795-5d5ee8c12ec8', '1543269865-86b4e3e47158'
-                ],
-                technology: [
-                    '1581291518183-b4c48eff0e9b', '1551650975-87deedd5443e', '1486312338219-ce68d2c6f44d',
-                    '1533709752211-118fcaf03312', '1604580864527-3aae04c08103', '1551288049-14018e65b7d2'
-                ],
-                premium: [
-                    '1552519507-da3b142c6e3d', '1586953208448-b95a79798f07', '1449824913935-59a10b8d2000',
-                    '1544197150-b72de1c3b0f4', '1507914464-4c9e4b8b42c8', '1553062407-98eeb64c6a62'
-                ]
-            };
-
-            // Determine best category
-            if (allContent.includes('authentic') || allContent.includes('lifestyle') || allContent.includes('behind')) {
-                return collections.lifestyle;
-            } else if (allContent.includes('product') || allContent.includes('demo') || allContent.includes('showcase')) {
-                return collections.product;
-            } else if (allContent.includes('aesthetic') || allContent.includes('minimal') || allContent.includes('clean')) {
-                return collections.aesthetic;
-            } else if (allContent.includes('social') || allContent.includes('community') || allContent.includes('people')) {
-                return collections.social;
-            } else if (allContent.includes('tech') || allContent.includes('app') || allContent.includes('digital')) {
-                return collections.technology;
-            } else if (allContent.includes('premium') || allContent.includes('luxury') || allContent.includes('quality')) {
-                return collections.premium;
-            }
-            
-            return collections.lifestyle; // default
-        };
-
-        const imageCollection = getImageCollection(tactic, brand, product);
-        const selectedImageId = imageCollection[Math.abs(hash) % imageCollection.length];
-        
-        // Proper dimensions for each orientation
-        const width = orientation === 'vertical' ? 400 : 700;
-        const height = orientation === 'vertical' ? 700 : 400;
-        
-        return `https://images.unsplash.com/photo-${selectedImageId}?w=${width}&h=${height}&fit=crop&crop=center&auto=format&q=75`;
-    };
-
     // Function to regenerate caption only
     const regenerateCaption = async (sectionId: number) => {
         if (!selectedTactic) return;
@@ -639,7 +554,7 @@ export default function CreateInspoPage() {
     };
 
     // AI-powered frame generation - replaces hard-coded mock data
-    const generateMockFrames = async (type: 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script', tactic: Tactic): Promise<any[]> => {
+    const generateMockFrames = async (type: 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | 'agent-chat', tactic: Tactic): Promise<any[]> => {
         try {
             // Call the new content generation API
             const response = await fetch('/api/generate-content', {
@@ -702,7 +617,8 @@ export default function CreateInspoPage() {
             'email-campaign': 'Email Campaign',
             'influencer-brief': 'Influencer Brief',
             'script': '30-Second Ad Script',
-            'evergreen-plan': 'Evergreen Content Plan'
+            'evergreen-plan': 'Evergreen Content Plan',
+            'agent-chat': 'AI Agent Assistant'
         };
         return titles[type as keyof typeof titles] || 'Generated Content';
     };
@@ -1647,7 +1563,7 @@ export default function CreateInspoPage() {
                                             className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center"
                                             onClick={() => {
                                                 console.log('Regenerating section:', section.type, section.id);
-                                                handleGenerateFrames(section.type as 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script', section.id);
+                                                handleGenerateFrames(section.type as 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | 'agent-chat', section.id);
                                             }}
                                             title="Regenerate section"
                                         >
@@ -2190,28 +2106,20 @@ export default function CreateInspoPage() {
                                     <div className="space-y-6">
                                         <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
                                             <h2 className="text-xl font-bold text-white mb-2">{section.frames[0].content.title}</h2>
-                                            <h3 className="text-lg text-blue-400 mb-4">{section.frames[0].content.subtitle}</h3>
-                                            <p className="text-slate-300 text-sm"><span className="text-green-400 font-medium">Total Word Count:</span> {section.frames[0].content.totalWordCount}</p>
+                                            <h3 className="text-md text-blue-400">{section.frames[0].content.subtitle}</h3>
                                         </div>
 
                                         {/* Article Outline */}
-                                        <div className="space-y-4">
-                                            {(section.frames[0].content.outline as any[]).map((outlineSection: any, index: number) => (
-                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
-                                                    <div className="flex items-center justify-between mb-4">
-                                                        <h4 className="text-white font-semibold text-lg">{outlineSection.section}</h4>
-                                                        <span className="bg-purple-900/30 text-purple-300 text-xs px-2 py-1 rounded">{outlineSection.wordCount}</span>
-                                                    </div>
-                                                    <ul className="text-slate-300 text-sm space-y-2">
-                                                        {(outlineSection.content as string[]).map((item: string, i: number) => (
-                                                            <li key={i} className="flex items-start gap-2">
-                                                                <span className="text-blue-400 mt-1">•</span>
-                                                                {item}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            ))}
+                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6 space-y-4">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <h4 className="text-white font-semibold text-lg">Article:</h4>
+                                            </div>
+
+                                            <div className="text-slate-300 text-sm space-y-3">
+                                                {(section.frames[0].content.body as any[]).map((outlineSection: any, index: number) => (
+                                                    <p key={index}>{outlineSection.paragraph}</p>
+                                                ))}
+                                            </div>
                                         </div>
 
                                         {/* SEO & Content Upgrades */}
@@ -2655,12 +2563,13 @@ export default function CreateInspoPage() {
                                 {[
                                     { type: 'audience-journey', label: 'Generate Audience Journey Map', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
                                     { type: 'social-post', label: 'Generate Social Posts', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2M7 4h10M7 4l-1 14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2L17 4M10 9v6M14 9v6' },
-                                    { type: 'caption-pack', label: 'Generate Caption Pack', icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z' },
+                                    // { type: 'caption-pack', label: 'Generate Caption Pack', icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z' },
                                     { type: 'blog-outline', label: 'Generate Blog/Article Outline', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
                                     { type: 'email-campaign', label: 'Generate Email Campaign', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
                                     { type: 'influencer-brief', label: 'Generate Influencer Brief', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
                                     { type: 'evergreen-plan', label: 'Generate Evergreen Content Plan', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-                                    { type: 'script', label: 'Generate Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' }
+                                    { type: 'script', label: 'Generate Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' },
+                                    { type: 'agent-chat', label: 'Generate Agent Chat', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' }
                                 ].map(option => {
                                     const isAlreadyGenerated = generatedSections.some(section => section.type === option.type);
                                     return (
@@ -2671,7 +2580,7 @@ export default function CreateInspoPage() {
                                                     ? 'bg-green-900/30 border border-green-700/50 text-green-300' 
                                                     : 'bg-slate-800 hover:bg-slate-700 text-white'
                                             }`}
-                                            onClick={() => handleGenerateFrames(option.type as 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script')}
+                                            onClick={() => handleGenerateFrames(option.type as 'audience-journey' | 'social-post' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script')}
                                             disabled={isGeneratingFrames}
                                         >
                                             {isGeneratingFrames && currentGenerationType === option.type ? (

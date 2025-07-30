@@ -18,9 +18,7 @@ export default function CreativeBrief() {
     const { register, handleSubmit, formState: { errors, isSubmitting }, setValue, reset, control } = useForm<z.infer<typeof genBriefSchema>>({
         resolver: zodResolver(genBriefSchema),
         defaultValues: {
-            briefName: '',
-            briefDescription: '',
-            outputType: ''
+            briefName: ''
         }
     });
 
@@ -91,16 +89,16 @@ export default function CreativeBrief() {
                 className='w-full border px-4 py-4 resize-none border-slate-600 rounded-md max-w-3xl focus:border-indigo-700 focus:outline-none hover:border-indigo-700 animate-in fade-in-0 duration-300' 
                 minRows={4}
                 maxRows={10}
-                {...register('briefDescription')}
+                {...register('objective')}
             />
-            {errors.briefDescription && <p className='text-red-500 text-sm'>{errors.briefDescription.message}</p>}
+            {errors.objective && <p className='text-red-500 text-sm'>{errors.objective.message}</p>}
             </div>
 
             {/* Creative Type Section */}
             <div className='w-full flex flex-col gap-2 max-w-3xl'>
                 <label htmlFor="outputType" className='text-sm font-medium'>Output Type</label>
                 <Controller
-                    name="outputType"
+                    name="type"
                     control={control}
                     render={({ field }) => (
                         <Select onValueChange={field.onChange} value={field.value}>

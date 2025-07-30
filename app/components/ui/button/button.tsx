@@ -17,11 +17,6 @@ export default function Button({
   disabled = false,
   size = 'large',
  }: ButtonProps) {
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 45ab8ab93e06582bbc6f4823ff0814afad83b015
   let styles = '';
 
   // these are the styles for the button depending on the variant

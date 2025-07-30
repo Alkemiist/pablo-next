@@ -130,7 +130,7 @@ Return as JSON:
   "performanceMetrics": ["metric1", "metric2", "metric3", "metric4"]
 }`,
 
-      'blog-outline': `You are a content strategist and SEO expert. Create a comprehensive blog outline for:
+      'blog-outline': `You are a world-class content strategist and SEO expert for top companies. Create an article/blog for:
 
 Topic: ${tactic.title} - ${tactic.oneLinerSummary}
 Brand: ${brand}
@@ -141,28 +141,24 @@ Core Message: ${tactic.coreMessage}
 Why It Works: ${tactic.whyItWorks}
 Platform Context: ${tactic.platform}
 
-Create a detailed blog outline with:
+Create a full detailed article/blog with:
 - Compelling title and subtitle
-- 5-6 main sections with specific content points
-- Word count recommendations
+- 2 - 3 paragraphs of content
 - SEO strategy with relevant keywords
 - Content upgrades that would provide value
 
-Make this genuinely helpful and specific to the tactic and audience.
+Make this genuinely helpful and specific to the tactic and audience. Make it engaging and interesting to read.
 
 Return as JSON:
 {
   "title": "Compelling blog title",
   "subtitle": "Engaging subtitle",
-  "outline": [
+  "body": [
     {
-      "section": "Section name",
-      "wordCount": "Word count range",
-      "content": ["point1", "point2", "point3", "point4"]
+      "paragraph": "Paragraph content"
     }
     // ... more sections
   ],
-  "totalWordCount": "Total word count range",
   "seoStrategy": {
     "primaryKeyword": "Main keyword",
     "secondaryKeywords": ["keyword1", "keyword2", "keyword3", "keyword4"],
@@ -432,7 +428,24 @@ Return as JSON:
   },
   "successMetrics": ["metric1", "metric2", "metric3", "metric4", "metric5"],
   "resourceRequirements": ["requirement1", "requirement2", "requirement3", "requirement4", "requirement5"]
-}`
+}`,
+
+      'agent-chat': `You are an expert world-class marketing strategist and content creator. Generate high-quality, specific, and actionable marketing content based on the provided context. Always return valid JSON that exactly matches the requested structure. Be creative, specific, and authentic - avoid generic marketing speak. Focus on practical, implementable ideas that reflect the specific tactic, brand, and audience provided: 
+      
+      Context:
+      Brand: ${brand}
+      Product: ${product}
+      Tactic: ${tactic.title}
+      Core Message: ${tactic.coreMessage}
+      Target Audience: ${persona}
+      Goal: ${tactic.goal}
+      Platform: ${tactic.platform}
+      Why It Works: ${tactic.whyItWorks}
+      Visual Guide: ${visualGuide}
+
+      
+
+      `
     };
 
     const prompt = prompts[type as keyof typeof prompts];
