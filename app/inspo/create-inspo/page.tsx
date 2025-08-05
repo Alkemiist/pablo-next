@@ -784,45 +784,13 @@ export default function CreateInspoPage() {
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]"></div>
                             
                             {/* Loading Content */}
-                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                                {/* Top Section Loading */}
-                                <div className="flex justify-between items-start">
+                            <div className="relative z-10 h-full flex items-center justify-center">
+                                <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                    <TypewriterText 
+                                        text={cardLoadingStates[0].stage}
+                                        speed={30}
+                                    />
                                 </div>
-                                
-                                {/* Center Loading Spinner with Progress */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="flex flex-col items-center gap-4 text-center">
-                                        <div className="relative">
-                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
-                                                <TypewriterText 
-                                                    text={cardLoadingStates[0].stage}
-                                                    speed={30}
-                                                />
-                                            </div>
-                                            <div className="w-48 bg-slate-800 rounded-full h-2">
-                                                <div 
-                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
-                                                    style={{ width: `${cardLoadingStates[0].progress}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Bottom Section Loading */}
-                                {/* <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
-                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
-                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
-                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
-                                </div> */}
                             </div>
                         </div>
                     ) : tactics[0] ? (
@@ -870,7 +838,7 @@ export default function CreateInspoPage() {
                         </>
                     ) : (
                         <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Tactic 1 will appear here</p>
+                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
@@ -889,47 +857,13 @@ export default function CreateInspoPage() {
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '0.5s'}}></div>
                             
                             {/* Loading Content */}
-                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                                {/* Top Section Loading */}
-                                <div className="flex justify-between items-start">
-                                    
-
+                            <div className="relative z-10 h-full flex items-center justify-center">
+                                <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                    <TypewriterText 
+                                        text={cardLoadingStates[1].stage}
+                                        speed={30}
+                                    />
                                 </div>
-                                
-                                {/* Center Loading Spinner with Progress */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="flex flex-col items-center gap-4 text-center">
-                                        <div className="relative">
-                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
-                                                <TypewriterText 
-                                                    text={cardLoadingStates[1].stage}
-                                                    speed={30}
-                                                />
-                                            </div>
-                                            <div className="w-48 bg-slate-800 rounded-full h-2">
-                                                <div 
-                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
-                                                    style={{ width: `${cardLoadingStates[1].progress}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Bottom Section Loading */}
-                                {/* <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
-                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
-                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
-                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
-                                </div> */}
                             </div>
                         </div>
                     ) : tactics[1] ? (
@@ -983,7 +917,7 @@ export default function CreateInspoPage() {
                         </>
                     ) : (
                         <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Tactic 2 will appear here</p>
+                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
@@ -1002,47 +936,13 @@ export default function CreateInspoPage() {
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1s'}}></div>
                             
                             {/* Loading Content */}
-                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                                {/* Top Section Loading */}
-                                <div className="flex justify-between items-start">
-                                    
-                                    
+                            <div className="relative z-10 h-full flex items-center justify-center">
+                                <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                    <TypewriterText 
+                                        text={cardLoadingStates[2].stage}
+                                        speed={30}
+                                    />
                                 </div>
-                                
-                                {/* Center Loading Spinner with Progress */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="flex flex-col items-center gap-4 text-center">
-                                        <div className="relative">
-                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
-                                                <TypewriterText 
-                                                    text={cardLoadingStates[2].stage}
-                                                    speed={30}
-                                                />
-                                            </div>
-                                            <div className="w-48 bg-slate-800 rounded-full h-2">
-                                                <div 
-                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
-                                                    style={{ width: `${cardLoadingStates[2].progress}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Bottom Section Loading */}
-                                {/* <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
-                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
-                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
-                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
-                                </div> */}
                             </div>
                         </div>
                     ) : tactics[2] ? (
@@ -1096,7 +996,7 @@ export default function CreateInspoPage() {
                         </>
                     ) : (
                         <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Tactic 3 will appear here</p>
+                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
@@ -1115,47 +1015,13 @@ export default function CreateInspoPage() {
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1.5s'}}></div>
                             
                             {/* Loading Content */}
-                            <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-                                {/* Top Section Loading */}
-                                <div className="flex justify-between items-start">
-                                    
-                                    
+                            <div className="relative z-10 h-full flex items-center justify-center">
+                                <div className="text-white text-sm font-medium font-mono tracking-wider">
+                                    <TypewriterText 
+                                        text={cardLoadingStates[3].stage}
+                                        speed={30}
+                                    />
                                 </div>
-                                
-                                {/* Center Loading Spinner with Progress */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="flex flex-col items-center gap-4 text-center">
-                                        <div className="relative">
-                                            <div className="w-16 h-16 border-4 border-slate-600 border-t-slate-400 rounded-full animate-spin"></div>
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="text-white text-sm font-medium font-mono tracking-wider">
-                                                <TypewriterText 
-                                                    text={cardLoadingStates[3].stage}
-                                                    speed={30}
-                                                />
-                                            </div>
-                                            <div className="w-48 bg-slate-800 rounded-full h-2">
-                                                <div 
-                                                    className="bg-slate-400 h-2 rounded-full transition-all duration-500"
-                                                    style={{ width: `${cardLoadingStates[3].progress}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Bottom Section Loading */}
-                                {/* <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 animate-pulse">
-                                    <div className="h-5 w-3/4 bg-white/20 rounded mb-2"></div>
-                                    <div className="h-4 w-full bg-white/20 rounded mb-1"></div>
-                                    <div className="h-4 w-2/3 bg-white/20 rounded"></div>
-                                </div> */}
                             </div>
                         </div>
                     ) : tactics[3] ? (
@@ -1209,7 +1075,7 @@ export default function CreateInspoPage() {
                         </>
                     ) : (
                         <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Tactic 4 will appear here</p>
+                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
@@ -1301,7 +1167,7 @@ export default function CreateInspoPage() {
                             value={tempPersona}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempPersona(e.target.value)}
                             placeholder="Describe the target persona (age, interests, behavior, etc.)..."
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="resize-none mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
                         />
                     </div>
                     <div className="flex gap-3">
@@ -1518,23 +1384,23 @@ export default function CreateInspoPage() {
                                         </div> */}
 
                                         {/* Description Section */}
-                                    <div>
-                                        <h4 className="text-white font-semibold mb-3">Description:</h4>
-                                        <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
-                                    </div>
+                                        <div>
+                                            <h4 className="text-white font-semibold mb-3">Description:</h4>
+                                            <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
+                                        </div>
 
-                                    {/* Why This Works Section */}
-                                    <div>
-                                        <h4 className="text-white font-semibold mb-3">Øpus POV:</h4>
-                                        <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
+                                        {/* Why This Works Section */}
+                                        <div>
+                                            <h4 className="text-white font-semibold mb-3">Øpus POV:</h4>
+                                            <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
+                                        </div>
                                     </div>
-                                </div>
 
                                     {/* divider */}
                                     <div className="h-px bg-slate-800 w-full"></div>
 
-                                    {/* Hook */}
-                                    <div className="flex gap-2">
+                                        {/* Hook */}
+                                        <div className="flex gap-2  ">
                                             <p className="text-white text-sm font-semibold">Hook:</p>
                                             <p className="text-slate-500 text-sm">{selectedTactic.oneLinerSummary}</p>
                                         </div>
@@ -2582,7 +2448,7 @@ export default function CreateInspoPage() {
                                     { type: 'email-campaign', label: 'Email Campaign', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
                                     { type: 'influencer-brief', label: 'Influencer Brief', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
                                     { type: 'evergreen-plan', label: 'Evergreen Content Plan', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-                                    { type: 'script', label: 'Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' },
+                                    { type: 'script', label: 'Commercial Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' },
                                     { type: 'agent-chat', label: 'Agent Chat', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' }
                                 ].map(option => {
                                     const isAlreadyGenerated = generatedSections.some(section => section.type === option.type);
