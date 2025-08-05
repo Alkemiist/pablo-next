@@ -26,12 +26,11 @@ Target Audience: ${persona}
 Tactic: ${tactic.title}
 Core Message: ${tactic.coreMessage}
 Goal: ${tactic.goal}
-Platform: ${tactic.platform}
 Why It Works: ${tactic.whyItWorks}
 Visual Guide: ${visualGuide}
 
 Create a comprehensive audience journey with 3 stages (Awareness, Engagement, Conversion). For each stage, provide:
-- Realistic touchpoints specific to this tactic and platform
+- Realistic touchpoints specific to this tactic
 - Authentic emotions the persona would feel
 - Specific actions they would take
 - Real barriers they might face
@@ -57,18 +56,17 @@ Return as JSON with this exact structure:
   "optimizationOpportunities": ["opportunity1", "opportunity2", "opportunity3", "opportunity4"]
 }`,
 
-      'social-post': `You are a social media strategist. Create platform-specific social media posts for:
+      'social-post': `You are a world-class social media strategist. Create platform-specific social media posts for:
 
 Campaign: ${brand} ${product} - ${tactic.title}
 Tactic Details: ${tactic.oneLinerSummary}
 Core Message: ${tactic.coreMessage}
 Goal: ${tactic.goal}
-Platform: ${tactic.platform}
 Why It Works: ${tactic.whyItWorks}
 Target Persona: ${persona}
 Visual Guide: ${visualGuide}
 
-Create authentic, engaging social media content for Instagram, Twitter, and LinkedIn. Each post should:
+Create authentic, engaging social media content for Instagram, TikTok, and YouTube. Each post should:
 - Be tailored to the platform's unique style and audience
 - Incorporate the specific tactic and core message naturally
 - Feel genuine, not overly promotional
@@ -87,7 +85,7 @@ Return as JSON with this structure:
       "bestTimes": "Optimal posting times",
       "considerations": "Platform-specific considerations"
     }
-    // ... similar for Twitter and LinkedIn
+    // ... similar for TikTok and YouTube
   ],
   "contentPillars": ["pillar1", "pillar2", "pillar3", "pillar4"],
   "engagementStrategy": ["strategy1", "strategy2", "strategy3", "strategy4"]
@@ -139,11 +137,10 @@ Target Audience: ${persona}
 Goal: ${tactic.goal}
 Core Message: ${tactic.coreMessage}
 Why It Works: ${tactic.whyItWorks}
-Platform Context: ${tactic.platform}
 
 Create a full detailed article/blog with:
 - Compelling title and subtitle
-- 2 - 3 paragraphs of content
+- 4 - 5 paragraphs of content
 - SEO strategy with relevant keywords
 - Content upgrades that would provide value
 
@@ -167,7 +164,7 @@ Return as JSON:
   "contentUpgrades": ["upgrade1", "upgrade2", "upgrade3", "upgrade4"]
 }`,
 
-      'email-campaign': `You are an email marketing expert. Create a strategic email campaign for:
+      'email-campaign': `You are a world-class email marketing expert. Create a strategic email campaign for:
 
 Campaign: ${brand} ${product} - ${tactic.title}
 Objective: ${tactic.goal}
@@ -215,13 +212,12 @@ Return as JSON:
   "followUpStrategy": ["strategy1", "strategy2", "strategy3", "strategy4"]
 }`,
 
-      'influencer-brief': `You are an influencer marketing strategist. Create a comprehensive influencer brief for:
+      'influencer-brief': `You are a world-class influencer marketing strategist. Create a comprehensive influencer brief for:
 
 Campaign: ${brand} ${product} - ${tactic.title}
 Tactic: ${tactic.title}
 Core Message: ${tactic.coreMessage}
 Goal: ${tactic.goal}
-Platform: ${tactic.platform}
 Target Audience: ${persona}
 Why It Works: ${tactic.whyItWorks}
 Visual Guide: ${visualGuide}
@@ -279,7 +275,7 @@ Return as JSON:
   "successMetrics": ["metric1", "metric2", "metric3", "metric4", "metric5"]
 }`,
 
-      'script': `You are a video advertising expert. Create a compelling 30-second ad script for:
+      'script': `You are a world-class video advertising expert. Create a compelling 30-second ad script for:
 
 Brand: ${brand}
 Product: ${product}
@@ -362,7 +358,7 @@ Return as JSON:
   "measurableGoals": ["goal1", "goal2", "goal3", "goal4"]
 }`,
 
-      'evergreen-plan': `You are a content strategy expert. Create a comprehensive evergreen content plan for:
+      'evergreen-plan': `You are a world-class content strategy expert. Create a comprehensive evergreen content plan for:
 
 Brand: ${brand}
 Product: ${product}
@@ -430,7 +426,7 @@ Return as JSON:
   "resourceRequirements": ["requirement1", "requirement2", "requirement3", "requirement4", "requirement5"]
 }`,
 
-      'agent-chat': `You are an expert world-class marketing strategist and content creator. Generate high-quality, specific, and actionable marketing content based on the provided context. Always return valid JSON that exactly matches the requested structure. Be creative, specific, and authentic - avoid generic marketing speak. Focus on practical, implementable ideas that reflect the specific tactic, brand, and audience provided: 
+      'agent-chat': `You are a world-class marketing strategist and content creator. Generate high-quality, specific, and actionable marketing content based on the provided context. Always return valid JSON that exactly matches the requested structure. Be creative, specific, and authentic - avoid generic marketing speak. Focus on practical, implementable ideas that reflect the specific tactic, brand, and audience provided: 
       
       Context:
       Brand: ${brand}

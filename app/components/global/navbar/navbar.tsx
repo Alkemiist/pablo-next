@@ -26,7 +26,7 @@ export default function Navbar() {
         // { href: '/product-creation', label: 'Products', icon: <Barcode size={20} /> },
         // { href: '/intelligence', label: 'Intelligence', icon: <Brain size={20} /> },
         { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
-        { href: '/god-flow', label: 'God Flow', icon: <Atom size={20} /> },
+        // { href: '/god-flow', label: 'God Flow', icon: <Atom size={20} /> },
         { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> },
         { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> }
 
@@ -45,9 +45,9 @@ export default function Navbar() {
                 {isOpen && <span className="text-sm">{item.label}</span>}
                 </Link>
             ))}
-        <button onClick={handleNav} className="absolute bottom-24 left-1/2 transform -translate-x-1/2 m-full hover:bg-slate-800 rounded-lg p-2"> 
+        {/* <button onClick={handleNav} className="absolute bottom-24 left-1/2 transform -translate-x-1/2 m-full hover:bg-slate-800 rounded-lg p-2"> 
             {isOpen ? <ArrowLeft size={20} /> : <ArrowRight size={20} />} 
-        </button>
+        </button> */}
 
     </div>
     )

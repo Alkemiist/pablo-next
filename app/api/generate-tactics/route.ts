@@ -56,19 +56,18 @@ export async function POST(request: NextRequest) {
 
       For each tactic, provide:
       1. A creative title (max 8 words and not repeatable with other 3 tactics)
-      2. The specific platform/medium (e.g., "TikTok Post", "Instagram Reel", "YouTube Short", "TV", "")
-      3. A one-liner summary that captures the essence of the tactic (max 15 words)
-      4. A core message that captures the essence of the tactic (max 1 sentence)
-      5. The goal of the tactic (max 1 sentence)
-      6. A full description explaining the tactic in detail (max 4 sentences)
-      7. Why this tactic works specifically for this brand/product/persona combination (max 4 sentences)
-      8. A descriptive image prompt that would represent this tactic visually (be specific about style, mood, colors, composition). IMPORTANT: Request HYPER-REALISTIC, photographic quality images with natural lighting, sharp details, and professional composition. Avoid cartoon, illustration, or artistic styles.
-      9. A performance hook that would make this idea scroll-stopping, shareable, or addictive to engage with (max 1 sentence)
-      10. An influencer match that would execute this best (max 1 sentence)
+      2. A one-liner summary that captures the essence of the tactic (max 15 words)
+      3. A core message that captures the essence of the tactic (max 1 sentence)
+      4. The goal of the tactic (max 1 sentence)
+      5. A full description explaining the tactic in detail (max 4 sentences)
+      6. Why this tactic works specifically for this brand/product/persona combination (max 4 sentences)
+      7. A descriptive image prompt that would represent this tactic visually (be specific about style, mood, colors, composition). IMPORTANT: Request HYPER-REALISTIC, photographic quality images with natural lighting, sharp details, and professional composition. Avoid cartoon, illustration, or artistic styles.
+      8. A performance hook that would make this idea scroll-stopping, shareable, or addictive to engage with (max 1 sentence)
+      90. An influencer match that would execute this best (max 1 sentence)
 
       Style and output:
       •	Ensure no repetition across tactics—each idea must stand alone. Title's and one-liners should be unique and different from each other.
-      •	Prioritize fresh thinking, bold creativity, and channel-native storytelling.
+      •	Prioritize fresh thinking, and bold creativity
       •	Avoid clichés. Lean into what will get people to stop scrolling and act.
 
       Each idea must feel like it came from a top-tier agency creative team, ready for presentation to a CMO.
@@ -76,7 +75,6 @@ export async function POST(request: NextRequest) {
       Format your response as a JSON array with exactly ${numTactics} object${numTactics > 1 ? 's' : ''}, each containing:
       {
         "title": "Campaign-worthy name (max 8 words)",
-        "platform": "Platform/Medium (e.g., TikTok Post, IG Reel, YouTube Short)",
         "oneLinerSummary": "Punchy one-liner capturing the creative hook (max 15 words)",
         "coreMessage": "Compelling, high-level concept in 1 sentence",
         "goal": "The goal of the tactic in 1 sentence",
@@ -99,7 +97,7 @@ export async function POST(request: NextRequest) {
 
                     Your output should:
                     •	Include a campaign title or theme
-                    •	Offer 2–3 platform-native execution ideas (e.g., Instagram Reel hook, TikTok format, OOH concept)
+                    •	Offer 2–3 execution ideas 
                     •	Be optimized for high engagement, emotional resonance, and shareability
                     •	Be specific to the brand’s tone, target audience, and market context
 
@@ -153,34 +151,28 @@ export async function POST(request: NextRequest) {
         
         const enhancedPrompt = `PHOTOREALISTIC IMAGE: ${tactic.imagePrompt || `Creative marketing visual for: ${tactic.title}`}
 
-            CRITICAL SPECIFICATIONS:
-            - Shot with professional DSLR camera, 85mm lens (or what ever lens is best for the image)
-            - Hyperrealistic skin textures, fabric details, surface materials
-            - Perfect focus, shallow depth of field, cinematic composition (if applicable)
-            - Color grading: rich saturation, professional color balance
-            - No digital artifacts, no cartoon elements, no illustrations (unless requested)
-            - Commercial photography standards, magazine-quality finish
-            - Sharp details in foreground, beautiful bokeh in background (if applicable)
-            - If you are showing people, make sure they are looking at the camera and smiling, and if you are showing a product, make sure it is in focus and in a good position.
-            - Make sure that families look real and having a great time together. One mom, one dad, and one or more kids. (depending on the product)
-            - avoid too much softness in the image, make sure the image is sharp and clear.
-            - avoid too much blur in the image, make sure the image is sharp and clear.
-            - avoid too much noise in the image, make sure the image is sharp and clear.
-            - avoid too much grain in the image, make sure the image is sharp and clear.
-            - avoid too much contrast in the image, make sure the image is sharp and clear.
-            - avoid too much saturation in the image, make sure the image is sharp and clear.
-            - avoid too much brightness in the image, make sure the image is sharp and clear.
-
-            MOOD AND STYLE:
-            - Cinematic lighting with dramatic shadows and highlights
-            - Premium brand aesthetic, luxury visual appeal
-            - Marketing campaign ready, advertisement quality
-            - Photojournalistic authenticity with artistic flair
-
-            TECHNICAL REQUIREMENTS:
-            - Resolution: Maximum available (1792x1024)
-            - Quality: Highest definition possible
-            - Style: Natural photographic realism`;
+            The image should be a high-end commercial still shot that looks as if it was taken from a world-class advertisement. The image should showcase ${product} in a visually striking, cinematic style.
+	          •	Subject Focus: Center the composition around ${product}, ensuring it appears as the hero element. Highlight its texture, material, and premium details with crisp clarity.
+	          •	Creative Direction: Evoke the feeling of ${brand} ${goal}. The visual should instantly communicate the brand’s personality.
+	          •	Style & Mood: Cinematic, high-contrast lighting with dramatic shadows and highlights. Rich, vibrant colors balanced with a polished commercial aesthetic.
+	          •	Setting & Context: Place the product in ${visualGuide}. Keep the background purposeful but not distracting.
+	          •	Composition & Angle: Use professional-grade framing (rule of thirds, leading lines). Choose a perspective that flatters the product (e.g., eye-level hero shot, dramatic close-up).
+	          •	Lighting: Studio-quality, cinematic lighting that creates depth and dimension. Emphasize natural reflections and highlights to enhance realism.
+	          •	Details: Ultra-high resolution, photo-realistic textures, shallow depth of field where appropriate. Subtle atmospheric effects (like a soft glow, motion blur hints, or lens flare) to add realism and energy.
+	          •	Overall Effect: The final image should feel like a still frame captured from a Super Bowl-level commercial—premium, emotionally compelling, and marketing-ready.
+            
+            AVOID:
+            - Avoid blurry, pixelated, or low-resolution results. 
+            - Exclude cartoonish, amateur, or AI-art-looking styles. 
+            - No distorted proportions, extra limbs, or unrealistic reflections. 
+            - Avoid cluttered backgrounds, messy compositions, or irrelevant objects that distract from the product. 
+            - No text overlays, watermarks, logos, or branding artifacts. 
+            - Do not use harsh or unflattering lighting. 
+            - Exclude childish, meme-like, or stock photo clichés. 
+            - Ensure no exaggerated saturation, odd color banding, or unrealistic shadows. 
+            - Avoid generic renders—keep the style premium, cinematic, and photorealistic.           
+            `
+            ;
 
         let imageResponse;
         

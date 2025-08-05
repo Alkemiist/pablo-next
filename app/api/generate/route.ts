@@ -37,11 +37,11 @@ export async function POST(request: NextRequest) {
     switch (contentType) {
       case 'text':
         response = await openai.chat.completions.create({
-          model: "gpt-4",
+          model: "gpt-4o-mini",
           messages: [
             {
               role: "system",
-              content: "You are a creative content generator. Generate high-quality, engaging content based on the user's prompt."
+              content: "You are a world-class creative content marketer, copywriter, designer, strategist, and creative director. Generate high-quality, engaging content based on the user's prompt."
             },
             {
               role: "user",

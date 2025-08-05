@@ -121,11 +121,26 @@ export default function CreateInspoPage() {
     const [tempProduct, setTempProduct] = useState(product);
     const [tempPersona, setTempPersona] = useState(persona);
     const [tempGoalIntent, setTempGoalIntent] = useState('');
-    const [tempGoalMedium, setTempGoalMedium] = useState('');
     const [tempGoalMessage, setTempGoalMessage] = useState('');
     const [tempVisualStyle, setTempVisualStyle] = useState('');
     const [tempVisualConstraints, setTempVisualConstraints] = useState('');
     const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+
+    // Intent options for goal modal
+    const intentOptions = [
+        'Brand awareness',
+        'Consideration/Education',
+        'Acquisition/Lead Generation',
+        'Conversion/Sales',
+        'Retention/Loyalty',
+        'Advocacy/Community Building',
+        'Market Expansion / Entry',
+        'Product or Service Launch',
+        'Reputation/Trust Building',
+        'Cultural or Social Relevance',
+        'Customer Insight/Experimentation',
+        'Crisis Response/Damage Control'
+    ];
 
     // Modal open states
     const [isBrandOpen, setIsBrandOpen] = useState(false);
@@ -219,7 +234,7 @@ export default function CreateInspoPage() {
 
     // Helper function to handle goal submission
     const handleGoalSubmit = () => {
-        const goalText = `Intent: ${tempGoalIntent}\nMedium: ${tempGoalMedium}\nKey Message: ${tempGoalMessage}`;
+        const goalText = `Intent: ${tempGoalIntent}\nKey Message: ${tempGoalMessage}`;
         setGoal(goalText);
         setIsGoalOpen(false);
     };
@@ -1315,24 +1330,23 @@ export default function CreateInspoPage() {
             >
                 <div className="space-y-4">
                     <div>
-                        <Label htmlFor="goal-intent" className="text-white">What is the intent?</Label>
-                        <Textarea
-                            id="goal-intent"
-                            value={tempGoalIntent}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempGoalIntent(e.target.value)}
-                            placeholder="Ex. brand awareness, increase sales, ....."
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[80px]"
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="goal-medium" className="text-white">On what medium?</Label>
-                        <Textarea
-                            id="goal-medium"
-                            value={tempGoalMedium}
-                            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempGoalMedium(e.target.value)}
-                            placeholder="Ex. TikTok"
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[80px]"
-                        />
+                        <Label className="text-white">What is the intent?</Label>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                            {intentOptions.map((option) => (
+                                <button
+                                    key={option}
+                                    type="button"
+                                    onClick={() => setTempGoalIntent(option)}
+                                    className={`px-3 py-2 text-sm rounded-lg border transition-all duration-200 ${
+                                        tempGoalIntent === option
+                                            ? 'border-purple-500 text-white shadow-[0_0_12px_rgba(59,130,246,0.6)]'
+                                            : 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-slate-600'
+                                    }`}
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                     <div>
                         <Label htmlFor="goal-message" className="text-white">What is the key message?</Label>
@@ -1443,7 +1457,7 @@ export default function CreateInspoPage() {
                 </div>
 
                 {selectedTactic && (
-                    <div className="max-h-[80vh] overflow-y-auto pr-2">
+                    <div className="max-h-[80vh] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 [&::-webkit-scrollbar-corner]:bg-slate-800">
                         <div className="flex gap-10 mb-8 items-stretch">
                             {/* Left Side - Image */}
                             <div className="w-2/5 flex-shrink-0 shadow-lg">
@@ -1498,13 +1512,29 @@ export default function CreateInspoPage() {
                                     {/* Key Information Stack */}
                                     <div className="space-y-4">
                                         {/* Primary Tactic */}
-                                        <div className="flex gap-2">
+                                        {/* <div className="flex gap-2">
                                             <p className="text-white text-sm font-semibold">Primary Tactic:</p>
                                             <p className="text-slate-500 text-sm">{selectedTactic.platform}</p>
-                                        </div>
+                                        </div> */}
 
-                                        {/* Hook */}
-                                        <div className="flex gap-2">
+                                        {/* Description Section */}
+                                    <div>
+                                        <h4 className="text-white font-semibold mb-3">Description:</h4>
+                                        <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
+                                    </div>
+
+                                    {/* Why This Works Section */}
+                                    <div>
+                                        <h4 className="text-white font-semibold mb-3">Øpus POV:</h4>
+                                        <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
+                                    </div>
+                                </div>
+
+                                    {/* divider */}
+                                    <div className="h-px bg-slate-800 w-full"></div>
+
+                                    {/* Hook */}
+                                    <div className="flex gap-2">
                                             <p className="text-white text-sm font-semibold">Hook:</p>
                                             <p className="text-slate-500 text-sm">{selectedTactic.oneLinerSummary}</p>
                                         </div>
@@ -1521,22 +1551,6 @@ export default function CreateInspoPage() {
                                             <p className="text-slate-500 text-sm">{selectedTactic.coreMessage}</p>
                                         </div>
                                     </div>
-
-                                    {/* divider */}
-                                    <div className="h-px bg-slate-800 w-full"></div>
-
-                                    {/* Description Section */}
-                                    <div>
-                                        <h4 className="text-white font-semibold mb-3">Description:</h4>
-                                        <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
-                                    </div>
-
-                                    {/* Why This Works Section */}
-                                    <div>
-                                        <h4 className="text-white font-semibold mb-3">Øpus POV:</h4>
-                                        <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
-                                    </div>
-                                </div>
 
 
                             </div>
