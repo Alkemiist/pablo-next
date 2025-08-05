@@ -57,13 +57,13 @@ export async function POST(request: NextRequest) {
       For each tactic, provide:
       1. A creative title (max 8 words and not repeatable with other 3 tactics)
       2. A one-liner summary that captures the essence of the tactic (max 15 words)
-      3. A core message that captures the essence of the tactic (max 1 sentence)
-      4. The goal of the tactic (max 1 sentence)
+      3. A core message that captures the essence of the tactic (max 15 words)
+      4. The goal of the tactic (max 15 words)
       5. A full description explaining the tactic in detail (max 4 sentences)
-      6. Why this tactic works specifically for this brand/product/persona combination (max 4 sentences)
+      6. Why this tactic works specifically for this brand/product/persona combination (max 15 words)
       7. A descriptive image prompt that would represent this tactic visually (be specific about style, mood, colors, composition). IMPORTANT: Request HYPER-REALISTIC, photographic quality images with natural lighting, sharp details, and professional composition. Avoid cartoon, illustration, or artistic styles.
-      8. A performance hook that would make this idea scroll-stopping, shareable, or addictive to engage with (max 1 sentence)
-      90. An influencer match that would execute this best (max 1 sentence)
+      8. A performance hook that would make this idea scroll-stopping, shareable, or addictive to engage with (max 15 words)
+      9. An influencer match that would execute this best (max 15 words)
 
       Style and output:
       •	Ensure no repetition across tactics—each idea must stand alone. Title's and one-liners should be unique and different from each other.

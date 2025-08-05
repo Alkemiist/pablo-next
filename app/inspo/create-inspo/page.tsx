@@ -766,7 +766,7 @@ export default function CreateInspoPage() {
                 </div>
             )}
 
-            {/* Inpo Card Section: The generated inspo cards are displayed here -------------------------------- */}
+            {/* Inspo Card Section: The generated inspo cards are displayed here -------------------------------- */}
             <div className='mx-8 h-[calc(100vh-80px)] grid grid-cols-2 grid-rows-2 gap-4 p-8'>
                 
                 {/* Generated Card 1 */}
@@ -2575,21 +2575,21 @@ export default function CreateInspoPage() {
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                                 {[
-                                    { type: 'audience-journey', label: 'Generate Audience Journey Map', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-                                    { type: 'social-post', label: 'Generate Social Posts', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2M7 4h10M7 4l-1 14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2L17 4M10 9v6M14 9v6' },
+                                    { type: 'audience-journey', label: 'Audience Journey Map', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+                                    { type: 'social-post', label: 'Social Posts', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2M7 4h10M7 4l-1 14c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2L17 4M10 9v6M14 9v6' },
                                     // { type: 'caption-pack', label: 'Generate Caption Pack', icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z' },
-                                    { type: 'blog-outline', label: 'Generate Blog/Article Outline', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
-                                    { type: 'email-campaign', label: 'Generate Email Campaign', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-                                    { type: 'influencer-brief', label: 'Generate Influencer Brief', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-                                    { type: 'evergreen-plan', label: 'Generate Evergreen Content Plan', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-                                    { type: 'script', label: 'Generate Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' },
-                                    { type: 'agent-chat', label: 'Generate Agent Chat', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' }
+                                    { type: 'blog-outline', label: 'Blog/Article', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+                                    { type: 'email-campaign', label: 'Email Campaign', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+                                    { type: 'influencer-brief', label: 'Influencer Brief', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+                                    { type: 'evergreen-plan', label: 'Evergreen Content Plan', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+                                    { type: 'script', label: 'Script', icon: 'M7 4V2c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v2m3 6V6a2 2 0 00-2-2H6a2 2 0 00-2 2v4c0 1.1.9 2 2 2h1m0 0v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4m-6 0h6' },
+                                    { type: 'agent-chat', label: 'Agent Chat', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' }
                                 ].map(option => {
                                     const isAlreadyGenerated = generatedSections.some(section => section.type === option.type);
                                     return (
                                         <button 
                                             key={option.type}
-                                            className={`flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                                            className={`flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 cursor-pointer ${
                                                 isAlreadyGenerated 
                                                     ? 'bg-green-900/30 border border-green-700/50 text-green-300' 
                                                     : 'bg-slate-800 hover:bg-slate-700 text-white'
