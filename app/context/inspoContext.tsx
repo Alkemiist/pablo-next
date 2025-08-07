@@ -17,7 +17,7 @@ interface InspoContextType {
     setVisualGuide: (value: string) => void;
 }
 
-// provider props type
+// provider props
 interface providerProps {
     children: ReactNode;
 }
@@ -34,7 +34,13 @@ export const InspoProvider = ({ children }: providerProps) => {
     const [visualGuide, setVisualGuide] = useState('');
 
     return (
-        <InspoContext.Provider value={{ brand, setBrand, product, setProduct, persona, setPersona, goal, setGoal, visualGuide, setVisualGuide }}>
+        <InspoContext.Provider value={{ 
+            brand, setBrand, 
+            product, setProduct, 
+            persona, setPersona, 
+            goal, setGoal, 
+            visualGuide, setVisualGuide
+        }}>
             {children}
         </InspoContext.Provider>
     )

@@ -213,6 +213,8 @@ export default function CreateInspoPage() {
         });
     };
 
+
+
     // Cleanup function for blob URLs (memory management)
     useEffect(() => {
         return () => {
@@ -248,6 +250,10 @@ export default function CreateInspoPage() {
 
     // Helper function to check if a section is completed
     const isCompleted = (value: string) => value.trim().length > 0;
+
+
+
+
 
     // Helper function to open tactic detail modal
     const handleTacticClick = (tactic: Tactic) => {

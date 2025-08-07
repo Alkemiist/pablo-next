@@ -28,7 +28,8 @@ export default function Navbar() {
         { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
         // { href: '/god-flow', label: 'God Flow', icon: <Atom size={20} /> },
         { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> },
-        { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> }
+        { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> },
+        { href: '/persona', label: 'Persona Creation', icon: <User size={20} /> }
 
     ];
 

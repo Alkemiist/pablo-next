@@ -187,13 +187,13 @@ export default function ProfileAnalysis() {
             </div>
 
             {/* Right Side: Top Personas, Top Conversations ------------------------------------------------------------ */}
-            <div className="flex flex-col gap-2 w-[33%] bg-gray-950 border-l border-gray-800 h-[calc(100vh-60px)] overflow-y-scroll">
+            <div className="flex flex-col gap-4 w-[33%] bg-gray-950 border-l border-gray-800 h-[calc(100vh-60px)] overflow-y-auto">
 
                 {/* Top Personas Component ----------------------------- */}
-                <div className="bg-gray-950 rounded-2xl p-4 border-gray-800 px-6 flex-1">
+                <div className="bg-gray-950 rounded-2xl p-4 px-6 h-1/2 flex flex-col">
 
                     {/* Title and Description */}
-                    <div className="flex flex-col gap-2 mb-6">
+                    <div className="flex flex-col gap-2 mb-4">
                         <h1 className="text-md font-bold">
                             Top Personas
                         </h1>
@@ -203,93 +203,93 @@ export default function ProfileAnalysis() {
                     </div>
 
                     {/* Top Personas Data */}
-                    <div className="">
+                    <div className="flex-1 overflow-y-auto space-y-3">
 
                         {/* Row 1 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 items-center shadow-lg">
                             {/* image */}
                             <img 
                                 src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
                                 alt={`${topPersonas[0].name} avatar`}
-                                className="h-12 w-12 rounded-full object-cover border shadow-md"
+                                className="h-12 w-12 rounded-full object-cover border shadow-md flex-shrink-0"
                             />
 
                             {/* card intel */}
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
-                                    <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topPersonas[0].name}</h1>
+                                    <div className="flex gap-2 items-center min-w-0">
+                                        <h1 className="text-sm font-bold truncate">{topPersonas[0].name}</h1>
                                         {/* <p className="text-xs text-gray-400">{topPersonas[0].demographics}</p> */}
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 flex-shrink-0">
                                         <p className="text-sm font-bold">{topPersonas[0].percentage}%</p>
                                     </div>
                                 </div>
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topPersonas[0].description}</p>
+                                    <p className="text-sm text-gray-400 line-clamp-2">{topPersonas[0].description}</p>
                                 </div>
 
                             </div>
                         </div>
 
                         {/* Row 2 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 items-center shadow-lg">
                             {/* image */}
                             <img 
                                 src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
                                 alt={`${topPersonas[1].name} avatar`}
-                                className="h-12 w-12 rounded-full object-cover border shadow-md"
+                                className="h-12 w-12 rounded-full object-cover border shadow-md flex-shrink-0"
                             />
 
                             {/* card intel */}
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
-                                    <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topPersonas[1].name}</h1>
+                                    <div className="flex gap-2 items-center min-w-0">
+                                        <h1 className="text-sm font-bold truncate">{topPersonas[1].name}</h1>
                                         {/* <p className="text-xs text-gray-400">{topPersonas[1].demographics}</p> */}
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 flex-shrink-0">
                                         <p className="text-sm font-bold">{topPersonas[1].percentage}%</p>
                                     </div>
                                 </div>
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topPersonas[1].description}</p>
+                                    <p className="text-sm text-gray-400 line-clamp-2">{topPersonas[1].description}</p>
                                 </div>
 
                             </div>
                         </div>
 
                         {/* Row 3 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-2 items-center shadow-lg">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 items-center shadow-lg">
                             {/* image */}
                             <img 
                                 src={`https://i.pravatar.cc/48?img=${Math.floor(Math.random() * 70) + 1}`}
                                 alt={`${topPersonas[2].name} avatar`}
-                                className="h-12 w-12 rounded-full object-cover border shadow-md"
+                                className="h-12 w-12 rounded-full object-cover border shadow-md flex-shrink-0"
                             />
 
                             {/* card intel */}
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
-                                    <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topPersonas[2].name}</h1>
+                                    <div className="flex gap-2 items-center min-w-0">
+                                        <h1 className="text-sm font-bold truncate">{topPersonas[2].name}</h1>
                                         {/* <p className="text-xs text-gray-400">{topPersonas[2].demographics}</p> */}
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 flex-shrink-0">
                                         <p className="text-sm font-bold">{topPersonas[2].percentage}%</p>
                                     </div>
                                 </div>
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topPersonas[2].description}</p>
+                                    <p className="text-sm text-gray-400 line-clamp-2">{topPersonas[2].description}</p>
                                 </div>
 
                             </div>
@@ -300,10 +300,10 @@ export default function ProfileAnalysis() {
                 </div>
 
                 {/* Top Conversations ----------------------------- */}
-                <div className="bg-gray-950 rounded-2xl p-4 border-gray-800 px-6 flex-1">
+                <div className="bg-gray-950 rounded-2xl p-4 px-6 h-1/2 flex flex-col">
 
                     {/* Title and Description */}
-                    <div className="flex flex-col gap-2 mb-6">
+                    <div className="flex flex-col gap-2 mb-4">
                         <h1 className="text-md font-bold">
                             Top Conversations
                         </h1>
@@ -313,20 +313,19 @@ export default function ProfileAnalysis() {
                     </div>
 
                     {/* Top Conversations Data */}
-                    <div className="">
+                    <div className="flex-1 overflow-y-auto space-y-3">
 
                         {/* Row 1 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
-
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 items-center shadow-lg">
 
                             {/* card intel */}
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
-                                    <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topConversations[0].name}</h1>
+                                    <div className="flex gap-2 items-center min-w-0">
+                                        <h1 className="text-sm font-bold truncate">{topConversations[0].name}</h1>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-shrink-0">
                                         <p className={`text-xs font-bold ${topConversations[0].sentiment === "Positive" ? "text-green-500" : topConversations[0].sentiment === "Negative" ? "text-red-500" : "text-gray-400"}`}>{topConversations[0].sentiment}</p>
                                         { topConversations[0].sentiment === "Positive" ? <TrendingUp className="w-4 h-4 text-green-500 stroke3" /> : topConversations[0].sentiment === "Negative" ? <TrendingDown className="w-4 h-4 text-red-500 stroke-2" /> : <TrendingUpDown className="w-4 h-4 text-gray-400 stroke-2" /> }
                                     </div>
@@ -334,23 +333,23 @@ export default function ProfileAnalysis() {
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topConversations[0].description}</p>
+                                    <p className="text-sm text-gray-400 line-clamp-2">{topConversations[0].description}</p>
                                 </div>
 
                             </div>
                         </div>
 
                         {/* Row 2 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 items-center shadow-lg">
 
                             {/* card intel */}
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
-                                    <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topConversations[1].name}</h1>
+                                    <div className="flex gap-2 items-center min-w-0">
+                                        <h1 className="text-sm font-bold truncate">{topConversations[1].name}</h1>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-shrink-0">
                                         <p className={`text-xs font-bold ${topConversations[1].sentiment === "Positive" ? "text-green-500" : topConversations[1].sentiment === "Negative" ? "text-red-500" : "text-gray-400"}`}>{topConversations[1].sentiment}</p>
                                         { topConversations[1].sentiment === "Positive" ? <TrendingUp className="w-4 h-4 text-green-500" /> : topConversations[1].sentiment === "Negative" ? <TrendingDown className="w-4 h-4 text-red-500" /> : <TrendingUpDown className="w-4 h-4 text-gray-400" /> }
                                     </div>
@@ -358,23 +357,23 @@ export default function ProfileAnalysis() {
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topConversations[1].description}</p>
+                                    <p className="text-sm text-gray-400 line-clamp-2">{topConversations[1].description}</p>
                                 </div>
 
                             </div>
                         </div>
 
                         {/* Row 3 */}
-                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 mb-4 items-center shadow-lg">
+                        <div className="flex gap-4 border border-gray-800 rounded-2xl p-4 items-center shadow-lg">
 
                             {/* card intel */}
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                                 {/* top section: name, demo + % */}
                                 <div className="flex justify-between items-center gap-2 mb-2">
-                                    <div className="flex gap-2 items-center">
-                                        <h1 className="text-sm font-bold">{topConversations[2].name}</h1>
+                                    <div className="flex gap-2 items-center min-w-0">
+                                        <h1 className="text-sm font-bold truncate">{topConversations[2].name}</h1>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-shrink-0">
                                         <p className={`text-xs font-bold ${topConversations[2].sentiment === "Positive" ? "text-green-500" : topConversations[2].sentiment === "Negative" ? "text-red-500" : "text-gray-400"}`}>{topConversations[2].sentiment}</p>
                                         { topConversations[2].sentiment === "Positive" ? <TrendingUp className="w-4 h-4 text-green-500" /> : topConversations[2].sentiment === "Negative" ? <TrendingDown className="w-4 h-4 text-red-500" /> : <TrendingUpDown className="w-4 h-4 text-gray-400" /> }
                                     </div>
@@ -382,7 +381,7 @@ export default function ProfileAnalysis() {
 
                                 {/* bottom section: description */}
                                 <div>
-                                    <p className="text-sm text-gray-400">{topConversations[2].description}</p>
+                                    <p className="text-sm text-gray-400 line-clamp-2">{topConversations[2].description}</p>
                                 </div>
 
                             </div>
