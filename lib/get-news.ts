@@ -1,21 +1,44 @@
+export type NewsQueryOptions = {
+    category?: string;
+    query?: string;
+    pageSize?: number;
+    country?: string;
+};
 
+export const fetchNews = async (apiKey: string, options: NewsQueryOptions = {}) => {
+    const {
+        category,
+        query,
+        pageSize = 20,
+        country = 'us',
+    } = options;
 
-export const fetchNews = async (apiKey: string) => {
+    const baseUrl = query
+        ? 'https://newsapi.org/v2/everything'
+        : 'https://newsapi.org/v2/top-headlines';
 
-    // variables 
-    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+    const params = new URLSearchParams();
+
+    if (query) {
+        params.set('q', query);
+        params.set('language', 'en');
+        params.set('sortBy', 'publishedAt');
+    } else {
+        params.set('country', country);
+        if (category) params.set('category', category);
+    }
+
+    params.set('pageSize', String(pageSize));
+    params.set('apiKey', apiKey);
+
+    const url = `${baseUrl}?${params.toString()}`;
     const response = await fetch(url);
 
-    // error handling
     if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Failed to fetch news: ${response.status} ${response.statusText}`);
     }
 
-    // parse the response
     const data = await response.json();
-
-    // return the data
     return data;
-
 }

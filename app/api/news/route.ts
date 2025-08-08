@@ -22,7 +22,14 @@ export async function GET(request: Request) {
 
     // try and catch 
     try {
-        const news = await fetchNews(apiKey);
+        const { searchParams } = new URL(request.url);
+        const category = searchParams.get('category') || undefined;
+        const query = searchParams.get('q') || undefined;
+        const pageSizeParam = searchParams.get('pageSize');
+        const country = searchParams.get('country') || undefined;
+        const pageSize = pageSizeParam ? Number(pageSizeParam) : undefined;
+
+        const news = await fetchNews(apiKey, { category, query, pageSize, country });
         return NextResponse.json(news);
     } catch (error) {
         console.error('News API Error:', error);

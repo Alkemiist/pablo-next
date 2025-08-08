@@ -18,12 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-slate-950 text-white">
         <ContextProvider>
           <InspoProvider>
             <Toaster />
             <Navbar />
-            <main className="ml-16 bg-slate-950 h-screen"> 
+            <main className="ml-16 min-h-screen"> 
               {children}
             </main>
           </InspoProvider>
