@@ -90,7 +90,7 @@ function Home() {
     return (
         <div className="flex flex-col">
             {/* Filters/Search Bar */}
-            <div className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur border-b border-slate-800">
+            <div className="sticky top-0 z-40 bg-neutral-950/80 backdrop-blur border-b border-neutral-800">
                 <div className="px-12 py-3 flex items-center gap-3">
                     <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap pr-2 [-ms-overflow-style:none] [scrollbar-width:none]">
                         {categories.map((c) => (
@@ -100,7 +100,7 @@ function Home() {
                                 className={`px-3 py-1 rounded-lg cursor-pointer text-sm border transition-colors ${
                                     category === c && !debouncedQuery
                                         ? 'bg-white text-slate-900 border-white'
-                                        : 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700'
+                                        : 'bg-neutral-900 text-slate-200 border-neutral-700 hover:bg-neutral-800'
                                 }`}
                                 disabled={!!debouncedQuery}
                                 title={debouncedQuery ? 'Clear search to use categories' : `Top ${c}`}
@@ -115,7 +115,7 @@ function Home() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="Search topics, companies, or keywords..."
-                            className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-12 py-2 outline-none focus:ring-2 focus:ring-slate-600"
+                            className="w-full bg-neutral-900 border border-neutral-700 rounded-lg pl-9 pr-12 py-2 outline-none focus:ring-2 focus:ring-neutral-600"
                             aria-label="Search news"
                         />
                         {searchTerm && (
@@ -187,13 +187,13 @@ function Home() {
                     {/* Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {news.slice(1, 7).map((article) => (
-                            <div key={article.title} className="bg-slate-900 p-4 rounded-lg shadow-md flex gap-3 border border-slate-800 items-center justify-center">
+                            <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-md flex gap-3 border border-neutral-800 items-center justify-center">
                                 {article.urlToImage && (
-                                    <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-slate-700" />
+                                    <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-neutral-700" />
                                 )}
                                 <div className='flex flex-col gap-2 overflow-hidden'>
                                 
-                                    <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                                    <div className="flex items-center gap-2 text-[11px] text-neutral-400">
 
                                         {/* Source */}
                                         {article.source?.name && (
@@ -213,7 +213,7 @@ function Home() {
 
                                     {/* Description */}
                                     {article.description && (
-                                        <p className="text-sm text-slate-400 line-clamp-3">{article.description}</p>
+                                        <p className="text-sm text-neutral-400 line-clamp-3">{article.description}</p>
                                     )}
                                 </div>
                             </div>
@@ -236,13 +236,13 @@ function Home() {
                             <div
                                 key={article.title}
                                 onClick={() => window.open(article.url, '_blank')}
-                                className="bg-slate-900 rounded-lg border border-slate-800 overflow-hidden cursor-pointer hover:ring-1 hover:ring-slate-600 transition-shadow"
+                                className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden cursor-pointer hover:ring-1 hover:ring-neutral-600 transition-shadow"
                             >
                                 {article.urlToImage && (
                                     <img src={article.urlToImage} alt={article.title} className="h-40 w-full object-cover" />
                                 )}
                                 <div className="p-4 flex flex-col gap-2">
-                                    <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                                    <div className="flex items-center gap-2 text-[11px] text-neutral-400">
                                         {article.source?.name && (
                                             <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10">
                                                 {article.source.name}
@@ -254,7 +254,7 @@ function Home() {
                                     </div>
                                     <h4 className="text-sm font-semibold line-clamp-2 min-h-[40px]">{article.title}</h4>
                                     {article.description && (
-                                        <p className="text-xs text-slate-400 line-clamp-3">{article.description}</p>
+                                        <p className="text-xs text-neutral-400 line-clamp-3">{article.description}</p>
                                     )}
                                 </div>
                             </div>

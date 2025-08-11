@@ -35,12 +35,12 @@ export default function Navbar() {
 
     // the return statement
     return (
-        <div className=" border-r border-slate-700 fixed top-0 left-0 h-screen z-50 shadow-md bg-slate-900 text-white flex flex-col pt-12 gap-6 px-4 transition-all duration-600 ease-in-out ${isOpen ? 'w-56' : 'w-20'}">
+        <div className=" border-r border-neutral-700 fixed top-0 left-0 h-screen z-50 shadow-md bg-neutral-950 text-white flex flex-col pt-12 gap-6 px-4 transition-all duration-600 ease-in-out ${isOpen ? 'w-56' : 'w-20'}">
             {navItems.map((item) => (
                 <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 p-2 rounded-lg transition-colors w-full ${pathname === item.href ? 'bg-slate-800 font-bold' : 'hover:bg-slate-800'}`}
+                className={`flex items-center gap-3 p-2 rounded-lg transition-colors w-full ${pathname === item.href ? 'bg-neutral-800 font-bold' : 'hover:bg-neutral-800'}`}
                 >
                 {item.icon}
                 {isOpen && <span className="text-sm">{item.label}</span>}
