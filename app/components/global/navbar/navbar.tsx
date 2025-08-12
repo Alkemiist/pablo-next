@@ -40,7 +40,7 @@ export default function Navbar() {
                 <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 p-2 rounded-lg transition-colors w-full ${pathname === item.href ? 'bg-neutral-800 font-bold' : 'hover:bg-neutral-800'}`}
+                className={`flex items-center gap-3 p-2 rounded-xl transition-colors w-full ${pathname === item.href ? 'bg-neutral-800 font-bold border border-neutral-700' : 'hover:bg-neutral-800'}`}
                 >
                 {item.icon}
                 {isOpen && <span className="text-sm">{item.label}</span>}
