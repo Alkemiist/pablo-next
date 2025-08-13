@@ -2,15 +2,17 @@
 
 "use client";
 import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Text, ArrowUp10, Loader2 } from "lucide-react";
 
 type JobSummary = { id: string; status: string; createdAt: string };
 
 export default function VariantEngine() {
-  const [brandName, setBrandName] = useState('Demo Brand');
   const [idea, setIdea] = useState('Announce our new feature that saves time.');
-  const [forbidden, setForbidden] = useState('cheap,free');
+  const [maxChars, setMaxChars] = useState<number>(150);
   const [manifest, setManifest] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasRequested, setHasRequested] = useState(false);
 
   async function generateVariants() {
     setIsSubmitting(true);
@@ -20,45 +22,71 @@ export default function VariantEngine() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           idea,
-          brand: { voice: brandName, forbidden: forbidden.split(',').map((s) => s.trim()).filter(Boolean) },
+          maxChars,
+          totalVariants: 20,
         }),
       });
       const data = await res.json();
       setManifest(data);
+      setHasRequested(true);
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-semibold">Creative Multiplication Engine</h1>
+    <div className="ml-1 h-[calc(100vh-60px)] overflow-y-auto">
+      {/* Sticky top bar styled like inspo */}
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-neutral-950 shadow-lg h-[60px]">
+        {/* Left side - Inputs */}
+        <div className="flex items-center gap-4">
+          {/* Character Count */}
+          <div className="relative">
+            <ArrowUp10 className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4 stroke-neutral-500" />
+            <input
+              type="number"
+              min={50}
+              max={500}
+              step={10}
+              value={maxChars}
+              onChange={(e) => setMaxChars(Number(e.target.value) || 150)}
+              className="pl-9 pr-3 py-2 h-9 w-40 bg-transparent border border-neutral-700 rounded-md text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-0"
+              placeholder="Character count"
+            />
+          </div>
 
-      <div className="space-y-2">
-        <label className="block text-sm">Brand Name</label>
-        <input className="border px-3 py-2 w-full" value={brandName} onChange={(e) => setBrandName(e.target.value)} />
+          {/* Idea input (search-like) */}
+          <div className="relative">
+            <Text className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4 stroke-neutral-500" />
+            <input
+              type="text"
+              placeholder="Type your idea…"
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+              className="pl-10 pr-4 py-2 h-9 w-[32rem] bg-transparent border border-neutral-700 rounded-md text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-0"
+            />
+          </div>
+        </div>
+
+        {/* Far right - Create */}
+        <Button
+          onClick={generateVariants}
+          disabled={isSubmitting}
+          className="gap-2 bg-blue-800 hover:bg-blue-700 cursor-pointer w-32 shadow-[0_0_12px_blue]"
+        >
+          {isSubmitting && <Loader2 className="size-4 animate-spin" />}
+          {isSubmitting ? 'Creating…' : 'Create'}
+        </Button>
       </div>
 
-      <div className="space-y-2">
-        <label className="block text-sm">Your Idea</label>
-        <textarea className="border px-3 py-2 w-full" rows={3} value={idea} onChange={(e) => setIdea(e.target.value)} />
+      {/* Content */}
+      <div className="p-4 md:p-6 space-y-4">
+        {isSubmitting && <VariantsSkeleton count={24} />}
+        {!isSubmitting && manifest && <CopyPreview manifest={manifest} />}
+        {!isSubmitting && !manifest && hasRequested && (
+          <div className="text-sm text-neutral-500">No results yet. Try a different idea.</div>
+        )}
       </div>
-      <div className="space-y-2">
-        <label className="block text-sm">Forbidden Phrases (comma separated)</label>
-        <input className="border px-3 py-2 w-full" value={forbidden} onChange={(e) => setForbidden(e.target.value)} />
-      </div>
-
-      <div className="flex gap-2">
-        <button disabled={isSubmitting} className="bg-indigo-600 text-white px-4 py-2" onClick={generateVariants}>Generate variants</button>
-      </div>
-
-      {manifest && <CopyPreview manifest={manifest} />}
-      {manifest && (
-        <details className="bg-gray-50 p-3 text-xs rounded">
-          <summary className="cursor-pointer select-none font-medium mb-2">Debug JSON</summary>
-          <pre className="overflow-auto max-h-96">{JSON.stringify(manifest, null, 2)}</pre>
-        </details>
-      )}
     </div>
   );
 }
@@ -66,7 +94,6 @@ export default function VariantEngine() {
 function CopyPreview({ manifest }: { manifest: any }) {
   const items = (manifest?.variants || []) as Array<{
     id: string;
-    platform: 'instagram_caption' | 'x_post' | 'youtube_shorts_desc' | 'medium_intro';
     text: string;
     tone: string;
     structure: string;
@@ -76,30 +103,45 @@ function CopyPreview({ manifest }: { manifest: any }) {
     warnings?: string[];
   }>;
 
-  const grouped: Record<string, typeof items> = {};
-  for (const v of items) {
-    grouped[v.platform] = grouped[v.platform] || [];
-    grouped[v.platform].push(v);
+  function capitalize(s: string) {
+    if (!s) return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function titleCase(s: string) {
+    if (!s) return '';
+    return s
+      .split(/[-_\s]+/)
+      .map((w) => (w ? w.charAt(0).toUpperCase() + w.slice(1) : ''))
+      .join(' ');
   }
 
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-medium">Copy Variants</h2>
-      <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
-        {Object.entries(grouped).map(([platform, vs]) => (
-          <div key={platform} className="space-y-2">
-            <div className="text-sm uppercase tracking-wide text-gray-600">{labelForCopyPlatform(platform)}</div>
-            {vs.map((v) => (
-              <div key={v.id} className="border rounded p-3 bg-white">
-                <div className="text-xs text-gray-500 mb-2">Tone: {v.tone} • Structure: {v.structure} • {v.charCount}/{v.maxChars}</div>
-                <div className="text-sm whitespace-pre-wrap">{v.text}</div>
-                {v.warnings && v.warnings.length > 0 && (
-                  <div className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded p-2">
-                    {v.warnings.join(' • ')}
-                  </div>
-                )}
+      {/* Masonry-style stacked grid using CSS columns */}
+      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 [column-fill:_balance]">
+        {items.map((v) => (
+          <div key={v.id} className="break-inside-avoid mb-4">
+            <div className="rounded-lg bg-[#1b1b1b] p-5 border border-neutral-800/80 shadow-[0_0_0_1px_rgba(28,28,28,0.8),0_8px_20px_rgba(0,0,0,0.25)] space-y-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-neutral-900 text-neutral-200 border border-neutral-700/70 text-xs font-medium">{capitalize(v.tone)}</span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-neutral-900 text-neutral-200 border border-neutral-700/70 text-xs font-medium">{titleCase(v.structure)}</span>
+                <span className="ml-auto inline-flex items-center text-neutral-400 text-xs font-medium">{v.charCount}/{v.maxChars}</span>
               </div>
-            ))}
+
+              <div className="text-sm text-neutral-200 whitespace-pre-wrap leading-7">
+                {v.text}
+              </div>
+
+              {/* warnings intentionally hidden per design */}
+
+              <div>
+                <Button className="w-full h-8 text-xs font-medium bg-neutral-800 hover:bg-neutral-700 border border-neutral-700/70 text-neutral-200">
+                  {v.cta}
+                </Button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
@@ -107,15 +149,32 @@ function CopyPreview({ manifest }: { manifest: any }) {
   );
 }
 
-function labelForCopyPlatform(p: string) {
-  const map: Record<string, string> = {
-    instagram_caption: 'Instagram Caption',
-    x_post: 'X (Twitter) Post',
-    youtube_shorts_desc: 'YouTube Shorts Description',
-    medium_intro: 'Medium Intro',
-  };
-  return map[p] || p;
+function VariantsSkeleton({ count = 16 }: { count?: number }) {
+  const items = Array.from({ length: count });
+  return (
+    <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 [column-fill:_balance]">
+      {items.map((_, i) => (
+        <div key={i} className="break-inside-avoid mb-4">
+          <div className="rounded-lg bg-[#1b1b1b] p-4 border border-neutral-800/80">
+            <div className="flex gap-2 mb-3">
+              <div className="h-6 w-20 rounded-full bg-neutral-800 animate-pulse" />
+              <div className="h-6 w-28 rounded-full bg-neutral-800 animate-pulse" />
+              <div className="ml-auto h-6 w-16 rounded-full bg-neutral-800 animate-pulse" />
+            </div>
+            <div className="space-y-2">
+              <div className="h-3 w-5/6 bg-neutral-800 rounded animate-pulse" />
+              <div className="h-3 w-4/6 bg-neutral-800 rounded animate-pulse" />
+              <div className="h-3 w-3/6 bg-neutral-800 rounded animate-pulse" />
+            </div>
+            <div className="mt-4 h-8 w-full bg-neutral-800 rounded animate-pulse" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
+
+// removed labelForCopyPlatform since we no longer group by platform
 
 function PreviewGrid({ job, plan }: { job: any; plan: any }) {
   const artifacts = (job?.artifacts || []) as Array<{

@@ -37,6 +37,8 @@ export async function POST(request: NextRequest) {
     const numTactics = generateSingle ? 1 : 4;
     const tacticsText = generateSingle ? '1 creative tactic' : '4 creative tactics';
 
+    
+
     // Create the prompt for OpenAI
     const prompt = `You are a world-class creative strategist with experience at top global agencies. 
       Your task is to develop ${tacticsText} that would drive results for a brand campaign at the level of Apple, Nike, or Coca-Cola. 

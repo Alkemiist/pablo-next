@@ -74,4 +74,59 @@ export function planCopyVariants(params: {
   };
 }
 
+// Length-based planner (no platforms) — selects 10 diverse tone/structure/CTA combos
+export type LengthPlan = {
+  id: string;
+  idea: string;
+  brand?: CopyPlan['brand'];
+  maxChars: number;
+  variants: Array<{
+    id: string;
+    tone: typeof TONES[number];
+    structure: typeof STRUCTURES[number];
+    cta: string;
+    maxChars: number;
+    targetLength: number;
+  }>;
+};
+
+export function planCopyVariantsByLength(params: {
+  idea: string;
+  brand?: CopyPlan['brand'];
+  maxChars: number;
+  seed?: number;
+  totalVariants?: number;
+}): LengthPlan {
+  const seed = params.seed ?? 42;
+  const rng = seededRandom(seed);
+  const totalVariants = params.totalVariants ?? 40;
+  const variants: LengthPlan['variants'] = [];
+  for (let i = 0; i < totalVariants; i++) {
+    const offset = sampleLengthOffsetTight(rng); // around 1–2, within ~0–5
+    const targetLength = Math.max(0, params.maxChars - offset);
+    variants.push({
+      id: `len-${i + 1}`,
+      tone: pick(TONES, rng),
+      structure: pick(STRUCTURES, rng),
+      cta: pick(CTAS, rng),
+      maxChars: params.maxChars,
+      targetLength,
+    });
+  }
+  return {
+    id: `copy_len_plan_${Date.now()}`,
+    idea: params.idea,
+    brand: params.brand,
+    maxChars: params.maxChars,
+    variants,
+  };
+}
+
+// Tighter offsets near the max to push variants close to limit (0..5, mean ~2)
+function sampleLengthOffsetTight(rng: () => number): number {
+  const u = (rng() + rng() + rng()) / 3; // bell-shaped in [0,1]
+  const offset = Math.round(u * 5); // 0..5
+  return offset;
+}
+
 
