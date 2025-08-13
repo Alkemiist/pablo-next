@@ -20,7 +20,7 @@ export default function InspoPage() {
         <div className="ml-1 h-[calc(100vh-60px)] overflow-y-auto">
             
             {/* the top bar */}
-            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-slate-950 shadow-lg h-[60px]">
+            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-neutral-950 shadow-lg h-[60px]">
                 
                 {/* Left side - Search, Filter, Sort */}
                 <div className="flex items-center gap-4">
@@ -71,7 +71,7 @@ export default function InspoPage() {
                 {/* Right side - Create Button */}
                 <Link href="/inspo/create-inspo">
                     <Button 
-                        className="gap-2 bg-slate-800 hover:bg-blue-700 cursor-pointer w-32 border-slate-600 border-1 border-solid"
+                        className="gap-2 bg-neutral-800 hover:bg-blue-700 cursor-pointer w-32 border-neutral-600 border-1 border-solid"
                         >
                         <Plus className="size-4" />
                         Create

@@ -180,13 +180,11 @@ export async function POST(request: NextRequest) {
           // First attempt: Try gpt-image-1 as requested
           console.log('🚀 Trying gpt-image-1 model...');
           
-          // Try different parameter combinations for gpt-image-1
+          // Use a size widely supported by gpt-image-1 and avoid unsupported params
           const gptImageParams = {
             model: "gpt-image-1" as const,
             prompt: enhancedPrompt,
-            n: 1,
-            // Try different sizes in case gpt-image-1 has different requirements
-            size: "1792x1024" as const,
+            size: "1024x1024" as const,
             response_format: "b64_json" as const
           };
           

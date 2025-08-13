@@ -24,28 +24,28 @@ export function Modal({ isOpen, onClose, children, title, description, maxWidth 
       
       {/* Modal Content */}
       <div className={cn(
-        "relative w-full bg-slate-950 border border-slate-700 rounded-xl shadow-2xl transform transition-all duration-300 ease-out",
+        "relative w-full bg-neutral-950 border border-neutral-700 rounded-xl shadow-2xl transform transition-all duration-300 ease-out",
         maxWidth,
         isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
       )}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-800">
+        <div className="flex items-center justify-between p-6 border-b border-neutral-800">
           <div>
             <h2 className="text-xl font-semibold text-white">{title}</h2>
             {description && (
-              <p className="text-sm text-slate-400 mt-1">{description}</p>
+              <p className="text-sm text-neutral-400 mt-1">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors"
+            className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors"
           >
             <XIcon className="w-4 h-4 text-white" />
           </button>
         </div>
         
         {/* Content */}
-        <div className="p-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 [&::-webkit-scrollbar-corner]:bg-slate-800">
+        <div className="p-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-neutral-800 [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-neutral-500 [&::-webkit-scrollbar-corner]:bg-neutral-800">
           {children}
         </div>
       </div>

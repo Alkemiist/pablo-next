@@ -649,73 +649,73 @@ export default function CreateInspoPage() {
         <div>
             
             {/* Component Bar */}
-            <div className="flex justify-between items-center border-b border-slate-700 bg-slate-900 py-4 px-8 sticky top-0 z-10 h-[80px]">
+            <div className="flex justify-between items-center border-b border-neutral-800 bg-neutral-950 py-4 px-8 sticky top-0 z-10 h-[80px]">
 
                 {/* Left Side: User selects/ adds all of the context we need in order to generate the inspo -------------------------------- */}
                 <div className="flex gap-4">
 
                     {/* Select Brand */}
                     <div 
-                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-slate-800 transition-colors ${isCompleted(brand) ? 'border-slate-800' : 'border-slate-800'}`}
+                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-neutral-800 transition-colors ${isCompleted(brand) ? 'border-neutral-800' : 'border-neutral-800'}`}
                         onClick={() => setIsBrandOpen(true)}
                     >
-                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(brand) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-slate-800 border-slate-700'}`}>
+                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(brand) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-neutral-800 border-neutral-700'}`}>
                         </div>
                         <div>
                             <p className="text-sm text-white font-semibold">{isCompleted(brand) ? brand : 'Select'}</p>
-                            <p className="text-sm text-slate-500">Brand</p>
+                            <p className="text-sm text-neutral-500">Brand</p>
                         </div>
                     </div>
 
                     {/* Select Product */}
                     <div 
-                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-slate-800 transition-colors ${isCompleted(product) ? 'border-slate-800' : 'border-slate-800'}`}
+                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-neutral-800 transition-colors ${isCompleted(product) ? 'border-neutral-800' : 'border-neutral-800'}`}
                         onClick={() => setIsProductOpen(true)}
                     >
-                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(product) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-slate-800 border-slate-700'}`}>
+                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(product) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-neutral-800 border-neutral-700'}`}>
                         </div>
                         <div>
                             <p className="text-sm text-white font-semibold">{isCompleted(product) ? product : 'Select'}</p>
-                            <p className="text-sm text-slate-500">Product</p>
+                            <p className="text-sm text-neutral-500">Product</p>
                         </div>
                     </div>
 
                     {/* Select Persona */}
                     <div 
-                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-slate-800 transition-colors ${isCompleted(persona) ? 'border-slate-800' : 'border-slate-800'}`}
+                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-neutral-800 transition-colors ${isCompleted(persona) ? 'border-neutral-800' : 'border-neutral-800'}`}
                         onClick={() => setIsPersonaOpen(true)}
                     >
-                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(persona) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-slate-800 border-slate-700'}`}>
+                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(persona) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-neutral-800 border-neutral-700'}`}>
                         </div>
                         <div>
                             <p className="text-sm text-white font-semibold">{isCompleted(persona) ? 'Persona Set' : 'Select'}</p>
-                            <p className="text-sm text-slate-500">Persona</p>
+                            <p className="text-sm text-neutral-500">Persona</p>
                         </div>
                     </div>
 
                     {/* Add Goal */}
                     <div 
-                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-slate-800 transition-colors ${isCompleted(goal) ? 'border-slate-800' : 'border-slate-800'}`}
+                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-neutral-800 transition-colors ${isCompleted(goal) ? 'border-neutral-800' : 'border-neutral-800'}`}
                         onClick={() => setIsGoalOpen(true)}
                     >
-                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(goal) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-slate-800 border-slate-700'}`}>
+                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(goal) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-neutral-800 border-neutral-700'}`}>
                         </div>
                         <div>
                             <p className="text-sm text-white font-semibold">{isCompleted(goal) ? 'Goal Set' : 'Add'}</p>
-                            <p className="text-sm text-slate-500">Goal</p>
+                            <p className="text-sm text-neutral-500">Goal</p>
                         </div>
                     </div>
 
                     {/* Add Visual Guide */}
                     <div 
-                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-slate-800 transition-colors ${isCompleted(visualGuide) ? 'border-slate-800' : 'border-slate-800'}`}
+                        className={`flex items-center gap-4 rounded-xl px-8 py-2 border cursor-pointer hover:bg-neutral-800 transition-colors ${isCompleted(visualGuide) ? 'border-neutral-800' : 'border-neutral-800'}`}
                         onClick={() => setIsVisualGuideOpen(true)}
                     >
-                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(visualGuide) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-slate-800 border-slate-700'}`}>
+                        <div className={`w-4 h-4 rounded-sm border transition-all duration-300 ${isCompleted(visualGuide) ? 'bg-green-500 border-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]' : 'bg-neutral-800 border-neutral-700'}`}>
                         </div>
                         <div>
                             <p className="text-sm text-white font-semibold">{isCompleted(visualGuide) ? 'Guide Set' : 'Add'}</p>
-                            <p className="text-sm text-slate-500">Visual Guide</p>
+                            <p className="text-sm text-neutral-500">Visual Guide</p>
                         </div>
                     </div>
 
@@ -723,11 +723,11 @@ export default function CreateInspoPage() {
 
                 
                 {/* Right Side: Is the "imagine" button that triggers the generative to start with all of the added context -------------------------------- */}
-                                 <button 
+                    <button 
                      className={`relative px-8 h-12 rounded-xl border text-sm font-semibold transition-all duration-500 ease-in-out flex items-center gap-3 overflow-hidden ${
                          isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)
                              ? 'border-transparent text-white group' + (isGenerating ? ' cursor-wait' : ' cursor-pointer')
-                             : 'bg-slate-800 border-slate-700 text-slate-400 cursor-not-allowed'
+                             : 'bg-neutral-800 border-neutral-700 text-neutral-400 cursor-not-allowed'
                      }`}
                      disabled={!(isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)) || isGenerating}
                      onClick={handleGenerateTacticsProgressively}
@@ -777,7 +777,7 @@ export default function CreateInspoPage() {
                 
                 {/* Generated Card 1 */}
                 <div 
-                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-neutral-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
                     onClick={() => tactics[0] && handleTacticClick(tactics[0])}
                     style={{ outline: 'none', boxShadow: 'none' }}
                     tabIndex={-1}
@@ -785,9 +785,9 @@ export default function CreateInspoPage() {
                     {cardLoadingStates[0].isLoading ? (
 
                         /* Individual Loading State with Dark Background */
-                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                        <div className="h-full flex flex-col bg-neutral-950 border-2 border-dashed border-neutral-700">
                             {/* Animated Shimmer Background - Dark Theme */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]"></div>
                             
                             {/* Loading Content */}
                             <div className="relative z-10 h-full flex items-center justify-center">
@@ -830,7 +830,7 @@ export default function CreateInspoPage() {
                                     {/* Platform Label: Invisible at the moment */}
                                     <div className="invisible bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                                         <p className="text-white text-sm font-medium">Tactic:</p>
-                                        <p className="text-slate-300 text-xs">{tactics[0].platform}</p>
+                                        <p className="text-neutral-300 text-xs">{tactics[0].platform}</p>
                                     </div>
 
                                 </div>
@@ -838,29 +838,29 @@ export default function CreateInspoPage() {
                                 {/* Bottom Section */}
                                 <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20 shadow-lg">
                                     <h3 className="text-white font-bold text-lg">{tactics[0].title}</h3>
-                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[0].oneLinerSummary}</p>
+                                    <p className="text-neutral-300 text-xs leading-relaxed">{tactics[0].oneLinerSummary}</p>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
+                        <div className="flex items-center justify-center h-full bg-neutral-950 border-2 border-dashed border-neutral-700">
+                            <p className="text-neutral-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
 
                 {/* Generated Card 2 */}
                 <div 
-                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-neutral-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
                     onClick={() => tactics[1] && handleTacticClick(tactics[1])}
                     style={{ outline: 'none', boxShadow: 'none' }}
                     tabIndex={-1}
                 >
                     {cardLoadingStates[1].isLoading ? (
                         /* Individual Loading State with Dark Background */
-                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                        <div className="h-full flex flex-col bg-neutral-950 border-2 border-dashed border-neutral-700">
                             {/* Animated Shimmer Background - Dark Theme */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '0.5s'}}></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '0.5s'}}></div>
                             
                             {/* Loading Content */}
                             <div className="relative z-10 h-full flex items-center justify-center">
@@ -900,7 +900,7 @@ export default function CreateInspoPage() {
                                     {/* Platform Label: Invisible at the moment */}
                                     <div className="invisible bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                                         <p className="text-white text-sm font-medium">Tactic:</p>
-                                        <p className="text-slate-300 text-xs">{tactics[1].platform}</p>
+                                        <p className="text-neutral-300 text-xs">{tactics[1].platform}</p>
                                     </div>
                                     
                                     {/* share button: Invisible at the moment */}
@@ -917,29 +917,29 @@ export default function CreateInspoPage() {
                                 {/* Bottom Section */}
                                 <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20 shadow-lg">
                                     <h3 className="text-white font-bold text-lg">{tactics[1].title}</h3>
-                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[1].oneLinerSummary}</p>
+                                    <p className="text-neutral-300 text-xs leading-relaxed">{tactics[1].oneLinerSummary}</p>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
+                        <div className="flex items-center justify-center h-full bg-neutral-950 border-2 border-dashed border-neutral-700">
+                            <p className="text-neutral-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
 
                 {/* Generated Card 3 */}
                 <div 
-                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-neutral-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
                     onClick={() => tactics[2] && handleTacticClick(tactics[2])}
                     style={{ outline: 'none', boxShadow: 'none' }}
                     tabIndex={-1}
                 >
                     {cardLoadingStates[2].isLoading ? (
                         /* Individual Loading State with Dark Background */
-                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                            <div className="h-full flex flex-col bg-neutral-950 border-2 border-dashed border-neutral-700">
                             {/* Animated Shimmer Background - Dark Theme */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1s'}}></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1s'}}></div>
                             
                             {/* Loading Content */}
                             <div className="relative z-10 h-full flex items-center justify-center">
@@ -979,7 +979,7 @@ export default function CreateInspoPage() {
                                     {/* Platform Label: Invisible at the moment */}
                                     <div className="invisible bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                                         <p className="text-white text-sm font-medium">Tactic:</p>
-                                        <p className="text-slate-300 text-xs">{tactics[2].platform}</p>
+                                        <p className="text-neutral-300 text-xs">{tactics[2].platform}</p>
                                     </div>
                                     
                                     {/* share button: Invisible at the moment */}
@@ -996,29 +996,29 @@ export default function CreateInspoPage() {
                                 {/* Bottom Section */}
                                 <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20 shadow-lg">
                                     <h3 className="text-white font-bold text-lg">{tactics[2].title}</h3>
-                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[2].oneLinerSummary}</p>
+                                    <p className="text-neutral-300 text-xs leading-relaxed">{tactics[2].oneLinerSummary}</p>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
+                        <div className="flex items-center justify-center h-full bg-neutral-950 border-2 border-dashed border-neutral-700">
+                            <p className="text-neutral-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
 
                 {/* Generated Card 4 */}
                 <div 
-                    className="relative rounded-lg overflow-hidden shadow-lg bg-slate-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
+                    className="relative rounded-lg overflow-hidden shadow-lg bg-neutral-100 group cursor-pointer hover:scale-[1.02] transition-transform duration-200 focus:outline-none outline-none ring-0 focus:ring-0"
                     onClick={() => tactics[3] && handleTacticClick(tactics[3])}
                     style={{ outline: 'none', boxShadow: 'none' }}
                     tabIndex={-1}
                 >
                     {cardLoadingStates[3].isLoading ? (
                         /* Individual Loading State with Dark Background */
-                        <div className="h-full flex flex-col bg-slate-950 border-2 border-dashed border-slate-700">
+                        <div className="h-full flex flex-col bg-neutral-950 border-2 border-dashed border-neutral-700">
                             {/* Animated Shimmer Background - Dark Theme */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1.5s'}}></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-950 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" style={{animationDelay: '1.5s'}}></div>
                             
                             {/* Loading Content */}
                             <div className="relative z-10 h-full flex items-center justify-center">
@@ -1058,7 +1058,7 @@ export default function CreateInspoPage() {
                                     {/* Platform Label: Invisible at the moment */}
                                     <div className="invisible bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                                         <p className="text-white text-sm font-medium">Tactic:</p>
-                                        <p className="text-slate-300 text-xs">{tactics[3].platform}</p>
+                                        <p className="text-neutral-300 text-xs">{tactics[3].platform}</p>
                                     </div>
                                     
                                     {/* share button: Invisible at the moment */}
@@ -1075,13 +1075,13 @@ export default function CreateInspoPage() {
                                 {/* Bottom Section */}
                                 <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 border border-white/20 shadow-lg">
                                     <h3 className="text-white font-bold text-lg">{tactics[3].title}</h3>
-                                    <p className="text-slate-300 text-xs leading-relaxed">{tactics[3].oneLinerSummary}</p>
+                                    <p className="text-neutral-300 text-xs leading-relaxed">{tactics[3].oneLinerSummary}</p>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <div className="flex items-center justify-center h-full bg-slate-950 border-2 border-dashed border-slate-700">
-                            <p className="text-slate-500 text-sm">Inspo will appear here</p>
+                        <div className="flex items-center justify-center h-full bg-neutral-950 border-2 border-dashed border-neutral-700">
+                            <p className="text-neutral-500 text-sm">Inspo will appear here</p>
                         </div>
                     )}
                 </div>
@@ -1103,19 +1103,19 @@ export default function CreateInspoPage() {
                             value={tempBrand}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempBrand(e.target.value)}
                             placeholder="Enter brand name and details..."
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="mt-2 bg-neutral-900 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-neutral-500 min-h-[100px]"
                         />
                     </div>
                     <div className="flex gap-3">
                         <Button 
                             onClick={() => setIsBrandOpen(false)}
-                            className="flex-1 bg-slate-800 hover:bg-slate-700 text-white"
+                            className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white"
                         >
                             Close
                         </Button>
                         <Button 
                             onClick={() => handleSubmit('brand', tempBrand, setBrand, setIsBrandOpen)}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                            className="flex-1 bg-neutral-600 hover:bg-neutral-700 text-white"
                         >
                             Save
                         </Button>
@@ -1138,19 +1138,19 @@ export default function CreateInspoPage() {
                             value={tempProduct}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempProduct(e.target.value)}
                             placeholder="Enter product name and description..."
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="mt-2 bg-neutral-900 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-neutral-500 min-h-[100px]"
                         />
                     </div>
                     <div className="flex gap-3">
                         <Button 
                             onClick={() => setIsProductOpen(false)}
-                            className="flex-1 bg-slate-800 hover:bg-slate-700 text-white"
+                            className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white"
                         >
                             Close
                         </Button>
                         <Button 
                             onClick={() => handleSubmit('product', tempProduct, setProduct, setIsProductOpen)}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                            className="flex-1 bg-neutral-600 hover:bg-neutral-700 text-white"
                         >
                             Save
                         </Button>
@@ -1173,19 +1173,19 @@ export default function CreateInspoPage() {
                             value={tempPersona}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempPersona(e.target.value)}
                             placeholder="Describe the target persona (age, interests, behavior, etc.)..."
-                            className="resize-none mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="resize-none mt-2 bg-neutral-900 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-neutral-500 min-h-[100px]"
                         />
                     </div>
                     <div className="flex gap-3">
                         <Button 
                             onClick={() => setIsPersonaOpen(false)}
-                            className="flex-1 bg-slate-800 hover:bg-slate-700 text-white"
+                            className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white"
                         >
                             Close
                         </Button>
                         <Button 
                             onClick={() => handleSubmit('persona', tempPersona, setPersona, setIsPersonaOpen)}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                            className="flex-1 bg-neutral-600 hover:bg-neutral-700 text-white"
                         >
                             Save
                         </Button>
@@ -1212,7 +1212,7 @@ export default function CreateInspoPage() {
                                     className={`px-3 py-2 text-sm rounded-lg border transition-all duration-200 ${
                                         tempGoalIntent === option
                                             ? 'border-purple-500 text-white shadow-[0_0_12px_rgba(59,130,246,0.6)]'
-                                            : 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-slate-600'
+                                            : 'bg-neutral-900 border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:border-neutral-600'
                                     }`}
                                 >
                                     {option}
@@ -1227,19 +1227,19 @@ export default function CreateInspoPage() {
                             value={tempGoalMessage}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempGoalMessage(e.target.value)}
                             placeholder="Ex. Show how the product eliminates repetitive tasks so users can focus on what matters, making their workflow feel effortless and smart"
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="mt-2 bg-neutral-900 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-neutral-500 min-h-[100px]"
                         />
                     </div>
                     <div className="flex gap-3">
                         <Button 
                             onClick={() => setIsGoalOpen(false)}
-                            className="flex-1 bg-slate-800 hover:bg-slate-700 text-white"
+                            className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white"
                         >
                             Close
                         </Button>
                         <Button 
                             onClick={handleGoalSubmit}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                            className="flex-1 bg-neutral-600 hover:bg-neutral-700 text-white"
                         >
                             Save
                         </Button>
@@ -1269,7 +1269,7 @@ export default function CreateInspoPage() {
                             value={tempVisualStyle}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempVisualStyle(e.target.value)}
                             placeholder="Ex. This will be a short-form vertical video designed for Instagram Reels and TikTok, blending motion, color, and storytelling to capture attention fast."
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="mt-2 bg-neutral-900 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-neutral-500 min-h-[100px]"
                         />
                     </div>
                     <div>
@@ -1279,19 +1279,19 @@ export default function CreateInspoPage() {
                             value={tempVisualConstraints}
                             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTempVisualConstraints(e.target.value)}
                             placeholder="Ex. Avoid black and white as dominant colors and steer clear of any harsh, high-contrast visuals to keep the tone warm and inviting."
-                            className="mt-2 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 focus:border-blue-500 min-h-[100px]"
+                            className="mt-2 bg-neutral-900 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-neutral-500 min-h-[100px]"
                         />
                     </div>
                     <div className="flex gap-3">
                         <Button 
                             onClick={() => setIsVisualGuideOpen(false)}
-                            className="flex-1 bg-slate-800 hover:bg-slate-700 text-white"
+                            className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white"
                         >
                             Close
                         </Button>
                         <Button 
                             onClick={handleVisualGuideSubmit}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                            className="flex-1 bg-neutral-600 hover:bg-neutral-700 text-white"
                         >
                             Save
                         </Button>
@@ -1317,23 +1317,23 @@ export default function CreateInspoPage() {
             >
                 {/* Action Button Stack - Positioned next to close button */}
                 <div className="absolute top-6 right-16 z-50 flex gap-2">
-                    <button title="Save Tactic" className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                    <button title="Save Tactic" className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
                         <Save className="w-4 h-4 text-white" />
                     </button>
-                    <button title="Download Tactic" className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                    <button title="Download Tactic" className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
                         <Download className="w-4 h-4 text-white" />
                     </button>
-                    <button className="w-8 h-8 bg-slate-950 border border-slate-800 hover:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                    <button className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
                         <Share className="w-4 h-4 text-white" />
                     </button>
                 </div>
 
                 {selectedTactic && (
-                    <div className="max-h-[80vh] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 [&::-webkit-scrollbar-corner]:bg-slate-800">
+                    <div className="max-h-[80vh] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-neutral-800 [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-neutral-500 [&::-webkit-scrollbar-corner]:bg-neutral-800">
                         <div className="flex gap-10 mb-8 items-stretch">
                             {/* Left Side - Image */}
                             <div className="w-2/5 flex-shrink-0 shadow-lg">
-                                <div className="relative w-full h-full rounded-lg overflow-hidden bg-slate-800">
+                                <div className="relative w-full h-full rounded-lg overflow-hidden bg-neutral-800">
                                     <img 
                                         src={validateAndSanitizeImageData(selectedTactic.image) 
                                             ? getImageSrc(selectedTactic.image)! 
@@ -1350,10 +1350,10 @@ export default function CreateInspoPage() {
                                     
                                     {/* Loading Overlay */}
                                     {isRegeneratingImage && (
-                                        <div className="absolute inset-0 bg-slate-950/80 flex items-center justify-center">
+                                        <div className="absolute inset-0 bg-neutral-950/80 flex items-center justify-center">
                                             <div className="flex flex-col items-center gap-3">
-                                                <div className="w-8 h-8 border-2 border-blue-400/30 border-t-blue-400 rounded-full animate-spin"></div>
-                                                <p className="text-blue-400 text-sm font-medium">Regenerating image...</p>
+                                                <div className="w-8 h-8 border-2 border-neutral-400/30 border-t-neutral-400 rounded-full animate-spin"></div>
+                                                <p className="text-neutral-400 text-sm font-medium">Regenerating image...</p>
                                             </div>
                                         </div>
                                     )}
@@ -1362,8 +1362,8 @@ export default function CreateInspoPage() {
                                     <button 
                                         className={`absolute top-4 left-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors z-10 ${
                                             isRegeneratingImage 
-                                                ? 'bg-blue-600 cursor-wait' 
-                                                : 'bg-slate-800 hover:bg-slate-700 cursor-pointer'
+                                                ? 'bg-neutral-600 cursor-wait' 
+                                                : 'bg-neutral-800 hover:bg-neutral-700 cursor-pointer'
                                         }`}
                                         onClick={handleRegenerateImage}
                                         disabled={isRegeneratingImage}
@@ -1386,41 +1386,41 @@ export default function CreateInspoPage() {
                                         {/* Primary Tactic */}
                                         {/* <div className="flex gap-2">
                                             <p className="text-white text-sm font-semibold">Primary Tactic:</p>
-                                            <p className="text-slate-500 text-sm">{selectedTactic.platform}</p>
+                                            <p className="text-neutral-500 text-sm">{selectedTactic.platform}</p>
                                         </div> */}
 
                                         {/* Description Section */}
                                         <div>
                                             <h4 className="text-white font-semibold mb-3">Description:</h4>
-                                            <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
+                                            <p className="text-neutral-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
                                         </div>
 
                                         {/* Why This Works Section */}
                                         <div>
                                             <h4 className="text-white font-semibold mb-3">Øpus POV:</h4>
-                                            <p className="text-slate-500 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
+                                            <p className="text-neutral-500 text-sm leading-relaxed">{selectedTactic.whyItWorks}</p>
                                         </div>
                                     </div>
 
                                     {/* divider */}
-                                    <div className="h-px bg-slate-800 w-full"></div>
+                                    <div className="h-px bg-neutral-800 w-full"></div>
 
                                         {/* Hook */}
                                         <div className="flex gap-2  ">
                                             <p className="text-white text-sm font-semibold">Hook:</p>
-                                            <p className="text-slate-500 text-sm">{selectedTactic.oneLinerSummary}</p>
+                                            <p className="text-neutral-500 text-sm">{selectedTactic.oneLinerSummary}</p>
                                         </div>
 
                                         {/* Goal */}
                                         <div className="flex gap-2">
                                             <p className="text-white text-sm font-semibold">Goal:</p>
-                                            <p className="text-slate-500 text-sm">{selectedTactic.goal}</p>
+                                            <p className="text-neutral-500 text-sm">{selectedTactic.goal}</p>
                                         </div>
 
                                         {/* Core Message */}
                                         <div className="flex gap-2">
                                             <p className="text-white text-sm font-semibold">Core Message:</p>
-                                            <p className="text-slate-500 text-sm">{selectedTactic.coreMessage}</p>
+                                            <p className="text-neutral-500 text-sm">{selectedTactic.coreMessage}</p>
                                         </div>
                                     </div>
 
@@ -1437,16 +1437,16 @@ export default function CreateInspoPage() {
 
                         {/* Generated Sections */}
                         {generatedSections.map((section, sectionIndex) => (
-                            <div key={section.id} className="mt-8 pt-8 border-t border-slate-800">
+                            <div key={section.id} className="mt-8 pt-8 border-t border-neutral-800">
                                 {/* Section Header with Controls */}
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                        <div className="w-2 h-2 bg-neutral-500 rounded-full animate-pulse"></div>
                                         <h3 className="text-white text-lg font-semibold">{section.title}</h3>
                                     </div>
                                     <div className="flex gap-2">
                                         <button 
-                                            className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center"
+                                            className="w-8 h-8 bg-neutral-800 hover:bg-neutral-700 rounded-lg flex items-center justify-center"
                                             onClick={() => {
                                                 console.log('Regenerating section:', section.type, section.id);
                                                 handleGenerateFrames(section.type as 'audience-journey' | 'social-post' | 'caption-pack' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script' | 'agent-chat', section.id);
@@ -1456,7 +1456,7 @@ export default function CreateInspoPage() {
                                             <RotateCcw className="w-4 h-4 text-white" />
                                         </button>
                                         <button 
-                                            className="w-8 h-8 bg-slate-800 hover:bg-red-600 rounded-lg flex items-center justify-center"
+                                            className="w-8 h-8 bg-neutral-800 hover:bg-red-600 rounded-lg flex items-center justify-center"
                                             onClick={() => setGeneratedSections(prev => prev.filter(s => s.id !== section.id))}
                                             title="Remove section"
                                         >
@@ -1471,30 +1471,30 @@ export default function CreateInspoPage() {
                                 {section.frames[0]?.type === 'audience-journey' ? (
                                     /* Audience Journey Map Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h3 className="text-white font-semibold mb-3">Journey Overview</h3>
-                                            <p className="text-slate-300 text-sm mb-4">Target Audience: {section.frames[0].content.targetAudience}</p>
+                                            <p className="text-neutral-300 text-sm mb-4">Target Audience: {section.frames[0].content.targetAudience}</p>
                                         </div>
 
                                         {/* Journey Stages */}
                                         <div className="space-y-4">
                                             {(section.frames[0].content.stages as any[]).map((stage: any, index: number) => (
-                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <div key={index} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                     <div className="flex items-center gap-3 mb-4">
-                                                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                        <div className="w-8 h-8 bg-neutral-600 rounded-full flex items-center justify-center">
                                                             <span className="text-white text-sm font-bold">{index + 1}</span>
                                                         </div>
                                                         <h4 className="text-white font-semibold text-lg">{stage.stage}</h4>
                                                     </div>
-                                                    <p className="text-slate-300 text-sm mb-4">{stage.description}</p>
+                                                    <p className="text-neutral-300 text-sm mb-4">{stage.description}</p>
                                                     
                                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                                         <div>
-                                                            <h5 className="text-blue-400 font-medium mb-2">Touchpoints</h5>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <h5 className="text-neutral-400 font-medium mb-2">Touchpoints</h5>
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                 {(stage.touchpoints as string[]).map((point: string, i: number) => (
                                                                     <li key={i} className="flex items-start gap-2">
-                                                                        <span className="text-blue-400 mt-1">•</span>
+                                                                        <span className="text-neutral-400 mt-1">•</span>
                                                                         {point}
                                                                     </li>
                                                                 ))}
@@ -1512,7 +1512,7 @@ export default function CreateInspoPage() {
                                                         </div>
                                                         <div>
                                                             <h5 className="text-purple-400 font-medium mb-2">Actions</h5>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                 {(stage.actions as string[]).map((action: string, i: number) => (
                                                                     <li key={i} className="flex items-start gap-2">
                                                                         <span className="text-purple-400 mt-1">•</span>
@@ -1523,7 +1523,7 @@ export default function CreateInspoPage() {
                                                         </div>
                                                         <div>
                                                             <h5 className="text-red-400 font-medium mb-2">Barriers</h5>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                 {(stage.barriers as string[]).map((barrier: string, i: number) => (
                                                                     <li key={i} className="flex items-start gap-2">
                                                                         <span className="text-red-400 mt-1">•</span>
@@ -1539,9 +1539,9 @@ export default function CreateInspoPage() {
 
                                         {/* Key Insights & Opportunities */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Key Insights</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.keyInsights as string[]).map((insight: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-yellow-400 mt-1">💡</span>
@@ -1550,9 +1550,9 @@ export default function CreateInspoPage() {
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Optimization Opportunities</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.optimizationOpportunities as string[]).map((opportunity: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-green-400 mt-1">🎯</span>
@@ -1569,32 +1569,32 @@ export default function CreateInspoPage() {
                                         {/* Platform Posts */}
                                         <div className="space-y-4">
                                             {(section.frames[0].content.platforms as any[]).map((platform: any, index: number) => (
-                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <div key={index} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                     <div className="flex items-center gap-3 mb-4">
-                                                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                                                        <div className="w-8 h-8 bg-neutral-600 rounded-lg flex items-center justify-center">
                                                             <span className="text-white text-sm font-bold">{platform.platform[0]}</span>
                                                         </div>
                                                         <div>
                                                             <h4 className="text-white font-semibold">{platform.platform}</h4>
-                                                            <p className="text-slate-400 text-sm">{platform.format}</p>
+                                                            <p className="text-neutral-400 text-sm">{platform.format}</p>
                                                         </div>
                                                     </div>
                                                     
-                                                    <div className="bg-slate-800 rounded-lg p-4 mb-4">
-                                                        <pre className="text-slate-300 text-sm whitespace-pre-wrap font-sans">{platform.caption}</pre>
-                                                        <div className="mt-3 pt-3 border-t border-slate-700">
-                                                            <p className="text-blue-400 text-sm font-medium">{platform.cta}</p>
+                                                    <div className="bg-neutral-800 rounded-lg p-4 mb-4">
+                                                        <pre className="text-neutral-300 text-sm whitespace-pre-wrap font-sans">{platform.caption}</pre>
+                                                        <div className="mt-3 pt-3 border-t border-neutral-700">
+                                                            <p className="text-neutral-400 text-sm font-medium">{platform.cta}</p>
                                                         </div>
                                                     </div>
                                                     
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                                                         <div>
                                                             <span className="text-green-400 font-medium">Best Times:</span>
-                                                            <span className="text-slate-300 ml-2">{platform.bestTimes}</span>
+                                                            <span className="text-neutral-300 ml-2">{platform.bestTimes}</span>
                                                         </div>
                                                         <div>
                                                             <span className="text-purple-400 font-medium">Considerations:</span>
-                                                            <span className="text-slate-300 ml-2">{platform.considerations}</span>
+                                                            <span className="text-neutral-300 ml-2">{platform.considerations}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1603,20 +1603,20 @@ export default function CreateInspoPage() {
 
                                         {/* Content Strategy */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Content Pillars</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.contentPillars as string[]).map((pillar: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
-                                                            <span className="text-blue-400 mt-1">•</span>
+                                                            <span className="text-neutral-400 mt-1">•</span>
                                                             {pillar}
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Engagement Strategy</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.engagementStrategy as string[]).map((strategy: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-green-400 mt-1">•</span>
@@ -1630,34 +1630,34 @@ export default function CreateInspoPage() {
                                 ) : section.frames[0]?.type === 'caption-pack' ? (
                                     /* Caption Pack Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h3 className="text-white font-semibold mb-2">Caption Variations</h3>
-                                            <p className="text-slate-300 text-sm">Concept: {section.frames[0].content.concept}</p>
+                                            <p className="text-neutral-300 text-sm">Concept: {section.frames[0].content.concept}</p>
                                         </div>
 
                                         {/* Caption Variations */}
                                         <div className="space-y-4">
                                             {(section.frames[0].content.variations as any[]).map((variation: any, index: number) => (
-                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <div key={index} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                     <div className="flex items-center justify-between mb-4">
                                                         <h4 className="text-white font-semibold">Variation {index + 1}: {variation.style}</h4>
-                                                        <span className="bg-blue-900/30 text-blue-300 text-xs px-2 py-1 rounded">{variation.tone}</span>
+                                                        <span className="bg-neutral-900/30 text-neutral-300 text-xs px-2 py-1 rounded">{variation.tone}</span>
                                                     </div>
                                                     
-                                                    <div className="bg-slate-800 rounded-lg p-4 mb-4">
-                                                        <pre className="text-slate-300 text-sm whitespace-pre-wrap font-sans">{variation.caption}</pre>
+                                                    <div className="bg-neutral-800 rounded-lg p-4 mb-4">
+                                                        <pre className="text-neutral-300 text-sm whitespace-pre-wrap font-sans">{variation.caption}</pre>
                                                     </div>
                                                     
-                                                    <p className="text-slate-400 text-sm"><span className="text-green-400 font-medium">Best for:</span> {variation.bestFor}</p>
+                                                    <p className="text-neutral-400 text-sm"><span className="text-green-400 font-medium">Best for:</span> {variation.bestFor}</p>
                                                 </div>
                                             ))}
                                         </div>
 
                                         {/* Testing & Metrics */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">A/B Testing Guide</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.abTestingGuide as string[]).map((guide: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-purple-400 mt-1">•</span>
@@ -1666,9 +1666,9 @@ export default function CreateInspoPage() {
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Performance Metrics</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.performanceMetrics as string[]).map((metric: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-orange-400 mt-1">•</span>
@@ -1682,20 +1682,20 @@ export default function CreateInspoPage() {
                                 ) : section.frames[0]?.type === 'script' ? (
                                     /* Script Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h2 className="text-xl font-bold text-white mb-2">{section.frames[0].content.scriptTitle}</h2>
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                                 <div>
-                                                    <span className="text-blue-400 font-medium">Duration:</span>
-                                                    <span className="text-slate-300 ml-2">{section.frames[0].content.duration}</span>
+                                                    <span className="text-neutral-400 font-medium">Duration:</span>
+                                                    <span className="text-neutral-300 ml-2">{section.frames[0].content.duration}</span>
                                                 </div>
                                                 <div>
                                                     <span className="text-purple-400 font-medium">Target:</span>
-                                                    <span className="text-slate-300 ml-2">{section.frames[0].content.targetAudience}</span>
+                                                    <span className="text-neutral-300 ml-2">{section.frames[0].content.targetAudience}</span>
                                                 </div>
                                                 <div>
                                                     <span className="text-green-400 font-medium">Objective:</span>
-                                                    <span className="text-slate-300 ml-2">{section.frames[0].content.objective}</span>
+                                                    <span className="text-neutral-300 ml-2">{section.frames[0].content.objective}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1703,7 +1703,7 @@ export default function CreateInspoPage() {
                                         {/* Script Breakdown */}
                                         <div className="space-y-4">
                                             {Object.entries(section.frames[0].content.script).map(([key, scene]: [string, any], index: number) => (
-                                                <div key={key} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <div key={key} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                     <div className="flex items-center justify-between mb-4">
                                                         <h4 className="text-white font-semibold text-lg capitalize">{key === 'cta' ? 'Call to Action' : key}</h4>
                                                         <span className="bg-orange-900/30 text-orange-300 text-xs px-2 py-1 rounded">{scene.timeframe}</span>
@@ -1711,17 +1711,17 @@ export default function CreateInspoPage() {
                                                     
                                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                                         <div>
-                                                            <h5 className="text-blue-400 font-medium mb-2">Visual</h5>
-                                                            <p className="text-slate-300 text-sm">{scene.visual}</p>
+                                                            <h5 className="text-neutral-400 font-medium mb-2">Visual</h5>
+                                                            <p className="text-neutral-300 text-sm">{scene.visual}</p>
                                                         </div>
                                                         <div>
                                                             <h5 className="text-green-400 font-medium mb-2">Voiceover</h5>
-                                                            <p className="text-slate-300 text-sm italic">"{scene.voiceover}"</p>
+                                                            <p className="text-neutral-300 text-sm italic">"{scene.voiceover}"</p>
                                                         </div>
                                                     </div>
                                                     
-                                                    <div className="mt-4 pt-4 border-t border-slate-700">
-                                                        <p className="text-slate-400 text-xs"><span className="text-purple-400 font-medium">Note:</span> {scene.note}</p>
+                                                    <div className="mt-4 pt-4 border-t border-neutral-700">
+                                                        <p className="text-neutral-400 text-xs"><span className="text-purple-400 font-medium">Note:</span> {scene.note}</p>
                                                     </div>
                                                 </div>
                                             ))}
@@ -1729,35 +1729,35 @@ export default function CreateInspoPage() {
 
                                         {/* Production Details */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Production Notes</h4>
                                                 <div className="space-y-3">
                                                     <div>
-                                                        <span className="text-blue-400 font-medium text-sm">Tone:</span>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.tone}</p>
+                                                        <span className="text-neutral-400 font-medium text-sm">Tone:</span>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.productionNotes.tone}</p>
                                                     </div>
                                                     <div>
                                                         <span className="text-green-400 font-medium text-sm">Pacing:</span>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.pacing}</p>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.productionNotes.pacing}</p>
                                                     </div>
                                                     <div>
                                                         <span className="text-purple-400 font-medium text-sm">Music:</span>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.music}</p>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.productionNotes.music}</p>
                                                     </div>
                                                     <div>
                                                         <span className="text-orange-400 font-medium text-sm">Voiceover Style:</span>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.productionNotes.voiceoverStyle}</p>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.productionNotes.voiceoverStyle}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Technical Specs</h4>
                                                 <div className="space-y-2 text-sm">
                                                     {Object.entries(section.frames[0].content.technicalSpecs).map(([key, value]) => (
                                                         <div key={key} className="flex justify-between">
-                                                            <span className="text-slate-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
-                                                            <span className="text-slate-300 text-right max-w-[60%]">
+                                                            <span className="text-neutral-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <span className="text-neutral-300 text-right max-w-[60%]">
                                                                 {Array.isArray(value) ? (value as string[]).join(', ') : value as string}
                                                             </span>
                                                         </div>
@@ -1768,21 +1768,21 @@ export default function CreateInspoPage() {
 
                                         {/* Call to Action & Performance */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Call to Action Strategy</h4>
                                                 <div className="space-y-2">
                                                     {Object.entries(section.frames[0].content.callToAction).map(([key, value]) => (
                                                         <div key={key} className="flex justify-between">
-                                                            <span className="text-slate-400 text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <span className="text-neutral-400 text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
                                                             <span className="text-green-400 text-sm font-medium">{value as string}</span>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
                                             
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Success Metrics</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.measurableGoals as string[]).map((goal: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-green-400 mt-1">🎯</span>
@@ -1794,11 +1794,11 @@ export default function CreateInspoPage() {
                                         </div>
 
                                         {/* Target Platforms */}
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h4 className="text-white font-semibold mb-3">Target Platforms</h4>
                                             <div className="flex flex-wrap gap-2">
                                                 {(section.frames[0].content.targetPlatforms as string[]).map((platform: string, i: number) => (
-                                                    <span key={i} className="bg-blue-900/30 text-blue-300 text-xs px-3 py-1 rounded-full">
+                                                    <span key={i} className="bg-neutral-900/30 text-neutral-300 text-xs px-3 py-1 rounded-full">
                                                         {platform}
                                                     </span>
                                                 ))}
@@ -1807,64 +1807,64 @@ export default function CreateInspoPage() {
                                     </div>
                                 ) : section.frames[0]?.type === 'document' ? (
                                     /* Document Layout for Creative & Marketing Briefs */
-                                    <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-8">
+                                    <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-8">
                                         {section.type === 'creative-brief' ? (
                                             /* Creative Brief Document */
                                             <div className="space-y-6">
-                                                <div className="border-b border-slate-700 pb-4">
+                                                <div className="border-b border-neutral-700 pb-4">
                                                     <h2 className="text-xl font-bold text-white mb-2">{section.frames[0].content.projectName}</h2>
-                                                    <p className="text-slate-300 text-sm leading-relaxed">{section.frames[0].content.briefOverview}</p>
+                                                    <p className="text-neutral-300 text-sm leading-relaxed">{section.frames[0].content.briefOverview}</p>
                                                 </div>
 
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                     <div className="space-y-4">
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Objective</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.objective}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.objective}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Target Audience</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.targetAudience}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.targetAudience}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Key Message</h4>
-                                                            <p className="text-slate-300 text-sm font-medium italic">"{section.frames[0].content.keyMessage}"</p>
+                                                            <p className="text-neutral-300 text-sm font-medium italic">"{section.frames[0].content.keyMessage}"</p>
                                                         </div>
                                                     </div>
 
                                                     <div className="space-y-4">
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Creative Concept</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.creativeConcept}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.creativeConcept}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Tone & Style</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.toneAndStyle}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.toneAndStyle}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Platform Considerations</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.platformConsiderations}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.platformConsiderations}</p>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div className="border-t border-slate-700 pt-4">
+                                                <div className="border-t border-neutral-700 pt-4">
                                                     <div className="mb-4">
                                                         <h4 className="text-white font-semibold mb-2">Why This Works</h4>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.whyThisWorks}</p>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.whyThisWorks}</p>
                                                     </div>
                                                     
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Mandatory Elements</h4>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                                                                                  {(section.frames[0].content.mandatoryElements as string[]).map((element: string, index: number) => (
                                                                     <li key={index} className="flex items-start gap-2">
-                                                                        <span className="text-blue-400 mt-1">•</span>
+                                                                        <span className="text-neutral-400 mt-1">•</span>
                                                                         {element}
                                                                     </li>
                                                                 ))}
@@ -1873,7 +1873,7 @@ export default function CreateInspoPage() {
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Success Criteria</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.successCriteria}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.successCriteria}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1881,10 +1881,10 @@ export default function CreateInspoPage() {
                                         ) : (
                                             /* Marketing Brief Document */
                                             <div className="space-y-6">
-                                                <div className="border-b border-slate-700 pb-4">
+                                                <div className="border-b border-neutral-700 pb-4">
                                                     <h2 className="text-xl font-bold text-white mb-1">{section.frames[0].content.projectTitle}</h2>
-                                                    <h3 className="text-lg text-blue-400 mb-3">Campaign: {section.frames[0].content.campaignName}</h3>
-                                                    <p className="text-slate-300 text-sm leading-relaxed">{section.frames[0].content.executiveSummary}</p>
+                                                    <h3 className="text-lg text-neutral-400 mb-3">Campaign: {section.frames[0].content.campaignName}</h3>
+                                                    <p className="text-neutral-300 text-sm leading-relaxed">{section.frames[0].content.executiveSummary}</p>
                                                 </div>
 
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1892,15 +1892,15 @@ export default function CreateInspoPage() {
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Brand Overview</h4>
                                                             <div className="space-y-2 text-sm">
-                                                                <p><span className="text-blue-400">Brand:</span> <span className="text-slate-300">{section.frames[0].content.brandOverview.brand}</span></p>
-                                                                <p><span className="text-blue-400">Product:</span> <span className="text-slate-300">{section.frames[0].content.brandOverview.product}</span></p>
-                                                                <p className="text-slate-300">{section.frames[0].content.brandOverview.positioning}</p>
+                                                                <p><span className="text-neutral-400">Brand:</span> <span className="text-neutral-300">{section.frames[0].content.brandOverview.brand}</span></p>
+                                                                <p><span className="text-neutral-400">Product:</span> <span className="text-neutral-300">{section.frames[0].content.brandOverview.product}</span></p>
+                                                                <p className="text-neutral-300">{section.frames[0].content.brandOverview.positioning}</p>
                                                             </div>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Marketing Objectives</h4>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                                                                                  {(section.frames[0].content.marketingObjectives as string[]).map((objective: string, index: number) => (
                                                                      <li key={index} className="flex items-start gap-2">
                                                                          <span className="text-green-400 mt-1">•</span>
@@ -1912,28 +1912,28 @@ export default function CreateInspoPage() {
 
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Target Audience</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.targetAudienceProfile}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.targetAudienceProfile}</p>
                                                         </div>
                                                     </div>
 
                                                     <div className="space-y-4">
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Key Insight</h4>
-                                                            <p className="text-slate-300 text-sm italic">{section.frames[0].content.keyInsight}</p>
+                                                            <p className="text-neutral-300 text-sm italic">{section.frames[0].content.keyInsight}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Strategic Approach</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.strategicApproach}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.strategicApproach}</p>
                                                         </div>
 
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Core Messaging</h4>
                                                             <div className="space-y-2">
-                                                                <p className="text-slate-300 text-sm"><span className="text-purple-400 font-medium">Primary:</span> "{section.frames[0].content.coreMessaging.primaryMessage}"</p>
+                                                                <p className="text-neutral-300 text-sm"><span className="text-purple-400 font-medium">Primary:</span> "{section.frames[0].content.coreMessaging.primaryMessage}"</p>
                                                                 <div>
                                                                     <p className="text-purple-400 font-medium text-sm mb-1">Supporting Messages:</p>
-                                                                    <ul className="text-slate-300 text-sm space-y-1">
+                                                                    <ul className="text-neutral-300 text-sm space-y-1">
                                                                                                                                                  {(section.frames[0].content.coreMessaging.supportingMessages as string[]).map((message: string, index: number) => (
                                                                              <li key={index} className="flex items-start gap-2">
                                                                                  <span className="text-purple-400 mt-1">•</span>
@@ -1947,23 +1947,23 @@ export default function CreateInspoPage() {
                                                     </div>
                                                 </div>
 
-                                                <div className="border-t border-slate-700 pt-4 space-y-4">
+                                                <div className="border-t border-neutral-700 pt-4 space-y-4">
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Channel Strategy</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.channelStrategy}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.channelStrategy}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Creative Direction</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.creativeDirection}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.creativeDirection}</p>
                                                         </div>
                                                     </div>
 
                                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Success Metrics</h4>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                 {section.frames[0].content.successMetrics.map((metric: string, index: number) => (
                                                                     <li key={index} className="flex items-start gap-2">
                                                                         <span className="text-orange-400 mt-1">•</span>
@@ -1975,12 +1975,12 @@ export default function CreateInspoPage() {
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Timeline</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.timeline}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.timeline}</p>
                                                         </div>
                                                         
                                                         <div>
                                                             <h4 className="text-white font-semibold mb-2">Budget</h4>
-                                                            <p className="text-slate-300 text-sm">{section.frames[0].content.budget}</p>
+                                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.budget}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1990,18 +1990,18 @@ export default function CreateInspoPage() {
                                 ) : section.frames[0]?.type === 'blog-outline' ? (
                                     /* Blog Outline Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h2 className="text-xl font-bold text-white mb-2">{section.frames[0].content.title}</h2>
-                                            <h3 className="text-md text-blue-400">{section.frames[0].content.subtitle}</h3>
+                                            <h3 className="text-md text-neutral-400">{section.frames[0].content.subtitle}</h3>
                                         </div>
 
                                         {/* Article Outline */}
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6 space-y-4">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6 space-y-4">
                                             <div className="flex items-center justify-between mb-4">
                                                 <h4 className="text-white font-semibold text-lg">Article:</h4>
                                             </div>
 
-                                            <div className="text-slate-300 text-sm space-y-3">
+                                            <div className="text-neutral-300 text-sm space-y-3">
                                                 {(section.frames[0].content.body as any[]).map((outlineSection: any, index: number) => (
                                                     <p key={index}>{outlineSection.paragraph}</p>
                                                 ))}
@@ -2010,12 +2010,12 @@ export default function CreateInspoPage() {
 
                                         {/* SEO & Content Upgrades */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">SEO Strategy</h4>
                                                 <div className="space-y-3">
                                                     <div>
-                                                        <span className="text-blue-400 font-medium text-sm">Primary Keyword:</span>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.seoStrategy.primaryKeyword}</p>
+                                                        <span className="text-neutral-400 font-medium text-sm">Primary Keyword:</span>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.seoStrategy.primaryKeyword}</p>
                                                     </div>
                                                     <div>
                                                         <span className="text-green-400 font-medium text-sm">Secondary Keywords:</span>
@@ -2027,13 +2027,13 @@ export default function CreateInspoPage() {
                                                     </div>
                                                     <div>
                                                         <span className="text-purple-400 font-medium text-sm">Meta Description:</span>
-                                                        <p className="text-slate-300 text-sm">{section.frames[0].content.seoStrategy.metaDescription}</p>
+                                                        <p className="text-neutral-300 text-sm">{section.frames[0].content.seoStrategy.metaDescription}</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Content Upgrades</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.contentUpgrades as string[]).map((upgrade: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-orange-400 mt-1">📎</span>
@@ -2047,41 +2047,41 @@ export default function CreateInspoPage() {
                                 ) : section.frames[0]?.type === 'email-campaign' ? (
                                     /* Email Campaign Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h3 className="text-white font-semibold mb-2">{section.frames[0].content.campaignName}</h3>
-                                            <p className="text-slate-300 text-sm">Objective: {section.frames[0].content.objective}</p>
+                                            <p className="text-neutral-300 text-sm">Objective: {section.frames[0].content.objective}</p>
                                         </div>
 
                                         {/* Email Sequence */}
                                         <div className="space-y-4">
                                             {(section.frames[0].content.emails as any[]).map((email: any, index: number) => (
-                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <div key={index} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                     <div className="flex items-center justify-between mb-4">
                                                         <h4 className="text-white font-semibold">Email {index + 1}: {email.type}</h4>
                                                         <div className="text-right">
                                                             <p className="text-green-400 text-sm font-medium">{email.sendTime}</p>
-                                                            <p className="text-slate-400 text-xs">Expected: {email.expectedOpenRate}</p>
+                                                            <p className="text-neutral-400 text-xs">Expected: {email.expectedOpenRate}</p>
                                                         </div>
                                                     </div>
                                                     
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                                         <div>
-                                                            <span className="text-blue-400 font-medium text-sm">Subject:</span>
-                                                            <p className="text-slate-300 text-sm">{email.subject}</p>
+                                                            <span className="text-neutral-400 font-medium text-sm">Subject:</span>
+                                                            <p className="text-neutral-300 text-sm">{email.subject}</p>
                                                         </div>
                                                         <div>
                                                             <span className="text-purple-400 font-medium text-sm">Preview:</span>
-                                                            <p className="text-slate-300 text-sm">{email.preview}</p>
+                                                            <p className="text-neutral-300 text-sm">{email.preview}</p>
                                                         </div>
                                                     </div>
                                                     
-                                                    <div className="bg-slate-800 rounded-lg p-4">
+                                                    <div className="bg-neutral-800 rounded-lg p-4">
                                                         <h5 className="text-white font-medium mb-3">Email Content:</h5>
                                                         <div className="space-y-2 text-sm">
                                                             {Object.entries(email.content).map(([key, value]) => (
                                                                 <div key={key}>
-                                                                    <span className="text-slate-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
-                                                                    <p className="text-slate-300 ml-2">{value as string}</p>
+                                                                    <span className="text-neutral-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                                    <p className="text-neutral-300 ml-2">{value as string}</p>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -2092,23 +2092,23 @@ export default function CreateInspoPage() {
 
                                         {/* Campaign Metrics & Strategy */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Expected Metrics</h4>
                                                 <div className="space-y-2">
                                                     {Object.entries(section.frames[0].content.campaignMetrics).map(([key, value]) => (
                                                         <div key={key} className="flex justify-between">
-                                                            <span className="text-slate-400 text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <span className="text-neutral-400 text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
                                                             <span className="text-green-400 text-sm font-medium">{value as string}</span>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Follow-up Strategy</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.followUpStrategy as string[]).map((strategy: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
-                                                            <span className="text-blue-400 mt-1">•</span>
+                                                            <span className="text-neutral-400 mt-1">•</span>
                                                             {strategy}
                                                         </li>
                                                     ))}
@@ -2119,16 +2119,16 @@ export default function CreateInspoPage() {
                                 ) : section.frames[0]?.type === 'influencer-brief' ? (
                                     /* Influencer Brief Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h3 className="text-white font-semibold mb-2">{section.frames[0].content.campaignName}</h3>
-                                            <p className="text-slate-300 text-sm">{section.frames[0].content.briefOverview}</p>
+                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.briefOverview}</p>
                                         </div>
 
                                         {/* Campaign Details */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Campaign Objectives</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.campaignObjectives as string[]).map((objective: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-green-400 mt-1">•</span>
@@ -2137,13 +2137,13 @@ export default function CreateInspoPage() {
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Target Influencers</h4>
                                                 <div className="space-y-2 text-sm">
                                                     {Object.entries(section.frames[0].content.targetInfluencers).map(([key, value]) => (
                                                         <div key={key}>
-                                                            <span className="text-blue-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
-                                                            <p className="text-slate-300 ml-2">{Array.isArray(value) ? (value as string[]).join(', ') : value as string}</p>
+                                                            <span className="text-neutral-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
+                                                            <p className="text-neutral-300 ml-2">{Array.isArray(value) ? (value as string[]).join(', ') : value as string}</p>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -2152,12 +2152,12 @@ export default function CreateInspoPage() {
 
                                         {/* Content Requirements & Deliverables */}
                                         <div className="space-y-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Content Requirements</h4>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                     <div>
                                                         <h5 className="text-green-400 font-medium mb-2">Mandatory Elements</h5>
-                                                        <ul className="text-slate-300 text-sm space-y-1">
+                                                        <ul className="text-neutral-300 text-sm space-y-1">
                                                             {(section.frames[0].content.contentRequirements.mandatoryElements as string[]).map((element: string, i: number) => (
                                                                 <li key={i} className="flex items-start gap-2">
                                                                     <span className="text-green-400 mt-1">•</span>
@@ -2167,11 +2167,11 @@ export default function CreateInspoPage() {
                                                         </ul>
                                                     </div>
                                                     <div>
-                                                        <h5 className="text-blue-400 font-medium mb-2">Creative Freedom</h5>
-                                                        <ul className="text-slate-300 text-sm space-y-1">
+                                                        <h5 className="text-neutral-400 font-medium mb-2">Creative Freedom</h5>
+                                                        <ul className="text-neutral-300 text-sm space-y-1">
                                                             {(section.frames[0].content.contentRequirements.creativeFreedom as string[]).map((freedom: string, i: number) => (
                                                                 <li key={i} className="flex items-start gap-2">
-                                                                    <span className="text-blue-400 mt-1">•</span>
+                                                                    <span className="text-neutral-400 mt-1">•</span>
                                                                     {freedom}
                                                                 </li>
                                                             ))}
@@ -2180,7 +2180,7 @@ export default function CreateInspoPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Deliverables</h4>
                                                 <div className="space-y-4">
                                                     {(section.frames[0].content.deliverables as any[]).map((deliverable: any, index: number) => (
@@ -2189,8 +2189,8 @@ export default function CreateInspoPage() {
                                                                 <h5 className="text-white font-medium">{deliverable.platform} - {deliverable.format}</h5>
                                                                 <span className="text-orange-400 text-xs">{deliverable.timeline}</span>
                                                             </div>
-                                                            <p className="text-slate-300 text-sm mb-1">{deliverable.specifications}</p>
-                                                            <p className="text-slate-400 text-xs">{deliverable.requirements}</p>
+                                                            <p className="text-neutral-300 text-sm mb-1">{deliverable.specifications}</p>
+                                                            <p className="text-neutral-400 text-xs">{deliverable.requirements}</p>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -2198,9 +2198,9 @@ export default function CreateInspoPage() {
                                         </div>
 
                                         {/* Success Metrics */}
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h4 className="text-white font-semibold mb-3">Success Metrics</h4>
-                                            <ul className="text-slate-300 text-sm space-y-2">
+                                            <ul className="text-neutral-300 text-sm space-y-2">
                                                 {(section.frames[0].content.successMetrics as string[]).map((metric: string, i: number) => (
                                                     <li key={i} className="flex items-start gap-2">
                                                         <span className="text-orange-400 mt-1">📊</span>
@@ -2213,31 +2213,31 @@ export default function CreateInspoPage() {
                                 ) : section.frames[0]?.type === 'evergreen-plan' ? (
                                     /* Evergreen Content Plan Layout */
                                     <div className="space-y-6">
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h3 className="text-white font-semibold mb-2">{section.frames[0].content.planName}</h3>
-                                            <p className="text-slate-300 text-sm">{section.frames[0].content.conceptOverview}</p>
+                                            <p className="text-neutral-300 text-sm">{section.frames[0].content.conceptOverview}</p>
                                         </div>
 
                                         {/* Content Series */}
                                         <div className="space-y-4">
                                             {(section.frames[0].content.contentSeries as any[]).map((series: any, index: number) => (
-                                                <div key={index} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                                <div key={index} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                     <div className="flex items-center justify-between mb-4">
                                                         <h4 className="text-white font-semibold">{series.seriesName}</h4>
                                                         <div className="text-right">
                                                             <span className="text-green-400 text-sm font-medium">{series.frequency}</span>
-                                                            <p className="text-slate-400 text-xs">{series.duration}</p>
+                                                            <p className="text-neutral-400 text-xs">{series.duration}</p>
                                                         </div>
                                                     </div>
-                                                    <p className="text-slate-300 text-sm mb-4">{series.description}</p>
+                                                    <p className="text-neutral-300 text-sm mb-4">{series.description}</p>
                                                     
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                         <div>
-                                                            <h5 className="text-blue-400 font-medium mb-2">Content Types</h5>
-                                                            <ul className="text-slate-300 text-sm space-y-1">
+                                                            <h5 className="text-neutral-400 font-medium mb-2">Content Types</h5>
+                                                            <ul className="text-neutral-300 text-sm space-y-1">
                                                                 {(series.contentTypes as string[]).map((type: string, i: number) => (
                                                                     <li key={i} className="flex items-start gap-2">
-                                                                        <span className="text-blue-400 mt-1">•</span>
+                                                                        <span className="text-neutral-400 mt-1">•</span>
                                                                         {type}
                                                                     </li>
                                                                 ))}
@@ -2258,25 +2258,25 @@ export default function CreateInspoPage() {
 
                                         {/* Content Calendar & Strategy */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Content Calendar</h4>
                                                 <div className="space-y-2">
                                                     {Object.entries(section.frames[0].content.contentCalendar).map(([key, value]) => (
                                                         key !== 'notes' && (
                                                             <div key={key} className="flex justify-between">
-                                                                <span className="text-slate-400 text-sm capitalize">{key}:</span>
-                                                                <span className="text-slate-300 text-sm">{value as string}</span>
+                                                                <span className="text-neutral-400 text-sm capitalize">{key}:</span>
+                                                                <span className="text-neutral-300 text-sm">{value as string}</span>
                                                             </div>
                                                         )
                                                     ))}
                                                     {section.frames[0].content.contentCalendar.notes && (
-                                                        <p className="text-slate-400 text-xs mt-3 italic">{section.frames[0].content.contentCalendar.notes}</p>
+                                                        <p className="text-neutral-400 text-xs mt-3 italic">{section.frames[0].content.contentCalendar.notes}</p>
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 <h4 className="text-white font-semibold mb-3">Success Metrics</h4>
-                                                <ul className="text-slate-300 text-sm space-y-2">
+                                                <ul className="text-neutral-300 text-sm space-y-2">
                                                     {(section.frames[0].content.successMetrics as string[]).map((metric: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
                                                             <span className="text-green-400 mt-1">📈</span>
@@ -2291,25 +2291,25 @@ export default function CreateInspoPage() {
                                     /* Social Posts Layout */
                                     <div className="space-y-6">
                                         {/* Campaign Overview */}
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <div className="mb-4">
                                                 <h3 className="text-white font-semibold mb-2">{section.frames[0].content.campaign}</h3>
-                                                <p className="text-slate-300 text-sm leading-relaxed">{section.frames[0].content.overview}</p>
+                                                <p className="text-neutral-300 text-sm leading-relaxed">{section.frames[0].content.overview}</p>
                                             </div>
                                         </div>
 
                                         {/* Format Examples */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {(section.frames[0].content.formats as any[]).map((format: any) => (
-                                                <div key={format.id} className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
+                                                <div key={format.id} className="bg-neutral-900/50 border border-neutral-800 rounded-lg overflow-hidden">
                                                     {/* Format Header */}
-                                                    <div className="p-4 border-b border-slate-800">
+                                                    <div className="p-4 border-b border-neutral-800">
                                                         <h4 className="text-white font-semibold text-sm">{format.format}</h4>
-                                                        <p className="text-slate-400 text-xs">{format.dimensions}</p>
+                                                        <p className="text-neutral-400 text-xs">{format.dimensions}</p>
                                                     </div>
                                                     
                                                     {/* Generated Image */}
-                                                    <div className={`${format.format.includes('9:16') ? 'aspect-[9/16] max-w-sm' : 'aspect-[16/9] max-w-lg'} bg-slate-800 relative mx-auto`}>
+                                                    <div className={`${format.format.includes('9:16') ? 'aspect-[9/16] max-w-sm' : 'aspect-[16/9] max-w-lg'} bg-neutral-800 relative mx-auto`}>
                                                         <img 
                                                             src={format.image} 
                                                             alt={format.format}
@@ -2321,10 +2321,10 @@ export default function CreateInspoPage() {
                                                                 <span className="text-white text-xs font-semibold">{section.frames[0].content.campaign.split(' - ')[0]}</span>
                                                             </div>
                                                         </div>
-                                                        <div className={`absolute ${format.format.includes('9:16') ? 'bottom-4 left-4 right-4' : 'top-1/2 left-4 right-4 -translate-y-1/2'}`}>
+                                                        <div className={`absolute ${format.format.includes('9:16') ? 'bottom-4 left-4 right-4' : 'top-1/2 left-4 right-4 -tranneutral-y-1/2'}`}>
                                                             <div className="bg-black/60 backdrop-blur-sm p-3 rounded-lg">
                                                                 <div className="text-white text-sm font-semibold mb-1">{section.frames[0].content.caption.hook}</div>
-                                                                <div className="text-slate-300 text-xs">{section.frames[0].content.caption.cta}</div>
+                                                                <div className="text-neutral-300 text-xs">{section.frames[0].content.caption.cta}</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2333,13 +2333,13 @@ export default function CreateInspoPage() {
                                         </div>
 
                                         {/* Post Caption */}
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <div className="flex items-center justify-between mb-3">
                                                 <h4 className="text-white font-semibold">Post Caption</h4>
                                                 <button
                                                     onClick={() => regenerateCaption(section.id)}
                                                     disabled={isRegeneratingCaption}
-                                                    className="flex items-center gap-2 px-3 py-1 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-600/50 rounded-lg text-white text-xs font-medium transition-colors"
+                                                    className="flex items-center gap-2 px-3 py-1 bg-neutral-600 hover:bg-neutral-500 disabled:bg-neutral-600/50 rounded-lg text-white text-xs font-medium transition-colors"
                                                 >
                                                     {isRegeneratingCaption ? (
                                                         <>
@@ -2356,18 +2356,18 @@ export default function CreateInspoPage() {
                                                     )}
                                                 </button>
                                             </div>
-                                            <div className="bg-slate-800 rounded-lg p-4 font-mono text-sm">
+                                            <div className="bg-neutral-800 rounded-lg p-4 font-mono text-sm">
                                                 <div className="text-white mb-2">{section.frames[0].content.caption.hook}</div>
-                                                <div className="text-slate-300 whitespace-pre-line mb-3">{section.frames[0].content.caption.body}</div>
-                                                <div className="text-blue-400 mb-3">{section.frames[0].content.caption.cta}</div>
+                                                <div className="text-neutral-300 whitespace-pre-line mb-3">{section.frames[0].content.caption.body}</div>
+                                                <div className="text-neutral-400 mb-3">{section.frames[0].content.caption.cta}</div>
                                                 <div className="text-purple-400 text-xs">{section.frames[0].content.caption.hashtags}</div>
                                             </div>
                                         </div>
 
                                         {/* Performance Optimization */}
-                                        <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                             <h4 className="text-white font-semibold mb-4">Performance Optimization</h4>
-                                            <ul className="text-slate-300 text-sm space-y-2">
+                                            <ul className="text-neutral-300 text-sm space-y-2">
                                                 {(section.frames[0].content.performanceOptimization as string[]).map((item: string, index: number) => (
                                                     <li key={index} className="flex items-start gap-3">
                                                         <span className="text-green-400 mt-1">✓</span>
@@ -2381,17 +2381,17 @@ export default function CreateInspoPage() {
                                     /* Standard User Experience Frame Layout */
                                     <div className="space-y-6">
                                         {section.frames.map((frame: any, index: number) => (
-                                            <div key={frame.id} className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                                            <div key={frame.id} className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-6">
                                                 {/* Frame Header */}
                                                 <div className="flex items-center gap-3 mb-4">
-                                                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                                                    <div className="w-8 h-8 bg-neutral-600 rounded-lg flex items-center justify-center">
                                                         <span className="text-white text-sm font-bold">{index + 1}</span>
                                                     </div>
                                                     <div>
                                                         <h4 className="text-white font-semibold text-base">
                                                             🎬 Frame {index + 1}: {frame.title}
                                                         </h4>
-                                                        <p className="text-slate-400 text-sm">{frame.role}</p>
+                                                        <p className="text-neutral-400 text-sm">{frame.role}</p>
                                                     </div>
                                                 </div>
 
@@ -2400,12 +2400,12 @@ export default function CreateInspoPage() {
                                                     {/* Visual */}
                                                     <div className="space-y-2">
                                                         <div className="flex items-center gap-2">
-                                                            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <svg className="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                                             </svg>
-                                                            <span className="text-blue-400 text-sm font-medium">Visual:</span>
+                                                            <span className="text-neutral-400 text-sm font-medium">Visual:</span>
                                                         </div>
-                                                        <p className="text-slate-300 text-sm leading-relaxed">{frame.visual}</p>
+                                                        <p className="text-neutral-300 text-sm leading-relaxed">{frame.visual}</p>
                                                     </div>
 
                                                     {/* Audio */}
@@ -2416,7 +2416,7 @@ export default function CreateInspoPage() {
                                                             </svg>
                                                             <span className="text-green-400 text-sm font-medium">Audio:</span>
                                                         </div>
-                                                        <p className="text-slate-300 text-sm leading-relaxed">{frame.audio}</p>
+                                                        <p className="text-neutral-300 text-sm leading-relaxed">{frame.audio}</p>
                                                     </div>
 
                                                     {/* Text */}
@@ -2427,7 +2427,7 @@ export default function CreateInspoPage() {
                                                             </svg>
                                                             <span className="text-purple-400 text-sm font-medium">Text:</span>
                                                         </div>
-                                                        <p className="text-slate-300 text-sm leading-relaxed">{frame.text}</p>
+                                                        <p className="text-neutral-300 text-sm leading-relaxed">{frame.text}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2440,9 +2440,9 @@ export default function CreateInspoPage() {
 
 
                         {/* All Generation Options - Always Visible at Bottom */}
-                        <div className="mt-8 pt-8 border-t border-slate-800">
+                        <div className="mt-8 pt-8 border-t border-neutral-800">
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <div className="w-2 h-2 bg-neutral-500 rounded-full"></div>
                                 <h3 className="text-white text-lg font-semibold">Generation Options</h3>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
@@ -2464,7 +2464,7 @@ export default function CreateInspoPage() {
                                             className={`flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 cursor-pointer ${
                                                 isAlreadyGenerated 
                                                     ? 'bg-green-900/30 border border-green-700/50 text-green-300' 
-                                                    : 'bg-slate-800 hover:bg-slate-700 text-white'
+                                                    : 'bg-neutral-800 hover:bg-neutral-700 text-white'
                                             }`}
                                             onClick={() => handleGenerateFrames(option.type as 'audience-journey' | 'social-post' | 'blog-outline' | 'email-campaign' | 'influencer-brief' | 'evergreen-plan' | 'script')}
                                             disabled={isGeneratingFrames}
