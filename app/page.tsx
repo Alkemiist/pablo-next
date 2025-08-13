@@ -25,9 +25,10 @@ function Home() {
     const [ pageSize ] = useState<number>(30);
     const carouselRef = useRef<HTMLDivElement>(null);
     const oppCarouselRef = useRef<HTMLDivElement>(null);
-    const heroCarouselRef = useRef<HTMLDivElement>(null);
     const stadiumCarouselRef = useRef<HTMLDivElement>(null);
-    const [heroIndex, setHeroIndex] = useState<number>(0);
+    const counterCarouselRef = useRef<HTMLDivElement>(null);
+    const powerfulCarouselRef = useRef<HTMLDivElement>(null);
+    
 
     
 
@@ -127,6 +128,24 @@ function Home() {
         []
     );
 
+    const counterAudiences: PersonaCard[] = useMemo(
+        () => [
+            { name: 'Unlikely Luxury Shoppers', summary: 'Value-seekers who splurge on signature pieces when the story resonates.', imageUrl: 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Rural Tech Tinkerers', summary: 'DIY hardware modders upgrading gear off-the-grid.', imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Night-Shift Athletes', summary: 'Train after midnight; shop for recovery and performance aids.', imageUrl: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Finance Meme Traders', summary: 'Retail traders who treat markets as community and game.', imageUrl: 'https://images.pexels.com/photos/6801872/pexels-photo-6801872.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Vintage Camera Newbies', summary: 'Gen Z creators learning analog workflows for originality.', imageUrl: 'https://images.pexels.com/photos/682926/pexels-photo-682926.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Suburban Sneakerheads', summary: 'High-heat collectors outside the usual urban drops.', imageUrl: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Remote Van-Lifers', summary: 'Work-from-anywhere nomads optimizing compact living.', imageUrl: 'https://images.pexels.com/photos/2168974/pexels-photo-2168974.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Studio Apartment Chefs', summary: 'Max flavor with minimal space—gear matters.', imageUrl: 'https://images.pexels.com/photos/4109993/pexels-photo-4109993.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Alumni Superfans', summary: 'Graduates who still road-trip for games and merch.', imageUrl: 'https://images.pexels.com/photos/792254/pexels-photo-792254.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Pet Fashion Buyers', summary: 'Owners who buy matching fits and lifestyle accessories.', imageUrl: 'https://images.pexels.com/photos/573186/pexels-photo-573186.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Weekend Biologists', summary: 'Amateur naturalists who invest in field and lab kits.', imageUrl: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'City Cyclists Without Cars', summary: 'Two wheels only; prioritize maintenance and safety tech.', imageUrl: 'https://images.pexels.com/photos/210095/pexels-photo-210095.jpeg?auto=compress&cs=tinysrgb&w=800' },
+        ],
+        []
+    );
+
     const toSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
     const OpportunityMedia = ({ videoUrl, imageUrl, title }: { videoUrl?: string; imageUrl: string; title: string }) => {
@@ -181,19 +200,23 @@ function Home() {
         stadiumCarouselRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
     };
 
-    const scrollHeroTo = (index: number) => {
-        const container = heroCarouselRef.current;
-        if (!container) return;
-        const width = container.clientWidth;
-        container.scrollTo({ left: width * index, behavior: 'smooth' });
-        setHeroIndex(index);
+    const scrollCounterLeft = () => {
+        counterCarouselRef.current?.scrollBy({ left: -scrollByAmount(), behavior: 'smooth' });
     };
 
-    const scrollHeroLeft = () => scrollHeroTo(Math.max(0, heroIndex - 1));
-    const scrollHeroRight = () => {
-        const total = Math.min(6, news.length);
-        scrollHeroTo(Math.min(total - 1, heroIndex + 1));
+    const scrollCounterRight = () => {
+        counterCarouselRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
     };
+
+    const scrollPowerfulLeft = () => {
+        powerfulCarouselRef.current?.scrollBy({ left: -scrollByAmount(), behavior: 'smooth' });
+    };
+
+    const scrollPowerfulRight = () => {
+        powerfulCarouselRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
+    };
+
+    
 
     type OpportunityCard = {
         title: string;
@@ -373,34 +396,25 @@ function Home() {
     }
 
     return (
-        <div className="flex flex-col mb-12">
+        <div className="flex flex-col">
             
 
-            {/* Hero Carousel (6 stories from API) */}
+            {/* Top Hero (single feature) */}
             {news.length > 0 && (
                 <div className="px-12 mt-8">
-                    <div
-                        ref={heroCarouselRef}
-                        className="relative flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                        aria-label="Top stories carousel"
-                        onScroll={(e) => {
-                            const target = e.currentTarget;
-                            const index = Math.round(target.scrollLeft / (target.clientWidth || 1));
-                            setHeroIndex(index);
-                        }}
-                    >
-                        {news.slice(0, 6).map((article, idx) => (
+                    {(() => {
+                        const article = news[0];
+                        return (
                             <div
                                 key={article.title}
                                 onClick={() => window.open(article.url, '_blank')}
-                                className="relative h-[420px] w-full shrink-0 rounded-2xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40 snap-start"
-                                style={{ minWidth: '100%' }}
+                                className="relative h-[460px] w-full rounded-2xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40 border border-neutral-800 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
                             >
                                 {article.urlToImage && (
                                     <img
                                         src={article.urlToImage}
                                         alt={article.title}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
                                     />
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/10 to-transparent" />
@@ -427,40 +441,8 @@ function Home() {
                                     )}
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                    <div className="mt-4 flex items-center justify-center gap-3">
-                        <button
-                            onClick={scrollHeroLeft}
-                            className="h-8 w-8 grid place-items-center rounded-full bg-neutral-900 border border-neutral-800 text-slate-200 hover:bg-neutral-800"
-                            aria-label="Previous story"
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </button>
-                        <div className="relative flex items-center gap-1 rounded-full bg-neutral-900 px-2 py-1 border border-neutral-800">
-                            <span
-                                aria-hidden
-                                className="absolute top-1/2 z-10 h-2.5 w-6 rounded-full bg-white/90 shadow-[0_0_12px_rgba(255,255,255,0.55)] transition-transform duration-500 ease-out"
-                                style={{ left: 'calc(0.5rem - 2px)', transform: `translate(${heroIndex * 12}px, -50%)` }}
-                            />
-                            {news.slice(0, 6).map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => scrollHeroTo(i)}
-                                    className="relative h-2 w-2 rounded-full border border-neutral-600 bg-transparent"
-                                    aria-current={i === heroIndex}
-                                    aria-label={`Go to slide ${i + 1}`}
-                                />
-                            ))}
-                        </div>
-                        <button
-                            onClick={scrollHeroRight}
-                            className="h-8 w-8 grid place-items-center rounded-full bg-neutral-900 border border-neutral-800 text-slate-200 hover:bg-neutral-800"
-                            aria-label="Next story"
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </button>
-                    </div>
+                        );
+                    })()}
                 </div>
             )}
 
@@ -516,19 +498,65 @@ function Home() {
                 </div>
             </div>
 
+            {/* Counter-intuitive Audiences */}
+            <div className="flex flex-col gap-4 px-12 mt-8">
+                <div className='flex items-end justify-between'>
+                    <div className='flex flex-col'>
+                        <h3 className="text-xl font-bold">Counter-intuitive Audiences</h3>
+                        <p className='text-sm text-slate-400'>Unexpected segments that over-index.</p>
+                    </div>
+                    <div className='flex gap-2'>
+                        <button
+                            onClick={scrollCounterLeft}
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            aria-label="Scroll counter-intuitive audiences left"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </button>
+                        <button
+                            onClick={scrollCounterRight}
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            aria-label="Scroll counter-intuitive audiences right"
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+                <div
+                    ref={counterCarouselRef}
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    aria-label="Counter-intuitive audiences carousel"
+                >
+                    {counterAudiences.map((p) => (
+                        <div
+                            key={p.name}
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                        >
+                            <div className="h-40 w-full overflow-hidden">
+                                <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
+                            </div>
+                            <div className="p-4">
+                                <div className="text-lg font-semibold">{p.name}</div>
+                                <p className="mt-1 text-sm text-neutral-400 line-clamp-3">{p.summary}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
             {/* Stories we love */}
             {news.length > 1 && (
                 <div className='flex flex-col gap-4 px-12 mt-12'>
 
                     {/* Title */}
                     <div className='flex flex-col mb-2'>
-                        <h3 className="text-xl font-bold">Stories we love</h3>
+                        <h3 className="text-xl font-bold">Trends we love</h3>
                         <p className='text-sm text-slate-400'>Curated highlights across {debouncedQuery ? 'your search' : category}.</p>
                     </div>
 
                     {/* Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {news.slice(1, 7).map((article) => (
+                        {news.slice(3, 9).map((article) => (
                             <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-2xl shadow-black/40 flex gap-3 border border-neutral-800 items-center justify-center transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]">
                                 {article.urlToImage && (
                                     <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-neutral-700" />
@@ -670,10 +698,10 @@ function Home() {
             </div>
 
             {/* Latest grid removed as requested */}
-            {news.length > 8 && (
+            {news.length > 10 && (
                 <div className="px-12 mt-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {news.slice(6, 8).map((article) => (
+                        {news.slice(9, 11).map((article) => (
                             <div
                                 key={article.title}
                                 onClick={() => window.open(article.url, '_blank')}
@@ -712,6 +740,52 @@ function Home() {
                     </div>
                 </div>
             )}
+
+            {/* Powerful audiences */}
+            <div className="flex flex-col gap-4 px-12 mt-12 mb-16">
+                <div className='flex items-end justify-between'>
+                    <div className='flex flex-col'>
+                        <h3 className="text-xl font-bold">Powerful audiences</h3>
+                        <p className='text-sm text-slate-400'>High-impact segments worth prioritizing.</p>
+                    </div>
+                    <div className='flex gap-2'>
+                        <button
+                            onClick={scrollPowerfulLeft}
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            aria-label="Scroll powerful audiences left"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </button>
+                        <button
+                            onClick={scrollPowerfulRight}
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            aria-label="Scroll powerful audiences right"
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+                <div
+                    ref={powerfulCarouselRef}
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    aria-label="Powerful audiences carousel"
+                >
+                    {(personas.slice(0, 12)).map((p) => (
+                        <div
+                            key={`powerful-${p.name}`}
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                        >
+                            <div className="h-40 w-full overflow-hidden">
+                                <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
+                            </div>
+                            <div className="p-4">
+                                <div className="text-lg font-semibold">{p.name}</div>
+                                <p className="mt-1 text-sm text-neutral-400 line-clamp-3">{p.summary}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

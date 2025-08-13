@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard} from 'lucide-react';
+import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -30,7 +30,7 @@ export default function Navbar() {
         { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> },
         { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> },
         // { href: '/persona', label: 'Persona Creation', icon: <User size={20} /> }
-        { href: '/moodboard', label: 'Create', icon: <LayoutDashboard size={20} /> }
+        { href: '/variant-engine', label: 'Variant Engine', icon: <FileStack size={20} /> }
 
     ];
 

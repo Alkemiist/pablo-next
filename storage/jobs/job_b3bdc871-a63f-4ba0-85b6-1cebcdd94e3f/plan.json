@@ -1,0 +1,37 @@
+{
+  "planId": "plan_622b3418-bfe8-47d0-8dba-8552851d43e2",
+  "steps": [
+    {
+      "id": "s-9e93f52e-rewrite",
+      "operation": "copy:rewrite",
+      "inputs": {},
+      "params": {},
+      "outputs": {}
+    },
+    {
+      "id": "s-9e93f52e-localize",
+      "operation": "copy:localize",
+      "inputs": {},
+      "params": {
+        "locales": [
+          "en-US"
+        ]
+      },
+      "outputs": {}
+    },
+    {
+      "id": "s-9e93f52e-brand",
+      "operation": "brand:compliance",
+      "inputs": {},
+      "params": {},
+      "outputs": {}
+    },
+    {
+      "id": "s-9e93f52e-pack",
+      "operation": "package:final",
+      "inputs": {},
+      "params": {},
+      "outputs": {}
+    }
+  ]
+}

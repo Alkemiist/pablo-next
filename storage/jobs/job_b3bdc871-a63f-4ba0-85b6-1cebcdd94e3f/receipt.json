@@ -1,0 +1,16 @@
+{
+  "jobId": "job_b3bdc871-a63f-4ba0-85b6-1cebcdd94e3f",
+  "planId": "plan_622b3418-bfe8-47d0-8dba-8552851d43e2",
+  "hashes": {
+    "jobRequestSha256": "2f8ba255d65a1ba1e64b7f010aec2f11873a63873b4e6a784224f2d1b5a96c13",
+    "planSha256": "bc65795c6e291c13032b64de25f251f19716d9635c214d0c1e5c0d8b0daa0c26"
+  },
+  "operatorVersions": {
+    "node": "v22.14.0",
+    "ffmpeg": "unknown"
+  },
+  "modelVersions": {
+    "planner": "llm:none:mvp"
+  },
+  "createdAtIso": "2025-08-13T08:10:14.042Z"
+}
