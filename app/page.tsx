@@ -401,7 +401,7 @@ function Home() {
 
             {/* Top Hero (single feature) */}
             {news.length > 0 && (
-                <div className="px-12 mt-8">
+                <div className="px-12 mt-8 mb-8">
                     {(() => {
                         const article = news[0];
                         return (
@@ -450,8 +450,8 @@ function Home() {
             <div className="flex flex-col gap-4 px-12 mt-4">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
-                        <h3 className="text-xl font-bold">Opportunities</h3>
-                        <p className='text-sm text-slate-400'>12 activation ideas worth exploring.</p>
+                        <h3 className="text-xl font-bold">Projects for you</h3>
+                        <p className='text-sm text-slate-400'>12 activation ideas worth exploring</p>
                     </div>
                     <div className='flex gap-2'>
                         <button
