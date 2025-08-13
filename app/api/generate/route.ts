@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { IMAGE_GENERATION_CONFIG, getModelParams } from '@/lib/config';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -13,7 +14,7 @@ if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_a
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, contentType } = await request.json();
+    const { prompt, contentType, model } = await request.json();
 
     if (!prompt) {
       return NextResponse.json(
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
     switch (contentType) {
       case 'text':
         response = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
+          model: model || "gpt-4o-mini",
           messages: [
             {
               role: "system",
@@ -54,12 +55,43 @@ export async function POST(request: NextRequest) {
         break;
 
       case 'image':
-        response = await openai.images.generate({
-          model: "dall-e-3",
-          prompt: prompt,
-          n: 1,
-          size: "1024x1024",
-        });
+        try {
+          // Use the specified model or default to the primary model from config
+          const imageModel = model || IMAGE_GENERATION_CONFIG.PRIMARY_MODEL;
+          console.log(`🚀 Using ${imageModel} model for image generation...`);
+          
+          // Get model-specific parameters
+          const modelParams = getModelParams(imageModel);
+          
+          response = await openai.images.generate({
+            model: imageModel,
+            prompt: prompt,
+            ...modelParams
+          });
+          console.log(`✅ ${imageModel} succeeded!`);
+          
+        } catch (imageError: any) {
+          console.error(`❌ ${model || IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} failed:`, imageError);
+          
+          // If the specified model fails and it's not the primary model, try primary as fallback
+          if (model && model !== IMAGE_GENERATION_CONFIG.PRIMARY_MODEL) {
+            try {
+              console.log(`🔄 Trying ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} as fallback...`);
+              const primaryParams = getModelParams(IMAGE_GENERATION_CONFIG.PRIMARY_MODEL);
+              response = await openai.images.generate({
+                model: IMAGE_GENERATION_CONFIG.PRIMARY_MODEL,
+                prompt: prompt,
+                ...primaryParams
+              });
+              console.log(`✅ ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} fallback succeeded!`);
+            } catch (primaryError) {
+              console.error(`❌ ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} fallback also failed:`, primaryError);
+              throw imageError; // Throw the original error
+            }
+          } else {
+            throw imageError;
+          }
+        }
         break;
 
       case 'video':

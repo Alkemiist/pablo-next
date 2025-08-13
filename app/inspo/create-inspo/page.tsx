@@ -295,7 +295,7 @@ export default function CreateInspoPage() {
                     updateCardLoadingState(cardIndex, 'Generating tactical concept', 40);
                     
                     await new Promise(resolve => setTimeout(resolve, 1000));
-                    updateCardLoadingState(cardIndex, 'Requesting visual asset', 55);
+                    updateCardLoadingState(cardIndex, 'Generating visual asset', 55);
                     
                     // Generate the tactic with image
                     const tacticsResponse = await fetch('/api/generate-tactics', {
@@ -752,12 +752,12 @@ export default function CreateInspoPage() {
                          {isGenerating ? (
                              <>
                                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                 <span className="font-mono tracking-wider transition-all duration-500 ease-in-out">Dreaming Ideas</span>
+                                 <span className="font-mono tracking-wider transition-all duration-500 ease-in-out">Creating Ideas</span>
                              </>
                          ) : (
                              <>
                                  {/* <Bubbles className="w-4 h-4" /> */}
-                                 <span className="font-mono tracking-wider transition-all duration-500 ease-in-out">Imagine</span>
+                                 <span className="font-mono tracking-wider transition-all duration-500 ease-in-out">Create</span>
                              </>
                          )}
                      </div>

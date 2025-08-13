@@ -1,53 +1,48 @@
 'use client';
 
-// these are the props that the button component will receive
-type ButtonProps = {
-  children: React.ReactNode; // this is the button text
-  onClick?: () => void; // Defining the onClick function
-  variant?: "primary" | "secondary"; // this is the variant of the button
-  disabled?: boolean; // this is the disabled state of the button
-  size?: 'small' | 'medium' | 'large'; // this is the size of the button
+import React from 'react';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+  size?: 'small' | 'medium' | 'large';
 }
 
-// this is the button component
 export default function Button({ 
   children, 
-  onClick, 
   variant = "primary", 
-  disabled = false,
   size = 'large',
- }: ButtonProps) {
+  className = '',
+  ...props
+}: ButtonProps) {
   let styles = '';
 
   // these are the styles for the button depending on the variant
-  if ( variant === "primary" ) {
-    styles = 'bg-blue-600 text-white px-4 py-4 rounded';
-  } else if ( variant === "secondary" ) {
-    styles = 'bg-gray-600 text-white px-4 py-4 rounded ';
+  if (variant === "primary") {
+    styles = 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-bold transition-colors duration-200';
+  } else if (variant === "secondary") {
+    styles = 'bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-bold transition-colors duration-200';
   }
 
-  //these are the sizes for the button
-// let buttonSize = '';
-
-//   if( size === 'small' ) {
-//     buttonSize = 'px-4 py-2 rounded w-[100px] h-[32px]';
-//   } else if( size === 'medium' ) {
-//     buttonSize = 'px-4 py-2 rounded w-[200px] h-[42px]';
-//   } else if( size === 'large' ) {
-//     buttonSize = 'px-4 py-2 rounded w-[400px] h-[52px]';
-//   }
+  // these are the sizes for the button
+  let buttonSize = '';
+  if (size === 'small') {
+    buttonSize = 'px-3 py-1 text-sm';
+  } else if (size === 'medium') {
+    buttonSize = 'px-4 py-2 text-base';
+  } else if (size === 'large') {
+    buttonSize = 'px-6 py-3 text-lg';
+  }
 
   // this is the disabled state of the button
-  const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed' : '';
+  const disabledStyles = props.disabled ? 'opacity-50 cursor-not-allowed' : '';
 
   return (
-
     <button 
-      className={`${styles} ${disabledStyles} rounded font-bold`} 
-      onClick={disabled ? undefined : onClick}
+      className={`${styles} ${buttonSize} ${disabledStyles} ${className}`}
+      {...props}
     >
       {children}
     </button>
-   
-  )
+  );
 }

@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { Tactic, GenerateTacticsRequest, GenerateTacticsResponse, ErrorResponse } from '@/lib/types/tactics';
+import { IMAGE_GENERATION_CONFIG, getModelParams } from '@/lib/config';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -141,11 +142,15 @@ export async function POST(request: NextRequest) {
     // Transform the response and generate actual images
     const formattedTactics: Tactic[] = [];
     
+    console.log('🎯 Starting image generation for', numTactics, 'tactics...');
+    console.log('🔑 API Key available:', process.env.OPENAI_API_KEY ? 'Yes' : 'No');
+    
     for (let i = 0; i < tactics.length; i++) {
       const tactic = tactics[i];
       
       try {
-                // Using gpt-image-1 as requested by user
+        console.log(`\n🎨 Generating image for tactic ${i + 1}: "${tactic.title}"`);
+        // Using gpt-image-1 as requested by user
         console.log('🔍 Attempting to use gpt-image-1 model...');
         console.log('🔑 API Key available:', process.env.OPENAI_API_KEY ? 'Yes' : 'No');
         
@@ -178,41 +183,44 @@ export async function POST(request: NextRequest) {
         
         try {
           // First attempt: Try gpt-image-1 as requested
-          console.log('🚀 Trying gpt-image-1 model...');
+          console.log(`🚀 Trying ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} model...`);
           
-          // Use a size widely supported by gpt-image-1 and avoid unsupported params
+          // Get model-specific parameters
+          const modelParams = getModelParams(IMAGE_GENERATION_CONFIG.PRIMARY_MODEL);
           const gptImageParams = {
-            model: "gpt-image-1" as const,
+            model: IMAGE_GENERATION_CONFIG.PRIMARY_MODEL,
             prompt: enhancedPrompt,
-            size: "1024x1024" as const,
-            response_format: "b64_json" as const
+            ...modelParams
           };
           
-          // Remove parameters that gpt-image-1 might not support
-          console.log('📝 Using parameters:', gptImageParams);
+          console.log('📝 Using gpt-image-1 parameters:', gptImageParams);
           imageResponse = await openai.images.generate(gptImageParams);
           console.log('✅ gpt-image-1 succeeded!', imageResponse);
           
-                 } catch (gptImageError: any) {
-           console.error('❌ gpt-image-1 failed:', gptImageError);
-           console.log('📋 Error details:', {
-             message: gptImageError?.message || 'Unknown error message',
-             status: gptImageError?.status || 'Unknown status',
-             type: gptImageError?.type || 'Unknown type'
-           });
+        } catch (gptImageError: any) {
+          console.error(`❌ ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} failed:`, gptImageError);
+          console.log('📋 Error details:', {
+            message: gptImageError?.message || 'Unknown error message',
+            status: gptImageError?.status || 'Unknown status',
+            type: gptImageError?.type || 'Unknown type',
+            code: gptImageError?.code || 'Unknown code'
+          });
+          
+          // Check if it's a model availability issue
+          if (gptImageError?.message?.includes('model') || gptImageError?.code === 'model_not_found') {
+            console.log(`⚠️ ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} model not available, falling back to ${IMAGE_GENERATION_CONFIG.FALLBACK_MODEL}...`);
+          } else {
+            console.log(`⚠️ ${IMAGE_GENERATION_CONFIG.PRIMARY_MODEL} failed for other reason, falling back to ${IMAGE_GENERATION_CONFIG.FALLBACK_MODEL}...`);
+          }
           
           // Fallback to dall-e-3 if gpt-image-1 fails
-          console.log('🔄 Falling back to dall-e-3...');
+          const fallbackParams = getModelParams(IMAGE_GENERATION_CONFIG.FALLBACK_MODEL);
           imageResponse = await openai.images.generate({
-            model: "dall-e-3",
+            model: IMAGE_GENERATION_CONFIG.FALLBACK_MODEL,
             prompt: enhancedPrompt,
-            n: 1,
-            size: "1792x1024",
-            quality: "hd", 
-            style: "natural",
-            response_format: "b64_json"
+            ...fallbackParams
           });
-          console.log('✅ dall-e-3 fallback succeeded');
+          console.log(`✅ ${IMAGE_GENERATION_CONFIG.FALLBACK_MODEL} fallback succeeded`);
         }
 
         console.log("imageResponse", imageResponse);
@@ -241,8 +249,11 @@ export async function POST(request: NextRequest) {
           fullDescription: tactic.fullDescription || `Description for tactic ${i + 1}`,
           whyItWorks: tactic.whyItWorks || `Why tactic ${i + 1} works`,
         });
+        
+        console.log(`✅ Tactic ${i + 1} image generated successfully`);
+        
       } catch (imageError) {
-        console.error(`Failed to generate image for tactic ${i + 1}:`, imageError);
+        console.error(`❌ Failed to generate image for tactic ${i + 1}:`, imageError);
         
         // Fallback with placeholder if image generation fails
         formattedTactics.push({
@@ -255,8 +266,17 @@ export async function POST(request: NextRequest) {
           fullDescription: tactic.fullDescription || `Description for tactic ${i + 1}`,
           whyItWorks: tactic.whyItWorks || `Why tactic ${i + 1} works`,
         });
+        
+        console.log(`⚠️ Using placeholder image for tactic ${i + 1}`);
       }
     }
+    
+    console.log('\n🎉 Image generation complete!');
+    console.log('📊 Summary:', {
+      totalTactics: formattedTactics.length,
+      successfulImages: formattedTactics.filter(t => !t.image.includes('placeholder')).length,
+      placeholderImages: formattedTactics.filter(t => t.image.includes('placeholder')).length
+    });
 
     return NextResponse.json({
       success: true,
