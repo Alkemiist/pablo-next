@@ -399,32 +399,57 @@ function fitToTargetCohesive(text: string, target: number, cta?: string, salt: n
     return text.slice(0, Math.max(0, target - 1)) + '…';
   }
 
-  // Expand by enriching the body BEFORE the CTA
+  // Expand by enriching the body BEFORE the CTA using short cohesive clauses
+  // Each phrase includes its own leading joiner/punctuation to avoid awkward combinations
   const enrichers = [
-    'so your day actually moves',
-    'without the busywork',
-    'with clarity from the start',
-    'built to keep teams moving',
-    'so nothing slows you down',
-    'designed to cut the noise',
-    'for momentum that sticks',
-    'with less friction and more flow',
+    ', without the busywork',
+    ', with clarity from the start',
+    ', built to keep teams moving',
+    ' so nothing slows you down',
+    ', designed to cut the noise',
+    ', for momentum that sticks',
+    ', with less friction and more flow',
+    ', built for real speed',
+    ', focused where it matters',
   ];
-  const joiners = [', ', ' so ', ' that ', ' to ', ' for '];
 
   let outPrefix = prefix.trim();
   let composed = suffix ? `${outPrefix} ${suffix}` : outPrefix;
   let attempts = 0;
-  while (composed.length + 8 <= target && attempts < 3) { // add up to 3 short cohesive clauses
-    const joiner = joiners[(salt + attempts) % joiners.length];
-    const phrase = enrichers[(salt + attempts) % enrichers.length];
-    const candidatePrefix = outPrefix ? `${outPrefix}${joiner}${phrase}` : phrase;
-    const candidateFull = suffix ? `${candidatePrefix} ${suffix}` : candidatePrefix;
-    if (candidateFull.length > target) break;
-    outPrefix = candidatePrefix;
-    composed = candidateFull;
-    attempts++;
+  const used: number[] = [];
+  function canAppend(pfx: string, phrase: string): boolean {
+    const lastWord = pfx.trim().split(/\s+/).pop()?.toLowerCase() || '';
+    const firstWord = phrase.trim().split(/\s+/)[0]?.toLowerCase() || '';
+    if (lastWord && firstWord && lastWord === firstWord) return false; // avoid duplicate junctions like "for for"
+    if (lastWord === 'that' && /^so\b/.test(phrase.trim())) return false; // avoid "that so"
+    return true;
   }
+  while (composed.length + 8 <= target && attempts < 2) { // add up to 2 short clauses
+    const idx = (salt + attempts) % enrichers.length;
+    if (!used.includes(idx)) {
+      const phrase = enrichers[idx];
+      if (canAppend(outPrefix, phrase)) {
+        const candidatePrefix = `${outPrefix}${phrase}`;
+        const candidateFull = suffix ? `${candidatePrefix} ${suffix}` : candidatePrefix;
+        if (candidateFull.length <= target) {
+          outPrefix = candidatePrefix;
+          composed = candidateFull;
+          used.push(idx);
+          attempts++;
+          continue;
+        }
+      }
+    }
+    break;
+  }
+  // Tidy up duplicates and spacing
+  composed = composed.replace(/\s{2,}/g, ' ');
+  composed = composed.replace(/\s+,/g, ',');
+  composed = composed.replace(/,,+/g, ',');
+  // Remove immediate duplicate word runs (e.g., "for for")
+  composed = composed.replace(/\b(\w+)(\s+\1\b)+/gi, '$1');
+  // Avoid ending with dangling joiners
+  composed = composed.replace(/\s+(and|to|for|so|that)[\.,]*\s*$/i, '');
   return composed.length <= target ? composed : composed.slice(0, target);
 }
 

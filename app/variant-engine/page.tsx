@@ -8,7 +8,7 @@ import { Text, ArrowUp10, Loader2 } from "lucide-react";
 type JobSummary = { id: string; status: string; createdAt: string };
 
 export default function VariantEngine() {
-  const [idea, setIdea] = useState('Announce our new feature that saves time.');
+  const [idea, setIdea] = useState('');
   const [maxChars, setMaxChars] = useState<number>(150);
   const [manifest, setManifest] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,7 +60,7 @@ export default function VariantEngine() {
             <Text className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4 stroke-neutral-500" />
             <input
               type="text"
-              placeholder="Type your idea…"
+              placeholder="your idea here..."
               value={idea}
               onChange={(e) => setIdea(e.target.value)}
               className="pl-10 pr-4 py-2 h-9 w-[32rem] bg-transparent border border-neutral-700 rounded-md text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-0"
