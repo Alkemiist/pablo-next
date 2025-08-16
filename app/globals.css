@@ -2,35 +2,62 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Custom Scrollbar Styling for Dark Theme */
+/* Hide ALL scrollbars globally */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b; /* slate-800 */
-  border-radius: 4px;
+  display: none !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569; /* slate-600 */
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #64748b; /* slate-500 */
+  display: none !important;
 }
 
 ::-webkit-scrollbar-corner {
-  background: #1e293b; /* slate-800 */
+  display: none !important;
 }
 
-/* Firefox scrollbar styling */
+::-webkit-scrollbar-button {
+  display: none !important;
+}
+
+/* Firefox scrollbar hiding */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #475569 #1e293b;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* Hide scrollbars for specific elements that need scrolling */
+.scroll-container {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Additional global hiding for all elements */
+html, body, div, section, article, aside, nav, header, footer, main {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar,
+section::-webkit-scrollbar,
+article::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+nav::-webkit-scrollbar,
+header::-webkit-scrollbar,
+footer::-webkit-scrollbar,
+main::-webkit-scrollbar {
+  display: none !important;
 }
 
 /* Animation utilities for ShadCN components */

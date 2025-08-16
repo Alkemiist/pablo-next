@@ -3,6 +3,8 @@
 // imports
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react';
+import { projectData } from '@/lib/projects/page';
+
 
 type Article = {
     title: string;
@@ -31,13 +33,14 @@ function Home() {
     
 
     
-
+    // persona cards interface
     type PersonaCard = {
         name: string;
         summary: string;
         imageUrl: string;
     };
 
+    // persona rows
     const personas: PersonaCard[] = useMemo(
         () => [
             {
@@ -148,6 +151,7 @@ function Home() {
 
     const toSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
+    // opportunity media component
     const OpportunityMedia = ({ videoUrl, imageUrl, title }: { videoUrl?: string; imageUrl: string; title: string }) => {
         const [useImage, setUseImage] = useState(false);
         const derivedUrl = videoUrl || `/videos/opportunities/${toSlug(title)}.mp4`;
@@ -171,6 +175,7 @@ function Home() {
         );
     };
 
+    // scroll by amount
     const scrollByAmount = () => {
         const width = carouselRef.current?.clientWidth || 0;
         return Math.max(300, Math.round(width * 0.9));
@@ -216,8 +221,8 @@ function Home() {
         powerfulCarouselRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
     };
 
+    // opportunity cards
     
-
     type OpportunityCard = {
         title: string;
         description: string;
@@ -230,120 +235,6 @@ function Home() {
         summary: string;
         imageUrl: string;
     };
-
-    const opportunities: OpportunityCard[] = useMemo(
-        () => [
-            {
-                title: 'Hosting a Dinner',
-                description:
-                    'Create an intimate, high-touch experience with curated menus and ambience for meaningful connection.',
-                imageUrl:
-                    'https://images.pexels.com/photos/169190/pexels-photo-169190.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
-            },
-            {
-                title: 'Pop-up Retail',
-                description:
-                    'Short-term storefront to test products, gather feedback, and spark local buzz.',
-                imageUrl:
-                    'https://images.pexels.com/photos/3184300/pexels-photo-3184300.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-            },
-            {
-                title: 'Workshop Series',
-                description:
-                    'Hands-on learning that positions your brand as an expert and builds community.',
-                imageUrl:
-                    'https://images.pexels.com/photos/3182763/pexels-photo-3182763.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-            },
-            {
-                title: 'Creator Collaboration',
-                description:
-                    'Partner with aligned creators to co-design products and reach new audiences.',
-                imageUrl:
-                    'https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-            },
-            {
-                title: 'Limited Edition Drop',
-                description:
-                    'Time-bound releases to drive urgency and deepen brand lore.',
-                imageUrl:
-                    'https://images.pexels.com/photos/5717511/pexels-photo-5717511.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
-            },
-            {
-                title: 'Community Clean-up',
-                description:
-                    'Purpose-driven activation that mobilizes locals and earns goodwill.',
-                imageUrl:
-                    'https://images.pexels.com/photos/6646914/pexels-photo-6646914.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
-            },
-            {
-                title: 'Campus Tour',
-                description:
-                    'Meet Gen Z where they are with on-campus sampling and experiences.',
-                imageUrl:
-                    'https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4',
-            },
-            {
-                title: 'IRL Gaming Night',
-                description:
-                    'Hybrid tournament and lounge experience to connect gamers and casual players.',
-                imageUrl:
-                    'https://images.pexels.com/photos/9072313/pexels-photo-9072313.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-            },
-            {
-                title: 'Wellness Pop-in',
-                description:
-                    'Breathwork, stretch, and recovery stations at offices and co-working spaces.',
-                imageUrl:
-                    'https://images.pexels.com/photos/3822621/pexels-photo-3822621.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-            },
-            {
-                title: 'Neighborhood Art Walk',
-                description:
-                    'Showcase local artists and transform streets into cultural runways.',
-                imageUrl:
-                    'https://images.pexels.com/photos/1704120/pexels-photo-1704120.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
-            },
-            {
-                title: 'Food Truck Collab',
-                description:
-                    'Co-branded menu items to trial flavors and drive social content.',
-                imageUrl:
-                    'https://images.pexels.com/photos/239975/pexels-photo-239975.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
-            },
-            {
-                title: 'After-hours Museum Night',
-                description:
-                    'Immersive culture-first event that pairs your brand with rare access.',
-                imageUrl:
-                    'https://images.pexels.com/photos/1047442/pexels-photo-1047442.jpeg?auto=compress&cs=tinysrgb&w=800',
-                videoUrl:
-                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
-            },
-        ],
-        []
-    );
 
     const formatTimeAgo = (isoDate?: string): string | null => {
         if (!isoDate) return null;
@@ -472,25 +363,17 @@ function Home() {
                 </div>
                 <div
                     ref={oppCarouselRef}
-                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Opportunities carousel"
                 >
-                    {opportunities.map((o) => (
+                    {projectData.map((o) => (
                         <div
                             key={o.title}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
                             <OpportunityMedia videoUrl={o.videoUrl} imageUrl={o.imageUrl} title={o.title} />
                             <div className="p-5">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div className="text-xl font-semibold leading-tight">{o.title}</div>
-                                    <button
-                                        className="h-8 w-8 grid place-items-center rounded-lg hover:bg-neutral-800 text-neutral-300"
-                                        aria-label={`More actions for ${o.title}`}
-                                    >
-                                        <MoreVertical className="h-4 w-4" />
-                                    </button>
-                                </div>
+                                <div className="text-xl font-semibold leading-tight">{o.title}</div>
                                 <p className="mt-2 text-sm text-neutral-400 leading-relaxed line-clamp-3">{o.description}</p>
                             </div>
                         </div>
@@ -524,13 +407,13 @@ function Home() {
                 </div>
                 <div
                     ref={counterCarouselRef}
-                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Counter-intuitive audiences carousel"
                 >
                     {counterAudiences.map((p) => (
                         <div
                             key={p.name}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
@@ -557,7 +440,7 @@ function Home() {
                     {/* Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {news.slice(3, 9).map((article) => (
-                            <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-2xl shadow-black/40 flex gap-3 border border-neutral-800 items-center justify-center transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]">
+                            <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-2xl shadow-black/40 flex gap-3 border border-neutral-800 items-center justify-center transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer">
                                 {article.urlToImage && (
                                     <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-neutral-700" />
                                 )}
@@ -618,13 +501,13 @@ function Home() {
                 </div>
                 <div
                     ref={carouselRef}
-                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Persona carousel"
                 >
                     {personas.map((p) => (
                         <div
                             key={p.name}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
@@ -664,7 +547,7 @@ function Home() {
                 </div>
                 <div
                     ref={stadiumCarouselRef}
-                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Stadiums carousel"
                 >
                     {[
@@ -683,7 +566,7 @@ function Home() {
                     ].map((s) => (
                         <div
                             key={s.name}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={s.imageUrl} alt={s.name} className="h-full w-full object-cover" />
@@ -767,13 +650,13 @@ function Home() {
                 </div>
                 <div
                     ref={powerfulCarouselRef}
-                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Powerful audiences carousel"
                 >
                     {(personas.slice(0, 12)).map((p) => (
                         <div
                             key={`powerful-${p.name}`}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
