@@ -3,6 +3,7 @@
 // imports
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react';
+import { getProjectData } from '@/lib/project-data';
 
 
 type Article = {
@@ -266,16 +267,16 @@ const projectData = [
     const toSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
     // opportunity media component
-    const OpportunityMedia = ({ videoUrl, imageUrl, title }: { videoUrl?: string; imageUrl: string; title: string }) => {
+    const OpportunityMedia = ({ videoUrl, imageUrl, title }: { videoUrl?: string; imageUrl?: string; title: string }) => {
         const [useImage, setUseImage] = useState(false);
-        const derivedUrl = videoUrl || `/videos/opportunities/${toSlug(title)}.mp4`;
+        const posterSrc = imageUrl || '/Image-card.png';
         return (
             <div className="h-72 w-full overflow-hidden relative">
                 {!useImage && videoUrl ? (
                     <video
                         className="absolute inset-0 h-full w-full object-cover"
-                        src={derivedUrl}
-                        poster={imageUrl}
+                        src={videoUrl}
+                        poster={posterSrc}
                         autoPlay
                         loop
                         muted
@@ -283,7 +284,7 @@ const projectData = [
                         onError={() => setUseImage(true)}
                     />
                 ) : (
-                    <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
+                    <img src={posterSrc} alt={title} className="h-full w-full object-cover" />
                 )}
             </div>
         );
@@ -480,15 +481,15 @@ const projectData = [
                     className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Opportunities carousel"
                 >
-                    {projectData.map((o) => (
+                    {getProjectData.map((o) => (
                         <div
                             key={o.title}
                             className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
-                            <OpportunityMedia videoUrl={o.videoUrl} imageUrl={o.imageUrl} title={o.title} />
+                            <OpportunityMedia videoUrl={o.videoUrl} title={o.title} />
                             <div className="p-5">
                                 <div className="text-xl font-semibold leading-tight">{o.title}</div>
-                                <p className="mt-2 text-sm text-neutral-400 leading-relaxed line-clamp-3">{o.description}</p>
+                                <p className="mt-2 text-sm text-neutral-400 leading-relaxed line-clamp-3">{o.cardDescription}</p>
                             </div>
                         </div>
                     ))}

@@ -1,6 +1,6 @@
 
-
 "use client";
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Text, ArrowUp10, Loader2 } from "lucide-react";
@@ -174,7 +174,7 @@ function VariantsSkeleton({ count = 16 }: { count?: number }) {
   );
 }
 
-// removed labelForCopyPlatform since we no longer group by platform
+// removed labelForCopyPlatform since we no longer group by platform // 
 
 function PreviewGrid({ job, plan }: { job: any; plan: any }) {
   const artifacts = (job?.artifacts || []) as Array<{
