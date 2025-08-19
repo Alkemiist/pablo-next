@@ -15,7 +15,7 @@ export const getProjectData = [
         timelineStart: "April 20, 2025", // 
         timelineEnd: "May 20, 2025",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
-        cta: "Learn More",
+        cta: "I am interested",
         videoUrl: "https://videos.pexels.com/video-files/3111402/3111402-uhd_2560_1440_25fps.mp4"
     },
     {

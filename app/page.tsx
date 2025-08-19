@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react';
 import { getProjectData } from '@/lib/project-data';
+import { useRouter } from 'next/navigation';
 
 
 type Article = {
@@ -15,8 +16,11 @@ type Article = {
     publishedAt?: string;
 };
 
-// this is the home component
+    // this is the home component
 function Home() {
+    
+    // hooks
+    const router = useRouter();
     
     // state
     const [ news, setNews ] = useState<Article[]>([]);
@@ -484,6 +488,7 @@ const projectData = [
                     {getProjectData.map((o) => (
                         <div
                             key={o.title}
+                            onClick={() => router.push(`/project-details/${o.id}`)}
                             className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                         >
                             <OpportunityMedia videoUrl={o.videoUrl} title={o.title} />
