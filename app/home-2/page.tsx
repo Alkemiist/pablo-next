@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react';
 
-
+// news article interface
 type Article = {
     title: string;
     description: string;
@@ -39,7 +39,7 @@ function Home() {
         imageUrl: string;
     };
 
-    // persona rows
+    // Explore Audiences Section
     const personas: PersonaCard[] = useMemo(
         () => [
             {
@@ -130,7 +130,7 @@ function Home() {
         []
     );
 
-    // Projects / Opportunities section 
+    // Projects / Opportunities Section 
 const projectData = [
 
     {
@@ -245,6 +245,7 @@ const projectData = [
     
 ]
 
+    // Counter Audiences Section
     const counterAudiences: PersonaCard[] = useMemo(
         () => [
             { name: 'Unlikely Luxury Shoppers', summary: 'Value-seekers who splurge on signature pieces when the story resonates.', imageUrl: 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=800' },
@@ -263,6 +264,7 @@ const projectData = [
         []
     );
 
+    // to slug
     const toSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
     // opportunity media component
@@ -335,7 +337,7 @@ const projectData = [
         powerfulCarouselRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
     };
 
-    // opportunity cards
+    // Opportunity Cards
     
     type OpportunityCard = {
         title: string;
@@ -664,17 +666,18 @@ const projectData = [
                     className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
                     aria-label="Stadiums carousel"
                 >
+                    {/* Stadiums */}
                     {[
                         { name: 'Wembley Stadium', summary: 'Iconic London venue known for major finals and concerts.', imageUrl: 'https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=800' },
                         { name: 'Camp Nou', summary: 'Home of FC Barcelona with a storied European history.', imageUrl: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Santiago Bernabéu', summary: 'Real Madrid’s legendary ground undergoing modernization.', imageUrl: 'https://images.pexels.com/photos/258187/pexels-photo-258187.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Allianz Arena', summary: 'Munich’s luminous arena famed for its facade.', imageUrl: 'https://images.pexels.com/photos/290938/pexels-photo-290938.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Santiago Bernabéu', summary: 'Real Madrid\'s legendary ground undergoing modernization.', imageUrl: 'https://images.pexels.com/photos/258187/pexels-photo-258187.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Allianz Arena', summary: 'Munich\'s luminous arena famed for its facade.', imageUrl: 'https://images.pexels.com/photos/290938/pexels-photo-290938.jpeg?auto=compress&cs=tinysrgb&w=800' },
                         { name: 'San Siro', summary: 'Historic Milan stadium shared by AC Milan and Inter.', imageUrl: 'https://images.pexels.com/photos/167979/pexels-photo-167979.jpeg?auto=compress&cs=tinysrgb&w=800' },
                         { name: 'Old Trafford', summary: 'Theatre of Dreams, home of Manchester United.', imageUrl: 'https://images.pexels.com/photos/1799983/pexels-photo-1799983.jpeg?auto=compress&cs=tinysrgb&w=800' },
                         { name: 'MetLife Stadium', summary: 'New Jersey venue hosting NFL and major events.', imageUrl: 'https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'AT&T Stadium', summary: 'Arlington’s massive, tech-forward NFL stadium.', imageUrl: 'https://images.pexels.com/photos/1322186/pexels-photo-1322186.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Maracanã', summary: 'Rio’s legendary football cathedral.', imageUrl: 'https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Signal Iduna Park', summary: 'Dortmund’s famous Yellow Wall atmosphere.', imageUrl: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'AT&T Stadium', summary: 'Arlington\'s massive, tech-forward NFL stadium.', imageUrl: 'https://images.pexels.com/photos/1322186/pexels-photo-1322186.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Maracanã', summary: 'Rio\'s legendary football cathedral.', imageUrl: 'https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Signal Iduna Park', summary: 'Dortmund\'s famous Yellow Wall atmosphere.', imageUrl: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg?auto=compress&cs=tinysrgb&w=800' },
                         { name: 'Stade de France', summary: 'National stadium of France in Saint-Denis.', imageUrl: 'https://images.pexels.com/photos/258187/pexels-photo-258187.jpeg?auto=compress&cs=tinysrgb&w=800' },
                         { name: 'Lusail Stadium', summary: 'Showcase venue from the Qatar World Cup.', imageUrl: 'https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=800' },
                     ].map((s) => (
