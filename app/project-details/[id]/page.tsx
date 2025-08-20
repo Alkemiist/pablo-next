@@ -5,7 +5,7 @@ import { getProjectData } from '@/lib/project-data';
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, DollarSign, TrendingUp, Users, Building, Package, MoreVertical } from 'lucide-react';
+import { ArrowLeft, Calendar, DollarSign, TrendingUp, Users, Building, Package, MoreVertical, Share, Bookmark } from 'lucide-react';
 
 // project interface: This is the data that is pulled from the file now ( database later )
 interface Project {
@@ -86,26 +86,32 @@ export default function ProjectDetails() {
                             
                         </div>
                         <div>
-                        <div className="flex items-center gap-4 justify-center items-center">
+                        <div className="flex items-center gap-4 justify-center">
                                 <h1 className="text-2xl font-bold">{project.title}</h1>
-                                <p className="text-neutral-400">{project.brand} • {project.product}</p>
+                                {/* <p className="text-neutral-400">{project.brand} • {project.product}</p> */}
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
-                            <button className="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm py-2 px-4 rounded-lg transition-colors flex items-center gap-2">
-                                Apply Now
+                            <button className="bg-blue-600 hover:bg-blue-500 px-12 cursor-pointer text-white font-semibold text-sm py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)]">
+                                Interested
                             </button>
-                            <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors">
+                            <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer">
+                                <Bookmark className="h-4 w-4" />
+                            </button>
+                            <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer">
+                                <Share className="h-4 w-4" />
+                            </button>
+                            {/* <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors">
                                 <MoreVertical className="h-5 w-5" />
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Hero Video Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40">
+            <div className="">
+                <div className="bg-neutral-900 border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40">
                     {project.videoUrl ? (
                         <video
                             className="w-full h-[500px] object-cover"
@@ -128,69 +134,66 @@ export default function ProjectDetails() {
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Left Column - Main Content */}
-                    <div className="lg:col-span-2 space-y-6">
-                        {/* Project Description */}
-                        <div className="bg-neutral-900 rounded-2xl border border-neutral-800 p-6">
-                            <h2 className="text-xl font-semibold mb-4 text-white">Project Description</h2>
-                            <p className="text-neutral-300 leading-relaxed">{project.fullDescription}</p>
-                        </div>
 
-                        {/* Target Persona */}
-                        <div className="bg-neutral-900 rounded-2xl border border-neutral-800 p-6">
-                            <h2 className="text-xl font-semibold mb-4 text-white">Target Persona</h2>
-                            <p className="text-neutral-300 leading-relaxed">{project.persona}</p>
-                        </div>
+                {/* Project Stats */}
+                <div className="p-6 flex gap-4 flex-col md:flex-row">
 
-                        {/* Market Trend */}
-                        <div className="bg-neutral-900 rounded-2xl border border-neutral-800 p-6">
-                            <h2 className="text-xl font-semibold mb-4 text-white">Market Trend</h2>
-                            <p className="text-neutral-300 leading-relaxed">{project.trend}</p>
-                        </div>
-                    </div>
-
-                    {/* Right Column - Project Details */}
-                    <div className="space-y-6">
-                        {/* Project Stats */}
-                        <div className="bg-neutral-900 rounded-2xl border border-neutral-800 p-6">
-                            <h3 className="text-lg font-semibold mb-4 text-white">Project Details</h3>
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                    <Building className="h-5 w-5 text-neutral-400" />
-                                    <div>
+                                {/* Brand */}
+                                <div className="flex flex-1 justify-center items-center gap-3 border border-neutral-800 p-2 rounded-2xl bg-neutral-900/40 shadow-2xl shadow-black/40">
+                                    {/* <Building className="h-5 w-5 text-neutral-400" /> */}
+                                    <div className="flex flex-col items-center justify-center">
                                         <p className="text-sm text-neutral-400">Brand</p>
                                         <p className="font-medium text-white">{project.brand}</p>
                                     </div>
                                 </div>
                                 
-                                <div className="flex items-center gap-3">
-                                    <Package className="h-5 w-5 text-neutral-400" />
-                                    <div>
+                                {/* Product */}
+                                <div className="flex flex-1 items-center justify-center gap-3 border border-neutral-800 p-4 rounded-2xl bg-neutral-900/40 shadow-2xl shadow-black/40">
+                                    {/* <Package className="h-5 w-5 text-neutral-400" /> */}
+                                    <div className="flex flex-col items-center justify-center">
                                         <p className="text-sm text-neutral-400">Product</p>
                                         <p className="font-medium text-white">{project.product}</p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3">
-                                    <Calendar className="h-5 w-5 text-neutral-400" />
-                                    <div>
+                                {/* Timeline */}
+                                <div className="flex flex-1 items-center justify-center gap-3 border border-neutral-800 p-4 rounded-2xl bg-neutral-900/40 shadow-2xl shadow-black/40">
+                                    {/* <Calendar className="h-5 w-5 text-neutral-400" /> */}
+                                    <div className="flex flex-col items-center justify-center">
                                         <p className="text-sm text-neutral-400">Timeline</p>
                                         <p className="font-medium text-white">{project.timelineStart} through {project.timelineEnd}</p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3">
-                                    <DollarSign className="h-5 w-5 text-neutral-400" />
-                                    <div>
+                                {/* Budget */}
+                                <div className="flex flex-1 items-center justify-center gap-3 border border-neutral-800 p-4 rounded-2xl bg-neutral-900/40 shadow-2xl shadow-black/40">
+                                    {/* <DollarSign className="h-5 w-5 text-neutral-400" /> */}
+                                    <div className="flex flex-col items-center justify-center">
                                         <p className="text-sm text-neutral-400">Budget</p>
                                         <p className="font-medium text-white">${project.budget.toLocaleString()}</p>
                                     </div>
                                 </div>
-                            </div>
+
                         </div>
-                    </div>
+
+                {/* Project Description */}
+                <div className="p-6">
+                    <h2 className="text-xl font-semibold mb-4 text-white">Project Description</h2>
+                    <p className="text-neutral-400 leading-relaxed ">{project.fullDescription}</p>
                 </div>
+
+                {/* Target Persona */}
+                <div className="p-6">
+                    <h2 className="text-xl font-semibold mb-4 text-white">Target Persona</h2>
+                    <p className="text-neutral-400 leading-relaxed">{project.persona}</p>
+                </div>
+
+                {/* Market Trend */}
+                <div className="p-6">
+                    <h2 className="text-xl font-semibold mb-4 text-white">Market Trend</h2>
+                    <p className="text-neutral-400 leading-relaxed">{project.trend}</p>
+                </div>
+
             </div>
         </div>
     );

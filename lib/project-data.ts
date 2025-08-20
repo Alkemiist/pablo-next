@@ -12,8 +12,8 @@ export const getProjectData = [
         product: "Telluride",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "I am interested",
         videoUrl: "https://videos.pexels.com/video-files/3111402/3111402-uhd_2560_1440_25fps.mp4"
@@ -27,8 +27,8 @@ export const getProjectData = [
         product: "iPhone",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/4994039/4994039-uhd_2560_1440_25fps.mp4"
@@ -42,8 +42,8 @@ export const getProjectData = [
         product: "Hoodie",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/19001188/19001188-uhd_1440_2560_30fps.mp4"
@@ -57,8 +57,8 @@ export const getProjectData = [
         product: "Air Jordan",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/19178495/19178495-hd_1080_1920_60fps.mp4"
@@ -72,8 +72,8 @@ export const getProjectData = [
         product: "Air Jordan 1 Retro High",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/6883832/6883832-uhd_1440_2732_25fps.mp4"
@@ -87,8 +87,8 @@ export const getProjectData = [
         product: "Air Jordan 1",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/3111402/3111402-uhd_2560_1440_25fps.mp4"
@@ -102,8 +102,8 @@ export const getProjectData = [
         product: "Air Jordan 1 Low",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/3111402/3111402-uhd_2560_1440_25fps.mp4"
@@ -132,8 +132,8 @@ export const getProjectData = [
         product: "Air Jordan 1",
         persona: "Meet the modern outdoor enthusiast, a family-oriented individual in their mid-thirties living in the suburbs. They enjoy weekend road trips with loved ones, often discovering national parks and picturesque routes. Tech-savvy, they appreciate gadgets that enhance their adventures, such as smart home devices and fitness trackers. A spacious and stylish SUV is their vehicle of choice, valued for safety and comfort. They favor brands like Patagonia for outdoor gear and Apple for tech products, reflecting their active lifestyle and family values.",
         budget: 10000,
-        timelineStart: "April 20, 2025", // 
-        timelineEnd: "May 20, 2025",
+        timelineStart: "April 20", // 
+        timelineEnd: "May 20",
         trend: "Introducing the new wave of adventure seekers: families in their thirties who are redefining outdoor experiences. This trend is all about weekend getaways in spacious vehicles like the KIA Telluride, which offers both comfort and safety for those long drives to national parks. These families are tech enthusiasts, using smart gadgets to enhance their trips, from fitness trackers that monitor their hikes to apps that help them find the best scenic routes. Brands like KIA are becoming popular among these modern explorers, as they value reliability and style in their vehicles, making the Telluride the perfect companion for their family adventures.",
         cta: "Learn More",
         videoUrl: "https://videos.pexels.com/video-files/3111402/3111402-uhd_2560_1440_25fps.mp4"
