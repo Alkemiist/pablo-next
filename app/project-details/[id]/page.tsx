@@ -92,14 +92,14 @@ export default function ProjectDetails() {
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
-                            <button className="bg-blue-600 hover:bg-blue-500 px-12 cursor-pointer text-white font-semibold text-sm py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)]">
-                                Interested
-                            </button>
                             <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer">
                                 <Bookmark className="h-4 w-4" />
                             </button>
                             <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer">
                                 <Share className="h-4 w-4" />
+                            </button>
+                            <button className="bg-blue-600 hover:bg-blue-500 px-12 cursor-pointer text-white font-semibold text-sm py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)]">
+                                {project.cta}
                             </button>
                             {/* <button className="p-2 rounded-lg border border-neutral-800 hover:border-neutral-700 transition-colors">
                                 <MoreVertical className="h-5 w-5" />
@@ -161,7 +161,7 @@ export default function ProjectDetails() {
                                     {/* <Calendar className="h-5 w-5 text-neutral-400" /> */}
                                     <div className="flex flex-col items-center justify-center">
                                         <p className="text-sm text-neutral-400">Timeline</p>
-                                        <p className="font-medium text-white">{project.timelineStart} through {project.timelineEnd}</p>
+                                        <p className="font-medium text-white">{project.timelineStart} - {project.timelineEnd}</p>
                                     </div>
                                 </div>
 
@@ -178,7 +178,7 @@ export default function ProjectDetails() {
 
                 {/* Project Description */}
                 <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-4 text-white">Project Description</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-white">Description</h2>
                     <p className="text-neutral-400 leading-relaxed ">{project.fullDescription}</p>
                 </div>
 
@@ -190,7 +190,7 @@ export default function ProjectDetails() {
 
                 {/* Market Trend */}
                 <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-4 text-white">Market Trend</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-white">Why this works ( This could be Trends )</h2>
                     <p className="text-neutral-400 leading-relaxed">{project.trend}</p>
                 </div>
 

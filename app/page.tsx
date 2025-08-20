@@ -160,6 +160,7 @@ function Home() {
     const OpportunityMedia = ({ videoUrl, imageUrl, title }: { videoUrl?: string; imageUrl?: string; title: string }) => {
         const [useImage, setUseImage] = useState(false);
         const posterSrc = imageUrl || '/Image-card.png';
+        
         return (
             <div className="h-72 w-full overflow-hidden relative">
                 {!useImage && videoUrl ? (
@@ -173,9 +174,10 @@ function Home() {
                         playsInline
                         onError={() => setUseImage(true)}
                     />
-                ) : (
-                    <img src={posterSrc} alt={title} className="h-full w-full object-cover" />
-                )}
+                ) : null}
+                
+                {/* Always show image as fallback or when no video */}
+                <img src={posterSrc} alt={title} className="h-full w-full object-cover" />
             </div>
         );
     };
