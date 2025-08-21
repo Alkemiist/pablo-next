@@ -139,3 +139,91 @@ export const getProjectData = [
         videoUrl: "https://videos.pexels.com/video-files/3111402/3111402-uhd_2560_1440_25fps.mp4"
     }
 ]
+
+export const recommendedProfiles = [
+    {
+        id: 1,
+        name: "Sarah Chen",
+        profilePicture: "https://images.pexels.com/photos/3777943/pexels-photo-3777943.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Strategic brand consultant specializing in Asian markets and cross-cultural storytelling.",
+        personaScore: 90,
+    },
+    {
+        id: 2,
+        name: "Marcus Rodriguez",
+        profilePicture: "https://images.pexels.com/photos/3778680/pexels-photo-3778680.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Bilingual marketing strategist with deep roots in Hispanic culture and community engagement.",
+        personaScore: 80,
+    },
+    {
+        id: 3,
+        name: "Aisha Patel",
+        profilePicture: "https://images.pexels.com/photos/3778681/pexels-photo-3778681.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Digital innovation specialist focused on sustainable tech and South Asian market insights.",
+        personaScore: 70,
+    },
+    {
+        id: 4,
+        name: "James Thompson",
+        profilePicture: "https://images.pexels.com/photos/3778682/pexels-photo-3778682.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Seasoned creative director with expertise in automotive and lifestyle brand transformation.",
+        personaScore: 60,
+    },
+    {
+        id: 5,
+        name: "Emma Wilson",
+        profilePicture: "https://images.pexels.com/photos/3778683/pexels-photo-3778683.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Social media strategist specializing in Gen Z engagement and viral content creation.",
+        personaScore: 50,
+    },
+    {
+        id: 6,
+        name: "David Kim",
+        profilePicture: "https://images.pexels.com/photos/3778684/pexels-photo-3778684.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Tech-forward marketing consultant bridging Korean innovation with global strategy.",
+        personaScore: 40,
+    },
+    {
+        id: 7,
+        name: "Sophia Garcia",
+        profilePicture: "https://images.pexels.com/photos/3778685/pexels-photo-3778685.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Multicultural brand strategist specializing in fashion and culturally resonant campaigns.",
+        personaScore: 30,
+    },
+    {
+        id: 8,
+        name: "Alex Johnson",
+        profilePicture: "https://images.pexels.com/photos/3778686/pexels-photo-3778686.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Data-driven marketing analyst transforming insights into compelling brand narratives.",
+        personaScore: 20,
+    },
+    
+    {
+        id: 9,
+        name: "Maya Singh",
+        profilePicture: "https://images.pexels.com/photos/3778687/pexels-photo-3778687.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Sustainability-focused creative director with South Asian perspective on eco-branding.",
+        personaScore: 10,
+    },
+    {
+        id: 10,
+        name: "Ryan O'Connor",
+        profilePicture: "https://images.pexels.com/photos/3778688/pexels-photo-3778688.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Sports marketing specialist creating campaigns that unite fans through shared passion.",
+        matchScore: 90
+    },
+    {
+        id: 11,
+        name: "Zoe Williams",
+        profilePicture: "https://images.pexels.com/photos/3778689/pexels-photo-3778689.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Trend forecasting expert specializing in youth culture and emerging lifestyle movements.",
+        matchScore: 90
+    },
+    {
+        id: 12,
+        name: "Maria Garcia",
+        profilePicture: "https://images.pexels.com/photos/3778690/pexels-photo-3778690.jpeg?auto=compress&cs=tinysrgb&w=400",
+        description: "Bilingual content strategist creating authentic connections with Hispanic communities.",
+        matchScore: 90
+    }
+]

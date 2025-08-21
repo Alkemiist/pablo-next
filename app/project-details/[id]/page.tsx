@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { getProjectData } from '@/lib/project-data';
+import { getProjectData, recommendedProfiles } from '@/lib/project-data';
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -22,6 +22,16 @@ interface Project {
     trend: string;
     cta: string;
     videoUrl: string;
+}
+
+// recommended profiles interface: This is the data that is pulled from the file now ( database later )
+interface RecommendedProfile {
+    id: number;
+    name: string;
+    profilePicture: string;
+    description: string;
+    personaScore?: number;
+    matchScore?: number;
 }
 
 // project details page: This is the page that displays the project details as soon as the data is pulled.
@@ -190,7 +200,7 @@ export default function ProjectDetails() {
 
                 {/* Market Trend */}
                 <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-4 text-white">Why this works ( This could be Trends )</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-white">Current Market Trend</h2>
                     <p className="text-neutral-400 leading-relaxed">{project.trend}</p>
                 </div>
 
@@ -199,8 +209,38 @@ export default function ProjectDetails() {
 
                 {/* Recommended Profiles */}
                 <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-4 text-white">Recommended Profiles</h2>
-                    <p className="text-neutral-400 leading-relaxed">{project.recommendedProfiles}</p>
+                    <h2 className="text-xl font-semibold mb-8 text-white">Top Recommended Profiles</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {recommendedProfiles.map((profile: RecommendedProfile) => (
+                            <div 
+                                key={profile.id} 
+                                className="bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                            >
+                                <div className="h-48 w-full overflow-hidden">
+                                    <img 
+                                        src={profile.profilePicture} 
+                                        alt={profile.name} 
+                                        className="h-full w-full object-cover" 
+                                    />
+                                </div>
+                                <div className="p-4">
+                                    <div className="text-lg font-semibold text-white">{profile.name}</div>
+                                    <p className="mt-1 text-sm text-neutral-400">{profile.description}</p>
+                                    
+                                    {/* Divider */}
+                                    <div className="h-px bg-neutral-800 my-3"></div>
+                                    
+                                    {/* Audience Match Component */}
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-neutral-400">Audience Match</span>
+                                        <span className="text-sm font-semibold text-green-400">
+                                            {(profile as any).personaScore || (profile as any).matchScore || 85}%
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
             </div>
