@@ -136,7 +136,7 @@ export default function ProjectDetails() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
 
                 {/* Project Stats */}
-                <div className="p-6 flex gap-4 flex-col md:flex-row">
+                <div className="p-6 flex gap-4 flex-col md:flex-row pt-12">
 
                                 {/* Brand */}
                                 <div className="flex flex-1 justify-center items-center gap-3 border border-neutral-800 p-2 rounded-2xl bg-neutral-900/40 shadow-2xl shadow-black/40">
@@ -192,6 +192,15 @@ export default function ProjectDetails() {
                 <div className="p-6">
                     <h2 className="text-xl font-semibold mb-4 text-white">Why this works ( This could be Trends )</h2>
                     <p className="text-neutral-400 leading-relaxed">{project.trend}</p>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-neutral-800 my-8"></div>
+
+                {/* Recommended Profiles */}
+                <div className="p-6">
+                    <h2 className="text-xl font-semibold mb-4 text-white">Recommended Profiles</h2>
+                    <p className="text-neutral-400 leading-relaxed">{project.recommendedProfiles}</p>
                 </div>
 
             </div>
