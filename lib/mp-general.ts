@@ -43,7 +43,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/5585983/5585983-hd_1080_1920_30fps.mp4"
     },
     {
         id: 4,
@@ -58,7 +58,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/5991156/5991156-hd_1280_720_30fps.mp4"
     },
     {
         id: 5,
@@ -73,7 +73,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/3066433/3066433-uhd_2732_1440_24fps.mp4"
     },
     {
         id: 6,
@@ -88,7 +88,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/4568863/4568863-hd_1920_1080_30fps.mp4"
     },
     {
         id: 7,
@@ -103,7 +103,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/854514/854514-hd_1280_720_30fps.mp4"
     },
     {
         id: 8,
@@ -118,7 +118,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/5309343/5309343-hd_1920_1080_25fps.mp4"
     },
     {
         id: 9,
@@ -133,7 +133,7 @@ export const generalProjects = [
         timelineEnd: "December 20",
         trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
         cta: "Apply Now",
-        videoUrl: "https://videos.pexels.com/video-files/2249402/2249402-uhd_2560_1440_24fps.mp4"
+        videoUrl: "https://videos.pexels.com/video-files/4568812/4568812-hd_1920_1080_30fps.mp4"
     },
     {
         id: 10,
@@ -146,6 +146,9 @@ export const generalProjects = [
         budget: 2000000,
         timelineStart: "October 20", // 
         timelineEnd: "December 20",
+        trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
+        cta: "Apply Now",
+        videoUrl: "https://videos.pexels.com/video-files/4568812/4568812-hd_1920_1080_30fps.mp4"
     },
     {
         id: 11,
@@ -158,6 +161,9 @@ export const generalProjects = [
         budget: 2000000,
         timelineStart: "October 20", // 
         timelineEnd: "December 20",
+        trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
+        cta: "Apply Now",
+        videoUrl: "https://videos.pexels.com/video-files/4568812/4568812-hd_1920_1080_30fps.mp4"
     },
     {
         id: 12,
@@ -170,6 +176,9 @@ export const generalProjects = [
         budget: 2000000,
         timelineStart: "October 20", // 
         timelineEnd: "December 20",
+        trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
+        cta: "Apply Now",
+        videoUrl: "https://videos.pexels.com/video-files/4568812/4568812-hd_1920_1080_30fps.mp4"
     },
     {
         id: 13,
@@ -182,6 +191,9 @@ export const generalProjects = [
         budget: 2000000,
         timelineStart: "October 20", // 
         timelineEnd: "December 20",
+        trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
+        cta: "Apply Now",
+        videoUrl: "https://videos.pexels.com/video-files/4568812/4568812-hd_1920_1080_30fps.mp4"
     },
     {
         id: 14,
@@ -194,6 +206,9 @@ export const generalProjects = [
         budget: 2000000,
         timelineStart: "October 20", // 
         timelineEnd: "December 20",
+        trend: "Festivals have become platforms for cultural influence and brand integration. As music and tech festivals surge in popularity, they are increasingly intertwined with sustainability conversations and immersive brand activations. Consumers expect brands to contribute to cultural life—not just advertise. Meanwhile, younger audiences want hands-on experiences that bring technology to life. By hosting a festival that’s both sustainable and entertaining, Nissan rides the wave of experiential marketing while positioning EVs as aspirational lifestyle products. This taps into the convergence of music, innovation, and sustainability as key cultural drivers, giving Nissan cultural currency far beyond traditional auto advertising.",
+        cta: "Apply Now",
+        videoUrl: "https://videos.pexels.com/video-files/4568812/4568812-hd_1920_1080_30fps.mp4"
     },
     
 ]

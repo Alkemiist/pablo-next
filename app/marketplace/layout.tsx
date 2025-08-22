@@ -24,12 +24,12 @@ export default function MarketplaceLayout({
             <div className="sticky top-0 z-50 flex flex-row items-center justify-center w-full h-16 border-b border-neutral-800 px-8 bg-black/95 backdrop-blur-sm">
                 
                 {/* custom tabs: For me, general projects */}
-                <div className="bg-neutral-900 border border-neutral-800 rounded-md flex">
+                <div className="bg-neutral-900 border border-neutral-800 rounded-xl flex">
                     <button
                         onClick={() => router.push("/marketplace")}
-                        className={`px-8 py-2 rounded-l-md transition-all duration-200 cursor-pointer font-medium text-sm ${
+                        className={`px-8 py-2 rounded-lg transition-all duration-200 cursor-pointer font-medium text-sm ${
                             isGeneralActive 
-                                ? "bg-neutral-700/60 text-white" 
+                                ? "bg-neutral-700/60 text-white shadow-md" 
                                 : "text-neutral-400 hover:text-neutral-300 hover:bg-neutral-800/50"
                         }`}
                     >
@@ -37,9 +37,9 @@ export default function MarketplaceLayout({
                     </button>
                     <button
                         onClick={() => router.push("/marketplace/for-me")}
-                        className={`px-8 py-2 rounded-r-md transition-all duration-200 cursor-pointer font-medium text-sm ${
+                        className={`px-8 py-2 rounded-lg transition-all duration-200 cursor-pointer font-medium text-sm ${
                             isForMeActive 
-                                ? "bg-neutral-700/60 text-white" 
+                                ? "bg-neutral-700/60 text-white shadow-md" 
                                 : "text-neutral-400 hover:text-neutral-300 hover:bg-neutral-800/50"
                         }`}
                     >

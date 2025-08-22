@@ -125,7 +125,6 @@ export default function Marketplace() {
 
     return (
         <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
-            
 
             {/* Trending Now */}
             <ProjectRow
