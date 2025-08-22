@@ -38,7 +38,7 @@ export default function Navbar() {
 
     // the return statement
     return (
-        <div className=" border-r border-neutral-800 fixed top-0 left-0 h-screen z-50 shadow-md bg-neutral-950 text-white flex flex-col pt-12 gap-6 px-4 transition-all duration-600 ease-in-out ${isOpen ? 'w-56' : 'w-20'}">
+        <div className="z-100 border-r border-neutral-800 fixed top-0 left-0 h-screen z-50 shadow-md bg-neutral-950 text-white flex flex-col pt-12 gap-6 px-4 transition-all duration-600 ease-in-out ${isOpen ? 'w-56' : 'w-20'}">
             {navItems.map((item) => (
                 <Link
                 key={item.href}
