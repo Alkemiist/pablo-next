@@ -209,7 +209,10 @@ export default function ProjectDetails() {
 
                 {/* Recommended Profiles */}
                 <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-8 text-white">Top Recommended Profiles</h2>
+                    <div className="flex flex-col mb-8">
+                        <h2 className="text-xl font-semibold text-white">Top Recommended Profiles</h2>
+                        <p className="text-neutral-400 leading-relaxed">These profiles have a strong overlap in desired audience and are a good fit for the project.</p>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {recommendedProfiles.map((profile: RecommendedProfile) => (
                             <div 
