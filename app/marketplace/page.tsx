@@ -84,14 +84,14 @@ export default function Marketplace() {
                 <div className='flex gap-2'>
                     <button
                         onClick={onScrollLeft}
-                        className="h-9 w-9 grid place-items-center rounded-lg bg-neutral-900 hover:bg-neutral-800"
+                        className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
                         aria-label={`Scroll ${title.toLowerCase()} left`}
                     >
                         <ChevronLeft className="h-4 w-4" />
                     </button>
                     <button
                         onClick={onScrollRight}
-                        className="h-9 w-9 grid place-items-center rounded-lg bg-neutral-900 hover:bg-neutral-800"
+                        className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
                         aria-label={`Scroll ${title.toLowerCase()} right`}
                     >
                         <ChevronRight className="h-4 w-4" />
@@ -106,7 +106,7 @@ export default function Marketplace() {
                 {projects.map((project) => (
                     <div
                         key={project.id}
-                        className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                        className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
                     >
                         <OpportunityMedia videoUrl={project.videoUrl} title={project.title} />
                         <div className="p-5">
@@ -124,7 +124,7 @@ export default function Marketplace() {
     )
 
     return (
-        <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+        <div className="flex flex-col min-h-screen w-full overflow-x-hidden mb-12">
 
             {/* Trending Now */}
             <ProjectRow
