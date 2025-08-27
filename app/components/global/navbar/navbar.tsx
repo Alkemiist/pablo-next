@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack, HousePlug, HouseWifi, Store} from 'lucide-react';
+import { Home, User, Settings, Files, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack, HousePlug, HouseWifi, Store} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -20,9 +20,10 @@ export default function Navbar() {
     // these are the nav items
     const navItems = [
         { href: '/', label: 'Home', icon: <Home size={20} /> },
-        { href: '/home-2', label: 'Home 2', icon: <HouseWifi size={20} /> },
-        { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
+        // { href: '/home-2', label: 'Home 2', icon: <HouseWifi size={20} /> },
+        // { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
         { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> },
+        { href: '/brief-builder', label: 'Brief Builder', icon: <Files size={20} /> },
         // { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         // { href: '/gen-brief', label: 'Brief', icon: <NotebookPen size={20} /> },
         // { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },

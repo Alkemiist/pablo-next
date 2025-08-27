@@ -29,7 +29,7 @@ export default function ForMeMarketplace() {
         ref.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' })
     }
 
-    // OpportunityMedia component for video cards
+    // OpportunityMedia component for video cards (used in carousel rows - unchanged)
     const OpportunityMedia = ({ videoUrl, title }: { videoUrl?: string; title: string }) => {
         const [useImage, setUseImage] = useState(false)
         const posterSrc = '/Image-card.png'
@@ -39,6 +39,32 @@ export default function ForMeMarketplace() {
                 {!useImage && videoUrl ? (
                     <video
                         className="absolute inset-0 h-full w-full object-cover"
+                        src={videoUrl}
+                        poster={posterSrc}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        onError={() => setUseImage(true)}
+                    />
+                ) : null}
+                
+                {/* Always show image as fallback or when no video */}
+                <img src={posterSrc} alt={title} className="h-full w-full object-cover" />
+            </div>
+        )
+    }
+
+    // FullCardMedia component for hero and twin hero sections only
+    const FullCardMedia = ({ videoUrl, title }: { videoUrl?: string; title: string }) => {
+        const [useImage, setUseImage] = useState(false)
+        const posterSrc = '/Image-card.png'
+        
+        return (
+            <div className="h-full w-full overflow-hidden">
+                {!useImage && videoUrl ? (
+                    <video
+                        className="h-full w-full object-cover"
                         src={videoUrl}
                         poster={posterSrc}
                         autoPlay
@@ -108,10 +134,10 @@ export default function ForMeMarketplace() {
                         <div className="p-5">
                             <div className="text-xl font-semibold leading-tight">{project.title}</div>
                             <p className="mt-2 text-sm text-neutral-400 leading-relaxed line-clamp-3">{project.cardDescription}</p>
-                            <div className="mt-3 flex items-center justify-between">
+                            {/* <div className="mt-3 flex items-center justify-between">
                                 <span className="text-xs text-amber-400 font-medium">{project.brand}</span>
                                 <span className="text-xs text-neutral-500">{project.budget?.toLocaleString()}</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 ))}
@@ -122,50 +148,52 @@ export default function ForMeMarketplace() {
     return (
         <div className="flex flex-col min-h-screen w-full overflow-x-hidden mb-12">
 
-            {/* Trending Now */}
-            <ProjectRow
-                title="Trending Now"
-                description="Most popular projects this week"
-                projects={mpForMe.slice(0, 6)}
-                carouselRef={trendingRef}
-                onScrollLeft={() => scrollLeft(trendingRef)}
-                onScrollRight={() => scrollRight(trendingRef)}
-            />
 
-            {/* Featured Projects */}
-            <ProjectRow
-                title="Featured Projects"
-                description="Handpicked opportunities from top brands"
-                projects={mpForMe.slice(1, 7)}
-                carouselRef={featuredRef}
-                onScrollLeft={() => scrollLeft(featuredRef)}
-                onScrollRight={() => scrollRight(featuredRef)}
-            />
 
-            {/* New Arrivals */}
+            {/* Opportunities for brand */}
             <ProjectRow
-                title="New Arrivals"
-                description="Fresh opportunities just added"
+                title="Recommended for { Brand }"
+                description="Great opporetunities for { Brand }"
                 projects={mpForMe.slice(2, 8)}
                 carouselRef={newArrivalsRef}
                 onScrollLeft={() => scrollLeft(newArrivalsRef)}
                 onScrollRight={() => scrollRight(newArrivalsRef)}
             />
 
-            {/* Popular Categories */}
+            {/* Opportunities for product */}
             <ProjectRow
-                title="Popular Categories"
-                description="Trending across different industries"
+                title="Recommended for { Product A }"
+                description="List of projects that are recommended for { Product B }"
+                projects={mpForMe.slice(1, 7)}
+                carouselRef={featuredRef}
+                onScrollLeft={() => scrollLeft(featuredRef)}
+                onScrollRight={() => scrollRight(featuredRef)}
+            />
+
+            {/* Opportunities for product */}
+            <ProjectRow
+                title="Recommended for { Product B }"
+                description="List of projects that are recommended for { Product B }"
+                projects={mpForMe.slice(2, 8)}
+                carouselRef={newArrivalsRef}
+                onScrollLeft={() => scrollLeft(newArrivalsRef)}
+                onScrollRight={() => scrollRight(newArrivalsRef)}
+            />
+
+            {/* Opportunities for product */}
+            <ProjectRow
+                title="Recommended for { Product C }"
+                description="List of projects that are recommended for { Product C }"
                 projects={mpForMe.slice(3, 9)}
                 carouselRef={popularRef}
                 onScrollLeft={() => scrollLeft(popularRef)}
                 onScrollRight={() => scrollRight(popularRef)}
             />
 
-            {/* Recommended for You */}
+            {/* Opportunities for product */}
             <ProjectRow
-                title="Recommended for You"
-                description="Personalized based on your interests"
+                title="Recommended for { Product D }"
+                description="List of projects that are recommended for { Product D }"
                 projects={mpForMe.slice(4, 10)}
                 carouselRef={recommendedRef}
                 onScrollLeft={() => scrollLeft(recommendedRef)}
