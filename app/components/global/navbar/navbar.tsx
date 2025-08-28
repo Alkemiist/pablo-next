@@ -20,7 +20,7 @@ export default function Navbar() {
     // these are the nav items
     const navItems = [
         { href: '/', label: 'Home', icon: <Home size={20} /> },
-        // { href: '/home-2', label: 'Home 2', icon: <HouseWifi size={20} /> },
+        { href: '/home-2', label: 'Home 2', icon: <Home size={20} /> },
         // { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
         { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> },
         { href: '/brief-builder', label: 'Brief Builder', icon: <Files size={20} /> },

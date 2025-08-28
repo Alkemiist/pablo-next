@@ -29,8 +29,61 @@ function Home() {
     const stadiumCarouselRef = useRef<HTMLDivElement>(null);
     const counterCarouselRef = useRef<HTMLDivElement>(null);
     const powerfulCarouselRef = useRef<HTMLDivElement>(null);
+    const evPioneersRef = useRef<HTMLDivElement>(null);
+    const motorsportRef = useRef<HTMLDivElement>(null);
     
 
+    // Nissan-specific news data
+    const nissanNews: Article[] = useMemo(() => [
+        {
+            title: "Nissan Unveils Next-Generation Electric Vehicle Platform",
+            description: "The Japanese automaker introduces a revolutionary EV architecture promising 500+ mile range and 15-minute charging times, positioning Nissan as a leader in sustainable mobility.",
+            urlToImage: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+            url: "#",
+            source: { name: "Auto Industry News" },
+            publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Nissan's Autonomous Driving Technology Surpasses Safety Standards",
+            description: "Advanced driver assistance systems achieve 99.9% accuracy in real-world testing, setting new industry benchmarks for vehicle safety and reliability.",
+            urlToImage: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+            url: "#",
+            source: { name: "Tech Auto Weekly" },
+            publishedAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Global EV Market Surge: Nissan Leads European Expansion",
+            description: "Electric vehicle adoption accelerates across Europe with Nissan's comprehensive charging network and innovative battery technology driving market growth.",
+            urlToImage: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+            url: "#",
+            source: { name: "European Auto Report" },
+            publishedAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Nissan's Motorsport Division Announces Formula E Entry",
+            description: "Historic racing heritage meets electric innovation as Nissan prepares to compete in the world's premier electric racing championship.",
+            urlToImage: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+            url: "#",
+            source: { name: "Racing News" },
+            publishedAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Sustainable Manufacturing: Nissan's Carbon-Neutral Factory Initiative",
+            description: "Revolutionary production methods reduce environmental impact while maintaining quality standards, showcasing the future of automotive manufacturing.",
+            urlToImage: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+            url: "#",
+            source: { name: "Green Manufacturing" },
+            publishedAt: new Date(Date.now() - 10 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Connected Car Revolution: Nissan's Smart City Integration",
+            description: "Vehicle-to-infrastructure technology enables seamless urban mobility, reducing traffic congestion and improving air quality in metropolitan areas.",
+            urlToImage: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800",
+            url: "#",
+            source: { name: "Smart Cities Today" },
+            publishedAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString()
+        }
+    ], []);
     
     // persona cards interface
     type PersonaCard = {
@@ -39,227 +92,224 @@ function Home() {
         imageUrl: string;
     };
 
-    // Explore Audiences Section
+    // Explore Audiences Section - Automotive Industry Focus
     const personas: PersonaCard[] = useMemo(
         () => [
             {
-                name: 'Urban Athletes',
+                name: 'EV Early Adopters',
                 summary:
-                    'An urban sports enthusiast with a streetwear style, balancing athleticism and cultural vibrancy in daily life.',
+                    'Tech-savvy professionals who prioritize sustainability and cutting-edge automotive technology in their purchasing decisions.',
                 imageUrl:
-                    'https://images.pexels.com/photos/5325586/pexels-photo-5325586.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Tech Explorers',
+                name: 'Performance Enthusiasts',
                 summary:
-                    'Curious early adopters who experiment with the latest tools, apps, and devices to optimize modern life.',
+                    'Driving enthusiasts who value power, handling, and the emotional connection between driver and machine.',
                 imageUrl:
-                    'https://images.pexels.com/photos/5380658/pexels-photo-5380658.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Eco Minimalists',
+                name: 'Family Safety Seekers',
                 summary:
-                    'Sustainability-first consumers who value low-impact choices, timeless design, and purposeful living.',
+                    'Parents prioritizing advanced safety features, reliability, and spacious interiors for family transportation needs.',
                 imageUrl:
-                    'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Creative Makers',
+                name: 'Urban Commuters',
                 summary:
-                    'Hands-on creators who love crafting, prototyping, and turning ideas into tangible projects.',
+                    'City dwellers seeking compact, efficient vehicles with smart connectivity and easy parking solutions.',
                 imageUrl:
-                    'https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Remote Nomads',
+                name: 'Luxury Aspirants',
                 summary:
-                    'Fully mobile professionals building careers from anywhere—cafés, cabins, and co-working spaces.',
+                    'Status-conscious consumers who equate premium vehicles with personal achievement and social standing.',
                 imageUrl:
-                    'https://images.pexels.com/photos/4050320/pexels-photo-4050320.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Wellness Seekers',
+                name: 'Adventure Seekers',
                 summary:
-                    'Holistic health enthusiasts who prioritize movement, mindfulness, and balanced daily rituals.',
+                    'Outdoor enthusiasts requiring rugged, capable vehicles for off-road exploration and outdoor activities.',
                 imageUrl:
-                    'https://images.pexels.com/photos/3822621/pexels-photo-3822621.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Gamer Strategists',
+                name: 'Business Professionals',
                 summary:
-                    'Competitive players who value teamwork, precision, and high-performance hardware and setups.',
+                    'Corporate executives and entrepreneurs who need reliable, professional vehicles for client meetings and business travel.',
                 imageUrl:
-                    'https://images.pexels.com/photos/791543/pexels-photo-791543.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Food Adventurers',
+                name: 'Tech Innovators',
                 summary:
-                    'Explorers of new flavors, pop-ups, and street food—always chasing the next great bite.',
+                    'Early adopters of autonomous features, connected services, and cutting-edge automotive technology.',
                 imageUrl:
-                    'https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Pet Parents',
+                name: 'Environmental Advocates',
                 summary:
-                    'Compassionate caretakers who weave pet health, training, and enrichment into home life.',
+                    'Conscious consumers prioritizing low emissions, sustainable materials, and eco-friendly manufacturing processes.',
                 imageUrl:
-                    'https://images.pexels.com/photos/4588044/pexels-photo-4588044.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Finance Optimizers',
+                name: 'Classic Car Collectors',
                 summary:
-                    'Budget-savvy planners focused on tools, habits, and education for long-term financial health.',
+                    'Automotive historians who appreciate heritage, craftsmanship, and the stories behind iconic vehicle designs.',
                 imageUrl:
-                    'https://images.pexels.com/photos/4968633/pexels-photo-4968633.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Home Improvers',
+                name: 'Fleet Managers',
                 summary:
-                    'DIY renovators who turn living spaces into highly functional, beautiful environments.',
+                    'Corporate decision-makers responsible for large vehicle purchases and fleet optimization strategies.',
                 imageUrl:
-                    'https://images.pexels.com/photos/6474479/pexels-photo-6474479.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
             {
-                name: 'Culture Curators',
+                name: 'Motorsport Fans',
                 summary:
-                    'Avid museum-goers and scene trackers collecting music, art, and experiences worth sharing.',
+                    'Racing enthusiasts who follow professional motorsports and appreciate high-performance engineering.',
                 imageUrl:
-                    'https://images.pexels.com/photos/1047442/pexels-photo-1047442.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600',
             },
         ],
         []
     );
 
-    // Projects / Opportunities Section 
+        // Projects / Opportunities Section - Nissan Automotive Focus
 const projectData = [
-
     {
-        title: 'Hosting a Dinner',
+        title: 'Electric Vehicle Charging Network',
         description:
-            'Create an intimate, high-touch experience with curated menus and ambience for meaningful connection.',
+            'Partner with Nissan to expand fast-charging infrastructure across major highways and urban centers, creating seamless EV travel experiences.',
         imageUrl:
-            'https://images.pexels.com/photos/169190/pexels-photo-169190.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
     },
     {
-        title: 'Pop-up Retail',
+        title: 'Autonomous Vehicle Testing Program',
         description:
-            'Short-term storefront to test products, gather feedback, and spark local buzz.',
+            'Collaborate on real-world autonomous driving trials in smart cities, advancing safety technology and regulatory frameworks.',
         imageUrl:
-            'https://images.pexels.com/photos/3184300/pexels-photo-3184300.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
     },
     {
-        title: 'Workshop Series',
+        title: 'Sustainable Manufacturing Partnership',
         description:
-            'Hands-on learning that positions your brand as an expert and builds community.',
+            'Joint venture to develop carbon-neutral production methods and circular economy solutions for automotive manufacturing.',
         imageUrl:
-            'https://images.pexels.com/photos/3182763/pexels-photo-3182763.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
     },
     {
-        title: 'Creator Collaboration',
+        title: 'Motorsport Innovation Hub',
         description:
-            'Partner with aligned creators to co-design products and reach new audiences.',
+            'Co-develop high-performance electric racing technology and transfer learnings to consumer vehicle development.',
         imageUrl:
-            'https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
     },
     {
-        title: 'Limited Edition Drop',
+        title: 'Smart City Mobility Platform',
         description:
-            'Time-bound releases to drive urgency and deepen brand lore.',
+            'Integrated transportation solution combining electric vehicles, charging infrastructure, and urban planning for sustainable cities.',
         imageUrl:
-            'https://images.pexels.com/photos/5717511/pexels-photo-5717511.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
     },
     {
-        title: 'Community Clean-up',
+        title: 'Battery Technology Consortium',
         description:
-            'Purpose-driven activation that mobilizes locals and earns goodwill.',
+            'Multi-stakeholder initiative to advance solid-state battery development and establish industry standards for next-gen EVs.',
         imageUrl:
-            'https://images.pexels.com/photos/6646914/pexels-photo-6646914.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
     },
     {
-        title: 'Campus Tour',
+        title: 'Fleet Electrification Program',
         description:
-            'Meet Gen Z where they are with on-campus sampling and experiences.',
+            'Large-scale conversion of corporate and municipal fleets to electric vehicles with comprehensive support infrastructure.',
         imageUrl:
-            'https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4',
     },
     {
-        title: 'IRL Gaming Night',
+        title: 'Connected Vehicle Ecosystem',
         description:
-            'Hybrid tournament and lounge experience to connect gamers and casual players.',
+            'Development of vehicle-to-everything (V2X) communication systems for enhanced safety and traffic management.',
         imageUrl:
-            'https://images.pexels.com/photos/9072313/pexels-photo-9072313.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     },
     {
-        title: 'Wellness Pop-in',
+        title: 'Renewable Energy Integration',
         description:
-            'Breathwork, stretch, and recovery stations at offices and co-working spaces.',
+            'Solar-powered charging stations and vehicle-to-grid technology to create sustainable energy ecosystems.',
         imageUrl:
-            'https://images.pexels.com/photos/3822621/pexels-photo-3822621.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
     },
     {
-        title: 'Neighborhood Art Walk',
+        title: 'Digital Retail Experience',
         description:
-            'Showcase local artists and transform streets into cultural runways.',
+            'Revolutionary online-to-offline car buying journey with virtual showrooms and seamless digital transactions.',
         imageUrl:
-            'https://images.pexels.com/photos/1704120/pexels-photo-1704120.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
     },
     {
-        title: 'Food Truck Collab',
+        title: 'Circular Economy Initiative',
         description:
-            'Co-branded menu items to trial flavors and drive social content.',
+            'End-to-end vehicle lifecycle management including remanufacturing, recycling, and sustainable material sourcing.',
         imageUrl:
-            'https://images.pexels.com/photos/239975/pexels-photo-239975.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
     },
     {
-        title: 'After-hours Museum Night',
+        title: 'Urban Air Mobility Research',
         description:
-            'Immersive culture-first event that pairs your brand with rare access.',
+            'Exploration of electric vertical takeoff and landing (eVTOL) technology for future urban transportation solutions.',
         imageUrl:
-            'https://images.pexels.com/photos/1047442/pexels-photo-1047442.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800',
         videoUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
     },
-    
-    
 ]
 
-    // Counter Audiences Section
+    // Counter Audiences Section - Automotive Industry Focus
     const counterAudiences: PersonaCard[] = useMemo(
         () => [
-            { name: 'Unlikely Luxury Shoppers', summary: 'Value-seekers who splurge on signature pieces when the story resonates.', imageUrl: 'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Rural Tech Tinkerers', summary: 'DIY hardware modders upgrading gear off-the-grid.', imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Night-Shift Athletes', summary: 'Train after midnight; shop for recovery and performance aids.', imageUrl: 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Finance Meme Traders', summary: 'Retail traders who treat markets as community and game.', imageUrl: 'https://images.pexels.com/photos/6801872/pexels-photo-6801872.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Vintage Camera Newbies', summary: 'Gen Z creators learning analog workflows for originality.', imageUrl: 'https://images.pexels.com/photos/682926/pexels-photo-682926.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Suburban Sneakerheads', summary: 'High-heat collectors outside the usual urban drops.', imageUrl: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Remote Van-Lifers', summary: 'Work-from-anywhere nomads optimizing compact living.', imageUrl: 'https://images.pexels.com/photos/2168974/pexels-photo-2168974.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Studio Apartment Chefs', summary: 'Max flavor with minimal space—gear matters.', imageUrl: 'https://images.pexels.com/photos/4109993/pexels-photo-4109993.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Alumni Superfans', summary: 'Graduates who still road-trip for games and merch.', imageUrl: 'https://images.pexels.com/photos/792254/pexels-photo-792254.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Pet Fashion Buyers', summary: 'Owners who buy matching fits and lifestyle accessories.', imageUrl: 'https://images.pexels.com/photos/573186/pexels-photo-573186.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'Weekend Biologists', summary: 'Amateur naturalists who invest in field and lab kits.', imageUrl: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=800' },
-            { name: 'City Cyclists Without Cars', summary: 'Two wheels only; prioritize maintenance and safety tech.', imageUrl: 'https://images.pexels.com/photos/210095/pexels-photo-210095.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Rural EV Adopters', summary: 'Country dwellers who prioritize sustainability and long-range capabilities for sparse charging infrastructure.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Classic Car EV Converters', summary: 'Vintage enthusiasts retrofitting electric powertrains into classic vehicles for modern performance.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Off-Road Electric Explorers', summary: 'Adventure seekers who demand both rugged capability and environmental consciousness in their vehicles.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Luxury Performance EV Buyers', summary: 'High-end consumers who expect both premium craftsmanship and cutting-edge electric technology.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Commercial Fleet EV Managers', summary: 'Business leaders prioritizing total cost of ownership and sustainability in large vehicle operations.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Motorsport EV Spectators', summary: 'Racing fans who appreciate the technical innovation and environmental benefits of electric motorsport.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Urban Delivery EV Operators', summary: 'Last-mile logistics companies seeking efficient, quiet, and sustainable urban delivery solutions.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Emergency Service EV Adopters', summary: 'First responders requiring reliable, high-performance electric vehicles for critical operations.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Agricultural EV Innovators', summary: 'Farmers and agricultural businesses adopting electric machinery for sustainable food production.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Marine EV Enthusiasts', summary: 'Boat owners and marine businesses transitioning to electric propulsion for cleaner waterways.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Aviation EV Pioneers', summary: 'Private pilots and aviation companies exploring electric aircraft for sustainable air travel.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+            { name: 'Construction EV Contractors', summary: 'Building professionals adopting electric construction equipment for urban and indoor projects.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
         ],
         []
     );
@@ -337,6 +387,22 @@ const projectData = [
         powerfulCarouselRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
     };
 
+    const scrollEvPioneersLeft = () => {
+        evPioneersRef.current?.scrollBy({ left: -scrollByAmount(), behavior: 'smooth' });
+    };
+
+    const scrollEvPioneersRight = () => {
+        evPioneersRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
+    };
+
+    const scrollMotorsportLeft = () => {
+        motorsportRef.current?.scrollBy({ left: -scrollByAmount(), behavior: 'smooth' });
+    };
+
+    const scrollMotorsportRight = () => {
+        motorsportRef.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
+    };
+
     // Opportunity Cards
     
     type OpportunityCard = {
@@ -406,11 +472,11 @@ const projectData = [
         <div className="flex flex-col">
             
 
-            {/* Top Hero (single feature) */}
-            {news.length > 0 && (
+            {/* Top Hero - Nissan News Feature */}
+            {nissanNews.length > 0 && (
                 <div className="px-12 mt-8 mb-8">
                     {(() => {
-                        const article = news[0];
+                        const article = nissanNews[0];
                         return (
                             <div
                                 key={article.title}
@@ -457,8 +523,8 @@ const projectData = [
             <div className="flex flex-col gap-4 px-12 mt-4">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
-                        <h3 className="text-xl font-bold">Projects for you</h3>
-                        <p className='text-sm text-slate-400'>12 activation ideas worth exploring</p>
+                        <h3 className="text-xl font-bold">Nissan Innovation Projects</h3>
+                        <p className='text-sm text-slate-400'>12 automotive industry opportunities worth exploring</p>
                     </div>
                     <div className='flex gap-2'>
                         <button
@@ -543,19 +609,19 @@ const projectData = [
                 </div>
             </div>
 
-            {/* Stories we love */}
-            {news.length > 1 && (
+            {/* Nissan Industry News */}
+            {nissanNews.length > 1 && (
                 <div className='flex flex-col gap-4 px-12 mt-12'>
 
                     {/* Title */}
                     <div className='flex flex-col mb-2'>
-                        <h3 className="text-xl font-bold">Trends we love</h3>
-                        <p className='text-sm text-slate-400'>Curated highlights across {debouncedQuery ? 'your search' : category}.</p>
+                        <h3 className="text-xl font-bold">Nissan Industry Insights</h3>
+                        <p className='text-sm text-slate-400'>Latest developments in automotive innovation and sustainable mobility.</p>
                     </div>
 
                     {/* Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {news.slice(3, 9).map((article) => (
+                        {nissanNews.map((article) => (
                             <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-2xl shadow-black/40 flex gap-3 border border-neutral-800 items-center justify-center transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer">
                                 {article.urlToImage && (
                                     <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-neutral-700" />
@@ -590,6 +656,65 @@ const projectData = [
                     </div>
                 </div>
             )}
+
+            {/* EV Pioneers Section */}
+            <div className="flex flex-col gap-4 px-12 mt-12">
+                <div className='flex items-end justify-between'>
+                    <div className='flex flex-col'>
+                        <h3 className="text-xl font-bold">EV Pioneers & Innovators</h3>
+                        <p className='text-sm text-slate-400'>Visionary leaders driving the electric vehicle revolution.</p>
+                    </div>
+                    <div className='flex gap-2'>
+                        <button
+                            onClick={scrollEvPioneersLeft}
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            aria-label="Scroll EV pioneers left"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </button>
+                        <button
+                            onClick={scrollEvPioneersRight}
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            aria-label="Scroll EV pioneers right"
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+                <div
+                    ref={evPioneersRef}
+                    className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
+                    aria-label="EV pioneers carousel"
+                >
+                    {[
+                        { name: 'Tesla Visionaries', summary: 'Early adopters who embraced electric mobility and renewable energy integration.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Nissan Leaf Pioneers', summary: 'First-generation EV owners who proved electric vehicles could be practical daily drivers.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Charging Network Builders', summary: 'Infrastructure developers creating the backbone of electric vehicle adoption.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Battery Technology Researchers', summary: 'Scientists advancing energy density and charging speed for next-gen EVs.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Autonomous Driving Engineers', summary: 'Software developers creating the brains behind self-driving electric vehicles.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Sustainable Material Innovators', summary: 'Designers using recycled and eco-friendly materials in vehicle construction.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Grid Integration Specialists', summary: 'Energy experts connecting EVs to renewable power systems and smart grids.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Urban Mobility Planners', summary: 'City designers integrating electric vehicles into sustainable transportation networks.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Motorsport EV Teams', summary: 'Racing engineers pushing electric vehicle performance to new limits.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Policy Advocates', summary: 'Government and NGO leaders advancing electric vehicle adoption through legislation.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Fleet Conversion Leaders', summary: 'Business executives transitioning corporate fleets to electric vehicles.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                        { name: 'Consumer Education Champions', summary: 'Influencers and educators demystifying electric vehicle technology for mainstream adoption.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                    ].map((p) => (
+                        <div
+                            key={p.name}
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                        >
+                            <div className="h-40 w-full overflow-hidden">
+                                <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
+                            </div>
+                            <div className="p-4">
+                                <div className="text-lg font-semibold">{p.name}</div>
+                                <p className="mt-1 text-sm text-neutral-400 line-clamp-3">{p.summary}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             {/* Persona Carousel */}
             <div className="flex flex-col gap-4 px-12 mt-12">
@@ -637,25 +762,25 @@ const projectData = [
                 </div>
             </div>
 
-            {/* Stadiums Carousel */}
+            {/* Motorsport Venues Carousel */}
             <div className="flex flex-col gap-4 px-12 mt-8">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
-                        <h3 className="text-xl font-bold">Stadiums with similar audiences</h3>
-                        <p className='text-sm text-slate-400'>Global venues and arenas.</p>
+                        <h3 className="text-xl font-bold">Motorsport Venues & Tracks</h3>
+                        <p className='text-sm text-slate-400'>Iconic racing circuits and automotive event spaces.</p>
                     </div>
                     <div className='flex gap-2'>
                         <button
                             onClick={scrollStadiumLeft}
                             className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
-                            aria-label="Scroll stadiums left"
+                            aria-label="Scroll motorsport venues left"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
                         <button
                             onClick={scrollStadiumRight}
                             className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
-                            aria-label="Scroll stadiums right"
+                            aria-label="Scroll motorsport venues right"
                         >
                             <ChevronRight className="h-4 w-4" />
                         </button>
@@ -664,22 +789,22 @@ const projectData = [
                 <div
                     ref={stadiumCarouselRef}
                     className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container"
-                    aria-label="Stadiums carousel"
+                    aria-label="Motorsport venues carousel"
                 >
-                    {/* Stadiums */}
+                    {/* Motorsport Venues */}
                     {[
-                        { name: 'Wembley Stadium', summary: 'Iconic London venue known for major finals and concerts.', imageUrl: 'https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Camp Nou', summary: 'Home of FC Barcelona with a storied European history.', imageUrl: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Santiago Bernabéu', summary: 'Real Madrid\'s legendary ground undergoing modernization.', imageUrl: 'https://images.pexels.com/photos/258187/pexels-photo-258187.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Allianz Arena', summary: 'Munich\'s luminous arena famed for its facade.', imageUrl: 'https://images.pexels.com/photos/290938/pexels-photo-290938.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'San Siro', summary: 'Historic Milan stadium shared by AC Milan and Inter.', imageUrl: 'https://images.pexels.com/photos/167979/pexels-photo-167979.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Old Trafford', summary: 'Theatre of Dreams, home of Manchester United.', imageUrl: 'https://images.pexels.com/photos/1799983/pexels-photo-1799983.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'MetLife Stadium', summary: 'New Jersey venue hosting NFL and major events.', imageUrl: 'https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'AT&T Stadium', summary: 'Arlington\'s massive, tech-forward NFL stadium.', imageUrl: 'https://images.pexels.com/photos/1322186/pexels-photo-1322186.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Maracanã', summary: 'Rio\'s legendary football cathedral.', imageUrl: 'https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Signal Iduna Park', summary: 'Dortmund\'s famous Yellow Wall atmosphere.', imageUrl: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Stade de France', summary: 'National stadium of France in Saint-Denis.', imageUrl: 'https://images.pexels.com/photos/258187/pexels-photo-258187.jpeg?auto=compress&cs=tinysrgb&w=800' },
-                        { name: 'Lusail Stadium', summary: 'Showcase venue from the Qatar World Cup.', imageUrl: 'https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Circuit de Monaco', summary: 'Historic street circuit through Monte Carlo\'s glamorous streets.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Silverstone Circuit', summary: 'Home of British motorsport and Formula 1 heritage.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Nürburgring', summary: 'Germany\'s legendary "Green Hell" with the iconic Nordschleife.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Suzuka Circuit', summary: 'Japan\'s figure-eight layout hosting F1 and Super GT races.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Daytona International Speedway', summary: 'Florida\'s high-banked oval and sports car racing mecca.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Le Mans Circuit', summary: '24-hour endurance racing at Circuit de la Sarthe.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Mount Panorama', summary: 'Australia\'s Bathurst mountain circuit with elevation changes.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Interlagos', summary: 'São Paulo\'s anti-clockwise F1 circuit with passionate fans.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Red Bull Ring', summary: 'Austrian Alps circuit with stunning mountain backdrop.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Fuji Speedway', summary: 'Japan\'s high-speed circuit near Mount Fuji.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Laguna Seca', summary: 'California\'s iconic corkscrew turn and elevation changes.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                        { name: 'Spa-Francorchamps', summary: 'Belgium\'s Ardennes forest circuit with Eau Rouge.', imageUrl: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=800' },
                     ].map((s) => (
                         <div
                             key={s.name}
@@ -697,11 +822,11 @@ const projectData = [
                 </div>
             </div>
 
-            {/* Latest grid removed as requested */}
-            {news.length > 10 && (
+            {/* Nissan Innovation Showcase */}
+            {nissanNews.length > 7 && (
                 <div className="px-12 mt-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {news.slice(9, 11).map((article) => (
+                        {nissanNews.slice(7, 9).map((article) => (
                             <div
                                 key={article.title}
                                 onClick={() => window.open(article.url, '_blank')}
@@ -718,12 +843,12 @@ const projectData = [
                                 <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-2">
                                     <div className="flex items-center gap-2 text-[11px] text-slate-300">
                                         {article.source?.name && (
-                                            <span className="px-1.5 py-0.5 rounded bg-white/10 border border-white/10">
+                                            <span className="px-2 py-0.5 rounded bg-white/10 border border-white/10">
                                                 {article.source.name}
                                             </span>
                                         )}
                                         {article.publishedAt && (
-                                            <span>{new Date(article.publishedAt).toLocaleString()}</span>
+                                            <span>{formatTimeAgo(article.publishedAt)}</span>
                                         )}
                                     </div>
                                     <h3 className="text-xl md:text-2xl font-bold leading-tight">

@@ -200,7 +200,7 @@ export default function ProjectDetails() {
 
                 {/* Market Trend */}
                 <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-4 text-white">Current Market Trend</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-white">Market Trend Summary</h2>
                     <p className="text-neutral-400 leading-relaxed">{project.trend}</p>
                 </div>
 
