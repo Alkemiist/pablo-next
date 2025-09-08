@@ -50,7 +50,7 @@ export const InspoProvider = ({ children }: providerProps) => {
 export const useInspoContext = () => {
     const context = useContext(InspoContext);
     if (!context) {
-        throw new Error('useInspo must be used within an InspoProvider');
+        throw new Error('useInspoContext must be used within an InspoProvider');
     }
     return context;
 }
