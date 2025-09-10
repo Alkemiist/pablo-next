@@ -19,11 +19,11 @@ export default function Navbar() {
 
     // these are the nav items
     const navItems = [
-        { href: '/', label: 'Home', icon: <Home size={20} /> },
-        { href: '/home-2', label: 'Home 2', icon: <Home size={20} /> },
+        { href: '/', label: 'Home', icon: <Home size={20} /> }, // home page
+        // { href: '/home-2', label: 'Home 2', icon: <Home size={20} /> }, // home page 2
         // { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
-        { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> },
-        { href: '/brief-builder', label: 'Brief Builder', icon: <Files size={20} /> },
+        { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> }, // marketplace page
+        { href: '/brief-builder', label: 'Brief Builder', icon: <Files size={20} /> }, // brief builder page
         // { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         // { href: '/gen-brief', label: 'Brief', icon: <NotebookPen size={20} /> },
         // { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },
@@ -31,10 +31,10 @@ export default function Navbar() {
         // { href: '/intelligence', label: 'Intelligence', icon: <Brain size={20} /> },
         // { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
         // { href: '/god-flow', label: 'God Flow', icon: <Atom size={20} /> },
-        { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> },
-        { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> },
+        { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> }, // profile analysis page
+        { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> }, // inspo page    
         // { href: '/persona', label: 'Persona Creation', icon: <User size={20} /> }
-        { href: '/variant-engine', label: 'Variant Engine', icon: <FileStack size={20} /> },
+        { href: '/variant-engine', label: 'Variant Engine', icon: <FileStack size={20} /> }, // variant engine page
     ];
 
     // the return statement

@@ -1,52 +1,75 @@
-// TypeScript interfaces matching the BriefJsonSchema
+// TypeScript interfaces for the new 10-page brief flow
 export interface MarketingBrief {
+  // Page 1: Project Context
   project: {
-    title: string;
-    launch_window: string;
-    owner: string;
+    name: string;
+    core_idea: string;
     business_context: string;
+    timeline: string;
   };
-  objective: {
-    smart: string;
-    primary_kpis: string[];
-    targets?: string;
-    learning_goal?: string;
-  };
-  audience: {
-    descriptor: string;
-    pain_tension: string;
-    current_emotion?: string;
-    desired_emotion?: string;
-    desired_action: string;
-  };
-  insight: string;
+  
+  // Page 2: Brand
   brand: {
-    role: string;
-    positioning?: string;
-    competitors?: string[];
+    name: string;
+    description: string;
+    values: string[];
+    personality: string;
+    positioning: string;
   };
-  message: {
-    smp: string;
-    reasons_to_believe: string[];
+  
+  // Page 3: Product
+  product: {
+    name: string;
+    description: string;
+    features: string[];
+    benefits: string[];
+    unique_selling_proposition: string;
   };
-  tone_style: {
-    tone_tags: string[];
-    mood_tags?: string[];
-    avoid?: string[];
+  
+  // Page 4: Target Audience
+  audience: {
+    primary_demographics: string;
+    psychographics: string;
+    pain_points: string[];
+    motivations: string[];
+    behaviors: string[];
+    media_consumption: string[];
   };
+  
+  // Page 5: Objectives & Success
+  objectives: {
+    intent: string;
+    smart_targets: string[];
+    success_metrics: string[];
+    kpis: string[];
+  };
+  
+  // Page 6: Creative Spine
+  creative_spine: {
+    trend_connection: string;
+    creative_references: File[];
+    mood_boards: File[];
+    visual_direction: string;
+  };
+  
+  // Page 7: Channels & Formats
   channels_formats: {
-    channels: string[];
+    platforms: string[];
     formats: string[];
-    constraints?: string[];
+    creative_constraints: string[];
+    technical_requirements: string[];
   };
-  culture_creative?: {
-    trends_hashtags?: string[];
-    references?: string[];
+  
+  // Page 8: Budget & Guardrails
+  budget_guardrails: {
+    budget_amount: string;
+    budget_allocation: string;
+    must_include: string[];
+    restrictions: string[];
+    compliance_requirements: string[];
   };
-  budget_legal: {
-    budget_tier: "lean" | "moderate" | "big";
-    must_include?: string[];
-  };
+  
+  // Generated outputs
   outputs: {
     exec_summary: string;
     big_idea: string;
@@ -83,53 +106,74 @@ export interface KPIRow {
   timeframe?: string;
 }
 
-// Input type for the brief generation
+// Input type for the new 10-page brief generation
 export interface BriefIntake {
+  // Page 1: Project Context
   project?: {
-    title?: string;
-    launch_window?: string;
-    owner?: string;
+    name?: string;
+    core_idea?: string;
     business_context?: string;
+    timeline?: string;
   };
-  objective?: {
-    smart?: string;
-    primary_kpis?: string[];
-    targets?: string;
-    learning_goal?: string;
-  };
-  audience?: {
-    descriptor?: string;
-    pain_tension?: string;
-    current_emotion?: string;
-    desired_emotion?: string;
-    desired_action?: string;
-  };
-  insight?: string;
+  
+  // Page 2: Brand
   brand?: {
-    role?: string;
+    name?: string;
+    description?: string;
+    values?: string[];
+    personality?: string;
     positioning?: string;
-    competitors?: string[];
   };
-  message?: {
-    smp?: string;
-    reasons_to_believe?: string[];
+  
+  // Page 3: Product
+  product?: {
+    name?: string;
+    description?: string;
+    features?: string[];
+    benefits?: string[];
+    unique_selling_proposition?: string;
   };
-  tone_style?: {
-    tone_tags?: string[];
-    mood_tags?: string[];
-    avoid?: string[];
+  
+  // Page 4: Target Audience
+  audience?: {
+    primary_demographics?: string;
+    psychographics?: string;
+    pain_points?: string[];
+    motivations?: string[];
+    behaviors?: string[];
+    media_consumption?: string[];
   };
+  
+  // Page 5: Objectives & Success
+  objectives?: {
+    intent?: string;
+    smart_targets?: string[];
+    success_metrics?: string[];
+    kpis?: string[];
+  };
+  
+  // Page 6: Creative Spine
+  creative_spine?: {
+    trend_connection?: string;
+    creative_references?: File[];
+    mood_boards?: File[];
+    visual_direction?: string;
+  };
+  
+  // Page 7: Channels & Formats
   channels_formats?: {
-    channels?: string[];
+    platforms?: string[];
     formats?: string[];
-    constraints?: string[];
+    creative_constraints?: string[];
+    technical_requirements?: string[];
   };
-  culture_creative?: {
-    trends_hashtags?: string[];
-    references?: string[];
-  };
-  budget_legal?: {
-    budget_tier?: "lean" | "moderate" | "big";
+  
+  // Page 8: Budget & Guardrails
+  budget_guardrails?: {
+    budget_amount?: string;
+    budget_allocation?: string;
     must_include?: string[];
+    restrictions?: string[];
+    compliance_requirements?: string[];
   };
 }

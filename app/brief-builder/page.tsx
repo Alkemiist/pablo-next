@@ -61,25 +61,36 @@ export default function BriefBuilder() {
     setError(null);
   };
 
+  const handleDiscardBrief = () => {
+    setAppState("wizard");
+    setGeneratedBrief(null);
+    setIntakeData(null);
+    setError(null);
+  };
+
   const renderContent = () => {
     switch (appState) {
       case "wizard":
         return (
-          <div className="max-w-6xl mx-auto p-6">
-
-            <BriefWizard onComplete={handleWizardComplete} />
+          <div className="h-full flex flex-col">
+            <div className="flex-1 overflow-y-auto">
+              <div className="max-w-6xl mx-auto p-6">
+                <BriefWizard onComplete={handleWizardComplete} />
+              </div>
+            </div>
           </div>
         );
 
       case "generating":
         return (
-          <div className="max-w-4xl mx-auto p-6 text-center">
-            <div className="mb-12">
-              <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                Generating Your Marketing Brief
-              </h1>
-              <p className="text-xl text-slate-300">Our AI is crafting a comprehensive brief based on your inputs...</p>
-            </div>
+          <div className="h-full flex items-center justify-center">
+            <div className="max-w-4xl mx-auto p-6 text-center">
+              <div className="mb-12">
+                <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                  Generating Your Marketing Brief
+                </h1>
+                <p className="text-xl text-slate-300">Our AI is crafting a comprehensive brief based on your inputs...</p>
+              </div>
             
             {isLoading && (
               <div className="space-y-8">
@@ -98,30 +109,35 @@ export default function BriefBuilder() {
               </div>
             )}
 
-            {error && (
-              <div className="bg-slate-900 border border-red-500/20 rounded-2xl p-8 max-w-2xl mx-auto">
-                <h3 className="text-2xl font-bold text-red-400 mb-4">Generation Failed</h3>
-                <p className="text-red-300 mb-6 text-lg">{error}</p>
-                <button
-                  onClick={handleBackToWizard}
-                  className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105"
-                >
-                  Back to Wizard
-                </button>
-              </div>
-            )}
+              {error && (
+                <div className="bg-slate-900 border border-red-500/20 rounded-2xl p-8 max-w-2xl mx-auto">
+                  <h3 className="text-2xl font-bold text-red-400 mb-4">Generation Failed</h3>
+                  <p className="text-red-300 mb-6 text-lg">{error}</p>
+                  <button
+                    onClick={handleBackToWizard}
+                    className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105"
+                  >
+                    Back to Wizard
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         );
 
       case "review":
         return generatedBrief ? (
-          <BriefReview brief={generatedBrief} onBack={handleBackToWizard} />
+          <div className="h-full overflow-hidden">
+            <BriefReview brief={generatedBrief} onBack={handleBackToWizard} onDiscard={handleDiscardBrief} />
+          </div>
         ) : (
-          <div className="text-center p-6">
-            <p className="text-slate-300">No brief generated yet.</p>
-            <button onClick={handleBackToWizard} className="text-blue-400 hover:text-blue-300 underline">
-              Back to Wizard
-            </button>
+          <div className="h-full flex items-center justify-center">
+            <div className="text-center p-6">
+              <p className="text-slate-300">No brief generated yet.</p>
+              <button onClick={handleBackToWizard} className="text-blue-400 hover:text-blue-300 underline">
+                Back to Wizard
+              </button>
+            </div>
           </div>
         );
 
@@ -131,8 +147,10 @@ export default function BriefBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      {renderContent()}
+    <div className="h-screen bg-black overflow-hidden">
+      <div className="h-full flex flex-col">
+        {renderContent()}
+      </div>
     </div>
   );
 }

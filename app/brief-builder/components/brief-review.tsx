@@ -6,15 +6,16 @@ import jsPDF from "jspdf";
 interface BriefReviewProps {
   brief: MarketingBrief;
   onBack: () => void;
+  onDiscard?: () => void;
 }
 
-export default function BriefReview({ brief, onBack }: BriefReviewProps) {
+export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewProps) {
   const [editedBrief, setEditedBrief] = useState<MarketingBrief>(brief);
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("overview");
 
   // Safety check to ensure brief has required structure
-  if (!brief || !brief.project || !brief.project.title) {
+  if (!brief || !brief.project || !brief.project.name) {
     return (
       <div className="max-w-4xl mx-auto p-6 text-center">
         <div className="bg-slate-900 border border-red-500/20 rounded-2xl p-8">
@@ -107,6 +108,12 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
     alert('Brief saved successfully!');
   };
 
+  const discardBrief = () => {
+    if (window.confirm('Are you sure you want to discard this brief? This action cannot be undone.')) {
+      onDiscard?.();
+    }
+  };
+
   const sections = [
     { id: "overview", title: "Overview", icon: "📋" },
     { id: "project", title: "Project", icon: "🚀" },
@@ -122,9 +129,9 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
     switch (activeSection) {
       case "overview":
         return (
-          <div className="space-y-8">
-            <h3 className="text-3xl font-bold text-white mb-6">Marketing Brief Overview</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-white mb-4">Marketing Brief Overview</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">
                 <h4 className="font-semibold text-blue-400 mb-3 text-lg">Project Summary</h4>
                 <p className="text-white text-lg font-medium">{brief.project.title}</p>
@@ -148,10 +155,10 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "project":
         return (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-6">Project Details</h3>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">Project Details</h3>
             {isEditing ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <input
                   type="text"
                   value={editedBrief.project.title}
@@ -189,10 +196,10 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "objective":
         return (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-6">Objectives & KPIs</h3>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">Objectives & KPIs</h3>
             {isEditing ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <textarea
                   value={editedBrief.objective.smart}
                   onChange={(e) => updateBrief("objective", "smart", e.target.value)}
@@ -230,10 +237,10 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "audience":
         return (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-6">Target Audience</h3>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">Target Audience</h3>
             {isEditing ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <input
                   type="text"
                   value={editedBrief.audience.descriptor}
@@ -278,10 +285,10 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "brand":
         return (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-6">Brand & Positioning</h3>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">Brand & Positioning</h3>
             {isEditing ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <input
                   type="text"
                   value={editedBrief.brand.role}
@@ -312,10 +319,10 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "message":
         return (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-white mb-6">Core Message</h3>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">Core Message</h3>
             {isEditing ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <textarea
                   value={editedBrief.insight}
                   onChange={(e) => updateBrief("insight", "", e.target.value)}
@@ -346,11 +353,11 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "execution":
         return (
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-white mb-6">Execution Details</h3>
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">Execution Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h4 className="text-xl font-semibold text-white mb-4 border-b border-slate-700 pb-3">Tone & Style</h4>
+                <h4 className="text-lg font-semibold text-white mb-3 border-b border-slate-700 pb-2">Tone & Style</h4>
                 {isEditing ? (
                   <div className="space-y-4">
                     <input
@@ -384,7 +391,7 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
                 )}
               </div>
               <div>
-                <h4 className="text-xl font-semibold text-white mb-4 border-b border-slate-700 pb-3">Channels & Formats</h4>
+                <h4 className="text-lg font-semibold text-white mb-3 border-b border-slate-700 pb-2">Channels & Formats</h4>
                 {isEditing ? (
                   <div className="space-y-4">
                     <input
@@ -423,11 +430,11 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
       case "outputs":
         return (
-          <div className="space-y-8">
-            <h3 className="text-2xl font-bold text-white mb-6">AI-Generated Outputs</h3>
-            <div className="space-y-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-4">AI-Generated Outputs</h3>
+            <div className="space-y-4">
               <div>
-                <h4 className="text-xl font-semibold text-white mb-4 border-b border-slate-700 pb-3">Executive Summary</h4>
+                <h4 className="text-lg font-semibold text-white mb-3 border-b border-slate-700 pb-2">Executive Summary</h4>
                 {isEditing ? (
                   <textarea
                     value={editedBrief.outputs.exec_summary}
@@ -441,7 +448,7 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
                 )}
               </div>
               <div>
-                <h4 className="text-xl font-semibold text-white mb-4 border-b border-slate-700 pb-3">Big Idea</h4>
+                <h4 className="text-lg font-semibold text-white mb-3 border-b border-slate-700 pb-2">Big Idea</h4>
                 {isEditing ? (
                   <textarea
                     value={editedBrief.outputs.big_idea}
@@ -455,7 +462,7 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
                 )}
               </div>
               <div>
-                <h4 className="text-xl font-semibold text-white mb-4 border-b border-slate-700 pb-3">Creative Territories</h4>
+                <h4 className="text-lg font-semibold text-white mb-3 border-b border-slate-700 pb-2">Creative Territories</h4>
                 {brief.outputs.creative_territories.map((territory, index) => (
                   <div key={index} className="border-l-4 border-blue-500 pl-6 mb-6 bg-slate-800 p-4 rounded-xl">
                     <h5 className="font-semibold text-white text-lg mb-3">{territory.name}</h5>
@@ -497,7 +504,7 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
                 ))}
               </div>
               <div>
-                <h4 className="text-xl font-semibold text-white mb-4 border-b border-slate-700 pb-3">Customer Journey Map</h4>
+                <h4 className="text-lg font-semibold text-white mb-3 border-b border-slate-700 pb-2">Customer Journey Map</h4>
                 {brief.outputs.journey_map.map((stage, index) => (
                   <div key={index} className="border-l-4 border-green-500 pl-6 mb-6 bg-slate-800 p-4 rounded-xl">
                     <h5 className="font-semibold text-white text-lg mb-3">{stage.stage}</h5>
@@ -547,22 +554,22 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="h-full flex flex-col max-w-7xl mx-auto p-4">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+      <div className="flex justify-between items-center mb-4 flex-shrink-0">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
           Review & Edit Brief
         </h1>
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all duration-200 border border-slate-600 hover:border-slate-500"
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all duration-200 border border-slate-600 hover:border-slate-500 text-sm"
           >
             {isEditing ? "View Mode" : "Edit Mode"}
           </button>
           <button
             onClick={onBack}
-            className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all duration-200 border border-slate-600 hover:border-slate-500"
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all duration-200 border border-slate-600 hover:border-slate-500 text-sm"
           >
             Back to Wizard
           </button>
@@ -570,44 +577,50 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mb-8">
+      <div className="flex gap-2 mb-4 flex-shrink-0">
         <button
           onClick={saveBrief}
-          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105 text-sm"
         >
           Save Brief
         </button>
         <button
           onClick={() => downloadBrief('json')}
-          className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105"
+          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105 text-sm"
         >
           Download JSON
         </button>
         <button
           onClick={() => downloadBrief('pdf')}
-          className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105"
+          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105 text-sm"
         >
           Download PDF
         </button>
+        <button
+          onClick={discardBrief}
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105 text-sm"
+        >
+          Discard Brief
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 flex-1 min-h-0">
         {/* Sidebar Navigation */}
         <div className="lg:col-span-1">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 sticky top-6">
-            <h3 className="font-semibold text-white mb-6 text-lg">Sections</h3>
-            <nav className="space-y-3">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-4 h-full overflow-y-auto">
+            <h3 className="font-semibold text-white mb-4">Sections</h3>
+            <nav className="space-y-2">
               {sections.map((section) => (
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
+                  className={`w-full text-left p-3 rounded-xl transition-all duration-200 text-sm ${
                     activeSection === section.id
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
                       : 'hover:bg-slate-800 text-slate-300 hover:text-white'
                   }`}
                 >
-                  <span className="mr-3 text-lg">{section.icon}</span>
+                  <span className="mr-2">{section.icon}</span>
                   {section.title}
                 </button>
               ))}
@@ -617,7 +630,7 @@ export default function BriefReview({ brief, onBack }: BriefReviewProps) {
 
         {/* Main Content */}
         <div className="lg:col-span-3">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8 shadow-xl">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl h-full overflow-y-auto">
             {renderSection()}
           </div>
         </div>
