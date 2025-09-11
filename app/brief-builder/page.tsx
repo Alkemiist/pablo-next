@@ -217,9 +217,9 @@ export default function BriefBuilder() {
             <div className="max-w-4xl mx-auto p-6 text-center">
               <div className="mb-12">
                 <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  Generating Your Marketing Brief
+                  🤖 AI is Creating Your Marketing Brief
                 </h1>
-                <p className="text-xl text-slate-300">Our AI is crafting a comprehensive brief based on your inputs...</p>
+                <p className="text-xl text-slate-300">Our AI strategist is analyzing your inputs and generating a world-class marketing brief...</p>
               </div>
             
             {isLoading && (
@@ -228,8 +228,42 @@ export default function BriefBuilder() {
                   <div className="w-24 h-24 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin mx-auto"></div>
                   <div className="absolute inset-0 w-24 h-24 border-4 border-transparent border-t-purple-500 rounded-full animate-spin mx-auto" style={{ animationDelay: '-0.5s' }}></div>
                 </div>
+                
+                {/* Progress Steps */}
+                <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8 max-w-2xl mx-auto">
+                  <h3 className="text-lg font-semibold text-white mb-6">AI Generation Progress</h3>
+                  <div className="space-y-4 text-left">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm">✓</span>
+                      </div>
+                      <span className="text-slate-300">Analyzing your project inputs</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm">✓</span>
+                      </div>
+                      <span className="text-slate-300">Generating strategic insights</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-6 h-6 bg-blue-500 rounded-full animate-pulse flex items-center justify-center">
+                        <span className="text-white text-sm">⟳</span>
+                      </div>
+                      <span className="text-slate-300">Creating creative territories and big ideas</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-6 h-6 bg-slate-700 rounded-full"></div>
+                      <span className="text-slate-500">Building customer journey map</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-6 h-6 bg-slate-700 rounded-full"></div>
+                      <span className="text-slate-500">Developing test plan and KPIs</span>
+                    </div>
+                  </div>
+                </div>
+                
                 <div className="space-y-4">
-                  <p className="text-lg text-slate-300">Analyzing your inputs and generating strategic insights...</p>
+                  <p className="text-lg text-slate-300">This usually takes 30-60 seconds...</p>
                   <div className="flex justify-center space-x-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
                     <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>

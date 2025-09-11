@@ -23,7 +23,8 @@ export default function Navbar() {
         // { href: '/home-2', label: 'Home 2', icon: <Home size={20} /> }, // home page 2
         // { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
         { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> }, // marketplace page
-        { href: '/brief-builder', label: 'Brief Builder', icon: <Files size={20} /> }, // brief builder page
+        { href: '/streamlined-brief', label: 'AI Brief Generator', icon: <Files size={20} /> }, // new streamlined brief flow
+        { href: '/brief-builder', label: 'Brief Builder (Legacy)', icon: <NotebookPen size={20} /> }, // old brief builder page
         // { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         // { href: '/gen-brief', label: 'Brief', icon: <NotebookPen size={20} /> },
         // { href: '/brand-creation', label: 'Brand', icon: <Component size={20} /> },

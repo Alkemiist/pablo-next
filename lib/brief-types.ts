@@ -73,10 +73,13 @@ export interface MarketingBrief {
   outputs: {
     exec_summary: string;
     big_idea: string;
+    strategic_insight: string;
     creative_territories: CreativeTerritory[];
     journey_map: JourneyStage[];
     test_plan?: TestHypothesis[];
     kpi_dashboard?: KPIRow[];
+    competitive_analysis?: CompetitiveAnalysis;
+    channel_strategy?: ChannelStrategy;
   };
 }
 
@@ -84,6 +87,8 @@ export interface CreativeTerritory {
   name: string;
   description: string;
   example_hook?: string;
+  visual_direction?: string;
+  target_emotion?: string;
 }
 
 export interface JourneyStage {
@@ -91,6 +96,8 @@ export interface JourneyStage {
   message: string;
   asset: string;
   kpi?: string;
+  touchpoints?: string[];
+  success_metrics?: string[];
 }
 
 export interface TestHypothesis {
@@ -98,12 +105,30 @@ export interface TestHypothesis {
   variant_a?: string;
   variant_b?: string;
   metric: string;
+  success_criteria?: string;
+  timeline?: string;
 }
 
 export interface KPIRow {
   kpi: string;
   target: string;
   timeframe?: string;
+  measurement_method?: string;
+  baseline?: string;
+}
+
+export interface CompetitiveAnalysis {
+  key_competitors: string[];
+  competitive_advantage: string;
+  market_positioning: string;
+  differentiation_strategy: string;
+}
+
+export interface ChannelStrategy {
+  primary_channels: string[];
+  channel_objectives: string[];
+  budget_allocation: string;
+  success_metrics: string[];
 }
 
 // Input type for the new 10-page brief generation

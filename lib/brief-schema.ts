@@ -130,6 +130,7 @@ export const BriefJsonSchema = {
         properties: {
           exec_summary: { type: "string" },
           big_idea: { type: "string" },
+          strategic_insight: { type: "string" },
           creative_territories: {
             type: "array",
             items: {
@@ -137,11 +138,13 @@ export const BriefJsonSchema = {
               properties: {
                 name: { type: "string" },
                 description: { type: "string" },
-                example_hook: { type: "string" }
+                example_hook: { type: "string" },
+                visual_direction: { type: "string" },
+                target_emotion: { type: "string" }
               },
               required: ["name", "description"]
             },
-            minItems: 2
+            minItems: 3
           },
           journey_map: {
             type: "array",
@@ -151,11 +154,13 @@ export const BriefJsonSchema = {
                 stage: { type: "string" },
                 message: { type: "string" },
                 asset: { type: "string" },
-                kpi: { type: "string" }
+                kpi: { type: "string" },
+                touchpoints: { type: "array", items: { type: "string" } },
+                success_metrics: { type: "array", items: { type: "string" } }
               },
               required: ["stage", "message", "asset"]
             },
-            minItems: 3
+            minItems: 4
           },
           test_plan: {
             type: "array",
@@ -165,11 +170,13 @@ export const BriefJsonSchema = {
                 hypothesis: { type: "string" },
                 variant_a: { type: "string" },
                 variant_b: { type: "string" },
-                metric: { type: "string" }
+                metric: { type: "string" },
+                success_criteria: { type: "string" },
+                timeline: { type: "string" }
               },
               required: ["hypothesis", "metric"]
             },
-            minItems: 1
+            minItems: 2
           },
           kpi_dashboard: {
             type: "array",
@@ -178,9 +185,29 @@ export const BriefJsonSchema = {
               properties: {
                 kpi: { type: "string" },
                 target: { type: "string" },
-                timeframe: { type: "string" }
+                timeframe: { type: "string" },
+                measurement_method: { type: "string" },
+                baseline: { type: "string" }
               },
               required: ["kpi", "target"]
+            }
+          },
+          competitive_analysis: {
+            type: "object",
+            properties: {
+              key_competitors: { type: "array", items: { type: "string" } },
+              competitive_advantage: { type: "string" },
+              market_positioning: { type: "string" },
+              differentiation_strategy: { type: "string" }
+            }
+          },
+          channel_strategy: {
+            type: "object",
+            properties: {
+              primary_channels: { type: "array", items: { type: "string" } },
+              channel_objectives: { type: "array", items: { type: "string" } },
+              budget_allocation: { type: "string" },
+              success_metrics: { type: "array", items: { type: "string" } }
             }
           }
         },
