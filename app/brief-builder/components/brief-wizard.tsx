@@ -131,47 +131,47 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
     switch (currentStep) {
       case 0: // Project Context
         return (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
+          <div className="space-y-4">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">Project Context</h3>
               <p className="text-slate-400">Tell us about your project and business context</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Project Name</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Project Name</label>
                 <input
                   type="text"
                   value={formData.project?.name || ""}
                   onChange={(e) => updateFormData("project", "name", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Q4 Product Launch Campaign"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Core Idea</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Core Idea</label>
                 <textarea
                   value={formData.project?.core_idea || ""}
                   onChange={(e) => updateFormData("project", "core_idea", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="What's the core concept or idea behind this campaign?"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Business Context</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Business Context</label>
                 <textarea
                   value={formData.project?.business_context || ""}
                   onChange={(e) => updateFormData("project", "business_context", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="Describe the business context, challenges, and opportunities"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Timeline</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Timeline</label>
                 <input
                   type="text"
                   value={formData.project?.timeline || ""}
                   onChange={(e) => updateFormData("project", "timeline", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., 3 months (Oct-Dec 2024)"
                 />
               </div>
@@ -181,57 +181,57 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
 
       case 1: // Brand
         return (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
+          <div className="space-y-4">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">What is your brand?</h3>
               <p className="text-slate-400">Define your brand identity and positioning</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Brand Name</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Brand Name</label>
                 <input
                   type="text"
                   value={formData.brand?.name || ""}
                   onChange={(e) => updateFormData("brand", "name", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., TechFlow Solutions"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Brand Description</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Brand Description</label>
                 <textarea
                   value={formData.brand?.description || ""}
                   onChange={(e) => updateFormData("brand", "description", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="Describe what your brand does and stands for"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Brand Values (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Brand Values (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("brand", "values")}
                   onChange={(e) => updateArrayField("brand", "values", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Innovation, Trust, Sustainability"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Brand Personality</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Brand Personality</label>
                 <input
                   type="text"
                   value={formData.brand?.personality || ""}
                   onChange={(e) => updateFormData("brand", "personality", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Professional yet approachable, Innovative, Reliable"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Brand Positioning</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Brand Positioning</label>
                 <textarea
                   value={formData.brand?.positioning || ""}
                   onChange={(e) => updateFormData("brand", "positioning", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="How do you want to be positioned in the market relative to competitors?"
                 />
               </div>
@@ -242,56 +242,56 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 2: // Product
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">What product do you want to use?</h3>
               <p className="text-slate-400">Describe your product and its unique value</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Product Name</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Product Name</label>
                 <input
                   type="text"
                   value={formData.product?.name || ""}
                   onChange={(e) => updateFormData("product", "name", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., SmartFlow Pro"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Product Description</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Product Description</label>
                 <textarea
                   value={formData.product?.description || ""}
                   onChange={(e) => updateFormData("product", "description", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="Describe what your product does and how it works"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Key Features (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Key Features (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("product", "features")}
                   onChange={(e) => updateArrayField("product", "features", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Real-time analytics, Cloud sync, Mobile app"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Key Benefits (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Key Benefits (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("product", "benefits")}
                   onChange={(e) => updateArrayField("product", "benefits", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Saves time, Increases productivity, Reduces errors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Unique Selling Proposition</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Unique Selling Proposition</label>
                 <textarea
                   value={formData.product?.unique_selling_proposition || ""}
                   onChange={(e) => updateFormData("product", "unique_selling_proposition", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="What makes your product unique and different from competitors?"
                 />
               </div>
@@ -302,67 +302,67 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 3: // Target Audience
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">What is the target audience?</h3>
               <p className="text-slate-400">Define who you're targeting and their characteristics</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Primary Demographics</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Primary Demographics</label>
                 <input
                   type="text"
                   value={formData.audience?.primary_demographics || ""}
                   onChange={(e) => updateFormData("audience", "primary_demographics", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Ages 25-45, Urban professionals, $50k+ income"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Psychographics</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Psychographics</label>
                 <textarea
                   value={formData.audience?.psychographics || ""}
                   onChange={(e) => updateFormData("audience", "psychographics", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="Describe their attitudes, values, interests, and lifestyle"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Pain Points (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Pain Points (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("audience", "pain_points")}
                   onChange={(e) => updateArrayField("audience", "pain_points", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Time constraints, Complex processes, High costs"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Motivations (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Motivations (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("audience", "motivations")}
                   onChange={(e) => updateArrayField("audience", "motivations", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Career advancement, Work-life balance, Efficiency"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Behaviors (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Behaviors (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("audience", "behaviors")}
                   onChange={(e) => updateArrayField("audience", "behaviors", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Early adopters, Research-heavy buyers, Social media active"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Media Consumption (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Media Consumption (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("audience", "media_consumption")}
                   onChange={(e) => updateArrayField("audience", "media_consumption", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., LinkedIn, Industry blogs, Podcasts, YouTube"
                 />
               </div>
@@ -373,47 +373,47 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 4: // Objectives & Success
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">Objectives & Success</h3>
               <p className="text-slate-400">Define intent and SMART targets</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Campaign Intent</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Campaign Intent</label>
                 <textarea
                   value={formData.objectives?.intent || ""}
                   onChange={(e) => updateFormData("objectives", "intent", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="What is the primary intent of this campaign?"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">SMART Targets (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">SMART Targets (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("objectives", "smart_targets")}
                   onChange={(e) => updateArrayField("objectives", "smart_targets", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Increase signups by 25% in Q4, Generate 1000 qualified leads"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Success Metrics (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Success Metrics (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("objectives", "success_metrics")}
                   onChange={(e) => updateArrayField("objectives", "success_metrics", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Conversion rate, Engagement rate, Brand awareness"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Key Performance Indicators (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Key Performance Indicators (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("objectives", "kpis")}
                   onChange={(e) => updateArrayField("objectives", "kpis", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., CTR, CPC, ROAS, LTV"
                 />
               </div>
@@ -424,22 +424,22 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 5: // Creative Spine
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">Creative Spine</h3>
               <p className="text-slate-400">Campaign trends and creative references</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Trend Connection</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Trend Connection</label>
                 <textarea
                   value={formData.creative_spine?.trend_connection || ""}
                   onChange={(e) => updateFormData("creative_spine", "trend_connection", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="Is this campaign tied to any current trends? Describe the connection."
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Creative References</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Creative References</label>
                 <div className="border-2 border-dashed border-slate-600 rounded-xl p-8 text-center">
                   <div className="text-slate-400 mb-4">
                     <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -468,11 +468,11 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Visual Direction</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Visual Direction</label>
                 <textarea
                   value={formData.creative_spine?.visual_direction || ""}
                   onChange={(e) => updateFormData("creative_spine", "visual_direction", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="Describe the visual direction, mood, and aesthetic for the campaign"
                 />
               </div>
@@ -483,48 +483,48 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 6: // Channels & Formats
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">Channels & Formats</h3>
               <p className="text-slate-400">Platform, format, and creative constraints</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Platforms (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Platforms (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("channels_formats", "platforms")}
                   onChange={(e) => updateArrayField("channels_formats", "platforms", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Facebook, Instagram, LinkedIn, Google Ads"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Formats (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Formats (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("channels_formats", "formats")}
                   onChange={(e) => updateArrayField("channels_formats", "formats", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Video ads, Carousel posts, Static images, Stories"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Creative Constraints (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Creative Constraints (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("channels_formats", "creative_constraints")}
                   onChange={(e) => updateArrayField("channels_formats", "creative_constraints", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., 15-second max, Square format, No text overlay"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Technical Requirements (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Technical Requirements (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("channels_formats", "technical_requirements")}
                   onChange={(e) => updateArrayField("channels_formats", "technical_requirements", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., 1080x1080px, MP4 format, 30fps"
                 />
               </div>
@@ -535,57 +535,57 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 7: // Budget & Guardrails
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">Budget & Guardrails</h3>
               <p className="text-slate-400">Budget allocation and requirements</p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 p-1">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Budget Amount</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Budget Amount</label>
                 <input
                   type="text"
                   value={formData.budget_guardrails?.budget_amount || ""}
                   onChange={(e) => updateFormData("budget_guardrails", "budget_amount", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., $50,000"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Budget Allocation</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Budget Allocation</label>
                 <textarea
                   value={formData.budget_guardrails?.budget_allocation || ""}
                   onChange={(e) => updateFormData("budget_guardrails", "budget_allocation", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                   placeholder="How do you want to allocate the budget across channels and activities?"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Must Include (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Must Include (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("budget_guardrails", "must_include")}
                   onChange={(e) => updateArrayField("budget_guardrails", "must_include", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., Brand logo, Legal disclaimer, Contact information"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Restrictions (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Restrictions (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("budget_guardrails", "restrictions")}
                   onChange={(e) => updateArrayField("budget_guardrails", "restrictions", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., No competitor mentions, No political content"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">Compliance Requirements (comma-separated)</label>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Compliance Requirements (comma-separated)</label>
                 <input
                   type="text"
                   value={getArrayValue("budget_guardrails", "compliance_requirements")}
                   onChange={(e) => updateArrayField("budget_guardrails", "compliance_requirements", e.target.value)}
-                  className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full p-4 bg-slate-900 border border-slate-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                   placeholder="e.g., GDPR compliance, Industry regulations, Accessibility standards"
                 />
               </div>
@@ -596,42 +596,42 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
       case 8: // Review
         return (
             <div className="space-y-4">
-            <div className="text-center mb-6">
+            <div className="text-center mb-4">
               <h3 className="text-2xl font-bold text-white mb-2">Review Answers</h3>
               <p className="text-slate-400">Review all your inputs before generating the brief</p>
             </div>
-            <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8">
+            <div className="p-8">
               <h4 className="text-xl font-semibold text-white mb-6 text-center">Summary of Your Brief</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-blue-400">Project:</strong> 
                   <span className="text-slate-300 ml-2">{formData.project?.name || "Not specified"}</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-green-400">Brand:</strong> 
                   <span className="text-slate-300 ml-2">{formData.brand?.name || "Not specified"}</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-purple-400">Product:</strong> 
                   <span className="text-slate-300 ml-2">{formData.product?.name || "Not specified"}</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-orange-400">Audience:</strong> 
                   <span className="text-slate-300 ml-2">{formData.audience?.primary_demographics || "Not specified"}</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-pink-400">Intent:</strong> 
                   <span className="text-slate-300 ml-2">{formData.objectives?.intent ? "Defined" : "Not specified"}</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-cyan-400">Platforms:</strong> 
                   <span className="text-slate-300 ml-2">{formData.channels_formats?.platforms?.length || 0} platforms specified</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-yellow-400">Budget:</strong> 
                   <span className="text-slate-300 ml-2">{formData.budget_guardrails?.budget_amount || "Not specified"}</span>
                 </div>
-                <div className="bg-slate-800 p-4 rounded-xl">
+                <div className="bg-slate-900 p-4 rounded-xl">
                   <strong className="text-red-400">Timeline:</strong> 
                   <span className="text-slate-300 ml-2">{formData.project?.timeline || "Not specified"}</span>
                 </div>
@@ -704,7 +704,7 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                 index <= currentStep 
                   ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg' 
-                  : 'bg-slate-800 text-slate-400 border border-slate-700'
+                  : 'bg-slate-900 text-slate-400 border border-slate-700'
               }`}>
                 {step.icon}
               </div>
@@ -716,15 +716,11 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
             </div>
           ))}
         </div>
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white mb-2">{steps[currentStep].title}</h2>
-          <p className="text-slate-400 text-sm">{steps[currentStep].description}</p>
-        </div>
       </div>
 
       {/* Step Content */}
       <div className="flex-1 flex flex-col min-h-0">
-        <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto p-2">
           {renderStep()}
         </div>
 
@@ -733,7 +729,7 @@ export default function BriefWizard({ onComplete }: BriefWizardProps) {
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
-            className="px-6 py-2 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-800/50 disabled:cursor-not-allowed text-white rounded-xl font-semibold transition-all duration-200 border border-slate-600 hover:border-slate-500"
+            className="px-6 py-2 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-900/50 disabled:cursor-not-allowed text-white rounded-xl font-semibold transition-all duration-200 border border-slate-700 hover:border-slate-600"
           >
             Previous
           </button>

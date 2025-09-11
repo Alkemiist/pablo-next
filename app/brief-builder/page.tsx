@@ -13,6 +13,100 @@ export default function BriefBuilder() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const generateFallbackBrief = (intake: BriefIntake): MarketingBrief => {
+    return {
+      project: {
+        name: intake.project?.name || "Marketing Campaign",
+        core_idea: intake.project?.core_idea || "Campaign core idea",
+        business_context: intake.project?.business_context || "Campaign launch",
+        timeline: intake.project?.timeline || "Q1 2024"
+      },
+      brand: {
+        name: intake.brand?.name || "Brand",
+        description: intake.brand?.description || "Brand description",
+        values: intake.brand?.values || ["Value 1", "Value 2"],
+        personality: intake.brand?.personality || "Professional",
+        positioning: intake.brand?.positioning || "Market positioning"
+      },
+      product: {
+        name: intake.product?.name || "Product",
+        description: intake.product?.description || "Product description",
+        features: intake.product?.features || ["Feature 1", "Feature 2"],
+        benefits: intake.product?.benefits || ["Benefit 1", "Benefit 2"],
+        unique_selling_proposition: intake.product?.unique_selling_proposition || "Unique value proposition"
+      },
+      audience: {
+        primary_demographics: intake.audience?.primary_demographics || "Target audience",
+        psychographics: intake.audience?.psychographics || "Audience psychographics",
+        pain_points: intake.audience?.pain_points || ["Pain point 1", "Pain point 2"],
+        motivations: intake.audience?.motivations || ["Motivation 1", "Motivation 2"],
+        behaviors: intake.audience?.behaviors || ["Behavior 1", "Behavior 2"],
+        media_consumption: intake.audience?.media_consumption || ["Social Media", "Web"]
+      },
+      objectives: {
+        intent: intake.objectives?.intent || "Increase brand awareness and engagement",
+        smart_targets: intake.objectives?.smart_targets || ["Target 1", "Target 2"],
+        success_metrics: intake.objectives?.success_metrics || ["Metric 1", "Metric 2"],
+        kpis: intake.objectives?.kpis || ["KPI 1", "KPI 2"]
+      },
+      creative_spine: {
+        trend_connection: intake.creative_spine?.trend_connection || "Trend connection",
+        creative_references: intake.creative_spine?.creative_references || [],
+        mood_boards: intake.creative_spine?.mood_boards || [],
+        visual_direction: intake.creative_spine?.visual_direction || "Visual direction"
+      },
+      channels_formats: {
+        platforms: intake.channels_formats?.platforms || ["Social Media", "Web"],
+        formats: intake.channels_formats?.formats || ["Video", "Image"],
+        creative_constraints: intake.channels_formats?.creative_constraints || [],
+        technical_requirements: intake.channels_formats?.technical_requirements || []
+      },
+      budget_guardrails: {
+        budget_amount: intake.budget_guardrails?.budget_amount || "TBD",
+        budget_allocation: intake.budget_guardrails?.budget_allocation || "TBD",
+        must_include: intake.budget_guardrails?.must_include || [],
+        restrictions: intake.budget_guardrails?.restrictions || [],
+        compliance_requirements: intake.budget_guardrails?.compliance_requirements || []
+      },
+      outputs: {
+        exec_summary: `This campaign aims to ${intake.objectives?.intent || "achieve marketing goals"} for ${intake.brand?.name || "our brand"} targeting ${intake.audience?.primary_demographics || "our target audience"}.`,
+        big_idea: `The core creative concept: ${intake.product?.unique_selling_proposition || "Highlighting our unique value proposition"}`,
+        creative_territories: [
+          {
+            name: "Territory 1",
+            description: "First creative direction based on your inputs",
+            example_hook: "Hook example for this territory"
+          },
+          {
+            name: "Territory 2", 
+            description: "Second creative direction based on your inputs",
+            example_hook: "Hook example for this territory"
+          }
+        ],
+        journey_map: [
+          {
+            stage: "Awareness",
+            message: "Introduce the brand and product",
+            asset: "Social media post",
+            kpi: "Reach"
+          },
+          {
+            stage: "Consideration",
+            message: "Highlight benefits and features",
+            asset: "Video ad",
+            kpi: "Engagement"
+          },
+          {
+            stage: "Conversion",
+            message: "Call to action and offer",
+            asset: "Landing page",
+            kpi: "Conversion Rate"
+          }
+        ]
+      }
+    };
+  };
+
   const handleWizardComplete = (data: BriefIntake) => {
     setIntakeData(data);
     setAppState("generating");
@@ -20,36 +114,72 @@ export default function BriefBuilder() {
   };
 
   const generateBrief = async (intake: BriefIntake) => {
+    console.log("🚀 Starting brief generation with data:", intake);
     setIsLoading(true);
     setError(null);
 
     try {
+      console.log("📡 Making API call to /api/generate-brief");
       const response = await fetch("/api/generate-brief", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(intake),
       });
 
+      console.log("📡 API Response status:", response.status);
+      console.log("📡 API Response headers:", Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorText = await response.text();
+        console.error("❌ API Error Response:", errorText);
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch (e) {
+          errorData = { error: errorText };
+        }
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
       }
 
       // Parse the JSON response directly
       const parsedBrief = await response.json();
+      console.log("✅ Successfully parsed brief:", parsedBrief);
       
-      // Validate that the brief has the required structure
-      if (!parsedBrief || !parsedBrief.project || !parsedBrief.project.title) {
-        throw new Error("Generated brief is missing required fields");
+      // More flexible validation - just check if we got something back
+      if (!parsedBrief || typeof parsedBrief !== 'object') {
+        throw new Error("Generated brief is not a valid object");
       }
       
+      // If it has a project field, great. If not, we'll still show it
+      if (parsedBrief.project) {
+        console.log("✅ Brief has project field");
+      } else {
+        console.log("⚠️ Brief missing project field, but continuing...");
+      }
+      
+      console.log("🎉 Setting generated brief and moving to review");
       setGeneratedBrief(parsedBrief);
       setAppState("review");
       
     } catch (err: any) {
-      console.error("Generation error:", err);
-      setError(err.message || "Failed to generate brief");
-      setAppState("wizard");
+      console.error("💥 Generation error:", err);
+      console.error("💥 Error details:", {
+        message: err.message,
+        stack: err.stack,
+        name: err.name,
+        cause: err.cause
+      });
+      
+      // Generate a fallback brief so user gets something
+      console.log("🔄 Generating fallback brief...");
+      const fallbackBrief = generateFallbackBrief(intake);
+      console.log("🔄 Fallback brief generated:", fallbackBrief);
+      
+      setGeneratedBrief(fallbackBrief);
+      setAppState("review");
+      
+      // Show a warning but don't fail
+      setError("AI generation failed, but here's a basic brief based on your inputs. You can edit it in the review section.");
     } finally {
       setIsLoading(false);
     }

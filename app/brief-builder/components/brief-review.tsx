@@ -15,7 +15,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
   const [activeSection, setActiveSection] = useState<string>("overview");
 
   // Safety check to ensure brief has required structure
-  if (!brief || !brief.project || !brief.project.name) {
+  if (!brief || !brief.project) {
     return (
       <div className="max-w-4xl mx-auto p-6 text-center">
         <div className="bg-slate-900 border border-red-500/20 rounded-2xl p-8">
@@ -56,7 +56,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
       const url = URL.createObjectURL(dataBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `marketing-brief-${brief.project.title.replace(/\s+/g, '-').toLowerCase()}.json`;
+      link.download = `marketing-brief-${(brief.project.title || brief.project.name).replace(/\s+/g, '-').toLowerCase()}.json`;
       link.click();
       URL.revokeObjectURL(url);
     } else if (format === 'pdf') {
@@ -70,7 +70,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
       doc.setFontSize(14);
       doc.text('Project Details', 20, 40);
       doc.setFontSize(12);
-      doc.text(`Title: ${editedBrief.project.title}`, 20, 50);
+      doc.text(`Title: ${editedBrief.project.title || editedBrief.project.name}`, 20, 50);
       doc.text(`Launch Window: ${editedBrief.project.launch_window}`, 20, 60);
       doc.text(`Owner: ${editedBrief.project.owner}`, 20, 70);
       
@@ -94,7 +94,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
       doc.text(editedBrief.outputs.big_idea, 20, 170);
       
       // Save the PDF
-      doc.save(`marketing-brief-${brief.project.title.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+      doc.save(`marketing-brief-${(brief.project.title || brief.project.name).replace(/\s+/g, '-').toLowerCase()}.pdf`);
     }
   };
 
@@ -134,7 +134,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">
                 <h4 className="font-semibold text-blue-400 mb-3 text-lg">Project Summary</h4>
-                <p className="text-white text-lg font-medium">{brief.project.title}</p>
+                <p className="text-white text-lg font-medium">{brief.project.title || brief.project.name}</p>
                 <p className="text-slate-300 text-sm mt-2">{brief.project.business_context}</p>
               </div>
               <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">

@@ -9,12 +9,13 @@ export const BriefJsonSchema = {
         type: "object",
         additionalProperties: false,
         properties: {
+          title: { type: "string" },
           name: { type: "string" },
-          core_idea: { type: "string" },
-          business_context: { type: "string" },
-          timeline: { type: "string" }
+          launch_window: { type: "string" },
+          owner: { type: "string" },
+          business_context: { type: "string" }
         },
-        required: ["name", "core_idea", "business_context", "timeline"]
+        required: ["business_context"]
       },
       
       // Page 2: Brand
@@ -22,157 +23,105 @@ export const BriefJsonSchema = {
         type: "object",
         additionalProperties: false,
         properties: {
-          name: { type: "string" },
-          description: { type: "string" },
-          values: {
+          role: { type: "string" },
+          positioning: { type: "string" },
+          competitors: {
             type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          personality: { type: "string" },
-          positioning: { type: "string" }
+            items: { type: "string" }
+          }
         },
-        required: ["name", "description", "values", "personality", "positioning"]
+        required: []
       },
       
-      // Page 3: Product
-      product: {
+      // Page 3: Objective
+      objective: {
         type: "object",
         additionalProperties: false,
         properties: {
-          name: { type: "string" },
-          description: { type: "string" },
-          features: {
+          smart: { type: "string" },
+          primary_kpis: {
             type: "array",
-            items: { type: "string" },
-            minItems: 1
+            items: { type: "string" }
           },
-          benefits: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          unique_selling_proposition: { type: "string" }
+          targets: { type: "string" },
+          learning_goal: { type: "string" }
         },
-        required: ["name", "description", "features", "benefits", "unique_selling_proposition"]
+        required: []
       },
       
-      // Page 4: Target Audience
+      // Page 4: Audience
       audience: {
         type: "object",
         additionalProperties: false,
         properties: {
-          primary_demographics: { type: "string" },
-          psychographics: { type: "string" },
-          pain_points: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          motivations: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          behaviors: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          media_consumption: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-          }
+          descriptor: { type: "string" },
+          pain_tension: { type: "string" },
+          current_emotion: { type: "string" },
+          desired_emotion: { type: "string" },
+          desired_action: { type: "string" }
         },
-        required: ["primary_demographics", "psychographics", "pain_points", "motivations", "behaviors", "media_consumption"]
+        required: []
       },
       
-      // Page 5: Objectives & Success
-      objectives: {
+      // Page 5: Insight
+      insight: { type: "string" },
+      
+      // Page 6: Message
+      message: {
         type: "object",
         additionalProperties: false,
         properties: {
-          intent: { type: "string" },
-          smart_targets: {
+          smp: { type: "string" },
+          reasons_to_believe: {
             type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          success_metrics: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          kpis: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
+            items: { type: "string" }
           }
         },
-        required: ["intent", "smart_targets", "success_metrics", "kpis"]
+        required: []
       },
       
-      // Page 6: Creative Spine
-      creative_spine: {
+      // Page 7: Tone & Style
+      tone_style: {
         type: "object",
         additionalProperties: false,
         properties: {
-          trend_connection: { type: "string" },
-          visual_direction: { type: "string" }
+          tone_tags: {
+            type: "array",
+            items: { type: "string" }
+          },
+          mood_tags: {
+            type: "array",
+            items: { type: "string" }
+          },
+          avoid: {
+            type: "array",
+            items: { type: "string" }
+          }
         },
-        required: ["trend_connection", "visual_direction"]
+        required: []
       },
       
-      // Page 7: Channels & Formats
+      // Page 8: Channels & Formats
       channels_formats: {
         type: "object",
         additionalProperties: false,
         properties: {
-          platforms: {
+          channels: {
             type: "array",
-            items: { type: "string" },
-            minItems: 1
+            items: { type: "string" }
           },
           formats: {
             type: "array",
-            items: { type: "string" },
-            minItems: 1
-          },
-          creative_constraints: {
-            type: "array",
             items: { type: "string" }
           },
-          technical_requirements: {
+          constraints: {
             type: "array",
             items: { type: "string" }
           }
         },
-        required: ["platforms", "formats"]
+        required: []
       },
       
-      // Page 8: Budget & Guardrails
-      budget_guardrails: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-          budget_amount: { type: "string" },
-          budget_allocation: { type: "string" },
-          must_include: {
-            type: "array",
-            items: { type: "string" }
-          },
-          restrictions: {
-            type: "array",
-            items: { type: "string" }
-          },
-          compliance_requirements: {
-            type: "array",
-            items: { type: "string" }
-          }
-        },
-        required: ["budget_amount", "budget_allocation"]
-      },
       
       // Generated outputs
       outputs: {
@@ -235,18 +184,18 @@ export const BriefJsonSchema = {
             }
           }
         },
-        required: ["exec_summary", "big_idea", "creative_territories", "journey_map"]
+        required: []
       }
     },
     required: [
       "project",
       "brand",
-      "product",
+      "objective",
       "audience",
-      "objectives",
-      "creative_spine",
+      "insight",
+      "message",
+      "tone_style",
       "channels_formats",
-      "budget_guardrails",
       "outputs"
     ]
   },

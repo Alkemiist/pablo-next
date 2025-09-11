@@ -12,8 +12,9 @@ Rules:
 - Use the user's input exactly; do not fabricate data.
 - Output MUST conform to the provided JSON Schema; no extra fields.
 - Avoid generic platitudes; prefer specific, testable guidance.
-- Include the complete structure: project, objective, audience, insight, brand, message, tone_style, channels_formats, culture_creative, budget_legal, AND outputs.
+- Include the complete structure: project, brand, objective, audience, insight, message, tone_style, channels_formats, AND outputs.
 - The outputs section should contain: exec_summary, big_idea, creative_territories, journey_map, test_plan, and kpi_dashboard.
+- Transform the user's input data into the expected output format while preserving all information.
 `;
 
 export function userPromptFromIntake(intake: BriefIntake) {
