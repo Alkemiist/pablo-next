@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface StreamlinedWizardProps {
   onComplete: (data: StreamlinedBriefIntake) => void;
+  initialData?: StreamlinedBriefIntake;
 }
 
 const steps = [
@@ -28,9 +29,9 @@ const steps = [
   }
 ];
 
-export default function StreamlinedWizard({ onComplete }: StreamlinedWizardProps) {
+export default function StreamlinedWizard({ onComplete, initialData }: StreamlinedWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<StreamlinedBriefIntake>({
+  const [formData, setFormData] = useState<StreamlinedBriefIntake>(initialData || {
     project_name: "",
     core_idea: "",
     business_challenge: "",

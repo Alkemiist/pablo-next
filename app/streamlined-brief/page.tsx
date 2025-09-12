@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StreamlinedWizard from "../brief-builder/components/streamlined-wizard";
 import BriefDocument from "../brief-builder/components/brief-document";
 import { StreamlinedBriefIntake, MarketingBriefDocument } from "@/lib/streamlined-brief-types";
@@ -12,12 +12,64 @@ export default function StreamlinedBriefPage() {
   const [generatedBrief, setGeneratedBrief] = useState<MarketingBriefDocument | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [progressState, setProgressState] = useState({
+    currentStep: 0
+  });
 
   const handleWizardComplete = (data: StreamlinedBriefIntake) => {
     setIntakeData(data);
     setAppState("generating");
+    setProgressState({
+      currentStep: 0
+    });
     generateBrief(data);
   };
+
+  // Dynamic progress animation
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const progressSteps = [
+      { duration: 4000, message: 'Decrypting strategic inputs' },
+      { duration: 5000, message: 'Analyzing target demographics' },
+      { duration: 6000, message: 'Building competitive intelligence matrix' },
+      { duration: 7000, message: 'Generating tactical brief protocols' },
+      { duration: 4000, message: 'Establishing secure channels' },
+      { duration: 1000, message: 'Finalizing brief compilation' }
+    ];
+
+    let currentStepIndex = 0;
+    const startTime = Date.now();
+
+    const updateProgress = () => {
+      const elapsed = Date.now() - startTime;
+      const currentStep = progressSteps[currentStepIndex];
+      
+      if (currentStep && elapsed < currentStep.duration) {
+        setProgressState(prev => ({
+          ...prev,
+          currentStep: currentStepIndex
+        }));
+      } else if (currentStepIndex < progressSteps.length - 1) {
+        currentStepIndex++;
+        setProgressState(prev => ({
+          ...prev,
+          currentStep: currentStepIndex
+        }));
+      } else {
+        // All steps complete
+        setProgressState(prev => ({
+          ...prev,
+          currentStep: progressSteps.length
+        }));
+        return;
+      }
+
+      requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+  }, [isLoading]);
 
   const generateBrief = async (intake: StreamlinedBriefIntake) => {
     console.log("🚀 Starting streamlined brief generation with data:", intake);
@@ -67,9 +119,15 @@ export default function StreamlinedBriefPage() {
 
   const handleBackToWizard = () => {
     setAppState("wizard");
-    setIntakeData(null);
     setGeneratedBrief(null);
     setError(null);
+    // Keep intakeData intact so user can edit and regenerate
+  };
+
+  const handleBackToWizardFromGenerating = () => {
+    setAppState("wizard");
+    setError(null);
+    // Keep intakeData intact so user can edit and regenerate
   };
 
   const handleDiscardBrief = () => {
@@ -84,85 +142,122 @@ export default function StreamlinedBriefPage() {
         return (
           <div className="h-full flex flex-col">
             <div className="flex-1 overflow-y-auto">
-              <StreamlinedWizard onComplete={handleWizardComplete} />
+              <StreamlinedWizard onComplete={handleWizardComplete} initialData={intakeData || undefined} />
             </div>
           </div>
         );
 
       case "generating":
         return (
-          <div className="h-full flex items-center justify-center">
-            <div className="max-w-4xl mx-auto p-6 text-center">
-              <div className="mb-12">
-                <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  🤖 AI is Creating Your Marketing Brief - UPDATED!
-                </h1>
-                <p className="text-xl text-slate-300">Our AI strategist is analyzing your inputs and generating a comprehensive marketing brief...</p>
-              </div>
+          <div className="h-full bg-black relative overflow-hidden">
+            {/* Cyber Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 via-black to-blue-900/20"></div>
+            <div className="absolute inset-0 opacity-30">
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,0,0.1),transparent_50%)] animate-pulse"></div>
+            </div>
             
-            {isLoading && (
-              <div className="space-y-8">
-                <div className="relative">
-                  <div className="w-24 h-24 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin mx-auto"></div>
-                  <div className="absolute inset-0 w-24 h-24 border-4 border-transparent border-t-purple-500 rounded-full animate-spin mx-auto" style={{ animationDelay: '-0.5s' }}></div>
+            {/* Matrix-style falling characters */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute text-green-400/20 text-xs font-mono animate-pulse"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 3}s`,
+                    animationDuration: `${2 + Math.random() * 3}s`
+                  }}
+                >
+                  {Math.random() > 0.5 ? '1' : '0'}
                 </div>
-                
-                {/* Progress Steps */}
-                <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8 max-w-2xl mx-auto">
-                  <h3 className="text-lg font-semibold text-white mb-6">AI Generation Progress</h3>
-                  <div className="space-y-4 text-left">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm">✓</span>
-                      </div>
-                      <span className="text-slate-300">Analyzing your strategic inputs</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm">✓</span>
-                      </div>
-                      <span className="text-slate-300">Inferring audience insights and competitive landscape</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-6 h-6 bg-blue-500 rounded-full animate-pulse flex items-center justify-center">
-                        <span className="text-white text-sm">⟳</span>
-                      </div>
-                      <span className="text-slate-300">Developing creative strategy and brand positioning</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-6 h-6 bg-slate-700 rounded-full"></div>
-                      <span className="text-slate-500">Building channel strategy and customer journey</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-6 h-6 bg-slate-700 rounded-full"></div>
-                      <span className="text-slate-500">Creating measurement framework and implementation plan</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
-                  <p className="text-lg text-slate-300">This usually takes 30-60 seconds...</p>
-                  <div className="flex justify-center space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
 
-              {error && (
-                <div className="bg-slate-900 border border-red-500/20 rounded-2xl p-8 max-w-2xl mx-auto">
-                  <h3 className="text-2xl font-bold text-red-400 mb-4">Generation Failed</h3>
-                  <p className="text-red-300 mb-6 text-lg">{error}</p>
-                  <button
-                    onClick={handleBackToWizard}
-                    className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-200 hover:scale-105"
-                  >
-                    Back to Wizard
-                  </button>
-                </div>
-              )}
+            {/* Main Content */}
+            <div className="relative z-10 h-full flex items-center justify-center p-6">
+              <div className="w-full max-w-4xl">
+                {isLoading && (
+                  <div className="font-mono">
+                    {/* Terminal Header */}
+                    <div className="mb-8 pb-4 border-b border-green-400/30">
+                      <span className="text-green-400 text-sm drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]">
+                        {intakeData?.project_name ? 
+                          `${intakeData.project_name.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_INTELLIGENCE_TERMINAL v2.1.3` : 
+                          'MARKETING_INTELLIGENCE_TERMINAL v2.1.3'
+                        }
+                      </span>
+                    </div>
+
+                    {/* Single Terminal Loading Bar */}
+                    <div className="space-y-6">
+                      {/* Current Step Display */}
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-500 drop-shadow-[0_0_6px_rgba(34,197,94,0.6)]">$</span>
+                        <span className="text-green-300 drop-shadow-[0_0_6px_rgba(34,197,94,0.4)]">
+                          {progressState.currentStep === 0 && "Decrypting strategic inputs..."}
+                          {progressState.currentStep === 1 && "Analyzing target demographics..."}
+                          {progressState.currentStep === 2 && "Building competitive intelligence matrix..."}
+                          {progressState.currentStep === 3 && "Generating tactical brief protocols..."}
+                          {progressState.currentStep === 4 && "Establishing secure channels..."}
+                          {progressState.currentStep === 5 && "Finalizing brief compilation..."}
+                        </span>
+                        <span className="text-green-400 animate-pulse drop-shadow-[0_0_6px_rgba(34,197,94,0.6)]">[PROC]</span>
+                      </div>
+
+                      {/* Terminal Loading Bar */}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-xs text-green-400 drop-shadow-[0_0_4px_rgba(34,197,94,0.5)]">
+                          <span>Progress</span>
+                          <span>{Math.round(progressState.currentStep / 6 * 100)}%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-sm h-3 border border-gray-700">
+                          <div 
+                            className="bg-green-400 h-full rounded-sm transition-all duration-500 relative overflow-hidden drop-shadow-[0_0_8px_rgba(34,197,94,0.7)]"
+                            style={{ width: `${(progressState.currentStep / 6) * 100}%` }}
+                          >
+                            {/* Terminal-style loading animation */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-300 to-transparent animate-pulse"></div>
+                          </div>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-500">
+                          <span>0%</span>
+                          <span>100%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Terminal Status */}
+                    <div className="mt-8 space-y-2">
+                      <div className="text-xs text-green-300/80 space-y-1">
+                        <div className="animate-pulse drop-shadow-[0_0_4px_rgba(34,197,94,0.4)]">[SECURE] Neural pathways established ✓</div>
+                        <div className="animate-pulse drop-shadow-[0_0_4px_rgba(34,197,94,0.4)]" style={{ animationDelay: '0.3s' }}>[ENCRYPT] Data integrity verified ✓</div>
+                        <div className="animate-pulse drop-shadow-[0_0_4px_rgba(34,197,94,0.4)]" style={{ animationDelay: '0.6s' }}>[PROCESS] Brief generation in progress...</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="font-mono">
+                    <div className="mb-6 pb-3 border-b border-red-400/30">
+                      <span className="text-red-300 text-sm drop-shadow-[0_0_6px_rgba(239,68,68,0.5)]">ERROR_LOG_TERMINAL</span>
+                    </div>
+                    <div className="space-y-3 text-sm">
+                      <div className="text-red-300 drop-shadow-[0_0_4px_rgba(239,68,68,0.4)]">[ERROR] Mission failed to execute</div>
+                      <div className="text-red-400/70 drop-shadow-[0_0_4px_rgba(239,68,68,0.3)]">{error}</div>
+                      <div className="mt-6">
+                        <button
+                          onClick={handleBackToWizardFromGenerating}
+                          className="px-4 py-2 text-sm font-mono text-red-400 hover:text-red-300 transition-all duration-200 drop-shadow-[0_0_4px_rgba(239,68,68,0.4)]"
+                        >
+                          $ RETRY_MISSION
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
