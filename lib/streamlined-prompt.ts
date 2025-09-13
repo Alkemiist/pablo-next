@@ -53,8 +53,9 @@ Transform these inputs into a complete marketing brief document that includes:
 8. IMPLEMENTATION: Timeline, milestones, resources, and risk mitigation
 
 Use your expertise to:
+- Create a compelling persona name and detailed description that brings the target audience to life
 - Infer detailed demographics and psychographics from the audience description
-- Identify realistic competitors and market positioning
+- Identify 3-4 realistic competitors and market positioning
 - Develop creative territories that align with the brand and audience
 - Create channel strategies appropriate for the budget and timeline
 - Design KPIs that match the primary goal
@@ -80,6 +81,8 @@ Return your response as a valid JSON object with this structure:
   "strategic_foundation": {
     "business_context": "[Detailed business context]",
     "target_audience": {
+      "persona_name": "[Creative persona name like 'Tech-Savvy Millennials' or 'Urban Professionals']",
+      "persona_description": "[Detailed, engaging persona description that brings the audience to life]",
       "primary_demographics": "[Demographics]",
       "psychographics": "[Psychographics]",
       "pain_points": ["Pain point 1", "Pain point 2"],
@@ -87,7 +90,7 @@ Return your response as a valid JSON object with this structure:
       "media_consumption": ["Platform 1", "Platform 2"]
     },
     "competitive_landscape": {
-      "key_competitors": ["Competitor 1", "Competitor 2"],
+      "key_competitors": ["Competitor 1", "Competitor 2", "Competitor 3", "Competitor 4"],
       "competitive_advantage": "[Your advantage]",
       "market_positioning": "[Positioning statement]"
     }

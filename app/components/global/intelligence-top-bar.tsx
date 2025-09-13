@@ -39,7 +39,7 @@ export default function IntelligenceTopBar() {
 
                 {/* the search input */}
                 <input type="search" placeholder="Search" className="hidden lg:flex bg-slate-900 lg:w-1/4 border pl-12 border-slate-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-white transition-colors duration-300" />
-                <Search className="hidden lg:flex w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search className="hidden lg:flex w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 neon-icon" />
 
                 {/* the filter select */}
                 <Select>
@@ -76,14 +76,14 @@ export default function IntelligenceTopBar() {
                     onClick={ () => setCreateOpen( !createOpen ) }
                 >
                     Create
-                    <Plus className="w-4 h-4 mr-2" />
+                    <Plus className="w-4 h-4 mr-2 neon-icon" />
                 </button>
                 {
                     createOpen && (
                         <div ref={createRef} className="absolute flex flex-col border mt-14 md:w-60 bg-slate-900 border-slate-700 text-white rounded-md shadow-xl">
-                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing One <Image className="w-5 h-5 stroke-slate-600" /></a>
-                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing Two <Video className="w-5 h-5 stroke-slate-600" /></a>
-                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing Three <FileText className="w-5 h-5 stroke-slate-600" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing One <Image className="w-5 h-5 neon-icon" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing Two <Video className="w-5 h-5 neon-icon" /></a>
+                            <a href="#" className="hover:bg-slate-800 transition-colors duration-100 px-4 py-4 flex items-center justify-between">New Thing Three <FileText className="w-5 h-5 neon-icon" /></a>
                         </div>
                     )
                 }

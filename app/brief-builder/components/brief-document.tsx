@@ -14,24 +14,244 @@ export default function BriefDocument({ brief, onBack, onDiscard }: BriefDocumen
 
   const downloadPDF = () => {
     const doc = new jsPDF();
+    let yPosition = 20;
+    const pageHeight = doc.internal.pageSize.height;
+    const margin = 20;
+    const lineHeight = 7;
+    
+    // Helper function to add new page if needed
+    const checkPageBreak = (requiredSpace: number) => {
+      if (yPosition + requiredSpace > pageHeight - 20) {
+        doc.addPage();
+        yPosition = 20;
+      }
+    };
+    
+    // Helper function to add text with word wrapping
+    const addText = (text: string, fontSize: number, isBold = false, color = [0, 0, 0]) => {
+      doc.setFontSize(fontSize);
+      if (isBold) {
+        doc.setFont(undefined, 'bold');
+      } else {
+        doc.setFont(undefined, 'normal');
+      }
+      doc.setTextColor(color[0], color[1], color[2]);
+      
+      const lines = doc.splitTextToSize(text, 170);
+      doc.text(lines, margin, yPosition);
+      yPosition += lines.length * lineHeight + 5;
+    };
+    
+    // Helper function to add section header
+    const addSectionHeader = (title: string) => {
+      checkPageBreak(15);
+      yPosition += 10;
+      addText(title, 16, true, [255, 255, 255]);
+      yPosition += 5;
+    };
+    
+    // Helper function to add subsection
+    const addSubsection = (title: string, content: string) => {
+      checkPageBreak(20);
+      addText(title, 12, true, [255, 255, 255]);
+      addText(content, 10, false, [200, 200, 200]);
+      yPosition += 5;
+    };
+    
+    // Set background to black
+    doc.setFillColor(0, 0, 0);
+    doc.rect(0, 0, doc.internal.pageSize.width, doc.internal.pageSize.height, 'F');
     
     // Header
-    doc.setFontSize(20);
-    doc.text(brief.document_info.title, 20, 20);
-    
-    doc.setFontSize(12);
-    doc.text(`Generated: ${brief.document_info.generated_date}`, 20, 30);
-    doc.text(`Project: ${brief.document_info.project_name}`, 20, 35);
-    doc.text(`Brand: ${brief.document_info.brand_name}`, 20, 40);
+    addText(brief.document_info.title, 20, true, [255, 255, 255]);
+    addText(`Generated: ${brief.document_info.generated_date}`, 12, false, [150, 150, 150]);
+    addText(`Project: ${brief.document_info.project_name} | Brand: ${brief.document_info.brand_name}`, 12, false, [150, 150, 150]);
     
     // Executive Summary
-    doc.setFontSize(16);
-    doc.text('Executive Summary', 20, 55);
-    doc.setFontSize(10);
-    doc.text(`Challenge: ${brief.executive_summary.challenge}`, 20, 65);
-    doc.text(`Opportunity: ${brief.executive_summary.opportunity}`, 20, 75);
-    doc.text(`Strategy: ${brief.executive_summary.strategy}`, 20, 85);
-    doc.text(`Expected Outcome: ${brief.executive_summary.expected_outcome}`, 20, 95);
+    addSectionHeader('Executive Summary');
+    
+    addSubsection('Challenge', brief.executive_summary.challenge);
+    addSubsection('Opportunity', brief.executive_summary.opportunity);
+    addSubsection('Strategy', brief.executive_summary.strategy);
+    addSubsection('Expected Outcome', brief.executive_summary.expected_outcome);
+    
+    // Strategic Foundation
+    addSectionHeader('Strategic Foundation');
+    
+    addSubsection('Business Context', brief.strategic_foundation.business_context);
+    
+    // Target Audience
+    addText('Target Audience', 14, true, [255, 255, 255]);
+    yPosition += 5;
+    
+    // Persona Name and Description
+    addText(brief.strategic_foundation.target_audience.persona_name, 16, true, [100, 150, 255]);
+    addText(brief.strategic_foundation.target_audience.persona_description, 12, false, [200, 200, 255]);
+    yPosition += 10;
+    
+    // Demographics - handle both string and object formats
+    const demographicsText = typeof brief.strategic_foundation.target_audience.primary_demographics === 'string' 
+      ? brief.strategic_foundation.target_audience.primary_demographics
+      : Object.entries(brief.strategic_foundation.target_audience.primary_demographics)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join(', ');
+    addSubsection('Demographics', demographicsText);
+    // Psychographics - handle both string and object formats
+    const psychographicsText = typeof brief.strategic_foundation.target_audience.psychographics === 'string' 
+      ? brief.strategic_foundation.target_audience.psychographics
+      : Object.entries(brief.strategic_foundation.target_audience.psychographics)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join(', ');
+    addSubsection('Psychographics', psychographicsText);
+    
+    // Pain Points
+    addText('Pain Points:', 12, true, [255, 255, 255]);
+    brief.strategic_foundation.target_audience.pain_points.forEach(point => {
+      addText(`• ${point}`, 10, false, [200, 200, 200]);
+    });
+    yPosition += 5;
+    
+    // Motivations
+    addText('Motivations:', 12, true, [255, 255, 255]);
+    brief.strategic_foundation.target_audience.motivations.forEach(motivation => {
+      addText(`• ${motivation}`, 10, false, [200, 200, 200]);
+    });
+    yPosition += 5;
+    
+    // Competitive Landscape
+    addText('Competitive Landscape', 14, true, [255, 255, 255]);
+    yPosition += 5;
+    
+    addText('Key Competitors:', 12, true, [255, 255, 255]);
+    brief.strategic_foundation.competitive_landscape.key_competitors.forEach(competitor => {
+      addText(`• ${competitor}`, 10, false, [200, 200, 200]);
+    });
+    yPosition += 5;
+    
+    addSubsection('Competitive Advantage', brief.strategic_foundation.competitive_landscape.competitive_advantage);
+    addSubsection('Market Positioning', brief.strategic_foundation.competitive_landscape.market_positioning);
+    
+    // Brand & Positioning
+    addSectionHeader('Brand & Positioning');
+    
+    addSubsection('Brand Personality', brief.brand_positioning.brand_personality);
+    addSubsection('Brand Values', brief.brand_positioning.brand_values.join(', '));
+    addSubsection('Unique Selling Proposition', brief.brand_positioning.unique_selling_proposition);
+    addSubsection('Brand Voice', brief.brand_positioning.brand_voice);
+    addSubsection('Visual Direction', brief.brand_positioning.visual_direction);
+    
+    // Creative Strategy
+    addSectionHeader('Creative Strategy');
+    
+    addSubsection('Big Idea', brief.creative_strategy.big_idea);
+    addSubsection('Strategic Insight', brief.creative_strategy.strategic_insight);
+    
+    // Creative Territories
+    addText('Creative Territories', 14, true, [255, 255, 255]);
+    yPosition += 5;
+    
+    brief.creative_strategy.creative_territories.forEach((territory, index) => {
+      addText(`${territory.name}`, 12, true, [255, 255, 255]);
+      addText(territory.description, 10, false, [200, 200, 200]);
+      addText(`Example Hook: "${territory.example_hook}"`, 10, false, [150, 150, 150]);
+      yPosition += 5;
+    });
+    
+    // Key Messages
+    addText('Key Messages:', 12, true, [255, 255, 255]);
+    brief.creative_strategy.key_messages.forEach(message => {
+      addText(`• ${message}`, 10, false, [200, 200, 200]);
+    });
+    yPosition += 5;
+    
+    // Channel Strategy
+    addSectionHeader('Channel Strategy');
+    
+    brief.channel_strategy.primary_channels.forEach((channel, index) => {
+      addText(`${channel.channel}`, 12, true, [255, 255, 255]);
+      addText(`Objective: ${channel.objective}`, 10, false, [200, 200, 200]);
+      addText(`Budget Allocation: ${channel.budget_percentage}`, 10, false, [200, 200, 200]);
+      
+      addText('Key Metrics:', 10, true, [255, 255, 255]);
+      channel.key_metrics.forEach(metric => {
+        addText(`• ${metric}`, 10, false, [200, 200, 200]);
+      });
+      
+      addText('Creative Requirements:', 10, true, [255, 255, 255]);
+      channel.creative_requirements.forEach(req => {
+        addText(`• ${req}`, 10, false, [200, 200, 200]);
+      });
+      yPosition += 10;
+    });
+    
+    // Customer Journey
+    addSectionHeader('Customer Journey');
+    
+    Object.entries(brief.customer_journey).forEach(([stage, data]) => {
+      addText(stage.charAt(0).toUpperCase() + stage.slice(1), 12, true, [255, 255, 255]);
+      addText(`Audience State: ${data.audience_state}`, 10, false, [200, 200, 200]);
+      addText(`Key Message: ${data.key_message}`, 10, false, [200, 200, 200]);
+      
+      addText('Touchpoints:', 10, true, [255, 255, 255]);
+      data.touchpoints.forEach(touchpoint => {
+        addText(`• ${touchpoint}`, 10, false, [200, 200, 200]);
+      });
+      
+      addText('Assets Needed:', 10, true, [255, 255, 255]);
+      data.assets_needed.forEach(asset => {
+        addText(`• ${asset}`, 10, false, [200, 200, 200]);
+      });
+      yPosition += 10;
+    });
+    
+    // Measurement Framework
+    addSectionHeader('Measurement Framework');
+    
+    addText('Primary KPIs', 14, true, [255, 255, 255]);
+    yPosition += 5;
+    
+    brief.measurement_framework.primary_kpis.forEach((kpi, index) => {
+      addText(`${kpi.kpi} - Target: ${kpi.target}`, 12, true, [255, 255, 255]);
+      addText(`Method: ${kpi.measurement_method}`, 10, false, [200, 200, 200]);
+      addText(`Timeframe: ${kpi.timeframe}`, 10, false, [200, 200, 200]);
+      addText(`Baseline: ${kpi.baseline}`, 10, false, [200, 200, 200]);
+      yPosition += 5;
+    });
+    
+    // Test Plan
+    addText('Test Plan', 14, true, [255, 255, 255]);
+    yPosition += 5;
+    
+    brief.measurement_framework.test_plan.forEach((test, index) => {
+      addText(`Hypothesis: ${test.hypothesis}`, 12, true, [255, 255, 255]);
+      addText(`Variant A: ${test.variant_a}`, 10, false, [200, 200, 200]);
+      addText(`Variant B: ${test.variant_b}`, 10, false, [200, 200, 200]);
+      addText(`Success Metric: ${test.success_metric}`, 10, false, [200, 200, 200]);
+      addText(`Timeline: ${test.timeline}`, 10, false, [200, 200, 200]);
+      yPosition += 10;
+    });
+    
+    // Implementation
+    addSectionHeader('Implementation');
+    
+    addSubsection('Timeline', brief.implementation.timeline);
+    
+    addText('Key Milestones:', 12, true, [255, 255, 255]);
+    brief.implementation.key_milestones.forEach(milestone => {
+      addText(`• ${milestone}`, 10, false, [200, 200, 200]);
+    });
+    yPosition += 5;
+    
+    addText('Resource Requirements:', 12, true, [255, 255, 255]);
+    brief.implementation.resource_requirements.forEach(resource => {
+      addText(`• ${resource}`, 10, false, [200, 200, 200]);
+    });
+    yPosition += 5;
+    
+    addText('Risk Mitigation:', 12, true, [255, 255, 255]);
+    brief.implementation.risk_mitigation.forEach(risk => {
+      addText(`• ${risk}`, 10, false, [200, 200, 200]);
+    });
     
     // Save the PDF
     doc.save(`marketing-brief-${brief.document_info.project_name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
@@ -132,14 +352,41 @@ export default function BriefDocument({ brief, onBack, onDiscard }: BriefDocumen
             {/* Target Audience */}
             <div>
               <h3 className="text-xl font-semibold text-white mb-6">Target Audience</h3>
+              
+              {/* Persona Header */}
+              <div className="bg-blue-900/20 border-l-4 border-blue-500 p-6 mb-8">
+                <h4 className="text-2xl font-bold text-white mb-3">{brief.strategic_foundation.target_audience.persona_name}</h4>
+                <p className="text-gray-200 text-lg leading-relaxed">{brief.strategic_foundation.target_audience.persona_description}</p>
+              </div>
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <h4 className="font-semibold text-white mb-3">Demographics</h4>
-                  <p className="text-gray-300">{brief.strategic_foundation.target_audience.primary_demographics}</p>
+                  {typeof brief.strategic_foundation.target_audience.primary_demographics === 'string' ? (
+                    <p className="text-gray-300">{brief.strategic_foundation.target_audience.primary_demographics}</p>
+                  ) : (
+                    <div className="text-gray-300">
+                      {Object.entries(brief.strategic_foundation.target_audience.primary_demographics).map(([key, value]) => (
+                        <p key={key} className="mb-1">
+                          <span className="font-medium capitalize">{key}:</span> {String(value)}
+                        </p>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-semibold text-white mb-3">Psychographics</h4>
-                  <p className="text-gray-300">{brief.strategic_foundation.target_audience.psychographics}</p>
+                  {typeof brief.strategic_foundation.target_audience.psychographics === 'string' ? (
+                    <p className="text-gray-300">{brief.strategic_foundation.target_audience.psychographics}</p>
+                  ) : (
+                    <div className="text-gray-300">
+                      {Object.entries(brief.strategic_foundation.target_audience.psychographics).map(([key, value]) => (
+                        <p key={key} className="mb-1">
+                          <span className="font-medium capitalize">{key}:</span> {String(value)}
+                        </p>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-semibold text-white mb-3">Pain Points</h4>

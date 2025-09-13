@@ -11,7 +11,7 @@ export default function AnalysisTopBar() {
     const pathname = usePathname();
 
     return (
-        <div className="bg-gray-950 p-4 border border-gray-800 flex justify-between items-center h-[60px]">
+        <div className="bg-gray-950 p-4 border border-green-800/30 flex justify-between items-center h-[60px]">
             
             {/* left section: profile image + name + date */}
             <div className="flex items-center gap-2">
@@ -57,10 +57,10 @@ export default function AnalysisTopBar() {
 
             {/* right section: cta stack */}
             <div className="flex items-center gap-2">
-                <button className="text-xs font-bold border border-gray-700 rounded-lg px-2 py-2 flex items-center gap-2 cursor-pointer hover:bg-gray-800 transition-all duration-300"><Bookmark size={14} className="" /></button>
-                <button className="text-xs font-bold border border-gray-700 rounded-lg px-6 py-2 flex items-center gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300">Subscribe<Rss size={14} className="" /></button>
-                <button className="text-xs font-bold border border-gray-700 rounded-lg px-6 py-2 flex items-center gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300">Refresh Data<RefreshCcw size={14} className="" /></button>
-                <button className="text-xs font-bold border border-gray-700 bg-blue-700 rounded-lg px-6 py-2 flex items-center gap-2 cursor-pointer hover:bg-blue-800 transition-all duration-300">Export<ArrowBigDownDash size={14} className="" /></button>
+                <button className="text-xs font-bold border border-green-800/30 rounded-lg px-2 py-2 flex items-center gap-2 cursor-pointer hover:bg-gray-800 transition-all duration-300"><Bookmark size={14} className="neon-icon" /></button>
+                <button className="text-xs font-bold border border-green-800/30 rounded-lg px-6 py-2 flex items-center gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300">Subscribe<Rss size={14} className="neon-icon" /></button>
+                <button className="text-xs font-bold border border-green-800/30 rounded-lg px-6 py-2 flex items-center gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300">Refresh Data<RefreshCcw size={14} className="neon-icon" /></button>
+                <button className="text-xs font-bold border border-green-800/30 bg-blue-700 rounded-lg px-6 py-2 flex items-center gap-2 cursor-pointer hover:bg-blue-800 transition-all duration-300">Export<ArrowBigDownDash size={14} className="neon-icon" /></button>
             </div>
 
         </div>

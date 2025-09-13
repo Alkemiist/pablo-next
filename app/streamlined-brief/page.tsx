@@ -211,7 +211,7 @@ export default function StreamlinedBriefPage() {
                           <span>Progress</span>
                           <span>{Math.round(progressState.currentStep / 6 * 100)}%</span>
                         </div>
-                        <div className="w-full bg-gray-800 rounded-sm h-3 border border-gray-700">
+                        <div className="w-full bg-gray-800 rounded-sm h-3 border border-green-800/30">
                           <div 
                             className="bg-green-400 h-full rounded-sm transition-all duration-500 relative overflow-hidden drop-shadow-[0_0_8px_rgba(34,197,94,0.7)]"
                             style={{ width: `${(progressState.currentStep / 6) * 100}%` }}

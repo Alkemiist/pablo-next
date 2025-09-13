@@ -21,10 +21,10 @@ export default function MarketplaceLayout({
     return (
         <div>
             {/* header bar */}
-            <div className="sticky top-0 z-50 flex flex-row items-center justify-center w-full h-16 border-b border-neutral-800 px-8 bg-black/95 backdrop-blur-sm">
+            <div className="sticky top-0 z-50 flex flex-row items-center justify-center w-full h-16 border-b border-green-800/30 px-8 bg-black/95 backdrop-blur-sm">
                 
                 {/* custom tabs: For me, general projects */}
-                <div className="bg-neutral-900 border border-neutral-800 rounded-xl flex">
+                <div className="bg-neutral-900 border border-green-800/30 rounded-xl flex">
                     <button
                         onClick={() => router.push("/marketplace")}
                         className={`px-8 py-2 rounded-lg transition-all duration-200 cursor-pointer font-medium text-sm ${

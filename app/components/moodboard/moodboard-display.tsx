@@ -42,7 +42,7 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
           {colors.map((color, index) => (
             <div
               key={index}
-              className="w-8 h-8 rounded-full border border-slate-600"
+              className="w-8 h-8 rounded-full border border-green-800/30"
               style={{ backgroundColor: color }}
               title={color}
             />
@@ -57,15 +57,15 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-900 border border-slate-700 p-6 rounded-2xl">
+      <div className="bg-slate-900 border border-green-800/30 p-6 rounded-2xl">
         <h1 className="text-2xl font-bold text-white">Marketing Campaign Moodboard</h1>
         <p className="text-slate-300 mt-2">{moodboard.briefEssentials.campaignGoal}</p>
       </div>
 
       {/* Brief Essentials */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <FileText className="w-5 h-5 text-blue-400" />
+          <FileText className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Brief Essentials</h2>
         </div>
         <div className="space-y-4">
@@ -97,9 +97,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Brand Guardrails */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Shield className="w-5 h-5 text-green-400" />
+          <Shield className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Brand Guardrails</h2>
         </div>
         <div className="space-y-6">
@@ -139,9 +139,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Creative Directions */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Palette className="w-5 h-5 text-purple-400" />
+          <Palette className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Creative Directions</h2>
         </div>
         <div className="space-y-6">
@@ -178,9 +178,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Visual System */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Type className="w-5 h-5 text-orange-400" />
+          <Type className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Visual System</h2>
         </div>
         <div className="space-y-6">
@@ -229,9 +229,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Imagery */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <ImageIcon className="w-5 h-5 text-pink-400" />
+          <ImageIcon className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Imagery</h2>
         </div>
         <div className="space-y-4">
@@ -263,9 +263,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Motion & Interaction */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Play className="w-5 h-5 text-yellow-400" />
+          <Play className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Motion & Interaction</h2>
         </div>
         <div className="space-y-4">
@@ -303,9 +303,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Copy Cues */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <FileText className="w-5 h-5 text-indigo-400" />
+          <FileText className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Copy Cues</h2>
         </div>
         <div className="space-y-4">
@@ -333,9 +333,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* References & Competitors */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Users className="w-5 h-5 text-teal-400" />
+          <Users className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">References & Competitors</h2>
         </div>
         <div className="space-y-4">
@@ -357,9 +357,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Accessibility & Inclusivity */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Shield className="w-5 h-5 text-emerald-400" />
+          <Shield className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Accessibility & Inclusivity</h2>
         </div>
         <div className="space-y-4">
@@ -387,9 +387,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
 
       {/* Production Notes */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Settings className="w-5 h-5 text-amber-400" />
+          <Settings className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Production Notes</h2>
         </div>
         <div className="space-y-4">
@@ -421,9 +421,9 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
       </div>
       
       {/* Governance */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6">
+      <div className="bg-slate-900 border border-green-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <Settings className="w-5 h-5 text-gray-400" />
+          <Settings className="w-5 h-5 neon-icon" />
           <h2 className="text-xl font-semibold text-white">Governance</h2>
         </div>
         <div className="space-y-4">

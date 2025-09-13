@@ -96,7 +96,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                   type="text"
                   value={formData.project_name}
                   onChange={(e) => updateFormData("project_name", e.target.value)}
-                  placeholder="e.g., 'The Future of Work' - Remote-First SaaS Launch Campaign"
+                  placeholder="e.g., Remote Work SaaS Launch"
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 m-1"
                 />
               </div>
@@ -106,7 +106,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.core_idea}
                   onChange={(e) => updateFormData("core_idea", e.target.value)}
-                  placeholder="e.g., 'Work from anywhere, achieve everywhere' - positioning remote work as the ultimate productivity hack for ambitious professionals who refuse to compromise between career growth and personal freedom"
+                  placeholder="e.g., 'Work from anywhere, achieve everywhere' - remote work as the ultimate productivity solution"
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>
@@ -116,7 +116,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.business_challenge}
                   onChange={(e) => updateFormData("business_challenge", e.target.value)}
-                  placeholder="e.g., 'We're losing top talent to competitors because our traditional office model feels outdated. Remote work isn't just a perk anymore—it's table stakes. We need to position ourselves as the forward-thinking company that attracts the best talent while maintaining our culture and productivity standards.'"
+                  placeholder="e.g., Losing top talent to competitors with outdated office policies. Need to position as forward-thinking company."
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>
@@ -126,7 +126,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.target_audience}
                   onChange={(e) => updateFormData("target_audience", e.target.value)}
-                  placeholder="e.g., 'Tech-savvy mid-level managers (28-35) at growing companies who are frustrated with rigid work policies. They value flexibility, work-life balance, and cutting-edge tools. They're decision-makers who influence team policies and have budget authority for productivity software.'"
+                  placeholder="e.g., Tech-savvy mid-level managers (28-35) frustrated with rigid work policies. Value flexibility and cutting-edge tools."
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>
@@ -175,7 +175,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.product_service}
                   onChange={(e) => updateFormData("product_service", e.target.value)}
-                  placeholder="e.g., 'FlexFlow is an all-in-one remote work platform that combines project management, team collaboration, and performance analytics. It helps distributed teams stay connected, productive, and accountable without the micromanagement that kills creativity.'"
+                  placeholder="e.g., All-in-one remote work platform combining project management, team collaboration, and performance analytics"
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>
@@ -185,7 +185,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.key_differentiator}
                   onChange={(e) => updateFormData("key_differentiator", e.target.value)}
-                  placeholder="e.g., 'Unlike generic project management tools, FlexFlow is built specifically for remote teams with AI-powered insights that predict collaboration bottlenecks before they happen. We're the only platform that measures both productivity AND team wellbeing, helping managers lead with empathy while hitting aggressive growth targets.'"
+                  placeholder="e.g., Built specifically for remote teams with AI-powered insights that predict collaboration bottlenecks before they happen"
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>
@@ -224,7 +224,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.platforms}
                   onChange={(e) => updateFormData("platforms", e.target.value)}
-                  placeholder="e.g., 'LinkedIn (thought leadership + B2B targeting), Google Ads (high-intent search), YouTube (product demos + remote work culture content), Twitter (real-time industry conversations), and targeted podcasts in the HR/management space'"
+                  placeholder="e.g., LinkedIn, Google Ads, YouTube, Twitter, and targeted HR/management podcasts"
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>
@@ -250,7 +250,7 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
                 <textarea
                   value={formData.must_have_elements}
                   onChange={(e) => updateFormData("must_have_elements", e.target.value)}
-                  placeholder="e.g., 'Must include SOC 2 compliance messaging, integrate with existing Slack/Teams workflows, feature customer testimonials from Fortune 500 companies, and align with our brand voice guidelines (professional yet approachable, data-driven but human).'"
+                  placeholder="e.g., SOC 2 compliance messaging, Slack/Teams integration, Fortune 500 testimonials, professional yet approachable tone"
                   className="w-full p-4 bg-neutral-900 border border-neutral-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24 m-1"
                 />
               </div>

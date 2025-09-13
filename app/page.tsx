@@ -306,7 +306,7 @@ function Home() {
                             <div
                                 key={article.title}
                                 onClick={() => window.open(article.url, '_blank')}
-                                className="relative h-[460px] w-full rounded-2xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40 border border-neutral-800 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+                                className="relative h-[460px] w-full rounded-2xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40 border border-green-800/30 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)]"
                             >
                                 {article.urlToImage && (
                                     <img
@@ -354,14 +354,14 @@ function Home() {
                     <div className='flex gap-2'>
                         <button
                             onClick={scrollOppLeft}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll opportunities left"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
                         <button
                             onClick={scrollOppRight}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll opportunities right"
                         >
                             <ChevronRight className="h-4 w-4" />
@@ -377,7 +377,7 @@ function Home() {
                         <div
                             key={o.title}
                             onClick={() => router.push(`/project-details/${o.id}`)}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-2xl border border-green-800/30 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer"
                         >
                             <OpportunityMedia videoUrl={o.videoUrl} title={o.title} />
                             <div className="p-5">
@@ -399,14 +399,14 @@ function Home() {
                     <div className='flex gap-2'>
                         <button
                             onClick={scrollCounterLeft}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll counter-intuitive audiences left"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
                         <button
                             onClick={scrollCounterRight}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll counter-intuitive audiences right"
                         >
                             <ChevronRight className="h-4 w-4" />
@@ -421,7 +421,7 @@ function Home() {
                     {counterAudiences.map((p) => (
                         <div
                             key={p.name}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-green-800/30 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
@@ -448,9 +448,9 @@ function Home() {
                     {/* Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {news.slice(3, 9).map((article) => (
-                            <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-2xl shadow-black/40 flex gap-3 border border-neutral-800 items-center justify-center transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer">
+                            <div key={article.title} className="bg-neutral-900/60 p-4 rounded-lg shadow-2xl shadow-black/40 flex gap-3 border border-green-800/30 items-center justify-center transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer">
                                 {article.urlToImage && (
-                                    <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-neutral-700" />
+                                    <img src={article.urlToImage} alt={article.title} className="aspect-square h-28 w-28 object-cover rounded-lg border border-green-800/30" />
                                 )}
                                 <div className='flex flex-col gap-2 overflow-hidden'>
                                 
@@ -493,14 +493,14 @@ function Home() {
                     <div className='flex gap-2'>
                         <button
                             onClick={scrollLeft}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll personas left"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
                         <button
                             onClick={scrollRight}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll personas right"
                         >
                             <ChevronRight className="h-4 w-4" />
@@ -515,7 +515,7 @@ function Home() {
                     {personas.map((p) => (
                         <div
                             key={p.name}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-green-800/30 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />
@@ -539,14 +539,14 @@ function Home() {
                     <div className='flex gap-2'>
                         <button
                             onClick={scrollStadiumLeft}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll stadiums left"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
                         <button
                             onClick={scrollStadiumRight}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll stadiums right"
                         >
                             <ChevronRight className="h-4 w-4" />
@@ -574,7 +574,7 @@ function Home() {
                     ].map((s) => (
                         <div
                             key={s.name}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-green-800/30 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={s.imageUrl} alt={s.name} className="h-full w-full object-cover" />
@@ -596,7 +596,7 @@ function Home() {
                             <div
                                 key={article.title}
                                 onClick={() => window.open(article.url, '_blank')}
-                                className="relative h-[360px] w-full rounded-2xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40 border border-neutral-800 hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] transition-all duration-200 ease-out"
+                                className="relative h-[360px] w-full rounded-2xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40 border border-green-800/30 hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] transition-all duration-200 ease-out"
                             >
                                 {article.urlToImage && (
                                     <img
@@ -642,14 +642,14 @@ function Home() {
                     <div className='flex gap-2'>
                         <button
                             onClick={scrollPowerfulLeft}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll powerful audiences left"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
                         <button
                             onClick={scrollPowerfulRight}
-                            className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                            className="h-9 w-9 grid place-items-center rounded-lg border border-green-800/30 bg-neutral-900 hover:bg-neutral-800"
                             aria-label="Scroll powerful audiences right"
                         >
                             <ChevronRight className="h-4 w-4" />
@@ -664,7 +664,7 @@ function Home() {
                     {(personas.slice(0, 12)).map((p) => (
                         <div
                             key={`powerful-${p.name}`}
-                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-amber-400 hover:ring-1 hover:ring-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] cursor-pointer"
+                            className="shrink-0 w-[300px] bg-neutral-900 rounded-xl border border-green-800/30 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer"
                         >
                             <div className="h-40 w-full overflow-hidden">
                                 <img src={p.imageUrl} alt={p.name} className="h-full w-full object-cover" />

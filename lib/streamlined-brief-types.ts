@@ -41,6 +41,8 @@ export interface MarketingBriefDocument {
   strategic_foundation: {
     business_context: string;
     target_audience: {
+      persona_name: string;
+      persona_description: string;
       primary_demographics: string;
       psychographics: string;
       pain_points: string[];
