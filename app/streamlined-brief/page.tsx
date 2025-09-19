@@ -1,293 +1,258 @@
-"use client";
-import { useState, useEffect } from "react";
-import StreamlinedWizard from "../brief-builder/components/streamlined-wizard";
-import BriefDocument from "../brief-builder/components/brief-document";
-import { StreamlinedBriefIntake, MarketingBriefDocument } from "@/lib/streamlined-brief-types";
+'use client'
 
-type AppState = "wizard" | "generating" | "document";
+// imports
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Search, Filter, ArrowUpDown, Plus, FileText, Calendar, User, Loader2 } from "lucide-react"
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { BriefMetadata } from "@/lib/brief-storage"
 
+// The full component
 export default function StreamlinedBriefPage() {
-  const [appState, setAppState] = useState<AppState>("wizard");
-  const [intakeData, setIntakeData] = useState<StreamlinedBriefIntake | null>(null);
-  const [generatedBrief, setGeneratedBrief] = useState<MarketingBriefDocument | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [progressState, setProgressState] = useState({
-    currentStep: 0
-  });
+    const router = useRouter();
 
-  const handleWizardComplete = (data: StreamlinedBriefIntake) => {
-    setIntakeData(data);
-    setAppState("generating");
-    setProgressState({
-      currentStep: 0
-    });
-    generateBrief(data);
-  };
+    // State for search and filters
+    const [searchQuery, setSearchQuery] = useState("")
+    const [filterValue, setFilterValue] = useState("")
+    const [sortValue, setSortValue] = useState("")
+    const [savedBriefs, setSavedBriefs] = useState<BriefMetadata[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
-  // Dynamic progress animation
-  useEffect(() => {
-    if (!isLoading) return;
+    // Load briefs from API
+    useEffect(() => {
+        const loadBriefs = async () => {
+            try {
+                setIsLoading(true)
+                const response = await fetch('/api/briefs')
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load briefs')
+                }
+                
+                const data = await response.json()
+                setSavedBriefs(data.briefs || [])
+            } catch (err) {
+                console.error('Error loading briefs:', err)
+                setError(err instanceof Error ? err.message : 'Failed to load briefs')
+            } finally {
+                setIsLoading(false)
+            }
+        }
 
-    const progressSteps = [
-      { duration: 4000, message: 'Decrypting strategic inputs' },
-      { duration: 5000, message: 'Analyzing target demographics' },
-      { duration: 6000, message: 'Building competitive intelligence matrix' },
-      { duration: 7000, message: 'Generating tactical brief protocols' },
-      { duration: 4000, message: 'Establishing secure channels' },
-      { duration: 1000, message: 'Finalizing brief compilation' }
-    ];
+        loadBriefs()
+    }, [])
 
-    let currentStepIndex = 0;
-    const startTime = Date.now();
+    // Refresh briefs function
+    const refreshBriefs = async () => {
+        try {
+            setIsLoading(true)
+            const response = await fetch('/api/briefs')
+            
+            if (!response.ok) {
+                throw new Error('Failed to load briefs')
+            }
+            
+            const data = await response.json()
+            setSavedBriefs(data.briefs || [])
+        } catch (err) {
+            console.error('Error loading briefs:', err)
+            setError(err instanceof Error ? err.message : 'Failed to load briefs')
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
-    const updateProgress = () => {
-      const elapsed = Date.now() - startTime;
-      const currentStep = progressSteps[currentStepIndex];
-      
-      if (currentStep && elapsed < currentStep.duration) {
-        setProgressState(prev => ({
-          ...prev,
-          currentStep: currentStepIndex
-        }));
-      } else if (currentStepIndex < progressSteps.length - 1) {
-        currentStepIndex++;
-        setProgressState(prev => ({
-          ...prev,
-          currentStep: currentStepIndex
-        }));
-      } else {
-        // All steps complete
-        setProgressState(prev => ({
-          ...prev,
-          currentStep: progressSteps.length
-        }));
-        return;
-      }
-
-      requestAnimationFrame(updateProgress);
+    // Handle brief card click
+    const handleBriefClick = (briefId: string) => {
+        router.push(`/streamlined-brief/${briefId}`);
     };
 
-    updateProgress();
-  }, [isLoading]);
+    // Filter and sort logic
+    const filteredBriefs = savedBriefs.filter(brief => {
+        const matchesSearch = brief.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            brief.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            brief.author.toLowerCase().includes(searchQuery.toLowerCase())
+        
+        const matchesFilter = filterValue === "" || filterValue === "all" || brief.status.toLowerCase() === filterValue.toLowerCase()
+        
+        return matchesSearch && matchesFilter
+    })
 
-  const generateBrief = async (intake: StreamlinedBriefIntake) => {
-    console.log("🚀 Starting streamlined brief generation with data:", intake);
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      console.log("📡 Making API call to /api/generate-streamlined-brief");
-      const response = await fetch("/api/generate-streamlined-brief", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(intake),
-      });
-
-      console.log("📡 API Response status:", response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("❌ API Error Response:", errorText);
-        let errorData;
-        try {
-          errorData = JSON.parse(errorText);
-        } catch (e) {
-          errorData = { error: errorText };
+    const sortedBriefs = [...filteredBriefs].sort((a, b) => {
+        switch (sortValue) {
+            case "newest":
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            case "oldest":
+                return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            case "name":
+                return a.title.localeCompare(b.title)
+            case "name-desc":
+                return b.title.localeCompare(a.title)
+            default:
+                return 0
         }
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-      }
+    })
 
-      const parsedBrief = await response.json();
-      console.log("✅ Successfully parsed brief:", parsedBrief);
-      
-      if (!parsedBrief || typeof parsedBrief !== 'object') {
-        throw new Error("Generated brief is not a valid object");
-      }
-      
-      console.log("🎉 Setting generated brief and moving to document view");
-      setGeneratedBrief(parsedBrief);
-      setAppState("document");
-      
-    } catch (err: any) {
-      console.error("💥 Generation error:", err);
-      setError(err?.message || "Failed to generate brief. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleBackToWizard = () => {
-    setAppState("wizard");
-    setGeneratedBrief(null);
-    setError(null);
-    // Keep intakeData intact so user can edit and regenerate
-  };
-
-  const handleBackToWizardFromGenerating = () => {
-    setAppState("wizard");
-    setError(null);
-    // Keep intakeData intact so user can edit and regenerate
-  };
-
-  const handleDiscardBrief = () => {
-    if (window.confirm('Are you sure you want to discard this brief? This action cannot be undone.')) {
-      handleBackToWizard();
-    }
-  };
-
-  const renderContent = () => {
-    switch (appState) {
-      case "wizard":
-        return (
-          <div className="h-full flex flex-col">
-            <div className="flex-1 overflow-y-auto">
-              <StreamlinedWizard onComplete={handleWizardComplete} initialData={intakeData || undefined} />
-            </div>
-          </div>
-        );
-
-      case "generating":
-        return (
-          <div className="h-full bg-black relative overflow-hidden">
-            {/* Cyber Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 via-black to-blue-900/20"></div>
-            <div className="absolute inset-0 opacity-30">
-              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,0,0.1),transparent_50%)] animate-pulse"></div>
-            </div>
+    // return component
+    return (
+        <div className="ml-1 h-[calc(100vh-60px)] overflow-y-auto">
             
-            {/* Matrix-style falling characters */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute text-green-400/20 text-xs font-mono animate-pulse"
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 3}s`,
-                    animationDuration: `${2 + Math.random() * 3}s`
-                  }}
-                >
-                  {Math.random() > 0.5 ? '1' : '0'}
+            {/* the top bar */}
+            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-neutral-950 shadow-lg h-[60px]">
+                
+                {/* Left side - Search, Filter, Sort */}
+                <div className="flex items-center gap-4">
+
+                    {/* Search Bar */}
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4 stroke-neutral-500" />
+                        <input
+                            type="text"
+                            placeholder="Search briefs"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-10 pr-4 py-2 h-9 w-96 bg-transparent border border-neutral-700 rounded-md text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-0"
+                        />
+                    </div>
+
+                    {/* Filter Dropdown */}
+                    <Select value={filterValue} onValueChange={setFilterValue}>
+                        <SelectTrigger className="w-32 border-none cursor-pointer">
+                            <Filter className="size-4 mr-2 stroke-neutral-500 " />
+                            <SelectValue placeholder="Filter" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-neutral-950 border border-neutral-700">
+                            <SelectItem value="all" className="cursor-pointer hover:bg-neutral-800">All Status</SelectItem>
+                            <SelectItem value="draft" className="cursor-pointer hover:bg-neutral-800">Draft</SelectItem>
+                            <SelectItem value="in review" className="cursor-pointer hover:bg-neutral-800">In Review</SelectItem>
+                            <SelectItem value="approved" className="cursor-pointer hover:bg-neutral-800">Approved</SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    {/* Sort Dropdown */}
+                    <Select value={sortValue} onValueChange={setSortValue}>
+                        <SelectTrigger className="w-32 border-none cursor-pointer">
+                                <ArrowUpDown className="size-4 mr-2 stroke-neutral-500" />
+                            <SelectValue placeholder="Sort" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-neutral-950 border border-neutral-700">
+                            <SelectItem value="newest" className="cursor-pointer hover:bg-neutral-800">Newest</SelectItem>
+                            <SelectItem value="oldest" className="cursor-pointer hover:bg-neutral-800">Oldest</SelectItem>
+                            <SelectItem value="name" className="cursor-pointer hover:bg-neutral-800">Name A-Z</SelectItem>
+                            <SelectItem value="name-desc" className="cursor-pointer hover:bg-neutral-800">Name Z-A</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
-              ))}
-            </div>
 
-            {/* Main Content */}
-            <div className="relative z-10 h-full flex items-center justify-center p-6">
-              <div className="w-full max-w-4xl">
-                {isLoading && (
-                  <div className="font-mono">
-                    {/* Terminal Header */}
-                    <div className="mb-8 pb-4 border-b border-green-400/30">
-                      <span className="text-green-400 text-sm drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]">
-                        {intakeData?.project_name ? 
-                          `${intakeData.project_name.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_INTELLIGENCE_TERMINAL v2.1.3` : 
-                          'MARKETING_INTELLIGENCE_TERMINAL v2.1.3'
-                        }
-                      </span>
-                    </div>
-
-                    {/* Single Terminal Loading Bar */}
-                    <div className="space-y-6">
-                      {/* Current Step Display */}
-                      <div className="flex items-center space-x-2">
-                        <span className="text-green-500 drop-shadow-[0_0_6px_rgba(34,197,94,0.6)]">$</span>
-                        <span className="text-green-300 drop-shadow-[0_0_6px_rgba(34,197,94,0.4)]">
-                          {progressState.currentStep === 0 && "Decrypting strategic inputs..."}
-                          {progressState.currentStep === 1 && "Analyzing target demographics..."}
-                          {progressState.currentStep === 2 && "Building competitive intelligence matrix..."}
-                          {progressState.currentStep === 3 && "Generating tactical brief protocols..."}
-                          {progressState.currentStep === 4 && "Establishing secure channels..."}
-                          {progressState.currentStep === 5 && "Finalizing brief compilation..."}
-                        </span>
-                        <span className="text-green-400 animate-pulse drop-shadow-[0_0_6px_rgba(34,197,94,0.6)]">[PROC]</span>
-                      </div>
-
-                      {/* Terminal Loading Bar */}
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-xs text-green-400 drop-shadow-[0_0_4px_rgba(34,197,94,0.5)]">
-                          <span>Progress</span>
-                          <span>{Math.round(progressState.currentStep / 6 * 100)}%</span>
-                        </div>
-                        <div className="w-full bg-gray-800 rounded-sm h-3 border border-green-800/30">
-                          <div 
-                            className="bg-green-400 h-full rounded-sm transition-all duration-500 relative overflow-hidden drop-shadow-[0_0_8px_rgba(34,197,94,0.7)]"
-                            style={{ width: `${(progressState.currentStep / 6) * 100}%` }}
-                          >
-                            {/* Terminal-style loading animation */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-300 to-transparent animate-pulse"></div>
-                          </div>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500">
-                          <span>0%</span>
-                          <span>100%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Terminal Status */}
-                    <div className="mt-8 space-y-2">
-                      <div className="text-xs text-green-300/80 space-y-1">
-                        <div className="animate-pulse drop-shadow-[0_0_4px_rgba(34,197,94,0.4)]">[SECURE] Neural pathways established ✓</div>
-                        <div className="animate-pulse drop-shadow-[0_0_4px_rgba(34,197,94,0.4)]" style={{ animationDelay: '0.3s' }}>[ENCRYPT] Data integrity verified ✓</div>
-                        <div className="animate-pulse drop-shadow-[0_0_4px_rgba(34,197,94,0.4)]" style={{ animationDelay: '0.6s' }}>[PROCESS] Brief generation in progress...</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {error && (
-                  <div className="font-mono">
-                    <div className="mb-6 pb-3 border-b border-red-400/30">
-                      <span className="text-red-300 text-sm drop-shadow-[0_0_6px_rgba(239,68,68,0.5)]">ERROR_LOG_TERMINAL</span>
-                    </div>
-                    <div className="space-y-3 text-sm">
-                      <div className="text-red-300 drop-shadow-[0_0_4px_rgba(239,68,68,0.4)]">[ERROR] Mission failed to execute</div>
-                      <div className="text-red-400/70 drop-shadow-[0_0_4px_rgba(239,68,68,0.3)]">{error}</div>
-                      <div className="mt-6">
-                        <button
-                          onClick={handleBackToWizardFromGenerating}
-                          className="px-4 py-2 text-sm font-mono text-red-400 hover:text-red-300 transition-all duration-200 drop-shadow-[0_0_4px_rgba(239,68,68,0.4)]"
+                {/* Right side - Create Button */}
+                <Link href="/streamlined-brief/create">
+                    <Button 
+                        className="gap-2 bg-blue-800 hover:bg-blue-700 cursor-pointer w-32 shadow-[0_0_12px_blue]"
                         >
-                          $ RETRY_MISSION
-                        </button>
-                      </div>
+                        <Plus className="size-4" />
+                        Create
+                    </Button>
+                </Link>
+            </div>
+
+            {/* Briefs Grid */}
+            <div className="p-6">
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="flex items-center justify-center py-12">
+                        <div className="text-center">
+                            <Loader2 className="size-8 text-blue-400 animate-spin mx-auto mb-4" />
+                            <p className="text-neutral-400">Loading briefs...</p>
+                        </div>
                     </div>
-                  </div>
                 )}
-              </div>
+
+                {/* Error State */}
+                {error && !isLoading && (
+                    <div className="text-center py-12">
+                        <div className="text-red-400 mb-4">
+                            <FileText className="size-16 mx-auto mb-2" />
+                            <p className="text-lg font-semibold">Error loading briefs</p>
+                            <p className="text-sm text-neutral-500">{error}</p>
+                        </div>
+                        <Button 
+                            onClick={refreshBriefs}
+                            className="gap-2 bg-red-800 hover:bg-red-700"
+                        >
+                            Try Again
+                        </Button>
+                    </div>
+                )}
+
+                {/* Briefs Grid */}
+                {!isLoading && !error && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {sortedBriefs.map((brief) => (
+                            <div 
+                                key={brief.id} 
+                                onClick={() => handleBriefClick(brief.id)}
+                                className="bg-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-neutral-600 transition-colors cursor-pointer group"
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex items-center gap-2">
+                                        <FileText className="size-5 text-blue-400" />
+                                        <h3 className="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
+                                            {brief.title}
+                                        </h3>
+                                    </div>
+                                    <span className={`px-2 py-1 text-xs rounded-full ${
+                                        brief.status === 'Approved' ? 'bg-green-900/30 text-green-400 border border-green-800' :
+                                        brief.status === 'In Review' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
+                                        'bg-gray-900/30 text-gray-400 border border-gray-800'
+                                    }`}>
+                                        {brief.status}
+                                    </span>
+                                </div>
+                                
+                                <p className="text-neutral-400 text-sm mb-4 line-clamp-2">
+                                    {brief.description}
+                                </p>
+                                
+                                <div className="flex items-center justify-between text-xs text-neutral-500">
+                                    <div className="flex items-center gap-1">
+                                        <User className="size-3" />
+                                        <span>{brief.author}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <Calendar className="size-3" />
+                                        <span>{new Date(brief.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Empty State */}
+                {!isLoading && !error && sortedBriefs.length === 0 && (
+                    <div className="text-center py-12">
+                        <FileText className="size-16 text-neutral-600 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-neutral-300 mb-2">No briefs found</h3>
+                        <p className="text-neutral-500 mb-6">
+                            {searchQuery || filterValue !== "" ? 
+                                "Try adjusting your search or filter criteria" : 
+                                "Get started by creating your first brief"
+                            }
+                        </p>
+                        {!searchQuery && filterValue === "" && (
+                            <Link href="/streamlined-brief/create">
+                                <Button className="gap-2 bg-blue-800 hover:bg-blue-700">
+                                    <Plus className="size-4" />
+                                    Create Your First Brief
+                                </Button>
+                            </Link>
+                        )}
+                    </div>
+                )}
             </div>
-          </div>
-        );
-
-      case "document":
-        return generatedBrief ? (
-          <div className="h-full overflow-hidden">
-            <BriefDocument brief={generatedBrief} onBack={handleBackToWizard} onDiscard={handleDiscardBrief} />
-          </div>
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center p-6">
-              <p className="text-slate-300">No brief generated yet.</p>
-              <button onClick={handleBackToWizard} className="text-blue-400 hover:text-blue-300 underline">
-                Back to Wizard
-              </button>
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="h-screen bg-black overflow-hidden">
-      <div className="h-full flex flex-col">
-        {renderContent()}
-      </div>
-    </div>
-  );
+        </div>
+    )
 }

@@ -7,9 +7,11 @@ interface BriefDocumentProps {
   brief: MarketingBriefDocument;
   onBack: () => void;
   onDiscard?: () => void;
+  onSave?: () => void;
+  isViewOnly?: boolean;
 }
 
-export default function BriefDocument({ brief, onBack, onDiscard }: BriefDocumentProps) {
+export default function BriefDocument({ brief, onBack, onDiscard, onSave, isViewOnly = false }: BriefDocumentProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   const downloadPDF = () => {
@@ -281,30 +283,36 @@ export default function BriefDocument({ brief, onBack, onDiscard }: BriefDocumen
         </div>
         
         <div className="flex gap-3 mt-4">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded border border-gray-600 font-medium transition-colors"
-          >
-            {isEditing ? "View Mode" : "Edit Mode"}
-          </button>
-          <button
-            onClick={saveBrief}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded border border-gray-600 font-medium transition-colors"
-          >
-            Save
-          </button>
+          {!isViewOnly && (
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded border border-gray-600 font-medium transition-colors"
+            >
+              {isEditing ? "View Mode" : "Edit Mode"}
+            </button>
+          )}
+          {!isViewOnly && onSave && (
+            <button
+              onClick={onSave}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-medium transition-colors"
+            >
+              Save Brief
+            </button>
+          )}
           <button
             onClick={downloadPDF}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors"
           >
             Download PDF
           </button>
-          <button
-            onClick={onBack}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded border border-gray-600 font-medium transition-colors"
-          >
-            Back
-          </button>
+          {!isViewOnly && (
+            <button
+              onClick={onBack}
+              className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded border border-gray-600 font-medium transition-colors"
+            >
+              Back
+            </button>
+          )}
         </div>
       </div>
 
