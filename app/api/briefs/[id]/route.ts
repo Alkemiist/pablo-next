@@ -4,10 +4,11 @@ import { loadBrief, updateBriefMetadata, deleteBrief } from '@/lib/brief-storage
 // GET /api/briefs/[id] - Load a specific brief
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const brief = await loadBrief(params.id);
+    const { id } = await params;
+    const brief = await loadBrief(id);
     
     if (!brief) {
       return NextResponse.json(
@@ -29,9 +30,10 @@ export async function GET(
 // PUT /api/briefs/[id] - Update brief metadata
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { metadata } = body;
     
@@ -42,7 +44,7 @@ export async function PUT(
       );
     }
     
-    const success = await updateBriefMetadata(params.id, metadata);
+    const success = await updateBriefMetadata(id, metadata);
     
     if (!success) {
       return NextResponse.json(
@@ -67,18 +69,23 @@ export async function PUT(
 // DELETE /api/briefs/[id] - Delete a brief
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const success = await deleteBrief(params.id);
+    const { id } = await params;
+    console.log(`Attempting to delete brief with ID: ${id}`);
+    
+    const success = await deleteBrief(id);
     
     if (!success) {
+      console.error(`Failed to delete brief: ${id}`);
       return NextResponse.json(
         { error: 'Brief not found or delete failed' },
         { status: 404 }
       );
     }
     
+    console.log(`Successfully deleted brief: ${id}`);
     return NextResponse.json({ 
       success: true,
       message: 'Brief deleted successfully' 
@@ -86,7 +93,7 @@ export async function DELETE(
   } catch (error) {
     console.error('Error deleting brief:', error);
     return NextResponse.json(
-      { error: 'Failed to delete brief' },
+      { error: 'Failed to delete brief', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

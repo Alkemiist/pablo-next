@@ -56,7 +56,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
       const url = URL.createObjectURL(dataBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `marketing-brief-${(brief.project.title || brief.project.name).replace(/\s+/g, '-').toLowerCase()}.json`;
+      link.download = `marketing-brief-${brief.project.name.replace(/\s+/g, '-').toLowerCase()}.json`;
       link.click();
       URL.revokeObjectURL(url);
     } else if (format === 'pdf') {
@@ -70,22 +70,22 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
       doc.setFontSize(14);
       doc.text('Project Details', 20, 40);
       doc.setFontSize(12);
-      doc.text(`Title: ${editedBrief.project.title || editedBrief.project.name}`, 20, 50);
-      doc.text(`Launch Window: ${editedBrief.project.launch_window}`, 20, 60);
-      doc.text(`Owner: ${editedBrief.project.owner}`, 20, 70);
+      doc.text(`Title: ${editedBrief.project.name}`, 20, 50);
+      doc.text(`Core Idea: ${editedBrief.project.core_idea}`, 20, 60);
+      doc.text(`Timeline: ${editedBrief.project.timeline}`, 20, 70);
       
       // Add objective
       doc.setFontSize(14);
       doc.text('Objective', 20, 90);
       doc.setFontSize(12);
-      doc.text(`SMART Goal: ${editedBrief.objective.smart}`, 20, 100);
+      doc.text(`Intent: ${editedBrief.objectives.intent}`, 20, 100);
       
       // Add audience
       doc.setFontSize(14);
       doc.text('Target Audience', 20, 120);
       doc.setFontSize(12);
-      doc.text(`Descriptor: ${editedBrief.audience.descriptor}`, 20, 130);
-      doc.text(`Pain Point: ${editedBrief.audience.pain_tension}`, 20, 140);
+      doc.text(`Demographics: ${editedBrief.audience.primary_demographics}`, 20, 130);
+      doc.text(`Psychographics: ${editedBrief.audience.psychographics}`, 20, 140);
       
       // Add big idea
       doc.setFontSize(14);
@@ -94,7 +94,7 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
       doc.text(editedBrief.outputs.big_idea, 20, 170);
       
       // Save the PDF
-      doc.save(`marketing-brief-${(brief.project.title || brief.project.name).replace(/\s+/g, '-').toLowerCase()}.pdf`);
+      doc.save(`marketing-brief-${brief.project.name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
     }
   };
 
@@ -152,16 +152,16 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">
                 <h4 className="font-semibold text-blue-400 mb-3 text-lg">Project Summary</h4>
-                <p className="text-white text-lg font-medium">{brief.project.title || brief.project.name}</p>
+                <p className="text-white text-lg font-medium">{brief.project.name}</p>
                 <p className="text-slate-300 text-sm mt-2">{brief.project.business_context}</p>
               </div>
               <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">
                 <h4 className="font-semibold text-green-400 mb-3 text-lg">Key Objective</h4>
-                <p className="text-white text-sm leading-relaxed">{brief.objective?.smart || "Not specified"}</p>
+                <p className="text-white text-sm leading-relaxed">{brief.objectives?.intent || "Not specified"}</p>
               </div>
               <div className="bg-slate-800 border border-slate-600 p-6 rounded-2xl">
                 <h4 className="font-semibold text-purple-400 mb-3 text-lg">Target Audience</h4>
-                <p className="text-white text-sm leading-relaxed">{brief.audience?.descriptor || "Not specified"}</p>
+                <p className="text-white text-sm leading-relaxed">{brief.audience?.primary_demographics || "Not specified"}</p>
               </div>
               <div className="bg-gradient-to-r from-orange-500 to-pink-500 border border-orange-500/20 p-6 rounded-2xl">
                 <h4 className="font-semibold text-white mb-3 text-lg flex items-center">
@@ -182,20 +182,20 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
               <div className="space-y-4">
                 <input
                   type="text"
-                  value={editedBrief.project.title}
-                  onChange={(e) => updateBrief("project", "title", e.target.value)}
+                  value={editedBrief.project.name}
+                  onChange={(e) => updateBrief("project", "name", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={editedBrief.project.launch_window}
-                  onChange={(e) => updateBrief("project", "launch_window", e.target.value)}
+                  value={editedBrief.project.core_idea}
+                  onChange={(e) => updateBrief("project", "core_idea", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={editedBrief.project.owner}
-                  onChange={(e) => updateBrief("project", "owner", e.target.value)}
+                  value={editedBrief.project.timeline}
+                  onChange={(e) => updateBrief("project", "timeline", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <textarea
@@ -206,9 +206,9 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Title:</strong> <span className="text-slate-300 ml-2">{brief.project.title}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Launch Window:</strong> <span className="text-slate-300 ml-2">{brief.project.launch_window}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Owner:</strong> <span className="text-slate-300 ml-2">{brief.project.owner}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Title:</strong> <span className="text-slate-300 ml-2">{brief.project.name}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Core Idea:</strong> <span className="text-slate-300 ml-2">{brief.project.core_idea}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Timeline:</strong> <span className="text-slate-300 ml-2">{brief.project.timeline}</span></div>
                 <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-blue-400">Business Context:</strong> <span className="text-slate-300 ml-2">{brief.project.business_context}</span></div>
               </div>
             )}
@@ -222,35 +222,35 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
             {isEditing ? (
               <div className="space-y-4">
                 <textarea
-                  value={editedBrief.objective?.smart || ""}
-                  onChange={(e) => updateBrief("objective", "smart", e.target.value)}
+                  value={editedBrief.objectives?.intent || ""}
+                  onChange={(e) => updateBrief("objectives", "intent", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
                 />
                 <input
                   type="text"
-                  value={(editedBrief.objective?.primary_kpis || []).join(", ")}
-                  onChange={(e) => updateArrayField("objective", "primary_kpis", e.target.value)}
+                  value={(editedBrief.objectives?.smart_targets || []).join(", ")}
+                  onChange={(e) => updateArrayField("objectives", "smart_targets", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={editedBrief.objective?.targets || ""}
-                  onChange={(e) => updateBrief("objective", "targets", e.target.value)}
+                  value={editedBrief.objectives?.success_metrics?.join(", ") || ""}
+                  onChange={(e) => updateArrayField("objectives", "success_metrics", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={editedBrief.objective?.learning_goal || ""}
-                  onChange={(e) => updateBrief("objective", "learning_goal", e.target.value)}
+                  value={editedBrief.objectives?.kpis?.join(", ") || ""}
+                  onChange={(e) => updateArrayField("objectives", "kpis", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">SMART Objective:</strong> <span className="text-slate-300 ml-2">{brief.objective?.smart || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">Primary KPIs:</strong> <span className="text-slate-300 ml-2">{(brief.objective.primary_kpis || []).join(", ") || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">Targets:</strong> <span className="text-slate-300 ml-2">{brief.objective.targets || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">Learning Goal:</strong> <span className="text-slate-300 ml-2">{brief.objective.learning_goal || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">Intent:</strong> <span className="text-slate-300 ml-2">{brief.objectives?.intent || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">Smart Targets:</strong> <span className="text-slate-300 ml-2">{(brief.objectives?.smart_targets || []).join(", ") || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">Success Metrics:</strong> <span className="text-slate-300 ml-2">{(brief.objectives?.success_metrics || []).join(", ") || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-green-400">KPIs:</strong> <span className="text-slate-300 ml-2">{(brief.objectives?.kpis || []).join(", ") || "Not specified"}</span></div>
               </div>
             )}
           </div>
@@ -264,41 +264,41 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
               <div className="space-y-4">
                 <input
                   type="text"
-                  value={editedBrief.audience.descriptor}
-                  onChange={(e) => updateBrief("audience", "descriptor", e.target.value)}
+                  value={editedBrief.audience.primary_demographics}
+                  onChange={(e) => updateBrief("audience", "primary_demographics", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <textarea
-                  value={editedBrief.audience.pain_tension}
-                  onChange={(e) => updateBrief("audience", "pain_tension", e.target.value)}
+                  value={editedBrief.audience.psychographics}
+                  onChange={(e) => updateBrief("audience", "psychographics", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
                 />
                 <input
                   type="text"
-                  value={editedBrief.audience.current_emotion || ""}
-                  onChange={(e) => updateBrief("audience", "current_emotion", e.target.value)}
+                  value={editedBrief.audience.pain_points?.join(", ") || ""}
+                  onChange={(e) => updateArrayField("audience", "pain_points", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={editedBrief.audience.desired_emotion || ""}
-                  onChange={(e) => updateBrief("audience", "desired_emotion", e.target.value)}
+                  value={editedBrief.audience.motivations?.join(", ") || ""}
+                  onChange={(e) => updateArrayField("audience", "motivations", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={editedBrief.audience.desired_action}
-                  onChange={(e) => updateBrief("audience", "desired_action", e.target.value)}
+                  value={editedBrief.audience.behaviors?.join(", ") || ""}
+                  onChange={(e) => updateArrayField("audience", "behaviors", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Descriptor:</strong> <span className="text-slate-300 ml-2">{brief.audience?.descriptor || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Pain/Tension:</strong> <span className="text-slate-300 ml-2">{brief.audience?.pain_tension || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Current Emotion:</strong> <span className="text-slate-300 ml-2">{brief.audience.current_emotion || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Desired Emotion:</strong> <span className="text-slate-300 ml-2">{brief.audience.desired_emotion || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Desired Action:</strong> <span className="text-slate-300 ml-2">{brief.audience.desired_action}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Demographics:</strong> <span className="text-slate-300 ml-2">{brief.audience?.primary_demographics || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Psychographics:</strong> <span className="text-slate-300 ml-2">{brief.audience?.psychographics || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Pain Points:</strong> <span className="text-slate-300 ml-2">{(brief.audience?.pain_points || []).join(", ") || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Motivations:</strong> <span className="text-slate-300 ml-2">{(brief.audience?.motivations || []).join(", ") || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-purple-400">Behaviors:</strong> <span className="text-slate-300 ml-2">{(brief.audience?.behaviors || []).join(", ") || "Not specified"}</span></div>
               </div>
             )}
           </div>
@@ -312,27 +312,27 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
               <div className="space-y-4">
                 <input
                   type="text"
-                  value={editedBrief.brand.role}
-                  onChange={(e) => updateBrief("brand", "role", e.target.value)}
+                  value={editedBrief.brand.name}
+                  onChange={(e) => updateBrief("brand", "name", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <textarea
-                  value={editedBrief.brand.positioning || ""}
-                  onChange={(e) => updateBrief("brand", "positioning", e.target.value)}
+                  value={editedBrief.brand.description || ""}
+                  onChange={(e) => updateBrief("brand", "description", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
                 />
                 <input
                   type="text"
-                  value={(editedBrief.brand.competitors || []).join(", ")}
-                  onChange={(e) => updateArrayField("brand", "competitors", e.target.value)}
+                  value={(editedBrief.brand.values || []).join(", ")}
+                  onChange={(e) => updateArrayField("brand", "values", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-orange-400">Role:</strong> <span className="text-slate-300 ml-2">{brief.brand.role}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-orange-400">Positioning:</strong> <span className="text-slate-300 ml-2">{brief.brand.positioning || "Not specified"}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-orange-400">Competitors:</strong> <span className="text-slate-300 ml-2">{(brief.brand.competitors || []).join(", ") || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-orange-400">Name:</strong> <span className="text-slate-300 ml-2">{brief.brand.name}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-orange-400">Description:</strong> <span className="text-slate-300 ml-2">{brief.brand.description || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-orange-400">Values:</strong> <span className="text-slate-300 ml-2">{(brief.brand.values || []).join(", ") || "Not specified"}</span></div>
               </div>
             )}
           </div>
@@ -345,28 +345,28 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
             {isEditing ? (
               <div className="space-y-4">
                 <textarea
-                  value={editedBrief.insight}
-                  onChange={(e) => updateBrief("insight", "", e.target.value)}
+                  value={editedBrief.outputs?.big_idea || ""}
+                  onChange={(e) => updateBrief("outputs", "big_idea", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none h-24"
                 />
                 <input
                   type="text"
-                  value={editedBrief.message.smp}
-                  onChange={(e) => updateBrief("message", "smp", e.target.value)}
+                  value={editedBrief.outputs?.strategic_insight || ""}
+                  onChange={(e) => updateBrief("outputs", "strategic_insight", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
                 <input
                   type="text"
-                  value={(editedBrief.message.reasons_to_believe || []).join(", ")}
-                  onChange={(e) => updateArrayField("message", "reasons_to_believe", e.target.value)}
+                  value={editedBrief.outputs?.exec_summary || ""}
+                  onChange={(e) => updateBrief("outputs", "exec_summary", e.target.value)}
                   className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-pink-400">Key Insight:</strong> <span className="text-slate-300 ml-2">{brief.insight}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-pink-400">SMP:</strong> <span className="text-slate-300 ml-2">{brief.message.smp}</span></div>
-                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-pink-400">Reasons to Believe:</strong> <span className="text-slate-300 ml-2">{(brief.message.reasons_to_believe || []).join(", ") || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-pink-400">Big Idea:</strong> <span className="text-slate-300 ml-2">{brief.outputs?.big_idea || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-pink-400">Strategic Insight:</strong> <span className="text-slate-300 ml-2">{brief.outputs?.strategic_insight || "Not specified"}</span></div>
+                <div className="bg-slate-800 p-4 rounded-xl"><strong className="text-pink-400">Executive Summary:</strong> <span className="text-slate-300 ml-2">{brief.outputs?.exec_summary || "Not specified"}</span></div>
               </div>
             )}
           </div>
@@ -383,31 +383,31 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
                   <div className="space-y-4">
                     <input
                       type="text"
-                      value={(editedBrief.tone_style.tone_tags || []).join(", ")}
-                      onChange={(e) => updateArrayField("tone_style", "tone_tags", e.target.value)}
+                      value={(editedBrief.outputs?.creative_territories?.map(t => t.name) || []).join(", ")}
+                      onChange={(e) => updateArrayField("outputs", "creative_territories", e.target.value)}
                       className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Tone tags"
                     />
                     <input
                       type="text"
-                      value={(editedBrief.tone_style.mood_tags || []).join(", ")}
-                      onChange={(e) => updateArrayField("tone_style", "mood_tags", e.target.value)}
+                      value={editedBrief.outputs?.strategic_insight || ""}
+                      onChange={(e) => updateBrief("outputs", "strategic_insight", e.target.value)}
                       className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Mood tags"
                     />
                     <input
                       type="text"
-                      value={(editedBrief.tone_style.avoid || []).join(", ")}
-                      onChange={(e) => updateArrayField("tone_style", "avoid", e.target.value)}
+                      value={editedBrief.outputs?.exec_summary || ""}
+                      onChange={(e) => updateBrief("outputs", "exec_summary", e.target.value)}
                       className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Avoid"
                     />
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Tone:</strong> <span className="text-slate-300 ml-2">{(brief.tone_style.tone_tags || []).join(", ") || "Not specified"}</span></div>
-                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Mood:</strong> <span className="text-slate-300 ml-2">{(brief.tone_style.mood_tags || []).join(", ") || "Not specified"}</span></div>
-                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Avoid:</strong> <span className="text-slate-300 ml-2">{(brief.tone_style.avoid || []).join(", ") || "Not specified"}</span></div>
+                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Creative Territories:</strong> <span className="text-slate-300 ml-2">{(brief.outputs?.creative_territories?.map(t => t.name) || []).join(", ") || "Not specified"}</span></div>
+                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Strategic Insight:</strong> <span className="text-slate-300 ml-2">{brief.outputs?.strategic_insight || "Not specified"}</span></div>
+                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Big Idea:</strong> <span className="text-slate-300 ml-2">{brief.outputs?.big_idea || "Not specified"}</span></div>
                   </div>
                 )}
               </div>
@@ -417,8 +417,8 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
                   <div className="space-y-4">
                     <input
                       type="text"
-                      value={(editedBrief.channels_formats.channels || []).join(", ")}
-                      onChange={(e) => updateArrayField("channels_formats", "channels", e.target.value)}
+                      value={(editedBrief.channels_formats.platforms || []).join(", ")}
+                      onChange={(e) => updateArrayField("channels_formats", "platforms", e.target.value)}
                       className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Channels"
                     />
@@ -431,17 +431,17 @@ export default function BriefReview({ brief, onBack, onDiscard }: BriefReviewPro
                     />
                     <input
                       type="text"
-                      value={(editedBrief.channels_formats.constraints || []).join(", ")}
-                      onChange={(e) => updateArrayField("channels_formats", "constraints", e.target.value)}
+                      value={(editedBrief.channels_formats.creative_constraints || []).join(", ")}
+                      onChange={(e) => updateArrayField("channels_formats", "creative_constraints", e.target.value)}
                       className="w-full p-4 bg-slate-800 border border-slate-600 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Constraints"
                     />
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Channels:</strong> <span className="text-slate-300 ml-2">{(brief.channels_formats.channels || []).join(", ") || "Not specified"}</span></div>
+                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Platforms:</strong> <span className="text-slate-300 ml-2">{(brief.channels_formats.platforms || []).join(", ") || "Not specified"}</span></div>
                     <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Formats:</strong> <span className="text-slate-300 ml-2">{(brief.channels_formats.formats || []).join(", ") || "Not specified"}</span></div>
-                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Constraints:</strong> <span className="text-slate-300 ml-2">{(brief.channels_formats.constraints || []).join(", ") || "Not specified"}</span></div>
+                    <div className="bg-slate-800 p-3 rounded-xl"><strong className="text-cyan-400">Creative Constraints:</strong> <span className="text-slate-300 ml-2">{(brief.channels_formats.creative_constraints || []).join(", ") || "Not specified"}</span></div>
                   </div>
                 )}
               </div>

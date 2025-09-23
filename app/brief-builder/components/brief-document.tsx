@@ -33,9 +33,9 @@ export default function BriefDocument({ brief, onBack, onDiscard, onSave, isView
     const addText = (text: string, fontSize: number, isBold = false, color = [0, 0, 0]) => {
       doc.setFontSize(fontSize);
       if (isBold) {
-        doc.setFont(undefined, 'bold');
+        doc.setFont('helvetica', 'bold');
       } else {
-        doc.setFont(undefined, 'normal');
+        doc.setFont('helvetica', 'normal');
       }
       doc.setTextColor(color[0], color[1], color[2]);
       

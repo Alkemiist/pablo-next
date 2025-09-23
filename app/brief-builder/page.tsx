@@ -71,6 +71,7 @@ export default function BriefBuilder() {
       outputs: {
         exec_summary: `This campaign aims to ${intake.objectives?.intent || "achieve marketing goals"} for ${intake.brand?.name || "our brand"} targeting ${intake.audience?.primary_demographics || "our target audience"}.`,
         big_idea: `The core creative concept: ${intake.product?.unique_selling_proposition || "Highlighting our unique value proposition"}`,
+        strategic_insight: `Strategic insight: ${intake.audience?.psychographics || "Understanding our audience's motivations and behaviors"}`,
         creative_territories: [
           {
             name: "Territory 1",

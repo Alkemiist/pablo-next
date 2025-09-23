@@ -76,7 +76,7 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
             </div>
             <div>
               <h3 className="font-semibold text-white mb-2">Target Audience</h3>
-              <p className="text-slate-300">{moodboard.briefEssentials.audience}</p>
+              <p className="text-slate-300">{moodboard.briefEssentials.targetAudience}</p>
             </div>
           </div>
           <div>
@@ -282,11 +282,11 @@ export default function MoodboardDisplay({ moodboard }: MoodboardDisplayProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-white mb-2">Micro-interactions</h3>
-              {renderList(moodboard.motionInteraction.microInteractions)}
+              {renderList(moodboard.motionInteraction.interactions)}
             </div>
             <div>
               <h3 className="font-semibold text-white mb-2">AR/3D Notes</h3>
-              {renderList(moodboard.motionInteraction.ar3dNotes)}
+              {renderList(moodboard.motionInteraction.interactions)}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

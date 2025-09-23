@@ -5,6 +5,7 @@ import { ArrowLeft, Loader2, FileText, Calendar, User, Tag } from "lucide-react"
 import BriefDocument from "../../brief-builder/components/brief-document";
 import { MarketingBriefDocument } from "@/lib/streamlined-brief-types";
 import { BriefMetadata } from "@/lib/brief-storage";
+import jsPDF from "jspdf";
 
 interface SavedBrief {
   metadata: BriefMetadata;
@@ -19,6 +20,48 @@ export default function BriefViewerPage() {
   const [brief, setBrief] = useState<SavedBrief | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const downloadPDF = () => {
+    console.log('Download PDF clicked!');
+    console.log('Brief data:', brief);
+    
+    if (!brief) {
+      console.log('No brief data available');
+      alert('No brief data available. Please try refreshing the page.');
+      return;
+    }
+    
+    try {
+      console.log('Starting PDF generation...');
+      const doc = new jsPDF();
+      
+      // Simple test - just add the title
+      doc.setFontSize(20);
+      doc.text(brief.briefData.document_info.title, 20, 20);
+      
+      // Add some basic info
+      doc.setFontSize(12);
+      doc.text(`Project: ${brief.briefData.document_info.project_name}`, 20, 40);
+      doc.text(`Brand: ${brief.briefData.document_info.brand_name}`, 20, 50);
+      doc.text(`Generated: ${brief.briefData.document_info.generated_date}`, 20, 60);
+      
+      // Add executive summary
+      doc.setFontSize(14);
+      doc.text('Executive Summary', 20, 80);
+      doc.setFontSize(10);
+      doc.text('Challenge:', 20, 90);
+      doc.text(brief.briefData.executive_summary.challenge, 20, 100);
+      
+      // Save the PDF
+      const fileName = `marketing-brief-${brief.briefData.document_info.project_name.replace(/\s+/g, '-').toLowerCase()}.pdf`;
+      doc.save(fileName);
+      console.log('PDF saved successfully:', fileName);
+      
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert(`Error generating PDF: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
 
   useEffect(() => {
     const loadBrief = async () => {
@@ -104,7 +147,7 @@ export default function BriefViewerPage() {
           <p className="text-neutral-400 mb-6">The requested brief could not be found.</p>
           <button
             onClick={handleBack}
-            className="px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white rounded-md transition-colors"
+            className="px-4 py-2 bg-blue-800 hover:bg-blue-700 text-white rounded-md transition-colors cursor-pointer"
           >
             Back
           </button>
@@ -114,28 +157,31 @@ export default function BriefViewerPage() {
   }
 
   return (
-    <div className="h-screen bg-black overflow-hidden">
+    <div className="h-screen bg-black overflow-hidden flex flex-col">
       {/* Header with brief metadata */}
       <div className="bg-neutral-950 border-b border-neutral-800 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={handleBack}
-              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors cursor-pointer"
             >
-              <ArrowLeft className="size-4" />
+              <ArrowLeft className="size-4 cursor-pointer" />
               Back
             </button>
             
+            {/* Separator */}
             <div className="h-6 w-px bg-neutral-700" />
             
+            
             <div className="flex items-center gap-2">
-              <FileText className="size-5 text-blue-400" />
+              {/* <FileText className="size-5 text-blue-400" /> */}
               <h1 className="text-xl font-semibold text-white">{brief.metadata.title}</h1>
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
+          {/* Status */}
+          {/* <div className="flex items-center gap-4">
             <span className={`px-3 py-1 text-sm rounded-full ${
               brief.metadata.status === 'Approved' ? 'bg-green-900/30 text-green-400 border border-green-800' :
               brief.metadata.status === 'In Review' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
@@ -143,7 +189,16 @@ export default function BriefViewerPage() {
             }`}>
               {brief.metadata.status}
             </span>
-          </div>
+          </div> */}
+
+          {/* Download PDF Button*/}
+          <button
+            onClick={downloadPDF}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors cursor-pointer"
+            disabled={!brief}
+          >
+            Download PDF
+          </button>
         </div>
         
         {/* Brief metadata details */}
@@ -178,7 +233,7 @@ export default function BriefViewerPage() {
       </div>
 
       {/* Brief document content */}
-      <div className="h-[calc(100vh-140px)] overflow-hidden">
+      <div className="flex-1 overflow-y-auto">
         <BriefDocument 
           brief={brief.briefData} 
           onBack={handleBack} 

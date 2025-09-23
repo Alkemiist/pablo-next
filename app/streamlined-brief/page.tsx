@@ -3,7 +3,7 @@
 // imports
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Filter, ArrowUpDown, Plus, FileText, Calendar, User, Loader2 } from "lucide-react"
+import { Search, Filter, ArrowUpDown, Plus, FileText, Calendar, User, Loader2, Trash2 } from "lucide-react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -70,6 +70,37 @@ export default function StreamlinedBriefPage() {
         router.push(`/streamlined-brief/${briefId}`);
     };
 
+    // Handle brief deletion
+    const handleDeleteBrief = async (briefId: string, briefTitle: string, event: React.MouseEvent) => {
+        event.stopPropagation(); // Prevent card click when clicking delete button
+        
+        const confirmed = window.confirm(`Are you sure you want to delete "${briefTitle}"? This action cannot be undone.`);
+        
+        if (!confirmed) return;
+        
+        try {
+            console.log(`Attempting to delete brief: ${briefId}`);
+            const response = await fetch(`/api/briefs/${briefId}`, {
+                method: 'DELETE',
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                const errorMessage = errorData.details || errorData.error || 'Failed to delete brief';
+                throw new Error(errorMessage);
+            }
+            
+            // Remove the brief from the local state
+            setSavedBriefs(prevBriefs => prevBriefs.filter(brief => brief.id !== briefId));
+            
+            console.log('Brief deleted successfully');
+        } catch (error) {
+            console.error('Error deleting brief:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Failed to delete brief. Please try again.';
+            alert(errorMessage);
+        }
+    };
+
     // Filter and sort logic
     const filteredBriefs = savedBriefs.filter(brief => {
         const matchesSearch = brief.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -101,7 +132,7 @@ export default function StreamlinedBriefPage() {
         <div className="ml-1 h-[calc(100vh-60px)] overflow-y-auto">
             
             {/* the top bar */}
-            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-neutral-950 shadow-lg h-[60px]">
+            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-neutral-950 shadow-lg h-[60px] border-b border-neutral-800">
                 
                 {/* Left side - Search, Filter, Sort */}
                 <div className="flex items-center gap-4">
@@ -194,36 +225,51 @@ export default function StreamlinedBriefPage() {
                             <div 
                                 key={brief.id} 
                                 onClick={() => handleBriefClick(brief.id)}
-                                className="bg-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-neutral-600 transition-colors cursor-pointer group"
+                                className="flex flex-col justify-between bg-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-neutral-600 transition-colors cursor-pointer group relative"
                             >
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-2">
-                                        <FileText className="size-5 text-blue-400" />
+                                        {/* <FileText className="size-5 text-blue-400" /> */}
+                                        {/* Title */}
                                         <h3 className="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
                                             {brief.title}
                                         </h3>
                                     </div>
-                                    <span className={`px-2 py-1 text-xs rounded-full ${
-                                        brief.status === 'Approved' ? 'bg-green-900/30 text-green-400 border border-green-800' :
-                                        brief.status === 'In Review' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
-                                        'bg-gray-900/30 text-gray-400 border border-gray-800'
-                                    }`}>
-                                        {brief.status}
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        {/* Status */}
+                                        {/* <span className={`px-2 py-1 text-xs rounded-full ${
+                                            brief.status === 'Approved' ? 'bg-green-900/30 text-green-400 border border-green-800' :
+                                            brief.status === 'In Review' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
+                                            'bg-gray-900/30 text-gray-400 border border-gray-800'
+                                        }`}>
+                                            {brief.status}
+                                        </span> */}
+                                        <button
+                                            onClick={(e) => handleDeleteBrief(brief.id, brief.title, e)}
+                                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:bg-red-900/30 rounded-md text-red-400 hover:text-red-300"
+                                            title="Delete brief"
+                                        >
+                                            <Trash2 className="size-4" />
+                                        </button>
+                                    </div>
                                 </div>
                                 
-                                <p className="text-neutral-400 text-sm mb-4 line-clamp-2">
+                                {/* Description */}
+                                <p className="text-neutral-400 text-sm mb-4 line-clamp-2 bg-neutral-800 rounded-md px-4 py-4 border border-neutral-700">
                                     {brief.description}
                                 </p>
                                 
+                                {/* Author and Date */}
                                 <div className="flex items-center justify-between text-xs text-neutral-500">
-                                    <div className="flex items-center gap-1">
+                                    {/* <div className="flex items-center gap-1">
                                         <User className="size-3" />
                                         <span>{brief.author}</span>
-                                    </div>
+                                    </div> */}
+                                    
+
+                                    {/* Date */}
                                     <div className="flex items-center gap-1">
-                                        <Calendar className="size-3" />
-                                        <span>{new Date(brief.createdAt).toLocaleDateString()}</span>
+                                        <span className="mt-2">Created {new Date(brief.createdAt).toLocaleDateString()}</span>
                                     </div>
                                 </div>
                             </div>

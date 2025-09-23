@@ -69,8 +69,8 @@ Return only a JSON array of 8 trait strings, no other text. Example format:
       traits = JSON.parse(cleanedResponse);
     } catch (parseError) {
       // Fallback: try to extract traits from text response
-      const lines = aiResponse.split('\n').filter(line => line.trim());
-      traits = lines.map(line => line.replace(/^\d+\.\s*/, '').replace(/^[-*]\s*/, '').trim()).slice(0, 8);
+      const lines = aiResponse.split('\n').filter((line: string) => line.trim());
+      traits = lines.map((line: string) => line.replace(/^\d+\.\s*/, '').replace(/^[-*]\s*/, '').trim()).slice(0, 8);
     }
 
     // Ensure we have exactly 8 traits

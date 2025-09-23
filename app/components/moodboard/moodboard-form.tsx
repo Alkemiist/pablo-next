@@ -15,11 +15,50 @@ interface MoodboardFormProps {
 
 export default function MoodboardForm({ onSubmit, isLoading = false }: MoodboardFormProps) {
   const [formData, setFormData] = useState<MoodboardRequest>({
-    brand: '',
-    product: '',
-    targetAudience: '',
-    campaignGoal: '',
-    industry: ''
+    name: '',
+    description: '',
+    palette: {
+      primary: '',
+      secondary: '',
+      accent: ''
+    },
+    typography: {
+      heading: '',
+      body: ''
+    },
+    images: [],
+    mood: '',
+    style: '',
+    briefEssentials: {
+      campaignGoal: '',
+      targetAudience: '',
+      keyMessage: '',
+      brandPersonality: '',
+      kpis: [],
+      channels: []
+    },
+    motionInteraction: {
+      transitions: [],
+      pacing: [],
+      interactions: [],
+      aspectRatios: [],
+      platformVariations: []
+    },
+    accessibilityInclusivity: {
+      contrastTargets: [],
+      legibilityRules: [],
+      inclusiveDesign: [],
+      altTextCues: [],
+      safeAreaChecks: []
+    },
+    productionNotes: {
+      exportSpecs: [],
+      fileNaming: [],
+      deliveryRequirements: [],
+      handoffLinks: [],
+      licensing: [],
+      riskFlags: []
+    }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,7 +67,7 @@ export default function MoodboardForm({ onSubmit, isLoading = false }: Moodboard
   };
 
   const handleInputChange = (field: keyof MoodboardRequest, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev: MoodboardRequest) => ({
       ...prev,
       [field]: value
     }));

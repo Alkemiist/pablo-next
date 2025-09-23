@@ -124,9 +124,20 @@ export async function updateBriefMetadata(id: string, updates: Partial<Omit<Brie
 export async function deleteBrief(id: string): Promise<boolean> {
   try {
     const filePath = path.join(STORAGE_DIR, `${id}.json`);
+    
+    // Check if file exists first
+    try {
+      await fs.access(filePath);
+    } catch (error) {
+      console.error(`File does not exist: ${filePath}`);
+      return false;
+    }
+    
     await fs.unlink(filePath);
+    console.log(`Successfully deleted brief: ${id}`);
     return true;
-  } catch {
+  } catch (error) {
+    console.error(`Error deleting brief ${id}:`, error);
     return false;
   }
 }

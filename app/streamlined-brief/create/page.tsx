@@ -301,7 +301,7 @@ export default function CreateStreamlinedBriefPage() {
 
       case "document":
         return generatedBrief ? (
-          <div className="h-full overflow-hidden">
+          <div className="h-full overflow-y-auto">
             <BriefDocument 
               brief={generatedBrief} 
               onBack={handleBackToWizard} 
