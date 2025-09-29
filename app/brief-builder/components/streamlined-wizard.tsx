@@ -2,9 +2,11 @@
 import { useState } from "react";
 import { StreamlinedBriefIntake } from "@/lib/streamlined-brief-types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { X } from "lucide-react";
 
 interface StreamlinedWizardProps {
   onComplete: (data: StreamlinedBriefIntake) => void;
+  onClose?: () => void;
   initialData?: StreamlinedBriefIntake;
 }
 
@@ -29,7 +31,7 @@ const steps = [
   }
 ];
 
-export default function StreamlinedWizard({ onComplete, initialData }: StreamlinedWizardProps) {
+export default function StreamlinedWizard({ onComplete, onClose, initialData }: StreamlinedWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<StreamlinedBriefIntake>(initialData || {
     project_name: "",
@@ -302,18 +304,31 @@ export default function StreamlinedWizard({ onComplete, initialData }: Streamlin
               ))}
             </div>
 
-            {/* Next Button */}
-            <button
-              onClick={handleNext}
-              disabled={!isStepValid()}
-            className={`px-8 py-3 text-sm font-semibold rounded-xl transition-all duration-200 ${
-              isStepValid()
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
-                : 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
-            }`}
-            >
-              {currentStep === steps.length - 1 ? 'Generate Brief' : 'Continue'}
-            </button>
+            {/* Next Button and Close Icon */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleNext}
+                disabled={!isStepValid()}
+              className={`px-8 py-3 text-sm font-semibold rounded-xl transition-all duration-200 ${
+                isStepValid()
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
+              }`}
+              >
+                {currentStep === steps.length - 1 ? 'Generate Brief' : 'Continue'}
+              </button>
+
+              {/* Close Button */}
+              {onClose && (
+                <button
+                  onClick={onClose}
+                  className="w-12 h-12 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 rounded-xl flex items-center justify-center cursor-pointer transition-colors"
+                  title="Back to Streamlined Brief Home"
+                >
+                  <X className="w-5 h-5 text-neutral-300" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -255,7 +255,7 @@ export default function StreamlinedBriefPage() {
                                 </div>
                                 
                                 {/* Description */}
-                                <p className="text-neutral-400 text-sm mb-4 line-clamp-2 bg-neutral-800 rounded-md px-4 py-4 border border-neutral-700">
+                                <p className="text-neutral-400 text-sm mb-4 line-clamp-2 bg-neutral-800/60 rounded-md px-4 py-2 h-24 border border-neutral-800">
                                     {brief.description}
                                 </p>
                                 

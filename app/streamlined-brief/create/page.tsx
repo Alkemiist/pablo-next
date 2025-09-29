@@ -129,6 +129,10 @@ export default function CreateStreamlinedBriefPage() {
     // Keep intakeData intact so user can edit and regenerate
   };
 
+  const handleCloseWizard = () => {
+    router.push('/streamlined-brief');
+  };
+
   const handleBackToWizardFromGenerating = () => {
     setAppState("wizard");
     setError(null);
@@ -179,7 +183,11 @@ export default function CreateStreamlinedBriefPage() {
         return (
           <div className="h-full flex flex-col">
             <div className="flex-1 overflow-y-auto">
-              <StreamlinedWizard onComplete={handleWizardComplete} initialData={intakeData || undefined} />
+              <StreamlinedWizard 
+                onComplete={handleWizardComplete} 
+                onClose={handleCloseWizard}
+                initialData={intakeData || undefined} 
+              />
             </div>
           </div>
         );
@@ -246,12 +254,12 @@ export default function CreateStreamlinedBriefPage() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between text-xs text-green-400 drop-shadow-[0_0_4px_rgba(34,197,94,0.5)]">
                           <span>Progress</span>
-                          <span>{Math.round(progressState.currentStep / 6 * 100)}%</span>
+                          <span>{Math.round(progressState.currentStep / 3 * 100)}%</span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-sm h-3 border border-green-800/30">
                           <div 
                             className="bg-green-400 h-full rounded-sm transition-all duration-500 relative overflow-hidden drop-shadow-[0_0_8px_rgba(34,197,94,0.7)]"
-                            style={{ width: `${(progressState.currentStep / 6) * 100}%` }}
+                            style={{ width: `${(progressState.currentStep / 3) * 100}%` }}
                           >
                             {/* Terminal-style loading animation */}
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-300 to-transparent animate-pulse"></div>

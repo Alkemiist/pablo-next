@@ -532,11 +532,11 @@ export default function ProjectDetails() {
                     <div className="text-center mb-12">
                         <div className="flex items-center justify-center gap-3 mb-4">
                             <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-neutral-300 bg-clip-text text-transparent">
-                                Recommended Creators
+                                Recommended Profiles
                             </h2>
                         </div>
                         <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
-                            Hand-picked professionals with proven expertise and audience alignment for this campaign
+                            These profiles are recommended based on the project's target persona and the profiles' similarity to the persona
                         </p>
                     </div>
                     
