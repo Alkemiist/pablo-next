@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, Files, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack, HousePlug, HouseWifi, Store} from 'lucide-react';
+import { Home, User, Settings, Files, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack, HousePlug, HouseWifi, Store, Video, Share2} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -24,6 +24,7 @@ export default function Navbar() {
         // { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
         { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> }, // marketplace page
         { href: '/streamlined-brief', label: 'AI Brief Generator', icon: <Files size={20} /> }, // new streamlined brief flow
+        { href: '/social-generator', label: 'Social Generator', icon: <Share2 size={20} /> }, // social post generator
         // { href: '/brief-builder', label: 'Brief Builder (Legacy)', icon: <NotebookPen size={20} /> }, // old brief builder page
         // { href: '/analysis', label: 'Analysis', icon: <User size={20} /> },
         // { href: '/gen-brief', label: 'Brief', icon: <NotebookPen size={20} /> },
@@ -33,14 +34,16 @@ export default function Navbar() {
         // { href: '/creative-brief', label: 'Creative Brief', icon: <Briefcase size={20} /> },
         // { href: '/god-flow', label: 'God Flow', icon: <Atom size={20} /> },
         // { href: '/profile-analysis', label: 'Profile Analysis', icon: <Search size={20} /> }, // profile analysis page
-        { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> }, // inspo page    
+        { href: '/inspo', label: 'Inspo', icon: <Lightbulb size={20} /> }, // inspo page   
+        { href: '/campaign', label: 'Campaign', icon: <Briefcase size={20} /> }, // campaign page
         // { href: '/persona', label: 'Persona Creation', icon: <User size={20} /> }
-        { href: '/variant-engine', label: 'Variant Engine', icon: <FileStack size={20} /> }, // variant engine page
+        // { href: '/variant-engine', label: 'Variant Engine', icon: <FileStack size={20} /> }, // variant engine page
     ];
 
     // the return statement
     return (
-        <div className="z-100 border-r border-neutral-800 fixed top-0 left-0 h-screen z-50 shadow-md bg-neutral-950 text-white flex flex-col pt-12 gap-6 px-4 transition-all duration-600 ease-in-out ${isOpen ? 'w-56' : 'w-20'}">
+        <div className="border-r border-neutral-800 fixed top-0 left-0 h-screen z-50 shadow-md bg-neutral-950 text-white flex flex-col justify-center pt-12 gap-8 px-4 w-20">
+            
             {navItems.map((item) => (
                 <Link
                 key={item.href}
@@ -54,9 +57,6 @@ export default function Navbar() {
                 {isOpen && <span className="text-sm">{item.label}</span>}
                 </Link>
             ))}
-        {/* <button onClick={handleNav} className="absolute bottom-24 left-1/2 transform -translate-x-1/2 m-full hover:bg-slate-800 rounded-lg p-2"> 
-            {isOpen ? <ArrowLeft size={20} /> : <ArrowRight size={20} />} 
-        </button> */}
 
     </div>
     )

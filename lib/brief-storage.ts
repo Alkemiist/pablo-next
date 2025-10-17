@@ -13,6 +13,7 @@ export interface BriefMetadata {
   createdAt: string;
   updatedAt: string;
   tags?: string[];
+  visualPreview?: string; // URL to first image/video for card display
 }
 
 // Complete brief with metadata and data
@@ -38,27 +39,54 @@ export function generateBriefId(): string {
   return `brief_${uuidv4()}`;
 }
 
-// Save a brief to file
-export async function saveBrief(briefData: MarketingBriefDocument, metadata: Omit<BriefMetadata, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
+// Save a brief to file (overloaded function)
+export async function saveBrief(briefData: MarketingBriefDocument, metadata: Omit<BriefMetadata, 'id' | 'createdAt' | 'updatedAt' | 'visualPreview'>): Promise<string>;
+export async function saveBrief(savedBrief: SavedBrief): Promise<boolean>;
+export async function saveBrief(
+  briefDataOrSavedBrief: MarketingBriefDocument | SavedBrief, 
+  metadata?: Omit<BriefMetadata, 'id' | 'createdAt' | 'updatedAt' | 'visualPreview'>
+): Promise<string | boolean> {
   await ensureStorageDir();
   
-  const id = generateBriefId();
-  const now = new Date().toISOString();
-  
-  const savedBrief: SavedBrief = {
-    metadata: {
-      id,
-      ...metadata,
-      createdAt: now,
-      updatedAt: now,
-    },
-    briefData
-  };
-  
-  const filePath = path.join(STORAGE_DIR, `${id}.json`);
-  await fs.writeFile(filePath, JSON.stringify(savedBrief, null, 2));
-  
-  return id;
+  // Check if this is a SavedBrief object (for updates) or separate briefData/metadata (for new briefs)
+  if (metadata === undefined) {
+    // This is a SavedBrief object for updating
+    const savedBrief = briefDataOrSavedBrief as SavedBrief;
+    const filePath = path.join(STORAGE_DIR, `${savedBrief.metadata.id}.json`);
+    await fs.writeFile(filePath, JSON.stringify(savedBrief, null, 2));
+    return true;
+  } else {
+    // This is a new brief with separate briefData and metadata
+    const briefData = briefDataOrSavedBrief as MarketingBriefDocument;
+    const id = generateBriefId();
+    const now = new Date().toISOString();
+    
+    // Extract visual preview from visual direction
+    let visualPreview: string | undefined;
+    if (briefData.visual_direction) {
+      if (briefData.visual_direction.images.length > 0) {
+        visualPreview = briefData.visual_direction.images[0].url;
+      } else if (briefData.visual_direction.videos && briefData.visual_direction.videos.length > 0) {
+        visualPreview = briefData.visual_direction.videos[0].url;
+      }
+    }
+    
+    const savedBrief: SavedBrief = {
+      metadata: {
+        id,
+        ...metadata,
+        visualPreview,
+        createdAt: now,
+        updatedAt: now,
+      },
+      briefData
+    };
+    
+    const filePath = path.join(STORAGE_DIR, `${id}.json`);
+    await fs.writeFile(filePath, JSON.stringify(savedBrief, null, 2));
+    
+    return id;
+  }
 }
 
 // Load a specific brief by ID

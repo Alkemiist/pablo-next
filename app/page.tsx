@@ -299,7 +299,7 @@ function Home() {
 
             {/* Top Hero (single feature) */}
             {news.length > 0 && (
-                <div className="px-12 mt-8 mb-8">
+                <div className="px-6 mt-8 mb-8">
                     {(() => {
                         const article = news[0];
                         return (
@@ -345,7 +345,7 @@ function Home() {
             )}
 
             {/* Opportunities Carousel */}
-            <div className="flex flex-col gap-4 px-12 mt-4">
+            <div className="flex flex-col gap-4 px-6 mt-4">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
                         <h3 className="text-xl font-bold">Projects for you</h3>
@@ -390,7 +390,7 @@ function Home() {
             </div>
 
             {/* Counter-intuitive Audiences */}
-            <div className="flex flex-col gap-4 px-12 mt-8">
+            <div className="flex flex-col gap-4 px-6 mt-8">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
                         <h3 className="text-xl font-bold">Counter-intuitive Audiences</h3>
@@ -437,7 +437,7 @@ function Home() {
 
             {/* Stories we love */}
             {news.length > 1 && (
-                <div className='flex flex-col gap-4 px-12 mt-12'>
+                <div className='flex flex-col gap-4 px-6 mt-12'>
 
                     {/* Title */}
                     <div className='flex flex-col mb-2'>
@@ -484,7 +484,7 @@ function Home() {
             )}
 
             {/* Persona Carousel */}
-            <div className="flex flex-col gap-4 px-12 mt-12">
+            <div className="flex flex-col gap-4 px-6 mt-12">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
                         <h3 className="text-xl font-bold">Explore Audiences</h3>
@@ -530,7 +530,7 @@ function Home() {
             </div>
 
             {/* Stadiums Carousel */}
-            <div className="flex flex-col gap-4 px-12 mt-8">
+            <div className="flex flex-col gap-4 px-6 mt-8">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
                         <h3 className="text-xl font-bold">Stadiums with similar audiences</h3>
@@ -590,7 +590,7 @@ function Home() {
 
             {/* Latest grid removed as requested */}
             {news.length > 10 && (
-                <div className="px-12 mt-12">
+                <div className="px-6 mt-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {news.slice(9, 11).map((article) => (
                             <div
@@ -633,7 +633,7 @@ function Home() {
             )}
 
             {/* Powerful audiences */}
-            <div className="flex flex-col gap-4 px-12 mt-12 mb-16">
+            <div className="flex flex-col gap-4 px-6 mt-12 mb-16">
                 <div className='flex items-end justify-between'>
                     <div className='flex flex-col'>
                         <h3 className="text-xl font-bold">Powerful audiences</h3>

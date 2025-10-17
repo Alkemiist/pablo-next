@@ -74,12 +74,12 @@ export default function StreamlinedBriefPage() {
     const handleDeleteBrief = async (briefId: string, briefTitle: string, event: React.MouseEvent) => {
         event.stopPropagation(); // Prevent card click when clicking delete button
         
-        const confirmed = window.confirm(`Are you sure you want to delete "${briefTitle}"? This action cannot be undone.`);
+        const displayTitle = briefTitle || 'Untitled Brief';
+        const confirmed = window.confirm(`Are you sure you want to delete "${displayTitle}"? This action cannot be undone.`);
         
         if (!confirmed) return;
         
         try {
-            console.log(`Attempting to delete brief: ${briefId}`);
             const response = await fetch(`/api/briefs/${briefId}`, {
                 method: 'DELETE',
             });
@@ -92,8 +92,6 @@ export default function StreamlinedBriefPage() {
             
             // Remove the brief from the local state
             setSavedBriefs(prevBriefs => prevBriefs.filter(brief => brief.id !== briefId));
-            
-            console.log('Brief deleted successfully');
         } catch (error) {
             console.error('Error deleting brief:', error);
             const errorMessage = error instanceof Error ? error.message : 'Failed to delete brief. Please try again.';
@@ -103,11 +101,11 @@ export default function StreamlinedBriefPage() {
 
     // Filter and sort logic
     const filteredBriefs = savedBriefs.filter(brief => {
-        const matchesSearch = brief.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            brief.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            brief.author.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesSearch = (brief.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            (brief.description || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            (brief.author || '').toLowerCase().includes(searchQuery.toLowerCase())
         
-        const matchesFilter = filterValue === "" || filterValue === "all" || brief.status.toLowerCase() === filterValue.toLowerCase()
+        const matchesFilter = filterValue === "" || filterValue === "all" || (brief.status || '').toLowerCase() === filterValue.toLowerCase()
         
         return matchesSearch && matchesFilter
     })
@@ -129,10 +127,10 @@ export default function StreamlinedBriefPage() {
 
     // return component
     return (
-        <div className="ml-1 h-[calc(100vh-60px)] overflow-y-auto">
+        <div className="h-[calc(100vh-60px)] overflow-y-auto">
             
             {/* the top bar */}
-            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-neutral-950 shadow-lg h-[60px] border-b border-neutral-800">
+            <div className="sticky top-0 z-10 flex items-center justify-between bg-neutral-950 px-6 py-3 shadow-lg h-[60px] border-b border-neutral-800 w-full">
                 
                 {/* Left side - Search, Filter, Sort */}
                 <div className="flex items-center gap-4">
@@ -190,7 +188,7 @@ export default function StreamlinedBriefPage() {
             </div>
 
             {/* Briefs Grid */}
-            <div className="p-6">
+            <div className="px-6 py-6">
                 {/* Loading State */}
                 {isLoading && (
                     <div className="flex items-center justify-center py-12">
@@ -225,52 +223,54 @@ export default function StreamlinedBriefPage() {
                             <div 
                                 key={brief.id} 
                                 onClick={() => handleBriefClick(brief.id)}
-                                className="flex flex-col justify-between bg-neutral-900 border border-neutral-700 rounded-lg p-6 hover:border-neutral-600 transition-colors cursor-pointer group relative"
+                                className="bg-neutral-900 rounded-2xl border border-green-800/30 overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 ease-out hover:border-green-400 hover:ring-1 hover:ring-green-400/40 hover:shadow-[0_0_30px_rgba(34,197,94,0.35)] cursor-pointer group relative"
                             >
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="flex items-center gap-2">
-                                        {/* <FileText className="size-5 text-blue-400" /> */}
-                                        {/* Title */}
-                                        <h3 className="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
-                                            {brief.title}
-                                        </h3>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        {/* Status */}
-                                        {/* <span className={`px-2 py-1 text-xs rounded-full ${
-                                            brief.status === 'Approved' ? 'bg-green-900/30 text-green-400 border border-green-800' :
-                                            brief.status === 'In Review' ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800' :
-                                            'bg-gray-900/30 text-gray-400 border border-gray-800'
-                                        }`}>
-                                            {brief.status}
-                                        </span> */}
-                                        <button
-                                            onClick={(e) => handleDeleteBrief(brief.id, brief.title, e)}
-                                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:bg-red-900/30 rounded-md text-red-400 hover:text-red-300"
-                                            title="Delete brief"
-                                        >
-                                            <Trash2 className="size-4" />
-                                        </button>
-                                    </div>
+                                {/* Visual Preview */}
+                                <div className="h-48 w-full overflow-hidden relative">
+                                    {brief.visualPreview ? (
+                                        brief.visualPreview.includes('blob:') || brief.visualPreview.startsWith('data:') ? (
+                                            <img
+                                                src={brief.visualPreview}
+                                                alt={brief.title}
+                                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={brief.visualPreview}
+                                                alt={brief.title}
+                                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+                                            />
+                                        )
+                                    ) : (
+                                        <div className="h-full w-full bg-gradient-to-br from-green-900/20 via-neutral-800 to-blue-900/20 flex items-center justify-center">
+                                            <FileText className="size-16 text-neutral-600" />
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/10 to-transparent" />
+                                    
+                                    {/* Delete Button */}
+                                    <button
+                                        onClick={(e) => handleDeleteBrief(brief.id, brief.title, e)}
+                                        className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-900/30 rounded-lg text-red-400 hover:text-red-300"
+                                        title="Delete brief"
+                                    >
+                                        <Trash2 className="size-4" />
+                                    </button>
                                 </div>
                                 
-                                {/* Description */}
-                                <p className="text-neutral-400 text-sm mb-4 line-clamp-2 bg-neutral-800 rounded-md px-4 py-4 border border-neutral-700">
-                                    {brief.description}
-                                </p>
-                                
-                                {/* Author and Date */}
-                                <div className="flex items-center justify-between text-xs text-neutral-500">
-                                    {/* <div className="flex items-center gap-1">
-                                        <User className="size-3" />
-                                        <span>{brief.author}</span>
-                                    </div> */}
-                                    
-
-                                    {/* Date */}
-                                    <div className="flex items-center gap-1">
-                                        <span className="mt-2">Created {new Date(brief.createdAt).toLocaleDateString()}</span>
+                                {/* Content */}
+                                <div className="p-5">
+                                    <div className="text-xl font-semibold leading-tight text-white group-hover:text-green-300 transition-colors mb-2">
+                                        {brief.title || 'Untitled Brief'}
                                     </div>
+                                    <p className="text-sm text-neutral-400 leading-relaxed line-clamp-3 mb-4">
+                                        {brief.description || 'No description available'}
+                                    </p>
+                                    
+                                    {/* Date */}
+                                    {/* <div className="flex items-center justify-between text-xs text-neutral-500">
+                                        <span>Created {new Date(brief.createdAt).toLocaleDateString()}</span>
+                                    </div> */}
                                 </div>
                             </div>
                         ))}
@@ -279,7 +279,7 @@ export default function StreamlinedBriefPage() {
 
                 {/* Empty State */}
                 {!isLoading && !error && sortedBriefs.length === 0 && (
-                    <div className="text-center py-12">
+                    <div className="flex flex-col items-center justify-center h- border border-neutral-700 rounded-2xl text-center py-12">
                         <FileText className="size-16 text-neutral-600 mx-auto mb-4" />
                         <h3 className="text-lg font-semibold text-neutral-300 mb-2">No briefs found</h3>
                         <p className="text-neutral-500 mb-6">

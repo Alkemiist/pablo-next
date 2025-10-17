@@ -5,15 +5,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { usePathname } from "next/navigation"
 import { generalProjects } from "@/lib/mp-general"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import BriefCard, { PublishedBrief } from '../components/marketplace/brief-card'
 
 // this is the marketplace page
 export default function Marketplace() {
 
     // state
     const pathname = usePathname()
+    const [publishedBriefs, setPublishedBriefs] = useState<PublishedBrief[]>([])
+    const [isLoadingBriefs, setIsLoadingBriefs] = useState(true)
     
     // refs for carousel scrolling
+    const publishedBriefsRef = useRef<HTMLDivElement>(null)
     const trendingRef = useRef<HTMLDivElement>(null)
     const featuredRef = useRef<HTMLDivElement>(null)
     const newArrivalsRef = useRef<HTMLDivElement>(null)
@@ -32,6 +36,26 @@ export default function Marketplace() {
     const scrollRight = (ref: React.RefObject<HTMLDivElement | null>) => {
         ref.current?.scrollBy({ left: scrollByAmount(), behavior: 'smooth' })
     }
+
+    // Load published briefs
+    useEffect(() => {
+        const loadPublishedBriefs = async () => {
+            try {
+                setIsLoadingBriefs(true)
+                const response = await fetch('/api/marketplace/publish')
+                if (response.ok) {
+                    const data = await response.json()
+                    setPublishedBriefs(data.publishedBriefs || [])
+                }
+            } catch (error) {
+                console.error('Error loading published briefs:', error)
+            } finally {
+                setIsLoadingBriefs(false)
+            }
+        }
+
+        loadPublishedBriefs()
+    }, [])
 
     // OpportunityMedia component for video cards (used in carousel rows)
     const OpportunityMedia = ({ videoUrl, title }: { videoUrl?: string; title: string }) => {
@@ -251,6 +275,54 @@ export default function Marketplace() {
                     );
                 })()}
             </div>
+
+            {/* Published Briefs Row */}
+            {publishedBriefs.length > 0 && (
+                <div className="flex flex-col gap-4 px-12 mt-8">
+                    <div className='flex items-end justify-between'>
+                        <div className='flex flex-col'>
+                            <h3 className="text-xl font-bold">Published Briefs</h3>
+                            <p className='text-sm text-slate-400'>Fresh marketing briefs from the community</p>
+                        </div>
+                        <div className='flex gap-2'>
+                            <button
+                                onClick={() => scrollLeft(publishedBriefsRef)}
+                                className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                                aria-label="Scroll published briefs left"
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </button>
+                            <button
+                                onClick={() => scrollRight(publishedBriefsRef)}
+                                className="h-9 w-9 grid place-items-center rounded-lg border border-neutral-800 bg-neutral-900 hover:bg-neutral-800"
+                                aria-label="Scroll published briefs right"
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        ref={publishedBriefsRef}
+                        className="relative flex gap-4 overflow-x-auto scroll-smooth pr-2 scroll-container max-w-full"
+                        aria-label="Published briefs carousel"
+                    >
+                        {publishedBriefs.map((brief) => (
+                            <BriefCard
+                                key={brief.id}
+                                brief={brief}
+                                onSave={(briefId) => {
+                                    // Update local state or refetch
+                                    console.log('Brief saved:', briefId)
+                                }}
+                                onInterested={(briefId) => {
+                                    // Update local state or refetch
+                                    console.log('Brief marked as interested:', briefId)
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Trending Now */}
             <ProjectRow

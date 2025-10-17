@@ -265,7 +265,7 @@ body {
   filter: drop-shadow(0 0 2px #00ff41) drop-shadow(0 0 4px #00ff41);
   transition: all 0.3s ease;
   animation: neon-glow 3s ease-in-out infinite;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .neon-icon:hover {

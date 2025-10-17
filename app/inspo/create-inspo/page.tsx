@@ -3,14 +3,30 @@
 // imports
 import { useInspoContext } from "@/app/context/inspoContext";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Modal } from "@/components/ui/modal";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { validateContext } from "@/lib/api/tactics";
-import { Tactic } from "@/lib/types/tactics";
-import { Download, Share, RotateCcw, Save } from "lucide-react";
+
+// Simple tactic interface
+interface Tactic {
+  id: string;
+  name: string;
+  title: string;
+  description: string;
+  oneLinerSummary?: string;
+  platform?: string;
+  coreMessage?: string;
+  image?: string;
+  goal?: string;
+  whyItWorks?: string;
+}
+import { Download, Share, RotateCcw, Save, X } from "lucide-react";
+import InspoSaveModal from "@/app/components/inspo-save-modal";
+import { CreateInspoCardRequest } from "@/lib/types/inspo-card";
 
 // Helper functions for image handling
 const getImageFormat = (base64String: string): string => {
@@ -112,6 +128,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({ text, speed = 50, class
 
 // The full component
 export default function CreateInspoPage() {
+    const router = useRouter();
 
     // react context state 
     const { brand, setBrand, product, setProduct, persona, setPersona, goal, setGoal, visualGuide, setVisualGuide } = useInspoContext();
@@ -182,6 +199,27 @@ export default function CreateInspoPage() {
         3: { isLoading: false, stage: '', progress: 0 },
     });
 
+    // Save modal state
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveError, setSaveError] = useState<string | null>(null);
+    const [tacticToSave, setTacticToSave] = useState<Tactic | null>(null);
+
+    // Generated content tracking for saving
+    const [generatedContent, setGeneratedContent] = useState<{
+        [tacticId: string]: {
+            audienceJourney?: any;
+            socialPost?: any;
+            captionPack?: any;
+            blogOutline?: any;
+            emailCampaign?: any;
+            influencerBrief?: any;
+            evergreenPlan?: any;
+            script?: any;
+            agentChat?: any;
+        };
+    }>({});
+
     // Helper function to update individual card loading state
     const updateCardLoadingState = (cardIndex: number, stage: string, progress: number) => {
         setCardLoadingStates(prev => ({
@@ -211,6 +249,49 @@ export default function CreateInspoPage() {
             newTactics[cardIndex] = tactic;
             return newTactics;
         });
+    };
+
+    // Save inspo card functionality
+    const handleSaveInspoCard = async (request: CreateInspoCardRequest) => {
+        setIsSaving(true);
+        setSaveError(null);
+
+        try {
+            const response = await fetch('/api/inspo-cards', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(request),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to save inspo card');
+            }
+
+            const result = await response.json();
+            console.log('✅ Inspo card saved successfully:', result);
+            
+            // Show success message or redirect
+            alert('Inspo card saved successfully!');
+        } catch (error) {
+            console.error('❌ Error saving inspo card:', error);
+            setSaveError(error instanceof Error ? error.message : 'Failed to save inspo card');
+            throw error;
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    // Open save modal
+    const handleOpenSaveModal = () => {
+        if (tactics.length === 0) {
+            alert('Please generate some tactics first before saving.');
+            return;
+        }
+        setTacticToSave(null); // Save all tactics
+        setIsSaveModalOpen(true);
     };
 
 
@@ -605,12 +686,25 @@ export default function CreateInspoPage() {
             }
 
             // Return the generated content in the expected format
-            return [{
+            const generatedFrame = {
                 id: 1,
                 type: type,
                 title: getTitleForType(type),
                 content: data.content
-            }];
+            };
+
+            // Track generated content for saving
+            if (tactic.title) {
+                setGeneratedContent(prev => ({
+                    ...prev,
+                    [tactic.title]: {
+                        ...prev[tactic.title],
+                        [type]: data.content
+                    }
+                }));
+            }
+
+            return [generatedFrame];
 
         } catch (error) {
             console.error(`Error generating ${type} content:`, error);
@@ -649,7 +743,7 @@ export default function CreateInspoPage() {
         <div>
             
             {/* Component Bar */}
-            <div className="flex justify-between items-center border-b border-neutral-800 bg-neutral-950 py-4 px-8 sticky top-0 z-10 h-[80px]">
+            <div className="flex justify-between items-center border-b border-neutral-800 bg-neutral-950 py-4 px-6 sticky top-0 z-10 h-[80px]">
 
                 {/* Left Side: User selects/ adds all of the context we need in order to generate the inspo -------------------------------- */}
                 <div className="flex gap-4">
@@ -722,7 +816,9 @@ export default function CreateInspoPage() {
                 </div>
 
                 
-                {/* Right Side: Is the "imagine" button that triggers the generative to start with all of the added context -------------------------------- */}
+                {/* Right Side: Action buttons grouped together -------------------------------- */}
+                <div className="flex items-center gap-2">
+                    {/* Create Button */}
                     <button 
                      className={`relative px-8 h-12 rounded-xl border text-sm font-semibold transition-all duration-500 ease-in-out flex items-center gap-3 overflow-hidden ${
                          isCompleted(brand) && isCompleted(product) && isCompleted(persona) && isCompleted(goal) && isCompleted(visualGuide)
@@ -762,6 +858,16 @@ export default function CreateInspoPage() {
                          )}
                      </div>
                  </button>
+
+                    {/* Close Button */}
+                    <button
+                        onClick={() => router.push('/inspo')}
+                        className="w-12 h-12 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 rounded-xl flex items-center justify-center cursor-pointer transition-colors"
+                        title="Back to Inspo Home"
+                    >
+                        <X className="w-5 h-5 text-neutral-300" />
+                    </button>
+                </div>
 
             </div>
 
@@ -804,9 +910,7 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={validateAndSanitizeImageData(tactics[0].image) 
-                                        ? getImageSrc(tactics[0].image)! 
-                                        : `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+1`} 
+                                    src={tactics[0].image || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+1`} 
                                     alt={tactics[0].title}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
@@ -877,7 +981,7 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={getImageSrc(tactics[1].image) || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+2`} 
+                                    src={tactics[1].image || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+2`} 
                                     alt={tactics[1].title}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
@@ -956,7 +1060,7 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={getImageSrc(tactics[2].image) || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+3`} 
+                                    src={tactics[2].image || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+3`} 
                                     alt={tactics[2].title}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
@@ -1035,7 +1139,7 @@ export default function CreateInspoPage() {
                             {/* Background Image */}
                             <div className="absolute inset-0">
                                 <img 
-                                    src={getImageSrc(tactics[3].image) || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+4`} 
+                                    src={tactics[3].image || `https://via.placeholder.com/1792x1024/64748b/ffffff?text=Tactic+4`} 
                                     alt={tactics[3].title}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
@@ -1087,6 +1191,7 @@ export default function CreateInspoPage() {
                 </div>
 
             </div>
+
 
             {/* Brand Modal */}
             <Modal 
@@ -1317,7 +1422,16 @@ export default function CreateInspoPage() {
             >
                 {/* Action Button Stack - Positioned next to close button */}
                 <div className="absolute top-6 right-16 z-50 flex gap-2">
-                    <button title="Save Tactic" className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                    <button 
+                        title="Save This Tactic" 
+                        onClick={() => {
+                            if (selectedTactic) {
+                                setTacticToSave(selectedTactic);
+                                setIsSaveModalOpen(true);
+                            }
+                        }}
+                        className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors"
+                    >
                         <Save className="w-4 h-4 text-white" />
                     </button>
                     <button title="Download Tactic" className="w-8 h-8 bg-neutral-950 border border-neutral-800 hover:bg-neutral-800 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
@@ -1335,9 +1449,7 @@ export default function CreateInspoPage() {
                             <div className="w-2/5 flex-shrink-0 shadow-lg">
                                 <div className="relative w-full h-full rounded-lg overflow-hidden bg-neutral-800">
                                     <img 
-                                        src={validateAndSanitizeImageData(selectedTactic.image) 
-                                            ? getImageSrc(selectedTactic.image)! 
-                                            : `https://via.placeholder.com/600x400/64748b/ffffff?text=Tactic+Image`} 
+                                        src={selectedTactic.image || `https://via.placeholder.com/600x400/64748b/ffffff?text=Tactic+Image`} 
                                         alt={selectedTactic.title}
                                         className={`w-full h-full object-cover transition-opacity duration-300 ${
                                             isRegeneratingImage ? 'opacity-50' : 'opacity-100'
@@ -1392,7 +1504,7 @@ export default function CreateInspoPage() {
                                         {/* Description Section */}
                                         <div>
                                             <h4 className="text-white font-semibold mb-3">Description:</h4>
-                                            <p className="text-neutral-500 text-sm leading-relaxed">{selectedTactic.fullDescription}</p>
+                                            <p className="text-neutral-500 text-sm leading-relaxed">{selectedTactic.description}</p>
                                         </div>
 
                                         {/* Why This Works Section */}
@@ -2495,6 +2607,32 @@ export default function CreateInspoPage() {
                     </div>
                 )}
             </Modal>
+
+            {/* Save Inspo Card Modal - Rendered at top level to avoid modal within modal */}
+            <InspoSaveModal
+                isOpen={isSaveModalOpen}
+                onClose={() => {
+                    setIsSaveModalOpen(false);
+                    setTacticToSave(null);
+                }}
+                onSave={handleSaveInspoCard}
+                context={{
+                    brand,
+                    product,
+                    persona,
+                    goal,
+                    visualGuide
+                }}
+                tactics={tacticToSave ? [tacticToSave] : tactics}
+                generatedContent={tacticToSave ? (generatedContent[tacticToSave.title] ? { [tacticToSave.title]: generatedContent[tacticToSave.title] } : {}) : generatedContent}
+                visualAssets={{
+                    uploadedImage: uploadedImage ? URL.createObjectURL(uploadedImage) : undefined,
+                    generatedImages: tacticToSave 
+                        ? [tacticToSave.image].filter(Boolean) as string[]
+                        : tactics.map(tactic => tactic.image).filter(Boolean) as string[]
+                }}
+                isIndividualTactic={!!tacticToSave}
+            />
 
         </div>
     )

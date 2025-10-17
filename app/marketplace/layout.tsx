@@ -21,7 +21,7 @@ export default function MarketplaceLayout({
     return (
         <div>
             {/* header bar */}
-            <div className="sticky top-0 z-50 flex flex-row items-center justify-center w-full h-16 border-b border-green-800/30 px-8 bg-black/95 backdrop-blur-sm">
+            <div className="sticky top-0 z-50 flex flex-row items-center justify-center w-full h-16 border-b border-green-800/30 px-6 bg-black/95 backdrop-blur-sm">
                 
                 {/* custom tabs: For me, general projects */}
                 <div className="bg-neutral-900 border border-green-800/30 rounded-xl flex">

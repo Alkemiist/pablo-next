@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import StreamlinedWizard from "../../brief-builder/components/streamlined-wizard";
-import BriefDocument from "../../brief-builder/components/brief-document";
+import StreamlinedWizard from "../../components/streamlined-brief/streamlined-wizard";
+import BriefDocument from "../../components/streamlined-brief/brief-document";
 import BriefSaveModal from "../../components/brief-save-modal";
 import { StreamlinedBriefIntake, MarketingBriefDocument } from "@/lib/streamlined-brief-types";
 
@@ -129,6 +129,10 @@ export default function CreateStreamlinedBriefPage() {
     // Keep intakeData intact so user can edit and regenerate
   };
 
+  const handleCloseWizard = () => {
+    router.push('/streamlined-brief');
+  };
+
   const handleBackToWizardFromGenerating = () => {
     setAppState("wizard");
     setError(null);
@@ -141,16 +145,117 @@ export default function CreateStreamlinedBriefPage() {
     }
   };
 
+  // Helper function to upload files and replace blob URLs with server URLs
+  const uploadVisualAssets = async (visualDirection: any) => {
+    if (!visualDirection || (!visualDirection.images?.length && !visualDirection.videos?.length)) {
+      return visualDirection;
+    }
+
+    const updatedVisualDirection = { ...visualDirection };
+    
+    // Process images
+    if (visualDirection.images?.length > 0) {
+      const updatedImages = [];
+      for (const image of visualDirection.images) {
+        if (image.url.startsWith('blob:')) {
+          // Convert blob URL to File and upload
+          try {
+            const response = await fetch(image.url);
+            const blob = await response.blob();
+            const file = new File([blob], image.originalName, { type: blob.type });
+            
+            const formData = new FormData();
+            formData.append('files', file);
+            
+            // Upload to temporary endpoint (we'll create this)
+            const uploadResponse = await fetch('/api/upload-temp-media', {
+              method: 'POST',
+              body: formData,
+            });
+            
+            if (uploadResponse.ok) {
+              const uploadResult = await uploadResponse.json();
+              updatedImages.push({
+                ...image,
+                url: uploadResult.url
+              });
+            } else {
+              // If upload fails, keep original (might be a server URL already)
+              updatedImages.push(image);
+            }
+          } catch (error) {
+            console.error('Error uploading image:', error);
+            updatedImages.push(image);
+          }
+        } else {
+          updatedImages.push(image);
+        }
+      }
+      updatedVisualDirection.images = updatedImages;
+    }
+    
+    // Process videos (same logic)
+    if (visualDirection.videos?.length > 0) {
+      const updatedVideos = [];
+      for (const video of visualDirection.videos) {
+        if (video.url.startsWith('blob:')) {
+          try {
+            const response = await fetch(video.url);
+            const blob = await response.blob();
+            const file = new File([blob], video.originalName, { type: blob.type });
+            
+            const formData = new FormData();
+            formData.append('files', file);
+            
+            const uploadResponse = await fetch('/api/upload-temp-media', {
+              method: 'POST',
+              body: formData,
+            });
+            
+            if (uploadResponse.ok) {
+              const uploadResult = await uploadResponse.json();
+              updatedVideos.push({
+                ...video,
+                url: uploadResult.url
+              });
+            } else {
+              updatedVideos.push(video);
+            }
+          } catch (error) {
+            console.error('Error uploading video:', error);
+            updatedVideos.push(video);
+          }
+        } else {
+          updatedVideos.push(video);
+        }
+      }
+      updatedVisualDirection.videos = updatedVideos;
+    }
+    
+    return updatedVisualDirection;
+  };
+
+  const handleBriefUpdate = (updatedBrief: MarketingBriefDocument) => {
+    setGeneratedBrief(updatedBrief);
+  };
+
   const handleSaveBrief = async (metadata: { title: string; description: string; author: string; status: string }) => {
     if (!generatedBrief) return;
 
     setIsSaving(true);
     try {
+      // First, upload any visual assets that have blob URLs
+      let briefDataToSave = { ...generatedBrief };
+      
+      if (briefDataToSave.visual_direction) {
+        briefDataToSave.visual_direction = await uploadVisualAssets(briefDataToSave.visual_direction);
+      }
+
       const response = await fetch('/api/briefs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          briefData: generatedBrief,
+          briefData: briefDataToSave,
           metadata
         })
       });
@@ -179,7 +284,11 @@ export default function CreateStreamlinedBriefPage() {
         return (
           <div className="h-full flex flex-col">
             <div className="flex-1 overflow-y-auto">
-              <StreamlinedWizard onComplete={handleWizardComplete} initialData={intakeData || undefined} />
+              <StreamlinedWizard 
+                onComplete={handleWizardComplete} 
+                onClose={handleCloseWizard}
+                initialData={intakeData || undefined} 
+              />
             </div>
           </div>
         );
@@ -246,12 +355,12 @@ export default function CreateStreamlinedBriefPage() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between text-xs text-green-400 drop-shadow-[0_0_4px_rgba(34,197,94,0.5)]">
                           <span>Progress</span>
-                          <span>{Math.round(progressState.currentStep / 6 * 100)}%</span>
+                          <span>{Math.round(progressState.currentStep / 3 * 100)}%</span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-sm h-3 border border-green-800/30">
                           <div 
                             className="bg-green-400 h-full rounded-sm transition-all duration-500 relative overflow-hidden drop-shadow-[0_0_8px_rgba(34,197,94,0.7)]"
-                            style={{ width: `${(progressState.currentStep / 6) * 100}%` }}
+                            style={{ width: `${(progressState.currentStep / 3) * 100}%` }}
                           >
                             {/* Terminal-style loading animation */}
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-300 to-transparent animate-pulse"></div>
@@ -307,6 +416,7 @@ export default function CreateStreamlinedBriefPage() {
               onBack={handleBackToWizard} 
               onDiscard={handleDiscardBrief}
               onSave={() => setShowSaveModal(true)}
+              onBriefUpdate={handleBriefUpdate}
             />
           </div>
         ) : (

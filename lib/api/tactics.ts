@@ -1,4 +1,19 @@
-import { GenerateTacticsRequest, GenerateTacticsResponse, ErrorResponse } from '@/lib/types/tactics';
+// Simple tactics types
+interface GenerateTacticsRequest {
+  brand: string;
+  product: string;
+  persona: string;
+  goal: string;
+  visualGuide: string;
+}
+
+interface GenerateTacticsResponse {
+  tactics: any[];
+}
+
+interface ErrorResponse {
+  error: string;
+}
 
 /**
  * Generate creative tactics using OpenAI based on the provided context

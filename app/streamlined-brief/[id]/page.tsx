@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Loader2, FileText, Calendar, User, Tag } from "lucide-react";
-import BriefDocument from "../../brief-builder/components/brief-document";
+import { ArrowLeft, Loader2, FileText, Calendar, User, Tag, Video, Save, Plus, Pencil, Share2, X, Trash2 } from "lucide-react";
+import Link from "next/link";
+import BriefDocument from "../../components/streamlined-brief/brief-document";
 import { MarketingBriefDocument } from "@/lib/streamlined-brief-types";
 import { BriefMetadata } from "@/lib/brief-storage";
 import jsPDF from "jspdf";
@@ -20,6 +21,9 @@ export default function BriefViewerPage() {
   const [brief, setBrief] = useState<SavedBrief | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const downloadPDF = () => {
     console.log('Download PDF clicked!');
@@ -98,14 +102,119 @@ export default function BriefViewerPage() {
   };
 
   const handleEdit = () => {
-    // For now, just go back to create page
-    // In the future, this could pre-populate the wizard with existing data
-    router.push('/streamlined-brief/create');
+    setIsEditMode(!isEditMode);
+  };
+
+  const handleBriefUpdate = (updatedBrief: MarketingBriefDocument) => {
+    if (brief) {
+      setBrief({
+        ...brief,
+        briefData: updatedBrief
+      });
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    if (!brief) return;
+    
+    try {
+      const response = await fetch(`/api/briefs/${briefId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          briefData: brief.briefData,
+          metadata: brief.metadata
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to save changes: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+
+      const result = await response.json();
+      console.log('Changes saved successfully:', result);
+      setIsEditMode(false);
+    } catch (error) {
+      console.error('Error saving changes:', error);
+      alert(`Failed to save changes: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleDiscardChanges = () => {
+    if (window.confirm('Are you sure you want to discard all changes? This action cannot be undone.')) {
+      setIsEditMode(false);
+      // Reload the brief to revert changes
+      window.location.reload();
+    }
   };
 
   const handleDiscard = () => {
     if (window.confirm('Are you sure you want to discard this brief? This action cannot be undone.')) {
       handleBack();
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!brief) return;
+    
+    setIsPublishing(true);
+    try {
+      const response = await fetch('/api/marketplace/publish', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          briefId: briefId,
+          briefData: brief.briefData,
+          metadata: brief.metadata
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to publish brief');
+      }
+
+      const result = await response.json();
+      
+      // Show success message and redirect to marketplace
+      alert('Brief published successfully! Redirecting to marketplace...');
+      router.push('/marketplace');
+    } catch (error) {
+      console.error('Error publishing brief:', error);
+      alert('Failed to publish brief. Please try again.');
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!brief) return;
+    
+    const confirmMessage = `Are you sure you want to delete "${brief.metadata.title}"? This action cannot be undone.`;
+    if (!window.confirm(confirmMessage)) {
+      return;
+    }
+    
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/briefs/${briefId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete brief');
+      }
+
+      // Show success message and redirect to briefs list
+      alert('Brief deleted successfully!');
+      router.push('/streamlined-brief');
+    } catch (error) {
+      console.error('Error deleting brief:', error);
+      alert('Failed to delete brief. Please try again.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -191,15 +300,94 @@ export default function BriefViewerPage() {
             </span>
           </div> */}
 
-          {/* Download PDF Button*/}
-          <button
-            onClick={downloadPDF}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors cursor-pointer"
-            disabled={!brief}
-          >
-            Download PDF
-          </button>
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {!isEditMode ? (
+              <>
+                {/* Secondary Actions */}
+                <div className="flex gap-2">
+                  {/* Download PDF */}
+                  <button
+                    onClick={downloadPDF}
+                    className="p-2.5 bg-neutral-800/50 border border-neutral-700/50 hover:bg-neutral-700/50 text-neutral-300 hover:text-white rounded-lg transition-all duration-200 cursor-pointer backdrop-blur-sm"
+                    disabled={!brief}
+                    title="Download PDF"
+                  >
+                    <Save className="w-4 h-4" />
+                  </button>
+
+                  {/* Edit Button */}
+                  <button
+                    onClick={handleEdit}
+                    className="p-2.5 bg-neutral-800/50 border border-neutral-700/50 hover:bg-neutral-700/50 text-neutral-300 hover:text-white rounded-lg transition-all duration-200 cursor-pointer backdrop-blur-sm"
+                    disabled={!brief}
+                    title="Edit Brief"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={handleDelete}
+                    disabled={!brief || isDeleting}
+                    className="p-2.5 bg-neutral-800/50 border border-neutral-700/50 hover:bg-red-900/50 hover:border-red-800/50 text-neutral-300 hover:text-red-300 disabled:bg-neutral-600 rounded-lg transition-all duration-200 cursor-pointer backdrop-blur-sm"
+                    title="Delete Brief"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Publish to Marketplace - Primary Action */}
+                <button
+                  onClick={handlePublish}
+                  disabled={!brief || isPublishing}
+                  className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-neutral-600 text-white rounded-lg transition-all duration-200 cursor-pointer flex items-center gap-2 font-medium shadow-lg hover:shadow-emerald-500/25"
+                  title="Publish to Marketplace"
+                >
+                  <Share2 className="w-4 h-4" />
+                  {isPublishing ? 'Publishing...' : 'Publish'}
+                </button>
+                
+              </>
+            ) : (
+              <>
+                {/* Secondary Actions */}
+                <div className="flex gap-2">
+                  {/* Discard Changes */}
+                  <button
+                    onClick={handleDiscardChanges}
+                    className="px-4 py-2.5 bg-neutral-800/50 border border-neutral-700/50 hover:bg-red-900/50 hover:border-red-800/50 text-neutral-300 hover:text-red-300 rounded-lg transition-all duration-200 cursor-pointer flex items-center gap-2 backdrop-blur-sm"
+                    title="Discard Changes"
+                  >
+                    <X className="w-4 h-4" />
+                    Discard
+                  </button>
+
+                  {/* Exit Edit Mode */}
+                  <button
+                    onClick={handleEdit}
+                    className="p-2.5 bg-neutral-800/50 border border-neutral-700/50 hover:bg-neutral-700/50 text-neutral-300 hover:text-white rounded-lg transition-all duration-200 cursor-pointer backdrop-blur-sm"
+                    title="Exit Edit Mode"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Save Changes - Primary Action */}
+                <button
+                  onClick={handleSaveChanges}
+                  className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all duration-200 cursor-pointer flex items-center gap-2 font-medium shadow-lg hover:shadow-emerald-500/25"
+                  title="Save Changes"
+                >
+                  <Save className="w-4 h-4" />
+                  Save Changes
+                </button>
+              </>
+            )}
+          </div>
         </div>
+
+        
         
         {/* Brief metadata details */}
         {/* <div className="mt-4 flex items-center gap-6 text-sm text-neutral-400">
@@ -239,7 +427,8 @@ export default function BriefViewerPage() {
           onBack={handleBack} 
           onDiscard={handleDiscard}
           onSave={() => {}} // Disable save in viewer mode
-          isViewOnly={true} // Add this prop to indicate view-only mode
+          onBriefUpdate={handleBriefUpdate}
+          isViewOnly={!isEditMode} // Enable edit mode when not in view-only
         />
       </div>
     </div>

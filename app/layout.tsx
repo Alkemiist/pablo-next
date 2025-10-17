@@ -23,7 +23,7 @@ export default function RootLayout({
           <InspoProvider>
             <Toaster />
             <Navbar />
-            <main className="ml-16 min-h-screen"> 
+            <main className="ml-20 min-h-screen overflow-x-hidden"> 
               {children}
             </main>
           </InspoProvider>
