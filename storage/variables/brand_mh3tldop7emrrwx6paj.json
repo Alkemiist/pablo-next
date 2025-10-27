@@ -1,0 +1,27 @@
+{
+  "id": "mh3tldop7emrrwx6paj",
+  "name": "TaylorMade Golf",
+  "tagline": "To help every golfer play better through innovation, performance, and precision",
+  "mission": "To help every golfer play better through innovation, performance, and precision",
+  "values": [
+    "Innovation",
+    "Performance",
+    "Precision"
+  ],
+  "personality": [
+    "Professional",
+    "Innovative",
+    "Reliable"
+  ],
+  "toneOfVoice": "Professional and aspirational",
+  "competitors": [
+    "Callaway",
+    "Titleist"
+  ],
+  "visualGuidelines": "Clean, modern, professional",
+  "dosAndDonts": "Do: Use clean lines. Dont: Use cluttered designs",
+  "emotionalResponse": "Confidence and trust",
+  "culturalTerritories": "Golf culture and tradition",
+  "createdAt": "2025-10-23T22:07:00.502Z",
+  "updatedAt": "2025-10-23T22:07:00.517Z"
+}
