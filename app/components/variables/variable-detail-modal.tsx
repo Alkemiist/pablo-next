@@ -3,15 +3,16 @@
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { X, Edit, Trash2, ArrowLeft, Save } from 'lucide-react';
-import { Brand, Product, Persona, VariableType } from '@/lib/variables-types';
+import { Brand, Product, Persona, Trend, VariableType } from '@/lib/variables-types';
 import { deleteVariable } from '@/lib/variables-storage';
 import BrandForm from './brand-form';
 import ProductForm from './product-form';
 import PersonaForm from './persona-form';
+import TrendForm from './trend-form';
 import { generatePersonaName } from '@/lib/variables-storage';
 
 interface VariableDetailModalProps {
-  variable: Brand | Product | Persona;
+  variable: Brand | Product | Persona | Trend;
   type: VariableType;
   onClose: () => void;
   onEdit: () => void;
@@ -95,6 +96,17 @@ export default function VariableDetailModal({
               onComplete={handleEditComplete}
               onBack={() => setIsEditing(false)}
               initialData={variable as Persona}
+              editingId={variable.id}
+              onSaveComplete={handleSaveComplete}
+            />
+          );
+        case 'trend':
+          return (
+            <TrendForm 
+              ref={formRef}
+              onComplete={handleEditComplete}
+              onBack={() => setIsEditing(false)}
+              initialData={variable as Trend}
               editingId={variable.id}
               onSaveComplete={handleSaveComplete}
             />
@@ -283,6 +295,47 @@ export default function VariableDetailModal({
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Desired Transformation</h3>
                 <p className="text-neutral-400">{(variable as Persona).desiredTransformation}</p>
+              </div>
+            </div>
+          )}
+
+          {type === 'trend' && (
+            <div className="space-y-6">
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Description</h3>
+                <p className="text-neutral-400">{(variable as Trend).description}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Core Drivers</h3>
+                <p className="text-neutral-400">{(variable as Trend).coreDrivers}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Key Behaviors & Signals</h3>
+                <p className="text-neutral-400">{(variable as Trend).keyBehaviors}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Emotional & Cultural Meaning</h3>
+                <p className="text-neutral-400">{(variable as Trend).emotionalCulturalMeaning}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Who's Leading It</h3>
+                <p className="text-neutral-400">{(variable as Trend).whoIsLeading}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Who's Following It</h3>
+                <p className="text-neutral-400">{(variable as Trend).whoIsFollowing}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Opportunity for Brands</h3>
+                <p className="text-neutral-400">{(variable as Trend).opportunityForBrands}</p>
+              </div>
+              <div className="pb-6 border-b border-neutral-800/50">
+                <h3 className="text-lg font-semibold text-white mb-2">Risks & Missteps</h3>
+                <p className="text-neutral-400">{(variable as Trend).risksMissteps}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">Example in Action</h3>
+                <p className="text-neutral-400">{(variable as Trend).exampleInAction}</p>
               </div>
             </div>
           )}

@@ -1,7 +1,7 @@
 // Simple file-based storage for variables
 import fs from 'fs';
 import path from 'path';
-import { Brand, Product, Persona, VariableMetadata, VariableType } from './variables-types';
+import { Brand, Product, Persona, Trend, VariableMetadata, VariableType } from './variables-types';
 
 const STORAGE_DIR = path.join(process.cwd(), 'storage', 'variables');
 
@@ -35,6 +35,8 @@ export const loadVariablesFromFiles = (): VariableMetadata[] => {
           type = 'product';
         } else if (file.startsWith('persona_')) {
           type = 'persona';
+        } else if (file.startsWith('trend_')) {
+          type = 'trend';
         } else {
           continue; // Skip unknown types
         }
@@ -65,13 +67,15 @@ const generateDescription = (variable: any, type: VariableType): string => {
       return variable.problemSolved ? `${variable.problemSolved.substring(0, 120)}${variable.problemSolved.length > 120 ? '...' : ''}` : 'No description available';
     case 'persona':
       return variable.demographics ? `${variable.demographics.substring(0, 120)}${variable.demographics.length > 120 ? '...' : ''}` : 'No description available';
+    case 'trend':
+      return variable.description ? `${variable.description.substring(0, 120)}${variable.description.length > 120 ? '...' : ''}` : 'No description available';
     default:
       return 'No description available';
   }
 };
 
 // Get individual variable from file
-export const getVariableFromFile = (id: string, type: VariableType): Brand | Product | Persona | null => {
+export const getVariableFromFile = (id: string, type: VariableType): Brand | Product | Persona | Trend | null => {
   ensureStorageDir();
   
   try {
@@ -90,7 +94,7 @@ export const getVariableFromFile = (id: string, type: VariableType): Brand | Pro
 };
 
 // Write variable to file
-export const writeVariable = (variable: Brand | Product | Persona, type: VariableType): boolean => {
+export const writeVariable = (variable: Brand | Product | Persona | Trend, type: VariableType): boolean => {
   ensureStorageDir();
   
   try {

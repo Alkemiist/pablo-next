@@ -1,12 +1,13 @@
 // Variables storage utilities
 // Handles localStorage operations for brands, products, and personas
 
-import { Brand, Product, Persona, VariableType, VariableMetadata, BrandInput, ProductInput, PersonaInput } from './variables-types';
+import { Brand, Product, Persona, Trend, VariableType, VariableMetadata, BrandInput, ProductInput, PersonaInput, TrendInput } from './variables-types';
 
 // Storage keys
 const BRANDS_KEY = 'variables_brands';
 const PRODUCTS_KEY = 'variables_products';
 const PERSONAS_KEY = 'variables_personas';
+const TRENDS_KEY = 'variables_trends';
 const BACKUP_KEY = 'variables_backup';
 
 // Check if we're in browser environment
@@ -352,10 +353,19 @@ export const getAllVariables = (): VariableMetadata[] => {
     updatedAt: persona.updatedAt,
   }));
 
-  return [...brands, ...products, ...personas];
+  const trends = getTrends().map(trend => ({
+    id: trend.id,
+    name: trend.name,
+    type: 'trend' as VariableType,
+    description: generateTrendSummary(trend),
+    createdAt: trend.createdAt,
+    updatedAt: trend.updatedAt,
+  }));
+
+  return [...brands, ...products, ...personas, ...trends];
 };
 
-export const getVariable = (id: string, type: VariableType): Brand | Product | Persona | null => {
+export const getVariable = (id: string, type: VariableType): Brand | Product | Persona | Trend | null => {
   switch (type) {
     case 'brand':
       return getBrand(id);
@@ -363,6 +373,8 @@ export const getVariable = (id: string, type: VariableType): Brand | Product | P
       return getProduct(id);
     case 'persona':
       return getPersona(id);
+    case 'trend':
+      return getTrend(id);
     default:
       return null;
   }
@@ -376,6 +388,8 @@ export const deleteVariable = (id: string, type: VariableType): boolean => {
       return deleteProduct(id);
     case 'persona':
       return deletePersona(id);
+    case 'trend':
+      return deleteTrend(id);
     default:
       return false;
   }
@@ -392,6 +406,10 @@ const generateProductSummary = (product: Omit<Product, 'id' | 'createdAt' | 'upd
 
 const generatePersonaSummary = (persona: Omit<Persona, 'id' | 'createdAt' | 'updatedAt'>): string => {
   return persona.demographics ? `${persona.demographics.substring(0, 40)}${persona.demographics.length > 40 ? '...' : ''}` : 'No description available';
+};
+
+const generateTrendSummary = (trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt'>): string => {
+  return trend.description ? `${trend.description.substring(0, 120)}${trend.description.length > 120 ? '...' : ''}` : 'No description available';
 };
 
 // Generate a name for persona based on demographics
@@ -421,4 +439,96 @@ export const generatePersonaName = (persona: Omit<Persona, 'id' | 'createdAt' | 
   } else {
     return 'The Target Persona';
   }
+};
+// Trend operations
+export const saveTrend = (trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt'>): Trend => {
+  const newTrend: Trend = {
+    ...trend,
+    id: generateId(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (isClient) {
+    const existingTrends = getTrends();
+    const updatedTrends = [...existingTrends, newTrend];
+    localStorage.setItem(TRENDS_KEY, JSON.stringify(updatedTrends));
+  }
+  
+  return newTrend;
+};
+
+export const updateTrend = async (id: string, trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt'>): Promise<Trend | null> => {
+  if (!isClient) return null;
+
+  const existingTrends = getTrends();
+  const trendIndex = existingTrends.findIndex(t => t.id === id);
+  
+  let updatedTrend: Trend;
+  
+  if (trendIndex === -1) {
+    updatedTrend = {
+      ...trend,
+      id,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    existingTrends.push(updatedTrend);
+  } else {
+    updatedTrend = {
+      ...trend,
+      id,
+      createdAt: existingTrends[trendIndex].createdAt,
+      updatedAt: new Date().toISOString(),
+    };
+    existingTrends[trendIndex] = updatedTrend;
+  }
+
+  localStorage.setItem(TRENDS_KEY, JSON.stringify(existingTrends));
+  
+  try {
+    await fetch('/api/variables/files', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type: 'trend',
+        data: updatedTrend,
+      }),
+    });
+  } catch (error) {
+    console.warn('Failed to save to file storage:', error);
+  }
+  
+  return updatedTrend;
+};
+
+export const getTrends = (): Trend[] => {
+  if (!isClient) return [];
+  
+  try {
+    const trends = localStorage.getItem(TRENDS_KEY);
+    return trends ? JSON.parse(trends) : [];
+  } catch (error) {
+    console.error('Error loading trends:', error);
+    return [];
+  }
+};
+
+export const getTrend = (id: string): Trend | null => {
+  const trends = getTrends();
+  return trends.find(trend => trend.id === id) || null;
+};
+
+export const deleteTrend = (id: string): boolean => {
+  if (!isClient) return false;
+
+  const existingTrends = getTrends();
+  const updatedTrends = existingTrends.filter(trend => trend.id !== id);
+  
+  if (updatedTrends.length === existingTrends.length) return false;
+  
+  localStorage.setItem(TRENDS_KEY, JSON.stringify(updatedTrends));
+  return true;
 };

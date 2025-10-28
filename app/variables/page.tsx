@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Filter, ArrowUpDown, Plus, Loader2, Calendar, User, Component, Barcode, Brain } from 'lucide-react';
-import { VariableMetadata, VariableType, Brand, Product, Persona } from '@/lib/variables-types';
+import { Search, Filter, ArrowUpDown, Plus, Loader2, Calendar, User, Component, Barcode, Brain, TrendingUp } from 'lucide-react';
+import { VariableMetadata, VariableType, Brand, Product, Persona, Trend } from '@/lib/variables-types';
 import { getAllVariables, getVariable } from '@/lib/variables-storage';
 import { loadVariablesFromFiles, getVariableFromFile } from '@/lib/variables-file-storage';
 import CreateVariableModal from '@/app/components/variables/create-variable-modal';
@@ -15,7 +15,7 @@ export default function VariablesPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [selectedVariable, setSelectedVariable] = useState<{ variable: Brand | Product | Persona; type: VariableType } | null>(null);
+  const [selectedVariable, setSelectedVariable] = useState<{ variable: Brand | Product | Persona | Trend; type: VariableType } | null>(null);
 
   // State for search and filters
   const [searchQuery, setSearchQuery] = useState("");
@@ -155,6 +155,8 @@ export default function VariablesPage() {
         return <Barcode className="size-4 text-green-400" />;
       case 'persona':
         return <Brain className="size-4 text-purple-400" />;
+      case 'trend':
+        return <TrendingUp className="size-4 text-orange-400" />;
       default:
         return <User className="size-4 text-neutral-400" />;
     }
@@ -168,6 +170,8 @@ export default function VariablesPage() {
         return 'text-green-400';
       case 'persona':
         return 'text-purple-400';
+      case 'trend':
+        return 'text-orange-400';
       default:
         return 'text-neutral-400';
     }
@@ -203,6 +207,7 @@ export default function VariablesPage() {
                 <SelectItem value="brand" className="cursor-pointer hover:bg-neutral-800">Brand</SelectItem>
                 <SelectItem value="product" className="cursor-pointer hover:bg-neutral-800">Product</SelectItem>
                 <SelectItem value="persona" className="cursor-pointer hover:bg-neutral-800">Persona</SelectItem>
+                <SelectItem value="trend" className="cursor-pointer hover:bg-neutral-800">Trend</SelectItem>
               </SelectContent>
             </Select>
 

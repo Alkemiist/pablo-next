@@ -1,7 +1,7 @@
 'use client';
 
 // imports
-import { Home, User, Settings, Files, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack, HousePlug, HouseWifi, Store, Video, Share2, Sparkles, Pencil, Database, Zap} from 'lucide-react';
+import { Home, User, Settings, Files, ArrowRight, ArrowLeft, NotebookPen, Component, Barcode, Brain, Briefcase, Layers, Atom, Search, Lightbulb, LayoutDashboard, FileStack, HousePlug, HouseWifi, Store, Video, Share2, Sparkles, Pencil, Database, Zap, Rocket} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -21,6 +21,7 @@ export default function Navbar() {
     const navItems = [
         { href: '/', label: 'Home', icon: <Home size={20} /> }, // home page
         { href: '/variables', label: 'Variables', icon: <Database size={20} /> }, // variables page
+        { href: '/core-ideas', label: 'Core Ideas', icon: <Rocket size={20} /> }, // core ideas page
         // { href: '/streamlined-brief', label: 'AI Brief Generator', icon: <Files size={20} /> }, // new streamlined brief flow
         { href: '/pitch-brief', label: 'Pitch Brief', icon: <Pencil size={20} /> }, // pitch brief page
         { href: '/test-pitch', label: 'Test Pitch', icon: <Zap size={20} /> }, // test pitch feature

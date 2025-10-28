@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { X, Component, Barcode, Brain } from 'lucide-react';
+import { X, Component, Barcode, Brain, TrendingUp } from 'lucide-react';
 import BrandForm from './brand-form';
 import ProductForm from './product-form';
 import PersonaForm from './persona-form';
-import { BrandInput, ProductInput, PersonaInput } from '@/lib/variables-types';
+import TrendForm from './trend-form';
+import { BrandInput, ProductInput, PersonaInput, TrendInput } from '@/lib/variables-types';
 
-type ModalState = 'select' | 'brand' | 'product' | 'persona';
+type ModalState = 'select' | 'brand' | 'product' | 'persona' | 'trend';
 
 interface CreateVariableModalProps {
   onClose: () => void;
@@ -16,9 +17,9 @@ interface CreateVariableModalProps {
 
 export default function CreateVariableModal({ onClose }: CreateVariableModalProps) {
   const [modalState, setModalState] = useState<ModalState>('select');
-  const [editingData, setEditingData] = useState<BrandInput | ProductInput | PersonaInput | null>(null);
+  const [editingData, setEditingData] = useState<BrandInput | ProductInput | PersonaInput | TrendInput | null>(null);
 
-  const handleTypeSelect = (type: 'brand' | 'product' | 'persona') => {
+  const handleTypeSelect = (type: 'brand' | 'product' | 'persona' | 'trend') => {
     setModalState(type);
   };
 
@@ -51,10 +52,18 @@ export default function CreateVariableModal({ onClose }: CreateVariableModalProp
         );
       case 'persona':
         return (
-          <PersonaForm 
+              <PersonaForm 
             onComplete={handleFormComplete}
             onBack={handleBack}
             initialData={editingData as PersonaInput}
+          />
+        );
+      case 'trend':
+        return (
+          <TrendForm 
+            onComplete={handleFormComplete}
+            onBack={handleBack}
+            initialData={editingData as TrendInput}
           />
         );
       default:
@@ -135,6 +144,27 @@ export default function CreateVariableModal({ onClose }: CreateVariableModalProp
                     </p>
                     <p className="text-xs text-neutral-500">
                       Who are we talking to? Demographics, psychographics, and motivations
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Trend Option */}
+              <div 
+                onClick={() => handleTypeSelect('trend')}
+                className="p-6 bg-neutral-900 border border-neutral-700 rounded-lg hover:border-orange-600 transition-colors cursor-pointer group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-orange-900/30 rounded-lg group-hover:bg-orange-800/50 transition-colors">
+                    <TrendingUp className="size-6 text-orange-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-white mb-2">Trend</h3>
+                    <p className="text-sm text-neutral-400 mb-2">
+                      Capture cultural shifts and emergent consumer behaviors
+                    </p>
+                    <p className="text-xs text-neutral-500">
+                      What's happening now? Behavioral signals, cultural movements, and opportunities
                     </p>
                   </div>
                 </div>

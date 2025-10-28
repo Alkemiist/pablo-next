@@ -48,9 +48,25 @@ export interface Persona {
   updatedAt: string;
 }
 
-export type VariableType = 'brand' | 'product' | 'persona';
+export interface Trend {
+  id: string;
+  name: string;
+  description: string;
+  coreDrivers: string;
+  keyBehaviors: string;
+  emotionalCulturalMeaning: string;
+  whoIsLeading: string;
+  whoIsFollowing: string;
+  opportunityForBrands: string;
+  risksMissteps: string;
+  exampleInAction: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-export type Variable = Brand | Product | Persona;
+export type VariableType = 'brand' | 'product' | 'persona' | 'trend';
+
+export type Variable = Brand | Product | Persona | Trend;
 
 export interface VariableMetadata {
   id: string;
@@ -103,4 +119,17 @@ export interface PersonaInput {
   desiredTransformation: string;
 }
 
-export type VariableInput = BrandInput | ProductInput | PersonaInput;
+export interface TrendInput {
+  name: string;
+  description: string;
+  coreDrivers: string;
+  keyBehaviors: string;
+  emotionalCulturalMeaning: string;
+  whoIsLeading: string;
+  whoIsFollowing: string;
+  opportunityForBrands: string;
+  risksMissteps: string;
+  exampleInAction: string;
+}
+
+export type VariableInput = BrandInput | ProductInput | PersonaInput | TrendInput;
