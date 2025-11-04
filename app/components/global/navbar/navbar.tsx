@@ -23,9 +23,9 @@ export default function Navbar() {
         { href: '/variables', label: 'Variables', icon: <Database size={20} /> }, // variables page
         { href: '/core-ideas', label: 'Core Ideas', icon: <Rocket size={20} /> }, // core ideas page
         // { href: '/streamlined-brief', label: 'AI Brief Generator', icon: <Files size={20} /> }, // new streamlined brief flow
-        { href: '/pitch-brief', label: 'Pitch Brief', icon: <Pencil size={20} /> }, // pitch brief page
-        { href: '/test-pitch', label: 'Test Pitch', icon: <Zap size={20} /> }, // test pitch feature
-        { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> }, // marketplace page
+        // { href: '/pitch-brief', label: 'Pitch Brief', icon: <Pencil size={20} /> }, // pitch brief page
+        // { href: '/test-pitch', label: 'Test Pitch', icon: <Zap size={20} /> }, // test pitch feature
+        // { href: '/marketplace', label: 'Marketplace', icon: <Store size={20} /> }, // marketplace page
         // { href: '/home-2', label: 'Home 2', icon: <Home size={20} /> }, // home page 2
         // { href: '/home-3', label: 'Home 3', icon: <HousePlug size={20} /> },
         // { href: '/social-generator', label: 'Social Generator', icon: <Share2 size={20} /> }, // social post generator

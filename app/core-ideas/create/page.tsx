@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Modal } from "@/components/ui/modal"
-import { X, Sparkles, Download, Share2 } from "lucide-react"
+import { X, Sparkles, Download, Share2, Component, Barcode, Brain, TrendingUp, Calendar } from "lucide-react"
 import { VariableMetadata, VariableType, Brand, Product, Persona, Trend } from '@/lib/variables-types'
 
 interface ExecutionExample {
@@ -164,6 +164,36 @@ export default function CreateCoreIdeaPage() {
     const getVariablesByType = (type: VariableType) => variables.filter(v => v.type === type)
     const isCompleted = (variable: any) => variable !== null && variable !== ''
     const allVariablesSelected = selectedBrand && selectedProduct && selectedPersona && selectedTrend
+
+    const getTypeIcon = (type: VariableType) => {
+        switch (type) {
+            case 'brand':
+                return <Component className="size-4 text-blue-400" />
+            case 'product':
+                return <Barcode className="size-4 text-green-400" />
+            case 'persona':
+                return <Brain className="size-4 text-purple-400" />
+            case 'trend':
+                return <TrendingUp className="size-4 text-orange-400" />
+            default:
+                return <Component className="size-4 text-neutral-400" />
+        }
+    }
+
+    const getTypeColor = (type: VariableType) => {
+        switch (type) {
+            case 'brand':
+                return 'text-blue-400'
+            case 'product':
+                return 'text-green-400'
+            case 'persona':
+                return 'text-purple-400'
+            case 'trend':
+                return 'text-orange-400'
+            default:
+                return 'text-neutral-400'
+        }
+    }
 
     // Helper function to format brand/competitor names with proper commas
     const formatBrandNames = (text: string): string => {
@@ -984,45 +1014,125 @@ export default function CreateCoreIdeaPage() {
             </div>
 
             {isBrandOpen && <Modal isOpen={isBrandOpen} onClose={() => setIsBrandOpen(false)} title="Select Brand">
-                <div className="space-y-2 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto">
                     {getVariablesByType('brand').map(v => (
-                        <button key={v.id} onClick={() => handleBrandSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
-                            <p className="font-semibold">{v.name}</p>
-                            <p className="text-sm text-neutral-400">{v.description}</p>
-                        </button>
+                        <div 
+                            key={v.id} 
+                            onClick={() => handleBrandSelect(v.id)}
+                            className="bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden hover:border-neutral-600 transition-colors cursor-pointer group relative flex flex-col h-full"
+                        >
+                            <div className="p-6 flex-1 flex flex-col">
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-green-400 transition-colors line-clamp-2">
+                                            {v.name}
+                                        </h3>
+                                        <p className="text-sm text-neutral-400 line-clamp-3 mb-3">
+                                            {v.description}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="mt-auto">
+                                    <div className="flex items-center gap-1 text-xs text-neutral-500">
+                                        <Calendar className="size-3" />
+                                        <span>{new Date(v.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </Modal>}
 
             {isProductOpen && <Modal isOpen={isProductOpen} onClose={() => setIsProductOpen(false)} title="Select Product">
-                <div className="space-y-2 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto">
                     {getVariablesByType('product').map(v => (
-                        <button key={v.id} onClick={() => handleProductSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
-                            <p className="font-semibold">{v.name}</p>
-                            <p className="text-sm text-neutral-400">{v.description}</p>
-                        </button>
+                        <div 
+                            key={v.id} 
+                            onClick={() => handleProductSelect(v.id)}
+                            className="bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden hover:border-neutral-600 transition-colors cursor-pointer group relative flex flex-col h-full"
+                        >
+                            <div className="p-6 flex-1 flex flex-col">
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-green-400 transition-colors line-clamp-2">
+                                            {v.name}
+                                        </h3>
+                                        <p className="text-sm text-neutral-400 line-clamp-3 mb-3">
+                                            {v.description}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="mt-auto">
+                                    <div className="flex items-center gap-1 text-xs text-neutral-500">
+                                        <Calendar className="size-3" />
+                                        <span>{new Date(v.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </Modal>}
 
             {isPersonaOpen && <Modal isOpen={isPersonaOpen} onClose={() => setIsPersonaOpen(false)} title="Select Persona">
-                <div className="space-y-2 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto">
                     {getVariablesByType('persona').map(v => (
-                        <button key={v.id} onClick={() => handlePersonaSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
-                            <p className="font-semibold">{v.name}</p>
-                            <p className="text-sm text-neutral-400">{v.description}</p>
-                        </button>
+                        <div 
+                            key={v.id} 
+                            onClick={() => handlePersonaSelect(v.id)}
+                            className="bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden hover:border-neutral-600 transition-colors cursor-pointer group relative flex flex-col h-full"
+                        >
+                            <div className="p-6 flex-1 flex flex-col">
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-green-400 transition-colors line-clamp-2">
+                                            {v.name}
+                                        </h3>
+                                        <p className="text-sm text-neutral-400 line-clamp-3 mb-3">
+                                            {v.description}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="mt-auto">
+                                    <div className="flex items-center gap-1 text-xs text-neutral-500">
+                                        <Calendar className="size-3" />
+                                        <span>{new Date(v.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </Modal>}
 
             {isTrendOpen && <Modal isOpen={isTrendOpen} onClose={() => setIsTrendOpen(false)} title="Select Trend">
-                <div className="space-y-2 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto">
                     {getVariablesByType('trend').map(v => (
-                        <button key={v.id} onClick={() => handleTrendSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
-                            <p className="font-semibold">{v.name}</p>
-                            <p className="text-sm text-neutral-400">{v.description}</p>
-                        </button>
+                        <div 
+                            key={v.id} 
+                            onClick={() => handleTrendSelect(v.id)}
+                            className="bg-neutral-900 border border-neutral-700 rounded-lg overflow-hidden hover:border-neutral-600 transition-colors cursor-pointer group relative flex flex-col h-full"
+                        >
+                            <div className="p-6 flex-1 flex flex-col">
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-green-400 transition-colors line-clamp-2">
+                                            {v.name}
+                                        </h3>
+                                        <p className="text-sm text-neutral-400 line-clamp-3 mb-3">
+                                            {v.description}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="mt-auto">
+                                    <div className="flex items-center gap-1 text-xs text-neutral-500">
+                                        <Calendar className="size-3" />
+                                        <span>{new Date(v.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </Modal>}
