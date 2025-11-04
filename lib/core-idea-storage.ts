@@ -51,6 +51,8 @@ export async function saveCoreIdea(request: CreateCoreIdeaRequest): Promise<Save
     tags: request.tags || [],
     status: 'saved',
     author: 'User', // TODO: Get from auth context
+    personaFit: request.personaFit,
+    marketIntelligence: request.marketIntelligence,
   };
   
   const metadata = generateMetadata(coreIdea);

@@ -133,24 +133,9 @@ export default forwardRef<any, TrendFormProps>(function TrendForm({ onComplete, 
         onSaveComplete?.(); // Call the callback to notify modal
       } else {
         // Create new trend
-        const newTrend = saveTrend(formData);
-        
-        // Also save to file storage
-        try {
-          await fetch('/api/variables/files', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              type: 'trend',
-              data: newTrend,
-            }),
-          });
-        } catch (error) {
-          console.warn('Failed to save to file storage:', error);
-        }
-        
+        console.log('Saving new trend...');
+        await saveTrend(formData);
+        console.log('Trend saved successfully');
         onComplete();
       }
     } catch (error) {

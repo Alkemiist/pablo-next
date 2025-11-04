@@ -19,7 +19,7 @@ const generateId = (): string => {
 };
 
 // Brand operations
-export const saveBrand = (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>): Brand => {
+export const saveBrand = async (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>): Promise<Brand> => {
   const newBrand: Brand = {
     ...brand,
     id: generateId(),
@@ -31,6 +31,22 @@ export const saveBrand = (brand: Omit<Brand, 'id' | 'createdAt' | 'updatedAt'>):
     const existingBrands = getBrands();
     const updatedBrands = [...existingBrands, newBrand];
     localStorage.setItem(BRANDS_KEY, JSON.stringify(updatedBrands));
+    
+    // Also save to file storage
+    try {
+      await fetch('/api/variables/files', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'brand',
+          data: newBrand,
+        }),
+      });
+    } catch (error) {
+      console.warn('Failed to save to file storage:', error);
+    }
   }
   
   return newBrand;
@@ -115,7 +131,7 @@ export const deleteBrand = (id: string): boolean => {
 };
 
 // Product operations
-export const saveProduct = (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Product => {
+export const saveProduct = async (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> => {
   const newProduct: Product = {
     ...product,
     id: generateId(),
@@ -127,6 +143,22 @@ export const saveProduct = (product: Omit<Product, 'id' | 'createdAt' | 'updated
     const existingProducts = getProducts();
     const updatedProducts = [...existingProducts, newProduct];
     localStorage.setItem(PRODUCTS_KEY, JSON.stringify(updatedProducts));
+    
+    // Also save to file storage
+    try {
+      await fetch('/api/variables/files', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'product',
+          data: newProduct,
+        }),
+      });
+    } catch (error) {
+      console.warn('Failed to save to file storage:', error);
+    }
   }
   
   return newProduct;
@@ -229,7 +261,7 @@ export const deleteProduct = (id: string): boolean => {
 };
 
 // Persona operations
-export const savePersona = (persona: Omit<Persona, 'id' | 'createdAt' | 'updatedAt'>): Persona => {
+export const savePersona = async (persona: Omit<Persona, 'id' | 'createdAt' | 'updatedAt'>): Promise<Persona> => {
   const newPersona: Persona = {
     ...persona,
     id: generateId(),
@@ -241,6 +273,22 @@ export const savePersona = (persona: Omit<Persona, 'id' | 'createdAt' | 'updated
     const existingPersonas = getPersonas();
     const updatedPersonas = [...existingPersonas, newPersona];
     localStorage.setItem(PERSONAS_KEY, JSON.stringify(updatedPersonas));
+    
+    // Also save to file storage
+    try {
+      await fetch('/api/variables/files', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'persona',
+          data: newPersona,
+        }),
+      });
+    } catch (error) {
+      console.warn('Failed to save to file storage:', error);
+    }
   }
   
   return newPersona;
@@ -441,7 +489,7 @@ export const generatePersonaName = (persona: Omit<Persona, 'id' | 'createdAt' | 
   }
 };
 // Trend operations
-export const saveTrend = (trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt'>): Trend => {
+export const saveTrend = async (trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt'>): Promise<Trend> => {
   const newTrend: Trend = {
     ...trend,
     id: generateId(),
@@ -453,6 +501,22 @@ export const saveTrend = (trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt'>):
     const existingTrends = getTrends();
     const updatedTrends = [...existingTrends, newTrend];
     localStorage.setItem(TRENDS_KEY, JSON.stringify(updatedTrends));
+    
+    // Also save to file storage
+    try {
+      await fetch('/api/variables/files', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'trend',
+          data: newTrend,
+        }),
+      });
+    } catch (error) {
+      console.warn('Failed to save to file storage:', error);
+    }
   }
   
   return newTrend;

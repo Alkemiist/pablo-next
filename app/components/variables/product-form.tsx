@@ -153,7 +153,9 @@ export default forwardRef<any, ProductFormProps>(function ProductForm({ onComple
         onSaveComplete?.(); // Call the callback to notify modal
       } else {
         // Create new product
-        saveProduct(formData);
+        console.log('Saving new product...');
+        await saveProduct(formData);
+        console.log('Product saved successfully');
         onComplete();
       }
     } catch (error) {

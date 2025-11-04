@@ -151,7 +151,9 @@ export default forwardRef<any, PersonaFormProps>(function PersonaForm({ onComple
         onSaveComplete?.(); // Call the callback to notify modal
       } else {
         // Create new persona
-        savePersona(formData);
+        console.log('Saving new persona...');
+        await savePersona(formData);
+        console.log('Persona saved successfully');
         onComplete();
       }
     } catch (error) {

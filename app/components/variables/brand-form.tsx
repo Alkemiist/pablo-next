@@ -155,7 +155,9 @@ export default forwardRef<any, BrandFormProps>(function BrandForm({ onComplete, 
         onSaveComplete?.(); // Call the callback to notify modal
       } else {
         // Create new brand
-        saveBrand(formData);
+        console.log('Saving new brand...');
+        await saveBrand(formData);
+        console.log('Brand saved successfully');
         onComplete();
       }
     } catch (error) {

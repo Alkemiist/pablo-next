@@ -43,6 +43,51 @@ export interface CoreIdea {
     targetOutcome: string;
   };
   
+  // Persona fit analysis (optional)
+  personaFit?: {
+    whyThisPersona: string;
+    archetype: string;
+    motivations: string[];
+    channels: string[];
+    psychographicCluster: string;
+    overlapWithBaseIdea: string;
+    keyBehaviors: string[];
+    matchScore?: number; // 0-100 match percentage
+    dataProvenance?: {
+      sources: string[];
+      modelConfidence: string;
+      audienceSize: string;
+      researchElements?: Array<{
+        title: string;
+        url?: string;
+        domain?: string;
+        snippet?: string;
+        date?: string;
+        relevanceScore?: number;
+      }>;
+    };
+  };
+  
+  // Market intelligence (optional)
+  marketIntelligence?: {
+    totalAddressableMarket: {
+      immediateAudience: string;
+      expandedAudience: string;
+      potentialReach: string;
+      engagementPotential: string;
+      conversionPotential: string;
+    };
+    sources?: Array<{
+      title: string;
+      url?: string;
+      domain?: string;
+      snippet?: string;
+      date?: string;
+      relevanceScore?: number;
+    }>;
+    marketOpportunityExplanation?: string;
+  };
+  
   // Metadata
   tags: string[];
   status: 'draft' | 'saved' | 'archived';
@@ -92,6 +137,8 @@ export interface CreateCoreIdeaRequest {
     targetOutcome: string;
   };
   tags?: string[];
+  personaFit?: CoreIdea['personaFit'];
+  marketIntelligence?: CoreIdea['marketIntelligence'];
 }
 
 export interface UpdateCoreIdeaRequest {
