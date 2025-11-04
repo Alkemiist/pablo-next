@@ -953,6 +953,61 @@ export default function CreateCoreIdeaPage() {
                                     </div>
                                 </div>
 
+                                {/* Motivations & Key Behaviors */}
+                                {(generatedIdea.personaFit?.motivations?.length > 0 || generatedIdea.personaFit?.keyBehaviors?.length > 0) && (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                        {/* Key Motivations */}
+                                        {generatedIdea.personaFit?.motivations && generatedIdea.personaFit.motivations.length > 0 && (
+                                            <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                                <div className="flex items-center gap-3 mb-6">
+                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                        <Sparkles className="w-6 h-6 text-purple-400" />
+                                                    </div>
+                                                    <h3 className="text-2xl font-bold text-white">Key Motivations</h3>
+                                                </div>
+                                                <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">What Drives This Audience</p>
+                                                <div className="space-y-3">
+                                                    {generatedIdea.personaFit.motivations.map((motivation, idx) => (
+                                                        <div key={idx} className="bg-neutral-800/50 border border-neutral-700/50 rounded-xl p-4 hover:border-purple-500/30 transition-colors duration-300">
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="flex-shrink-0 w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center mt-0.5">
+                                                                    <span className="text-xs font-bold text-purple-300">{idx + 1}</span>
+                                                                </div>
+                                                                <p className="text-sm text-neutral-200 leading-relaxed flex-1">{motivation}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Key Behaviors */}
+                                        {generatedIdea.personaFit?.keyBehaviors && generatedIdea.personaFit.keyBehaviors.length > 0 && (
+                                            <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                                <div className="flex items-center gap-3 mb-6">
+                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                        <Sparkles className="w-6 h-6 text-purple-400" />
+                                                    </div>
+                                                    <h3 className="text-2xl font-bold text-white">Key Behaviors</h3>
+                                                </div>
+                                                <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">How They Engage</p>
+                                                <div className="space-y-3">
+                                                    {generatedIdea.personaFit.keyBehaviors.map((behavior, idx) => (
+                                                        <div key={idx} className="bg-neutral-800/50 border border-neutral-700/50 rounded-xl p-4 hover:border-purple-500/30 transition-colors duration-300">
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="flex-shrink-0 w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center mt-0.5">
+                                                                    <span className="text-xs font-bold text-purple-300">{idx + 1}</span>
+                                                                </div>
+                                                                <p className="text-sm text-neutral-200 leading-relaxed flex-1">{behavior}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
                                 {/* Adjacent Personas */}
                                 {generatedIdea.personaFit?.adjacentPersonas && generatedIdea.personaFit.adjacentPersonas.length > 0 && (
                                     <div>
