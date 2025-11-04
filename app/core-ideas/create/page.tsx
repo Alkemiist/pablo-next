@@ -39,6 +39,15 @@ interface CoreIdeaData {
       modelConfidence: string
       audienceSize: string
     }
+    personaImageUrl?: string
+    adjacentPersonas?: Array<{
+      name: string
+      archetype: string
+      whyConsider: string
+      overlap: string
+      uniqueAngle: string
+      keyDifference: string
+    }>
   }
   marketIntelligence?: {
     totalAddressableMarket: {
@@ -103,6 +112,22 @@ interface CoreIdeaData {
       windowClosesWhen: {
         closingConditions: string[]
         urgency: string
+        scenarioTriggers?: Array<{
+          trigger: string
+          likelihood: 'high' | 'medium' | 'low'
+          timeline: string
+          impact: string
+        }>
+        timeline?: {
+          estimatedClose: string
+          milestones: Array<{
+            milestone: string
+            date: string
+            significance: string
+          }>
+          urgencyLevel: 'critical' | 'high' | 'medium' | 'low'
+          actionWindow: string
+        }
       }
     }
     implementationRoadmap: {
@@ -139,6 +164,52 @@ export default function CreateCoreIdeaPage() {
     const getVariablesByType = (type: VariableType) => variables.filter(v => v.type === type)
     const isCompleted = (variable: any) => variable !== null && variable !== ''
     const allVariablesSelected = selectedBrand && selectedProduct && selectedPersona && selectedTrend
+
+    // Helper function to format brand/competitor names with proper commas
+    const formatBrandNames = (text: string): string => {
+        if (!text) return text
+        
+        // Remove any existing incorrect comma patterns
+        let cleaned = text.trim()
+        
+        // If it already has proper comma formatting (contains ", and" or proper comma separation), return as-is
+        if (cleaned.includes(', and') || cleaned.match(/^[A-Z][^,]+(?:, [A-Z][^,]+)+$/)) {
+            return cleaned
+        }
+        
+        // Try to detect brand names (capitalized words, possibly with spaces)
+        // Split by common separators and clean up
+        const parts = cleaned.split(/\s+(?:and|&)\s+/i).map(p => p.trim()).filter(p => p.length > 0)
+        
+        if (parts.length > 1) {
+            // Format with commas and "and" before last item
+            if (parts.length === 2) {
+                return `${parts[0]} and ${parts[1]}`
+            } else {
+                const last = parts[parts.length - 1]
+                const rest = parts.slice(0, -1).join(', ')
+                return `${rest}, and ${last}`
+            }
+        }
+        
+        // If no clear separators, check if it's a list-like format without commas
+        const words = cleaned.split(/\s+/)
+        if (words.length > 3 && words.every(w => w[0] === w[0]?.toUpperCase())) {
+            // Might be a list of capitalized brand names
+            const brands = words.filter(w => w.length > 2 && /^[A-Z]/.test(w))
+            if (brands.length >= 2) {
+                if (brands.length === 2) {
+                    return `${brands[0]} and ${brands[1]}`
+                } else {
+                    const last = brands[brands.length - 1]
+                    const rest = brands.slice(0, -1).join(', ')
+                    return `${rest}, and ${last}`
+                }
+            }
+        }
+        
+        return cleaned
+    }
 
     const loadVariableData = async (variableId: string, type: VariableType) => {
         try {
@@ -647,7 +718,9 @@ export default function CreateCoreIdeaPage() {
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                                             <div className="bg-neutral-800/50 rounded-2xl p-6 border border-neutral-700/50">
                                                 <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">Who Could Do This</p>
-                                                <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.competitiveLandscape.whoCouldDoThis}</p>
+                                                <p className="text-base text-white leading-relaxed">
+                                                    {formatBrandNames(generatedIdea.marketIntelligence.opportunityWindow.competitiveLandscape.whoCouldDoThis)}
+                                                </p>
                                             </div>
                                             <div className="bg-neutral-800/50 rounded-2xl p-6 border border-neutral-700/50">
                                                 <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">What They're Doing</p>
@@ -682,7 +755,7 @@ export default function CreateCoreIdeaPage() {
                                         </div>
                                     </div>
 
-                                    {/* Panel 4: Window Closes When - Timeline/Urgency */}
+                                    {/* Panel 4: Window Closes When - Enhanced with Timeline & Scenario Triggers */}
                                     <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm">
                                         <div className="flex items-center gap-3 mb-8">
                                             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
@@ -690,77 +763,99 @@ export default function CreateCoreIdeaPage() {
                                             </div>
                                             <h3 className="text-2xl font-bold text-white">Window Closes When</h3>
                                         </div>
-                                        <div className="space-y-6">
-                                            <div>
-                                                <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">Closing Conditions</p>
-                                                <div className="space-y-3">
-                                                    {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.closingConditions.map((condition, idx) => (
-                                                        <div key={idx} className="flex items-start gap-3 bg-neutral-800/50 rounded-xl p-4 border border-neutral-700/50">
-                                                            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                                                <span className="text-xs font-bold text-purple-300">{idx + 1}</span>
+                                        
+                                        {/* Timeline Visualization */}
+                                        {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline && (
+                                            <div className="mb-8 bg-gradient-to-br from-purple-950/40 to-neutral-800/50 rounded-2xl p-6 border border-purple-500/30">
+                                                <div className="flex items-center justify-between mb-6">
+                                                    <div>
+                                                        <p className="text-sm text-purple-400 font-semibold mb-2 uppercase tracking-wider">Action Window</p>
+                                                        <p className="text-xl font-bold text-white">{generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.actionWindow}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="text-sm text-purple-400 font-semibold mb-2 uppercase tracking-wider">Estimated Close</p>
+                                                        <p className="text-xl font-bold text-white">{generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.estimatedClose}</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* Urgency Badge */}
+                                                <div className="mb-6">
+                                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30">
+                                                        <div className={`w-2 h-2 rounded-full ${
+                                                            generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel === 'critical' ? 'bg-red-400 animate-pulse' :
+                                                            generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel === 'high' ? 'bg-orange-400' :
+                                                            generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel === 'medium' ? 'bg-yellow-400' :
+                                                            'bg-green-400'
+                                                        }`}></div>
+                                                        <span className="text-sm font-semibold text-purple-300 uppercase tracking-wider">
+                                                            {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel} Urgency
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Timeline Milestones */}
+                                                {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.milestones && generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.milestones.length > 0 && (
+                                                    <div>
+                                                        <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">Key Milestones</p>
+                                                        <div className="space-y-4">
+                                                            {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.milestones.map((milestone, idx) => (
+                                                                <div key={idx} className="flex items-start gap-4">
+                                                                    <div className="flex-shrink-0">
+                                                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                                            <span className="text-lg font-bold text-purple-300">{idx + 1}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <div className="flex items-center gap-3 mb-2">
+                                                                            <p className="text-base font-semibold text-white">{milestone.milestone}</p>
+                                                                            <span className="text-xs text-purple-400 font-medium px-2 py-1 bg-purple-500/10 rounded-full border border-purple-500/20">
+                                                                                {milestone.date}
+                                                                            </span>
+                                                                        </div>
+                                                                        <p className="text-sm text-neutral-300 leading-relaxed">{milestone.significance}</p>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Scenario Triggers */}
+                                        {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.scenarioTriggers && generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.scenarioTriggers.length > 0 && (
+                                            <div className="mb-6">
+                                                <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">Scenario Triggers</p>
+                                                <div className="space-y-4">
+                                                    {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.scenarioTriggers.map((trigger, idx) => (
+                                                        <div key={idx} className="bg-neutral-800/50 rounded-xl p-5 border border-neutral-700/50">
+                                                            <div className="flex items-start justify-between gap-4 mb-3">
+                                                                <p className="text-base font-semibold text-white flex-1">{trigger.trigger}</p>
+                                                                <div className="flex items-center gap-2 flex-shrink-0">
+                                                                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                                                                        trigger.likelihood === 'high' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
+                                                                        trigger.likelihood === 'medium' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
+                                                                        'bg-green-500/20 text-green-300 border border-green-500/30'
+                                                                    }`}>
+                                                                        {trigger.likelihood} likelihood
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                            <p className="text-base text-white leading-relaxed flex-1">{condition}</p>
+                                                            <div className="flex items-center gap-4 text-sm">
+                                                                <span className="text-purple-400 font-medium">Timeline: {trigger.timeline}</span>
+                                                            </div>
+                                                            <p className="text-sm text-neutral-300 mt-3 leading-relaxed">{trigger.impact}</p>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
-                                            <div className="bg-gradient-to-br from-purple-950/40 to-neutral-800/50 rounded-2xl p-6 border border-purple-500/30">
-                                                <p className="text-sm text-purple-400 font-semibold mb-3 uppercase tracking-wider">Urgency</p>
-                                                <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.urgency}</p>
-                                            </div>
-                                        </div>
+                                        )}
+
                                     </div>
                                 </div>
                             </section>
                         )}
 
-                        {/* Quick Wins & Validation Pathway */}
-                        {generatedIdea.marketIntelligence && (
-                            <section className="mb-24 px-6 md:px-12">
-                                <div className="max-w-7xl mx-auto">
-                                    <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
-                                        <h3 className="text-2xl font-bold text-white mb-6">Quick Wins & Validation</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                            <div>
-                                                <p className="text-sm text-purple-400 font-semibold mb-3 uppercase tracking-wider">Test in 1 Week</p>
-                                                <ul className="space-y-2">
-                                                    {generatedIdea.marketIntelligence.implementationRoadmap.phase1.quickWins.slice(0, 2).map((win, idx) => (
-                                                        <li key={idx} className="text-sm text-neutral-300 flex items-start gap-2">
-                                                            <span className="text-purple-400 mt-1">•</span>
-                                                            <span>{win}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm text-purple-400 font-semibold mb-3 uppercase tracking-wider">Validate in 1 Month</p>
-                                                <p className="text-sm text-neutral-300 mb-2">Measure initial response to:</p>
-                                                <ul className="space-y-2">
-                                                    {generatedIdea.marketIntelligence.implementationRoadmap.phase1.actions.slice(0, 2).map((action, idx) => (
-                                                        <li key={idx} className="text-sm text-neutral-300 flex items-start gap-2">
-                                                            <span className="text-purple-400 mt-1">→</span>
-                                                            <span>{action}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm text-purple-400 font-semibold mb-3 uppercase tracking-wider">First Actions</p>
-                                                <p className="text-sm text-neutral-300 mb-2">Prioritize these quick wins:</p>
-                                                <ul className="space-y-2">
-                                                    {generatedIdea.marketIntelligence.implementationRoadmap.phase1.quickWins.slice(2).map((win, idx) => (
-                                                        <li key={idx} className="text-sm text-neutral-300 flex items-start gap-2">
-                                                            <span className="text-purple-400 mt-1">✓</span>
-                                                            <span>{win}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        )}
 
                         {/* Deep Dive: Persona Strategic Fit */}
                         <section className="mb-24 px-6 md:px-12">
@@ -770,31 +865,110 @@ export default function CreateCoreIdeaPage() {
                                     <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">Deep Dive: Audience Intelligence</span>
                                     <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                                 </div>
-                                <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm">
-                                    <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-2xl p-8 mb-6">
-                                        <div className="flex items-center gap-2 mb-4">
-                                            <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-                                            <h3 className="text-sm font-semibold text-purple-400 uppercase tracking-wider">Strategic Fit</h3>
-                                        </div>
-                                        <p className="text-neutral-200 text-lg md:text-xl leading-relaxed font-light">{generatedIdea.personaFit?.whyThisPersona}</p>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="bg-neutral-800/30 rounded-xl p-6 border border-neutral-700/30">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-                                                <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Archetype</h4>
+                                
+                                {/* Primary Persona Profile */}
+                                <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm mb-8">
+                                    <div className="flex flex-col md:flex-row gap-8 items-stretch">
+                                        {/* Persona Title & Image */}
+                                        {generatedIdea.personaFit?.personaImageUrl && (
+                                            <div className="flex-shrink-0 flex flex-col md:w-64 justify-between">
+                                                {/* Persona Title - First */}
+                                                {selectedPersona && (
+                                                    <div className="mb-6">
+                                                        <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Target Persona</p>
+                                                        <p className="text-xl font-bold text-white">{typeof selectedPersona === 'object' && selectedPersona.name ? selectedPersona.name : 'Selected Persona'}</p>
+                                                    </div>
+                                                )}
+                                                {/* Persona Image - Second */}
+                                                <div className="relative w-full aspect-square rounded-2xl overflow-hidden border-2 border-purple-500/30 shadow-lg shadow-purple-500/10">
+                                                    <img 
+                                                        src={generatedIdea.personaFit.personaImageUrl} 
+                                                        alt="Persona profile"
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.currentTarget.style.display = 'none';
+                                                        }}
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-purple-950/50 via-transparent to-transparent"></div>
+                                                </div>
                                             </div>
-                                            <p className="text-white text-lg font-medium">{generatedIdea.personaFit?.archetype}</p>
-                                        </div>
-                                        <div className="bg-neutral-800/30 rounded-xl p-6 border border-neutral-700/30">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-                                                <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Psychographic Cluster</h4>
+                                        )}
+                                        
+                                        {/* Persona Details */}
+                                        <div className="flex-1 flex flex-col">
+                                            <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-2xl p-6 md:p-8 mb-6 flex-1">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                                                    <h3 className="text-sm font-semibold text-purple-400 uppercase tracking-wider">Strategic Fit</h3>
+                                                </div>
+                                                <p className="text-neutral-200 text-lg md:text-xl leading-relaxed font-light">{generatedIdea.personaFit?.whyThisPersona}</p>
                                             </div>
-                                            <p className="text-white text-lg font-medium">{generatedIdea.personaFit?.psychographicCluster}</p>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="bg-neutral-800/30 rounded-xl p-6 border border-neutral-700/30">
+                                                    <div className="flex items-center gap-2 mb-3">
+                                                        <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                                                        <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Archetype</h4>
+                                                    </div>
+                                                    <p className="text-white text-lg font-medium">{generatedIdea.personaFit?.archetype}</p>
+                                                </div>
+                                                <div className="bg-neutral-800/30 rounded-xl p-6 border border-neutral-700/30">
+                                                    <div className="flex items-center gap-2 mb-3">
+                                                        <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                                                        <h4 className="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Psychographic Cluster</h4>
+                                                    </div>
+                                                    <p className="text-white text-lg font-medium">{generatedIdea.personaFit?.psychographicCluster}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Adjacent Personas */}
+                                {generatedIdea.personaFit?.adjacentPersonas && generatedIdea.personaFit.adjacentPersonas.length > 0 && (
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
+                                            <span className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Adjacent Personas to Consider</span>
+                                            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            {generatedIdea.personaFit.adjacentPersonas.map((adjacentPersona, idx) => (
+                                                <div key={idx} className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-2xl p-6 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300 group flex flex-col h-full">
+                                                    <div className="flex items-center gap-3 mb-6">
+                                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                                            <span className="text-purple-300 font-bold text-lg">{idx + 1}</span>
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="text-lg font-bold text-white">{adjacentPersona.name}</h4>
+                                                            <p className="text-xs text-purple-400 font-medium">{adjacentPersona.archetype}</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="flex flex-col flex-1 space-y-6">
+                                                        <div className="flex-1">
+                                                            <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Why Consider</p>
+                                                            <p className="text-sm text-neutral-200 leading-relaxed">{adjacentPersona.whyConsider}</p>
+                                                        </div>
+                                                        
+                                                        <div className="bg-neutral-800/30 rounded-lg p-4 border border-neutral-700/30 flex-1 flex flex-col">
+                                                            <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Unique Angle</p>
+                                                            <p className="text-sm text-neutral-300 leading-relaxed flex-1">{adjacentPersona.uniqueAngle}</p>
+                                                        </div>
+                                                        
+                                                        <div className="bg-neutral-800/30 rounded-lg p-4 border border-neutral-700/30 flex-1 flex flex-col">
+                                                            <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Overlap</p>
+                                                            <p className="text-sm text-neutral-300 leading-relaxed flex-1">{adjacentPersona.overlap}</p>
+                                                        </div>
+                                                        
+                                                        <div className="pt-4 border-t border-neutral-700/30">
+                                                            <p className="text-xs text-neutral-400 italic">Key difference: {adjacentPersona.keyDifference}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </section>
 
@@ -809,8 +983,7 @@ export default function CreateCoreIdeaPage() {
                 )}
             </div>
 
-            {isBrandOpen && <Modal isOpen={isBrandOpen} onClose={() => setIsBrandOpen(false)}>
-                <h2 className="text-xl font-bold mb-4">Select Brand</h2>
+            {isBrandOpen && <Modal isOpen={isBrandOpen} onClose={() => setIsBrandOpen(false)} title="Select Brand">
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                     {getVariablesByType('brand').map(v => (
                         <button key={v.id} onClick={() => handleBrandSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
@@ -821,8 +994,7 @@ export default function CreateCoreIdeaPage() {
                 </div>
             </Modal>}
 
-            {isProductOpen && <Modal isOpen={isProductOpen} onClose={() => setIsProductOpen(false)}>
-                <h2 className="text-xl font-bold mb-4">Select Product</h2>
+            {isProductOpen && <Modal isOpen={isProductOpen} onClose={() => setIsProductOpen(false)} title="Select Product">
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                     {getVariablesByType('product').map(v => (
                         <button key={v.id} onClick={() => handleProductSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
@@ -833,8 +1005,7 @@ export default function CreateCoreIdeaPage() {
                 </div>
             </Modal>}
 
-            {isPersonaOpen && <Modal isOpen={isPersonaOpen} onClose={() => setIsPersonaOpen(false)}>
-                <h2 className="text-xl font-bold mb-4">Select Persona</h2>
+            {isPersonaOpen && <Modal isOpen={isPersonaOpen} onClose={() => setIsPersonaOpen(false)} title="Select Persona">
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                     {getVariablesByType('persona').map(v => (
                         <button key={v.id} onClick={() => handlePersonaSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">
@@ -845,8 +1016,7 @@ export default function CreateCoreIdeaPage() {
                 </div>
             </Modal>}
 
-            {isTrendOpen && <Modal isOpen={isTrendOpen} onClose={() => setIsTrendOpen(false)}>
-                <h2 className="text-xl font-bold mb-4">Select Trend</h2>
+            {isTrendOpen && <Modal isOpen={isTrendOpen} onClose={() => setIsTrendOpen(false)} title="Select Trend">
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                     {getVariablesByType('trend').map(v => (
                         <button key={v.id} onClick={() => handleTrendSelect(v.id)} className="w-full text-left p-3 bg-neutral-800 rounded-lg hover:bg-neutral-700">

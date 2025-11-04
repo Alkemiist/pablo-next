@@ -53,6 +53,15 @@ interface CoreIdeaData {
       modelConfidence: string;
       audienceSize: string;
     };
+    personaImageUrl?: string;
+    adjacentPersonas?: Array<{
+      name: string;
+      archetype: string;
+      whyConsider: string;
+      overlap: string;
+      uniqueAngle: string;
+      keyDifference: string;
+    }>;
   };
   marketIntelligence: {
     totalAddressableMarket: {
@@ -117,6 +126,22 @@ interface CoreIdeaData {
       windowClosesWhen: {
         closingConditions: string[]; // Specific conditions that close the window
         urgency: string; // Timeline and urgency explanation
+        scenarioTriggers?: Array<{
+          trigger: string;
+          likelihood: 'high' | 'medium' | 'low';
+          timeline: string;
+          impact: string;
+        }>;
+        timeline?: {
+          estimatedClose: string;
+          milestones: Array<{
+            milestone: string;
+            date: string;
+            significance: string;
+          }>;
+          urgencyLevel: 'critical' | 'high' | 'medium' | 'low';
+          actionWindow: string;
+        };
       };
     };
     implementationRoadmap: {
@@ -261,36 +286,63 @@ Return ONLY valid JSON with this exact structure:
     }
   ],
   "targetOutcome": "The desired marketing outcome (1-2 sentences)",
-  "personaFit": {
-    "whyThisPersona": "A compelling 2-3 sentence explanation of why this persona is the perfect match for this idea. Make it feel like high-end intelligence - specific, strategic, and compelling.",
-    "archetype": "Identify the Jungian or marketing archetype (e.g., 'The Aspirational Creator', 'The Conscious Explorer', 'The Status Seeker') that best describes this persona",
-    "motivations": [
-      "Primary motivation 1 (one sentence, specific and psychological)",
-      "Primary motivation 2",
-      "Primary motivation 3"
-    ],
-    "channels": [
-      "Primary marketing channel where this persona is most active and engaged",
-      "Secondary channel",
-      "Tertiary channel"
-    ],
-    "psychographicCluster": "Describe the psychographic segment this persona belongs to (e.g., 'Ethical Individualists', 'Status-Driven Achievers') in one clear sentence",
-    "overlapWithBaseIdea": "Explain in 2-3 sentences how this persona's core desires, values, and behaviors overlap with the core idea. Make this strategic and specific.",
-    "keyBehaviors": [
-      "Specific behavior this persona exhibits that makes them receptive to this idea",
-      "Second key behavior",
-      "Third key behavior"
-    ],
-    "dataProvenance": {
-      "sources": [
-        "Market research data",
-        "Behavioral analytics",
-        "Psychographic segmentation models"
+    "personaFit": {
+      "whyThisPersona": "A compelling 2-3 sentence explanation of why this persona is the perfect match for this idea. Make it feel like high-end intelligence - specific, strategic, and compelling.",
+      "archetype": "Identify the Jungian or marketing archetype (e.g., 'The Aspirational Creator', 'The Conscious Explorer', 'The Status Seeker') that best describes this persona",
+      "motivations": [
+        "Primary motivation 1 (one sentence, specific and psychological)",
+        "Primary motivation 2",
+        "Primary motivation 3"
       ],
-      "modelConfidence": "High - 85-95% match confidence",
-      "audienceSize": "Estimate the addressable market size for this persona-idea combination"
-    }
-  },
+      "channels": [
+        "Primary marketing channel where this persona is most active and engaged",
+        "Secondary channel",
+        "Tertiary channel"
+      ],
+      "psychographicCluster": "Describe the psychographic segment this persona belongs to (e.g., 'Ethical Individualists', 'Status-Driven Achievers') in one clear sentence",
+      "overlapWithBaseIdea": "Explain in 2-3 sentences how this persona's core desires, values, and behaviors overlap with the core idea. Make this strategic and specific.",
+      "keyBehaviors": [
+        "Specific behavior this persona exhibits that makes them receptive to this idea",
+        "Second key behavior",
+        "Third key behavior"
+      ],
+      "dataProvenance": {
+        "sources": [
+          "Market research data",
+          "Behavioral analytics",
+          "Psychographic segmentation models"
+        ],
+        "modelConfidence": "High - 85-95% match confidence",
+        "audienceSize": "Estimate the addressable market size for this persona-idea combination"
+      },
+      "personaImageUrl": "This will be generated separately - leave as null",
+      "adjacentPersonas": [
+        {
+          "name": "Name of an adjacent persona that should also be considered (e.g., 'The Conscious Explorer', 'The Status Seeker')",
+          "archetype": "The archetype or type of this adjacent persona",
+          "whyConsider": "A compelling 1-2 sentence explanation of why this adjacent persona should be considered. What unique angle or opportunity do they offer?",
+          "overlap": "How this persona overlaps with the primary persona (1 sentence)",
+          "uniqueAngle": "What unique angle or opportunity this persona offers that the primary persona doesn't (1-2 sentences)",
+          "keyDifference": "The key difference between this persona and the primary persona (1 sentence)"
+        },
+        {
+          "name": "A second adjacent persona (different from the first)",
+          "archetype": "The archetype or type",
+          "whyConsider": "Why consider this persona (1-2 sentences)",
+          "overlap": "How this persona overlaps with the primary persona (1 sentence)",
+          "uniqueAngle": "What unique angle this persona offers (1-2 sentences)",
+          "keyDifference": "The key difference (1 sentence)"
+        },
+        {
+          "name": "A third adjacent persona (different from the first two)",
+          "archetype": "The archetype or type",
+          "whyConsider": "Why consider this persona (1-2 sentences)",
+          "overlap": "How this persona overlaps with the primary persona (1 sentence)",
+          "uniqueAngle": "What unique angle this persona offers (1-2 sentences)",
+          "keyDifference": "The key difference (1 sentence)"
+        }
+      ]
+    },
   "marketIntelligence": {
     "totalAddressableMarket": {
       "immediateAudience": "Number + description of core qualified audience (e.g., '250K active lifestyle enthusiasts')",
@@ -338,9 +390,9 @@ Return ONLY valid JSON with this exact structure:
       "factors": ["Surprising twist", "Shareable format", "Relatable experience"]
     },
     "opportunityWindow": {
-      "whyThisWindowExists": "A compelling 3-4 sentence narrative explaining what creates this opportunity RIGHT NOW. What confluence of factors (cultural moment, trend timing, consumer readiness, market conditions) has opened this window? Why is this moment different from 6 months ago or 6 months from now? Make it feel urgent and specific.",
+      "whyThisWindowExists": "A compelling 3-4 sentence narrative that is SPECIFIC to this exact core idea. Reference the specific idea title, the unique mechanism, and how it connects to the trend and persona. Explain what confluence of factors (cultural moment, trend timing, consumer readiness, market conditions) has opened this window SPECIFICALLY for this idea. Make it unique to this idea - avoid generic language. Why is THIS idea's moment different from 6 months ago or 6 months from now? Be concrete and specific about what makes this idea's window unique.",
       "competitiveLandscape": {
-        "whoCouldDoThis": "Identify 2-3 specific competitors or brands that could realistically execute a similar idea. Be specific - name actual brands or types of brands.",
+        "whoCouldDoThis": "Identify 2-3 specific competitors or brands that could realistically execute a similar idea. List them as a properly formatted comma-separated list (e.g., 'Nike, Adidas, and Puma' or 'Apple, Google, and Microsoft'). Be specific - name actual brands or types of brands.",
         "whatTheyreDoing": "What are these competitors currently doing in this space? Are they addressing this trend, or leaving it open?",
         "whiteSpace": "A clear 2-3 sentence explanation of the specific white space this idea occupies. What makes this different from what competitors are doing?"
       },
@@ -354,7 +406,38 @@ Return ONLY valid JSON with this exact structure:
           "Specific condition 2 (e.g., 'When the trend peaks and becomes oversaturated')",
           "Specific condition 3 (e.g., 'When consumer interest shifts to the next cultural moment')"
         ],
-        "urgency": "A 2-3 sentence explanation of the timeline and urgency. When does this window realistically close? Be specific about timing."
+        "urgency": "A 2-3 sentence explanation of the timeline and urgency. When does this window realistically close? Be specific about timing.",
+        "scenarioTriggers": [
+          {
+            "trigger": "A specific, concrete market event or condition that would close this window (e.g., 'When Nike launches their sustainability-focused campaign in Q3 2024')",
+            "likelihood": "high",
+            "timeline": "When this trigger is likely to occur (e.g., 'Within 3-6 months', 'Q4 2024', 'When trend reaches mainstream media')",
+            "impact": "How this trigger would specifically close the window (1-2 sentences)"
+          },
+          {
+            "trigger": "A second specific trigger (different from the first)",
+            "likelihood": "medium",
+            "timeline": "When this trigger is likely to occur",
+            "impact": "How this trigger would specifically close the window (1-2 sentences)"
+          }
+        ],
+        "timeline": {
+          "estimatedClose": "Specific timeframe when window closes (e.g., 'Q3 2024', 'Within 6 months', 'When trend peaks in 3-4 months')",
+          "milestones": [
+            {
+              "milestone": "Key event or date that signals progression toward closing (e.g., 'Competitor X product launch on June 15', 'Trend hits mainstream media in April')",
+              "date": "Specific date or timeframe (e.g., 'June 15, 2024', 'Q2 2024', 'Within 60 days')",
+              "significance": "Why this milestone matters (1 sentence)"
+            },
+            {
+              "milestone": "A second key milestone",
+              "date": "Specific date or timeframe",
+              "significance": "Why this milestone matters (1 sentence)"
+            }
+          ],
+          "urgencyLevel": "high",
+          "actionWindow": "How long you realistically have to act before window closes (e.g., '2-3 months', '6-8 weeks', 'Q2 2024')"
+        }
       }
     },
     "implementationRoadmap": {
@@ -502,6 +585,19 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
     }
   }
 
+  // Generate persona image
+  try {
+    const personaImageUrl = await generatePersonaImage(
+      persona,
+      idea.personaFit.archetype,
+      idea.personaFit.psychographicCluster
+    );
+    idea.personaFit.personaImageUrl = personaImageUrl;
+  } catch (error) {
+    console.error('Error generating persona image:', error);
+    // Continue without image
+  }
+
   return idea;
 }
 
@@ -630,6 +726,72 @@ Style requirements:
     console.error('Error generating image:', error);
     // Return a placeholder
     return 'https://via.placeholder.com/1792x1024/6366f1/f3f4f6?text=Core+Idea+Visual';
+  }
+}
+
+// Helper function to generate persona profile image using DALL-E
+async function generatePersonaImage(
+  persona: any,
+  archetype: string,
+  psychographicCluster: string
+): Promise<string> {
+  try {
+    const personaName = typeof persona === 'string' ? persona : (persona?.name || 'Target Persona');
+    const demographics = typeof persona === 'object' && persona.demographics 
+      ? (Array.isArray(persona.demographics) ? persona.demographics.join(', ') : persona.demographics)
+      : 'diverse demographics';
+    const values = typeof persona === 'object' && persona.valuesAspirations
+      ? (Array.isArray(persona.valuesAspirations) ? persona.valuesAspirations.slice(0, 3).join(', ') : persona.valuesAspirations)
+      : 'modern values';
+    const emotionalDrivers = typeof persona === 'object' && persona.emotionalDrivers
+      ? (Array.isArray(persona.emotionalDrivers) ? persona.emotionalDrivers.slice(0, 2).join(', ') : persona.emotionalDrivers)
+      : 'emotional connection';
+
+    const prompt = `Create a professional, authentic portrait-style image representing a marketing persona profile. 
+
+Persona: ${personaName}
+Archetype: ${archetype}
+Psychographic Cluster: ${psychographicCluster}
+Demographics: ${demographics}
+Values: ${values}
+Emotional Drivers: ${emotionalDrivers}
+
+Style requirements:
+- Professional portrait photography style, like a high-quality marketing persona profile photo
+- Authentic, relatable, and representative of the persona
+- Clean, modern composition with subtle background
+- Professional headshot or upper body portrait
+- Conveys the personality, lifestyle, and values of the persona
+- High-end commercial photography quality
+- Natural lighting, professional but approachable
+- Should feel like a real person who represents this target audience segment
+- Focus on authenticity and relatability over perfection
+- Lifestyle context that reflects the persona's values and interests`;
+
+    const response = await fetch('https://api.openai.com/v1/images/generations', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'dall-e-3',
+        prompt: prompt,
+        n: 1,
+        size: '1024x1024'
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`DALL-E API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data[0].url;
+  } catch (error) {
+    console.error('Error generating persona image:', error);
+    // Return a placeholder
+    return 'https://via.placeholder.com/1024x1024/6366f1/f3f4f6?text=Persona+Profile';
   }
 }
 
