@@ -158,9 +158,23 @@ export default function CreateCoreIdeaPage() {
 
     const handleGenerate = async () => {
         if (!allVariablesSelected) return
+        
+        // Validate all required data is present
+        if (!selectedBrand?.name || !selectedProduct?.name || !selectedPersona || !selectedTrend?.name) {
+            setError('Please ensure all variables are properly selected')
+            return
+        }
+        
         setIsGenerating(true)
         setError(null)
         try {
+            console.log('Generating with:', {
+                brand: selectedBrand?.name,
+                product: selectedProduct?.name,
+                persona: selectedPersona?.name || 'Persona object',
+                trend: selectedTrend?.name
+            })
+            
             const response = await fetch('/api/generate-core-ideas', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -173,13 +187,48 @@ export default function CreateCoreIdeaPage() {
                     cardIndex: 0
                 })
             })
+            
+            // Check if response is ok before parsing
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+                throw new Error(errorData.error || `Server error: ${response.status}`)
+            }
+            
             const data = await response.json()
-            if (data.success && data.ideas && data.ideas[0]) setGeneratedIdea(data.ideas[0])
+            console.log('API Response:', data)
+            
+            if (!data.success) {
+                console.error('API returned success: false', data)
+                throw new Error(data.error || 'Failed to generate core idea')
+            }
+            
+            if (data.ideas && data.ideas[0]) {
+                console.log('Setting generated idea:', data.ideas[0])
+                console.log('Idea title:', data.ideas[0].title)
+                console.log('Idea description:', data.ideas[0].description)
+                console.log('Idea has marketIntelligence:', !!data.ideas[0].marketIntelligence)
+                console.log('Idea has opportunityWindow:', !!data.ideas[0].marketIntelligence?.opportunityWindow)
+                
+                // Set the generated idea
+                setGeneratedIdea(data.ideas[0])
+                
+                // Force a small delay to ensure state updates
+                await new Promise(resolve => setTimeout(resolve, 100))
+                
+                console.log('Generated idea should now be set')
+            } else {
+                console.error('No idea in response:', data)
+                console.error('Response structure:', JSON.stringify(data, null, 2))
+                throw new Error('No idea generated in response')
+            }
         } catch (err) {
             console.error('Error generating idea:', err)
-            setError('Failed to generate core idea')
+            console.error('Error stack:', err instanceof Error ? err.stack : 'No stack')
+            const errorMessage = err instanceof Error ? err.message : 'Failed to generate core idea'
+            setError(errorMessage)
         } finally {
             setIsGenerating(false)
+            console.log('Generation complete, isGenerating set to false')
         }
     }
 
@@ -309,7 +358,91 @@ export default function CreateCoreIdeaPage() {
 
             {error && <div className="mx-8 mt-4 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg"><p className="text-purple-400 text-sm">{error}</p></div>}
 
-            <div className='h-[calc(100vh-80px)] overflow-y-auto'>
+            <div className='h-[calc(100vh-80px)] overflow-y-auto relative'>
+                {/* Loading Overlay - Content Area Only */}
+                {isGenerating && (
+                    <div className="absolute inset-0 bg-neutral-950/95 backdrop-blur-md z-40 flex items-start justify-center overflow-y-auto">
+                        <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-12">
+                            {/* Loading Header */}
+                            <div className="text-center mb-12">
+                                <div className="inline-flex items-center gap-3 mb-6">
+                                    <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+                                    <div>
+                                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Generating Your Core Idea</h2>
+                                        <p className="text-neutral-400 text-sm md:text-base">Crafting a strategic marketing concept...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Skeleton Loader - Hero Section */}
+                            <div className="mb-12">
+                                <div className="relative w-full min-h-[400px] bg-gradient-to-br from-purple-950/30 to-neutral-900/50 border border-purple-500/20 rounded-3xl p-8 md:p-12 overflow-hidden">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-purple-600/5 animate-pulse"></div>
+                                    <div className="relative z-10 space-y-4">
+                                        <div className="h-4 w-32 bg-neutral-800/50 rounded-full animate-pulse"></div>
+                                        <div className="h-12 md:h-16 w-3/4 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                        <div className="h-6 w-full bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                        <div className="h-6 w-5/6 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Skeleton Loader - Content Sections */}
+                            <div className="space-y-8">
+                                {/* Section 1 */}
+                                <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                    <div className="h-6 w-48 bg-neutral-800/50 rounded-full mb-6 animate-pulse"></div>
+                                    <div className="space-y-4">
+                                        <div className="h-4 w-full bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                        <div className="h-4 w-5/6 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                        <div className="h-4 w-4/6 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                    </div>
+                                </div>
+
+                                {/* Section 2 - Grid */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                        <div className="h-6 w-40 bg-neutral-800/50 rounded-full mb-6 animate-pulse"></div>
+                                        <div className="space-y-3">
+                                            <div className="h-4 w-full bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                            <div className="h-4 w-4/5 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                        <div className="h-6 w-40 bg-neutral-800/50 rounded-full mb-6 animate-pulse"></div>
+                                        <div className="space-y-3">
+                                            <div className="h-4 w-full bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                            <div className="h-4 w-4/5 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Section 3 - Execution Examples */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    {[1, 2, 3, 4].map((idx) => (
+                                        <div key={idx} className="bg-gradient-to-br from-neutral-900/90 to-neutral-800/50 border border-neutral-700/50 rounded-3xl overflow-hidden">
+                                            <div className="w-full aspect-square bg-neutral-800/50 animate-pulse"></div>
+                                            <div className="p-8 space-y-4">
+                                                <div className="h-6 w-12 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                                <div className="h-4 w-full bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                                <div className="h-4 w-5/6 bg-neutral-800/50 rounded-lg animate-pulse"></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Loading Progress Indicator */}
+                            <div className="mt-12 text-center">
+                                <div className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500/10 border border-purple-500/20 rounded-full">
+                                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                                    <span className="text-sm text-purple-300 font-medium">Processing AI insights and generating visuals...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {generatedIdea ? (
                     <div className="max-w-7xl mx-auto">
                         {/* Hero Section - Cinematic */}
@@ -665,67 +798,6 @@ export default function CreateCoreIdeaPage() {
                             </div>
                         </section>
 
-                        {/* Deep Dive: Strategy */}
-                        {generatedIdea.marketIntelligence && (
-                            <section className="mb-24 px-6 md:px-12">
-                                <div className="max-w-7xl mx-auto">
-                                    <div className="flex items-center gap-3 mb-12">
-                                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-                                        <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">Deep Dive: Strategy</span>
-                                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-                                    </div>
-                                    <div className="space-y-12">
-                                        {/* Implementation Roadmap */}
-                                        <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm">
-                                            <h3 className="text-2xl font-bold text-white mb-8">Implementation Roadmap</h3>
-                                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                                                {[
-                                                    generatedIdea.marketIntelligence.implementationRoadmap.phase1,
-                                                    generatedIdea.marketIntelligence.implementationRoadmap.phase2,
-                                                    generatedIdea.marketIntelligence.implementationRoadmap.phase3
-                                                ].map((phase, phaseIdx) => (
-                                                    <div key={phaseIdx} className="bg-neutral-800/50 rounded-2xl p-6 border border-neutral-700/50 hover:border-purple-500/50 transition-all duration-300 group">
-                                                        <div className="flex items-center gap-3 mb-6">
-                                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                                <span className="text-purple-300 font-bold text-xl">{phaseIdx + 1}</span>
-                                                            </div>
-                                                            <div>
-                                                                <h4 className="text-lg font-semibold text-white">{phase.name}</h4>
-                                                                <p className="text-xs text-neutral-400">{phase.timeline}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="space-y-5">
-                                                            <div>
-                                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">Actions</p>
-                                                                <ul className="space-y-2">
-                                                                    {phase.actions.map((action, idx) => (
-                                                                        <li key={idx} className="text-sm text-neutral-300 flex items-start gap-2">
-                                                                            <span className="text-purple-400 mt-1">•</span>
-                                                                            <span>{action}</span>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">Quick Wins</p>
-                                                                <ul className="space-y-2">
-                                                                    {phase.quickWins.map((win, idx) => (
-                                                                        <li key={idx} className="text-sm text-neutral-300 flex items-start gap-2">
-                                                                            <span className="text-purple-400 mt-1">✓</span>
-                                                                            <span>{win}</span>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        )}
                     </div>
                 ) : (
                     <div className="h-full flex items-center justify-center">

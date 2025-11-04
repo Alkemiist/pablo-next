@@ -262,8 +262,12 @@ export const deleteProduct = (id: string): boolean => {
 
 // Persona operations
 export const savePersona = async (persona: Omit<Persona, 'id' | 'createdAt' | 'updatedAt'>): Promise<Persona> => {
+  // Generate name if missing or empty
+  const personaName = persona.name?.trim() || generatePersonaName(persona);
+  
   const newPersona: Persona = {
     ...persona,
+    name: personaName,
     id: generateId(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -300,12 +304,16 @@ export const updatePersona = async (id: string, persona: Omit<Persona, 'id' | 'c
   const existingPersonas = getPersonas();
   const personaIndex = existingPersonas.findIndex(p => p.id === id);
   
+  // Generate name if missing or empty
+  const personaName = persona.name?.trim() || generatePersonaName(persona);
+  
   let updatedPersona: Persona;
   
   if (personaIndex === -1) {
     // Persona not in localStorage, create new entry
     updatedPersona = {
       ...persona,
+      name: personaName,
       id,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -315,6 +323,7 @@ export const updatePersona = async (id: string, persona: Omit<Persona, 'id' | 'c
     // Persona exists in localStorage, update it
     updatedPersona = {
       ...persona,
+      name: personaName,
       id,
       createdAt: existingPersonas[personaIndex].createdAt,
       updatedAt: new Date().toISOString(),
@@ -463,7 +472,7 @@ const generateTrendSummary = (trend: Omit<Trend, 'id' | 'createdAt' | 'updatedAt
 // Generate a name for persona based on demographics
 export const generatePersonaName = (persona: Omit<Persona, 'id' | 'createdAt' | 'updatedAt'>): string => {
   // Extract key demographic info for name generation
-  const demographics = persona.demographics.toLowerCase();
+  const demographics = (persona.demographics || '').toLowerCase();
   
   // Simple name generation based on common demographic patterns
   if (demographics.includes('millennial') || demographics.includes('gen y')) {

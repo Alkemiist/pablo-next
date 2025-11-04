@@ -158,8 +158,9 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Error generating core ideas:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate core ideas';
     return NextResponse.json(
-      { success: false, error: 'Failed to generate core ideas' },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }
@@ -181,18 +182,27 @@ async function generateSingleCoreIdea(
 
   const ideaType = ideaTypes[cardIndex] || 'innovative marketing';
   
-  // Extract persona details
-  const personaName = typeof persona === 'string' ? persona : persona.name;
-  const personaDetails = typeof persona === 'string' ? '' : `
-- Demographics: ${persona.demographics}
-- Psychographics: ${persona.psychographics}
-- Emotional Drivers: ${persona.emotionalDrivers?.join(', ')}
-- Values & Aspirations: ${persona.valuesAspirations?.join(', ')}
-- Pain Points: ${persona.painPoints?.join(', ')}
-- Goals & Motivations: ${persona.goalsMotivations?.join(', ')}
-- Media Consumption: ${persona.mediaConsumption?.join(', ')}
-- Emotional Keywords: ${persona.emotionalKeywords?.join(', ')}
-- Desired Transformation: ${persona.desiredTransformation}`;
+  // Extract persona details with validation
+  const personaName = typeof persona === 'string' ? persona : (persona?.name || 'Unknown Persona');
+  
+  // Helper function to safely convert to comma-separated string
+  const formatArrayField = (field: any): string => {
+    if (!field) return 'Not specified';
+    if (Array.isArray(field)) return field.join(', ');
+    if (typeof field === 'string') return field;
+    return String(field);
+  };
+  
+  const personaDetails = typeof persona === 'string' || !persona ? '' : `
+- Demographics: ${formatArrayField(persona.demographics)}
+- Psychographics: ${formatArrayField(persona.psychographics)}
+- Emotional Drivers: ${formatArrayField(persona.emotionalDrivers)}
+- Values & Aspirations: ${formatArrayField(persona.valuesAspirations)}
+- Pain Points: ${formatArrayField(persona.painPoints)}
+- Goals & Motivations: ${formatArrayField(persona.goalsMotivations)}
+- Media Consumption: ${formatArrayField(persona.mediaConsumption)}
+- Emotional Keywords: ${formatArrayField(persona.emotionalKeywords)}
+- Desired Transformation: ${formatArrayField(persona.desiredTransformation)}`;
 
   const prompt = `You are an elite marketing intelligence strategist tasked with creating a groundbreaking marketing core idea with deep persona insights. 
 
@@ -423,8 +433,33 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
   }
 
   const data = await response.json();
+  
+  if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+    throw new Error(`OpenAI API returned unexpected response format: ${JSON.stringify(data)}`);
+  }
+  
   const generatedContent = data.choices[0].message.content.trim();
-  const idea = JSON.parse(generatedContent) as CoreIdeaData;
+  
+  // Try to extract JSON from the response (in case there's extra text)
+  let idea: CoreIdeaData;
+  try {
+    // Try parsing as-is first
+    idea = JSON.parse(generatedContent) as CoreIdeaData;
+  } catch (parseError) {
+    // If that fails, try to extract JSON from the response
+    const jsonMatch = generatedContent.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      try {
+        idea = JSON.parse(jsonMatch[0]) as CoreIdeaData;
+      } catch (e) {
+        console.error('Failed to parse JSON from OpenAI response:', generatedContent);
+        throw new Error(`Failed to parse AI response as JSON: ${e instanceof Error ? e.message : 'Unknown error'}`);
+      }
+    } else {
+      console.error('No JSON found in OpenAI response:', generatedContent);
+      throw new Error('AI response did not contain valid JSON');
+    }
+  }
 
   // Generate image for the core idea
   try {
