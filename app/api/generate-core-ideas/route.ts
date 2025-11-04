@@ -20,6 +20,14 @@ interface GenerateCoreIdeasRequest {
   generateSingle?: boolean;
 }
 
+interface ExecutionExample {
+  tacticType: string; // e.g., "social-post", "event", "partnership", "video", "content"
+  platform: string; // e.g., "instagram", "tiktok", "live-event", "youtube", "linkedin"
+  description: string; // The explanation text
+  visualPrompt: string; // Refined prompt for image generation
+  imageUrl?: string; // Generated visual mockup
+}
+
 interface CoreIdeaData {
   title: string;
   description: string;
@@ -29,7 +37,7 @@ interface CoreIdeaData {
   trendConnection: string;
   keyMechanism: string;
   uniqueAngle: string;
-  executionExamples: string[];
+  executionExamples: string[] | ExecutionExample[]; // Support both old and new format
   targetOutcome: string;
   imageUrl?: string;
   personaFit: {
@@ -95,13 +103,21 @@ interface CoreIdeaData {
       talkability: string;
       factors: string[];
     };
-    confidence: {
-      overall: number; // 1-10
-      feasibility: number;
-      marketReadiness: number;
-      trendAlignment: number;
-      brandFit: number;
-      innovation: number;
+    opportunityWindow: {
+      whyThisWindowExists: string; // Narrative explaining what creates the opportunity now
+      competitiveLandscape: {
+        whoCouldDoThis: string; // Specific competitors who could execute this
+        whatTheyreDoing: string; // What competitors are currently doing
+        whiteSpace: string; // The white space this idea occupies
+      };
+      firstMoverAdvantage: {
+        whatYouGain: string; // Advantages of moving first
+        whatHappensIfYouWait: string; // What changes if you wait
+      };
+      windowClosesWhen: {
+        closingConditions: string[]; // Specific conditions that close the window
+        urgency: string; // Timeline and urgency explanation
+      };
     };
     implementationRoadmap: {
       phase1: { name: string; timeline: string; actions: string[]; quickWins: string[] };
@@ -209,10 +225,30 @@ Return ONLY valid JSON with this exact structure:
   "keyMechanism": "The specific mechanism that drives results (e.g., 'challenge', 'revelation', 'transformation', 'belonging')",
   "uniqueAngle": "What makes this different from standard approaches (1-2 sentences)",
   "executionExamples": [
-    "Example 1: How this could work as a social media campaign",
-    "Example 2: How this could work as an event/experience",
-    "Example 3: How this could work as a partnership or collaboration",
-    "Example 4: How this could work as a content or influencer activation"
+    {
+      "tacticType": "social-post",
+      "platform": "instagram",
+      "description": "How this could work as a social media campaign (2-3 sentences explaining the specific execution)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this Instagram post. Include: specific visual style, color palette, composition, key imagery elements, typography style, and overall aesthetic that would make this post engaging and on-brand."
+    },
+    {
+      "tacticType": "event",
+      "platform": "live-event",
+      "description": "How this could work as an event/experience (2-3 sentences explaining the specific execution)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this event. Include: venue atmosphere, lighting style, decor elements, attendee experience, brand integration, and overall immersive feel."
+    },
+    {
+      "tacticType": "partnership",
+      "platform": "collaboration",
+      "description": "How this could work as a partnership or collaboration (2-3 sentences explaining the specific execution)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this partnership activation. Include: how both brands are represented, visual harmony, campaign aesthetic, key elements, and overall collaborative feel."
+    },
+    {
+      "tacticType": "content",
+      "platform": "youtube",
+      "description": "How this could work as a content or influencer activation (2-3 sentences explaining the specific execution)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this content piece. Include: video thumbnail style, key visual elements, color scheme, typography, composition, and overall aesthetic that would make viewers want to click."
+    }
   ],
   "targetOutcome": "The desired marketing outcome (1-2 sentences)",
   "personaFit": {
@@ -291,13 +327,25 @@ Return ONLY valid JSON with this exact structure:
       "talkability": "Bridges offline and online conversations",
       "factors": ["Surprising twist", "Shareable format", "Relatable experience"]
     },
-    "confidence": {
-      "overall": 8,
-      "feasibility": 7,
-      "marketReadiness": 9,
-      "trendAlignment": 8,
-      "brandFit": 9,
-      "innovation": 7
+    "opportunityWindow": {
+      "whyThisWindowExists": "A compelling 3-4 sentence narrative explaining what creates this opportunity RIGHT NOW. What confluence of factors (cultural moment, trend timing, consumer readiness, market conditions) has opened this window? Why is this moment different from 6 months ago or 6 months from now? Make it feel urgent and specific.",
+      "competitiveLandscape": {
+        "whoCouldDoThis": "Identify 2-3 specific competitors or brands that could realistically execute a similar idea. Be specific - name actual brands or types of brands.",
+        "whatTheyreDoing": "What are these competitors currently doing in this space? Are they addressing this trend, or leaving it open?",
+        "whiteSpace": "A clear 2-3 sentence explanation of the specific white space this idea occupies. What makes this different from what competitors are doing?"
+      },
+      "firstMoverAdvantage": {
+        "whatYouGain": "A compelling 2-3 sentence explanation of the specific advantages of moving first. What do you capture, establish, or own that becomes harder later?",
+        "whatHappensIfYouWait": "A clear 1-2 sentence explanation of what changes if you wait. What do you lose or what becomes harder?"
+      },
+      "windowClosesWhen": {
+        "closingConditions": [
+          "Specific condition 1 that would close this window (e.g., 'When competitor X launches their version')",
+          "Specific condition 2 (e.g., 'When the trend peaks and becomes oversaturated')",
+          "Specific condition 3 (e.g., 'When consumer interest shifts to the next cultural moment')"
+        ],
+        "urgency": "A 2-3 sentence explanation of the timeline and urgency. When does this window realistically close? Be specific about timing."
+      }
     },
     "implementationRoadmap": {
       "phase1": {
@@ -387,7 +435,126 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
     // Continue without image
   }
 
+  // Generate images for execution examples if they are structured
+  if (Array.isArray(idea.executionExamples) && idea.executionExamples.length > 0) {
+    const firstExample = idea.executionExamples[0];
+    // Check if it's the new structured format
+    if (typeof firstExample === 'object' && 'tacticType' in firstExample) {
+      try {
+        const examplesWithImages = await Promise.all(
+          (idea.executionExamples as ExecutionExample[]).map(async (example) => {
+            try {
+              const imageUrl = await generateExecutionExampleImage(
+                example.visualPrompt,
+                example.tacticType,
+                example.platform,
+                brand,
+                product,
+                idea.title
+              );
+              return { ...example, imageUrl };
+            } catch (error) {
+              console.error(`Error generating image for execution example:`, error);
+              return example; // Return without image if generation fails
+            }
+          })
+        );
+        idea.executionExamples = examplesWithImages;
+      } catch (error) {
+        console.error('Error generating execution example images:', error);
+        // Continue without images
+      }
+    }
+  }
+
   return idea;
+}
+
+// Helper function to generate image for execution example using DALL-E
+async function generateExecutionExampleImage(
+  visualPrompt: string,
+  tacticType: string,
+  platform: string,
+  brand: string,
+  product: string,
+  coreIdeaTitle: string
+): Promise<string> {
+  try {
+    // Determine image size based on platform/tactic type
+    let size: '1024x1024' | '1792x1024' = '1024x1024';
+    if (platform === 'instagram' || platform === 'tiktok') {
+      size = '1024x1024'; // Square format for social
+    } else if (platform === 'youtube' || tacticType === 'video') {
+      size = '1792x1024'; // Wide format for video
+    }
+
+    // Build platform-specific prompt
+    let platformStyle = '';
+    switch (platform) {
+      case 'instagram':
+        platformStyle = 'Instagram post format, square composition, modern social media aesthetic, engaging visual';
+        break;
+      case 'tiktok':
+        platformStyle = 'TikTok video thumbnail, vertical format feel, dynamic and energetic, trend-forward';
+        break;
+      case 'youtube':
+        platformStyle = 'YouTube video thumbnail, 16:9 aspect ratio, compelling and click-worthy, professional quality';
+        break;
+      case 'live-event':
+        platformStyle = 'Event marketing visual, poster or venue aesthetic, immersive experience feel, high energy';
+        break;
+      case 'collaboration':
+        platformStyle = 'Partnership collaboration visual, brand partnership aesthetic, joint campaign feel, premium quality';
+        break;
+      default:
+        platformStyle = 'Professional marketing visual, modern and engaging, high-quality composition';
+    }
+
+    const prompt = `Create a professional marketing visual mockup for: ${coreIdeaTitle}. 
+    
+Tactic: ${tacticType} on ${platform}
+Brand: ${brand}
+Product: ${product}
+
+Visual Description: ${visualPrompt}
+
+Style Requirements:
+- ${platformStyle}
+- Premium, professional marketing quality
+- Modern and engaging aesthetic
+- Aligned with the brand and core idea
+- Realistic mockup that shows how this would look in execution
+- High-end commercial quality
+- Visually compelling and memorable
+
+Make it feel authentic and true to how this tactic would actually appear.`;
+
+    const response = await fetch('https://api.openai.com/v1/images/generations', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'dall-e-3',
+        prompt: prompt,
+        n: 1,
+        size: size
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`DALL-E API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data[0].url;
+  } catch (error) {
+    console.error('Error generating execution example image:', error);
+    // Return a placeholder
+    const placeholderSize = (platform === 'youtube' || tacticType === 'video') ? '1792x1024' : '1024x1024';
+    return `https://via.placeholder.com/${placeholderSize}/6366f1/f3f4f6?text=${encodeURIComponent(tacticType)}`;
+  }
 }
 
 // Helper function to generate image using DALL-E

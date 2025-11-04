@@ -6,6 +6,14 @@ import { Modal } from "@/components/ui/modal"
 import { X, Sparkles, Download, Share2 } from "lucide-react"
 import { VariableMetadata, VariableType, Brand, Product, Persona, Trend } from '@/lib/variables-types'
 
+interface ExecutionExample {
+  tacticType: string
+  platform: string
+  description: string
+  visualPrompt: string
+  imageUrl?: string
+}
+
 interface CoreIdeaData {
   title: string
   description: string
@@ -15,7 +23,7 @@ interface CoreIdeaData {
   trendConnection: string
   keyMechanism: string
   uniqueAngle: string
-  executionExamples: string[]
+  executionExamples: string[] | ExecutionExample[] // Support both old and new format
   targetOutcome: string
   imageUrl?: string
   personaFit: {
@@ -81,13 +89,21 @@ interface CoreIdeaData {
       talkability: string
       factors: string[]
     }
-    confidence: {
-      overall: number
-      feasibility: number
-      marketReadiness: number
-      trendAlignment: number
-      brandFit: number
-      innovation: number
+    opportunityWindow?: {
+      whyThisWindowExists: string
+      competitiveLandscape: {
+        whoCouldDoThis: string
+        whatTheyreDoing: string
+        whiteSpace: string
+      }
+      firstMoverAdvantage: {
+        whatYouGain: string
+        whatHappensIfYouWait: string
+      }
+      windowClosesWhen: {
+        closingConditions: string[]
+        urgency: string
+      }
     }
     implementationRoadmap: {
       phase1: { name: string; timeline: string; actions: string[]; quickWins: string[] }
@@ -407,254 +423,168 @@ export default function CreateCoreIdeaPage() {
                                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        {generatedIdea.executionExamples.map((example, idx) => (
-                                            <div 
-                                                key={idx} 
-                                                className="group relative bg-gradient-to-br from-neutral-900/90 to-neutral-800/50 border border-neutral-700/50 rounded-3xl p-10 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-500 overflow-hidden"
-                                            >
-                                                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
-                                                <div className="relative z-10">
-                                                    <div className="flex items-center gap-4 mb-6">
-                                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                            <span className="text-purple-300 font-bold text-2xl">{idx + 1}</span>
+                                        {generatedIdea.executionExamples.map((example, idx) => {
+                                            // Handle both old string[] format and new ExecutionExample[] format
+                                            const isStructured = typeof example === 'object' && 'tacticType' in example;
+                                            const structuredExample = isStructured ? example as ExecutionExample : null;
+                                            const description = isStructured ? structuredExample!.description : example as string;
+                                            const imageUrl = isStructured ? structuredExample!.imageUrl : undefined;
+                                            const platform = isStructured ? structuredExample!.platform : undefined;
+                                            const tacticType = isStructured ? structuredExample!.tacticType : undefined;
+                                            
+                                            return (
+                                                <div 
+                                                    key={idx} 
+                                                    className="group relative bg-gradient-to-br from-neutral-900/90 to-neutral-800/50 border border-neutral-700/50 rounded-3xl overflow-hidden backdrop-blur-sm hover:border-purple-500/50 transition-all duration-500 flex flex-col h-full"
+                                                >
+                                                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
+                                                    
+                                                    {/* Visual Preview */}
+                                                    {imageUrl && (
+                                                        <div className="relative w-full aspect-square overflow-hidden">
+                                                            <img 
+                                                                src={imageUrl} 
+                                                                alt={`${tacticType || 'Execution'} mockup`}
+                                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                                onError={(e) => {
+                                                                    // Hide image on error
+                                                                    e.currentTarget.style.display = 'none';
+                                                                }}
+                                                            />
+                                                            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 via-transparent to-transparent"></div>
+                                                            {platform && (
+                                                                <div className="absolute top-4 left-4 px-3 py-1.5 bg-neutral-900/80 backdrop-blur-sm border border-neutral-700/50 rounded-lg">
+                                                                    <span className="text-xs font-semibold text-purple-300 uppercase tracking-wider">{platform}</span>
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                        <div className="h-px flex-1 bg-gradient-to-r from-purple-500/20 to-transparent"></div>
+                                                    )}
+                                                    
+                                                    {/* Content */}
+                                                    <div className="relative z-10 p-8 flex-1 flex flex-col">
+                                                        <div className="flex items-center gap-4 mb-6">
+                                                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                                                                <span className="text-purple-300 font-bold text-2xl">{idx + 1}</span>
+                                                            </div>
+                                                            <div className="h-px flex-1 bg-gradient-to-r from-purple-500/20 to-transparent"></div>
+                                                        </div>
+                                                        <p className="text-lg md:text-xl text-neutral-200 leading-relaxed font-light">{description}</p>
                                                     </div>
-                                                    <p className="text-lg md:text-xl text-neutral-200 leading-relaxed font-light">{example}</p>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </section>
                         )}
 
-                        {/* Decision Framework */}
-                        {generatedIdea.marketIntelligence && (
+                        {/* The Opportunity Window */}
+                        {generatedIdea.marketIntelligence?.opportunityWindow && (
                             <section className="mb-24 px-6 md:px-12">
                                 <div className="max-w-7xl mx-auto">
                                     <div className="flex items-center gap-3 mb-12">
                                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-                                        <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">Decision Framework</span>
+                                        <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">The Opportunity Window</span>
                                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
                                     </div>
                                     
-                                    {/* Three Column Layout: Why Now | Differentiation | Feasibility */}
-                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                                        {/* Why Now */}
-                                        <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                    {/* Panel 1: Why This Window Exists - Hero Visual */}
+                                    <div className="relative mb-12 bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 md:p-12 backdrop-blur-sm overflow-hidden group">
+                                        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                                        <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-500/5 to-purple-600/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                                        <div className="relative z-10">
                                             <div className="flex items-center gap-3 mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                    <Sparkles className="w-5 h-5 text-purple-400" />
+                                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                    <Sparkles className="w-6 h-6 text-purple-400" />
                                                 </div>
-                                                <h3 className="text-xl font-bold text-white">Why Now</h3>
+                                                <h3 className="text-2xl md:text-3xl font-bold text-white">Why This Window Exists</h3>
                                             </div>
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Trend Lifecycle</p>
-                                                    <p className="text-base text-white capitalize mb-2">{generatedIdea.marketIntelligence.timing.trendLifecyclePhase}</p>
-                                                    <p className="text-sm text-neutral-400 leading-relaxed">{generatedIdea.marketIntelligence.timing.seasonalFit}</p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Launch Window</p>
-                                                    <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.timing.optimalLaunchWindow}</p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Urgency</p>
-                                                    <div className="flex items-center gap-2">
-                                                        <div className={`px-3 py-1.5 rounded-full text-sm font-semibold ${
-                                                            generatedIdea.marketIntelligence.timing.urgency === 'high' ? 'bg-purple-900/30 text-purple-400 border border-purple-500/30' :
-                                                            generatedIdea.marketIntelligence.timing.urgency === 'medium' ? 'bg-neutral-900/30 text-neutral-400 border border-neutral-700/30' : 
-                                                            'bg-neutral-900/30 text-neutral-400 border border-neutral-700/30'
-                                                        }`}>
-                                                            {generatedIdea.marketIntelligence.timing.urgency.toUpperCase()}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <p className="text-lg md:text-xl text-neutral-200 leading-relaxed font-light">{generatedIdea.marketIntelligence.opportunityWindow.whyThisWindowExists}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Panel 2: Competitive Landscape - Visual Map */}
+                                    <div className="mb-12 bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm">
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                            </div>
+                                            <h3 className="text-2xl font-bold text-white">Competitive Landscape</h3>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                                            <div className="bg-neutral-800/50 rounded-2xl p-6 border border-neutral-700/50">
+                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">Who Could Do This</p>
+                                                <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.competitiveLandscape.whoCouldDoThis}</p>
+                                            </div>
+                                            <div className="bg-neutral-800/50 rounded-2xl p-6 border border-neutral-700/50">
+                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">What They're Doing</p>
+                                                <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.competitiveLandscape.whatTheyreDoing}</p>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-purple-950/40 to-neutral-800/50 rounded-2xl p-6 border border-purple-500/30">
+                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">White Space</p>
+                                                <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.competitiveLandscape.whiteSpace}</p>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        {/* Differentiation */}
-                                        <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                    {/* Panel 3: First-Mover Advantage - Comparison View */}
+                                    <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-sm">
                                             <div className="flex items-center gap-3 mb-6">
                                                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
                                                     <Sparkles className="w-5 h-5 text-purple-400" />
                                                 </div>
-                                                <h3 className="text-xl font-bold text-white">Differentiation</h3>
+                                                <h4 className="text-xl font-bold text-white">What You Gain</h4>
                                             </div>
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <p className="text-xs text-purple-400 font-semibold uppercase tracking-wider">White Space</p>
-                                                        <span className="text-lg font-bold text-white">{generatedIdea.marketIntelligence.competitive.whiteSpaceScore}/10</span>
-                                                    </div>
-                                                    <div className="w-full bg-neutral-900 rounded-full h-2 mb-3">
-                                                        <div className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600" style={{
-                                                            width: `${generatedIdea.marketIntelligence.competitive.whiteSpaceScore * 10}%`
-                                                        }}></div>
-                                                    </div>
-                                                    <p className="text-xs text-neutral-400 capitalize">Market: {generatedIdea.marketIntelligence.competitive.marketSaturation}</p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Competitive Advantage</p>
-                                                    <p className="text-sm text-white leading-relaxed">{generatedIdea.marketIntelligence.competitive.differentiationStrength}</p>
-                                                </div>
-                                            </div>
+                                            <p className="text-base text-neutral-200 leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.firstMoverAdvantage.whatYouGain}</p>
                                         </div>
-
-                                        {/* Feasibility */}
                                         <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
                                             <div className="flex items-center gap-3 mb-6">
                                                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
                                                     <Sparkles className="w-5 h-5 text-purple-400" />
                                                 </div>
-                                                <h3 className="text-xl font-bold text-white">Feasibility</h3>
+                                                <h4 className="text-xl font-bold text-white">What Happens If You Wait</h4>
                                             </div>
-                                            <div className="space-y-4">
-                                                {generatedIdea.marketIntelligence.tactics.length > 0 && (
-                                                    <>
-                                                        <div>
-                                                            <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Implementation Ease</p>
-                                                            {(() => {
-                                                                const highFeasibility = generatedIdea.marketIntelligence.tactics.filter(t => t.feasibility === 'high').length;
-                                                                const total = generatedIdea.marketIntelligence.tactics.length;
-                                                                const ease = highFeasibility / total;
-                                                                const label = ease >= 0.67 ? 'High' : ease >= 0.33 ? 'Medium' : 'Low';
-                                                                return (
-                                                                    <div className="flex items-center gap-2">
-                                                                        <div className={`px-3 py-1.5 rounded-full text-sm font-semibold ${
-                                                                            label === 'High' ? 'bg-purple-900/30 text-purple-400 border border-purple-500/30' :
-                                                                            label === 'Medium' ? 'bg-neutral-900/30 text-neutral-400 border border-neutral-700/30' : 
-                                                                            'bg-neutral-900/30 text-neutral-400 border border-neutral-700/30'
-                                                                        }`}>
-                                                                            {label}
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            })()}
-                                                        </div>
-                                                        <div>
-                                                            <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Resource Requirements</p>
-                                                            <p className="text-sm text-white leading-relaxed">
-                                                                {generatedIdea.marketIntelligence.tactics.some(t => t.budget.includes('budget') || t.budget.includes('Low')) 
-                                                                    ? 'Low to moderate investment needed' 
-                                                                    : 'Moderate to significant investment required'}
-                                                            </p>
-                                                        </div>
-                                                    </>
-                                                )}
-                                                {generatedIdea.marketIntelligence.confidence && (
-                                                    <div>
-                                                        <p className="text-xs text-purple-400 font-semibold mb-2 uppercase tracking-wider">Feasibility Score</p>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-lg font-bold text-white">{generatedIdea.marketIntelligence.confidence.feasibility}/10</span>
-                                                            <div className="flex-1 bg-neutral-900 rounded-full h-2">
-                                                                <div className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600" style={{
-                                                                    width: `${generatedIdea.marketIntelligence.confidence.feasibility * 10}%`
-                                                                }}></div>
+                                            <p className="text-base text-neutral-300 leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.firstMoverAdvantage.whatHappensIfYouWait}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Panel 4: Window Closes When - Timeline/Urgency */}
+                                    <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm">
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                            </div>
+                                            <h3 className="text-2xl font-bold text-white">Window Closes When</h3>
+                                        </div>
+                                        <div className="space-y-6">
+                                            <div>
+                                                <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">Closing Conditions</p>
+                                                <div className="space-y-3">
+                                                    {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.closingConditions.map((condition, idx) => (
+                                                        <div key={idx} className="flex items-start gap-3 bg-neutral-800/50 rounded-xl p-4 border border-neutral-700/50">
+                                                            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                                <span className="text-xs font-bold text-purple-300">{idx + 1}</span>
                                                             </div>
+                                                            <p className="text-base text-white leading-relaxed flex-1">{condition}</p>
                                                         </div>
-                                                    </div>
-                                                )}
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-purple-950/40 to-neutral-800/50 rounded-2xl p-6 border border-purple-500/30">
+                                                <p className="text-sm text-purple-400 font-semibold mb-3 uppercase tracking-wider">Urgency</p>
+                                                <p className="text-base text-white leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.urgency}</p>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </section>
+                        )}
 
-                                    {/* Strategic Alignment */}
-                                    {generatedIdea.marketIntelligence.confidence && (
-                                        <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm mb-12">
-                                            <h3 className="text-2xl font-bold text-white mb-6">Strategic Alignment</h3>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                                <div>
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <p className="text-xs text-purple-400 font-semibold uppercase tracking-wider">Brand Fit</p>
-                                                        <span className="text-2xl font-bold text-white">{generatedIdea.marketIntelligence.confidence.brandFit}/10</span>
-                                                    </div>
-                                                    <div className="w-full bg-neutral-900 rounded-full h-2">
-                                                        <div className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600" style={{
-                                                            width: `${generatedIdea.marketIntelligence.confidence.brandFit * 10}%`
-                                                        }}></div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <p className="text-xs text-purple-400 font-semibold uppercase tracking-wider">Trend Alignment</p>
-                                                        <span className="text-2xl font-bold text-white">{generatedIdea.marketIntelligence.confidence.trendAlignment}/10</span>
-                                                    </div>
-                                                    <div className="w-full bg-neutral-900 rounded-full h-2">
-                                                        <div className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600" style={{
-                                                            width: `${generatedIdea.marketIntelligence.confidence.trendAlignment * 10}%`
-                                                        }}></div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <p className="text-xs text-purple-400 font-semibold uppercase tracking-wider">Market Readiness</p>
-                                                        <span className="text-2xl font-bold text-white">{generatedIdea.marketIntelligence.confidence.marketReadiness}/10</span>
-                                                    </div>
-                                                    <div className="w-full bg-neutral-900 rounded-full h-2">
-                                                        <div className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600" style={{
-                                                            width: `${generatedIdea.marketIntelligence.confidence.marketReadiness * 10}%`
-                                                        }}></div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <p className="text-xs text-purple-400 font-semibold uppercase tracking-wider">Overall Confidence</p>
-                                                        <span className="text-2xl font-bold text-white">{generatedIdea.marketIntelligence.confidence.overall}/10</span>
-                                                    </div>
-                                                    <div className="w-full bg-neutral-900 rounded-full h-2">
-                                                        <div className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600" style={{
-                                                            width: `${generatedIdea.marketIntelligence.confidence.overall * 10}%`
-                                                        }}></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Risk Assessment */}
-                                    <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm mb-12">
-                                        <h3 className="text-2xl font-bold text-white mb-6">Risk Assessment</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div>
-                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">Potential Challenges</p>
-                                                <ul className="space-y-2">
-                                                    <li className="text-sm text-neutral-300 flex items-start gap-2">
-                                                        <span className="text-purple-400 mt-1">⚠</span>
-                                                        <span>Trend timing may shift - monitor lifecycle closely</span>
-                                                    </li>
-                                                    <li className="text-sm text-neutral-300 flex items-start gap-2">
-                                                        <span className="text-purple-400 mt-1">⚠</span>
-                                                        <span>Competitive response could emerge quickly in {generatedIdea.marketIntelligence.competitive.marketSaturation === 'uncrowded' ? 'uncrowded' : 'moderate'} market</span>
-                                                    </li>
-                                                    <li className="text-sm text-neutral-300 flex items-start gap-2">
-                                                        <span className="text-purple-400 mt-1">⚠</span>
-                                                        <span>Resource allocation needs careful planning for {generatedIdea.marketIntelligence.tactics.some(t => t.feasibility === 'low') ? 'higher complexity' : 'moderate complexity'} tactics</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs text-purple-400 font-semibold mb-3 uppercase tracking-wider">Mitigation Strategies</p>
-                                                <ul className="space-y-2">
-                                                    <li className="text-sm text-neutral-300 flex items-start gap-2">
-                                                        <span className="text-purple-400 mt-1">✓</span>
-                                                        <span>Start with Phase 1 quick wins to validate concept</span>
-                                                    </li>
-                                                    <li className="text-sm text-neutral-300 flex items-start gap-2">
-                                                        <span className="text-purple-400 mt-1">✓</span>
-                                                        <span>Leverage {generatedIdea.marketIntelligence.competitive.whiteSpaceScore >= 7 ? 'significant' : 'moderate'} white space advantage for early positioning</span>
-                                                    </li>
-                                                    <li className="text-sm text-neutral-300 flex items-start gap-2">
-                                                        <span className="text-purple-400 mt-1">✓</span>
-                                                        <span>Focus on tactics with high feasibility scores first</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Quick Wins & Validation Pathway */}
+                        {/* Quick Wins & Validation Pathway */}
+                        {generatedIdea.marketIntelligence && (
+                            <section className="mb-24 px-6 md:px-12">
+                                <div className="max-w-7xl mx-auto">
                                     <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
                                         <h3 className="text-2xl font-bold text-white mb-6">Quick Wins & Validation</h3>
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
