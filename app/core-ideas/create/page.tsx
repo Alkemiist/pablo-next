@@ -26,6 +26,7 @@ interface CoreIdeaData {
   executionExamples: string[] | ExecutionExample[] // Support both old and new format
   targetOutcome: string
   imageUrl?: string
+  videoUrl?: string
   strategy?: {
     mechanismBreakdown: {
       coreMechanism: string
@@ -568,34 +569,22 @@ export default function CreateCoreIdeaPage() {
 
                 {generatedIdea ? (
                     <div className="max-w-7xl mx-auto">
-                        {/* Hero Section - Cinematic */}
-                        <section className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden mb-20">
-                            <div className="absolute inset-0 bg-gradient-to-br from-purple-950/50 via-neutral-950 to-purple-950/50"></div>
-                            {generatedIdea.imageUrl && (
-                                <>
-                                    <div className="absolute inset-0 opacity-20">
-                                        <img 
-                                            src={generatedIdea.imageUrl} 
-                                            alt={generatedIdea.title}
-                                            className="w-full h-full object-cover"
-                                        />
+                        {/* Hero Section - Minimal */}
+                        <section className="relative w-full mb-20">
+                            <div className="max-w-4xl mx-auto px-6 md:px-12">
+                                <div className="flex flex-col items-center justify-center min-h-[60vh] py-20 text-center">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-purple-500/10 border border-purple-500/20 rounded-full">
+                                        <Sparkles className="w-4 h-4 text-purple-400" />
+                                        <span className="text-sm font-medium text-purple-300">Core Idea</span>
                                     </div>
-                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-950/80 to-neutral-950"></div>
-                                </>
-                            )}
-                            <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-center">
-                                <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-purple-500/10 border border-purple-500/20 rounded-full">
-                                    <Sparkles className="w-4 h-4 text-purple-400" />
-                                    <span className="text-sm font-medium text-purple-300">Core Idea</span>
+                                    <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight tracking-tight">
+                                        {generatedIdea.title}
+                                    </h1>
+                                    <p className="text-lg md:text-xl lg:text-2xl text-neutral-300 leading-relaxed font-light max-w-3xl">
+                                        {generatedIdea.description}
+                                    </p>
                                 </div>
-                                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
-                                    {generatedIdea.title}
-                                </h1>
-                                <p className="text-lg md:text-xl lg:text-2xl text-neutral-300 max-w-5xl mx-auto leading-relaxed font-light">
-                                    {generatedIdea.description}
-                                </p>
                             </div>
-                            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-neutral-950 to-transparent"></div>
                         </section>
 
                         {/* The Hook - Emotional Entry Point */}
@@ -639,31 +628,6 @@ export default function CreateCoreIdeaPage() {
                                             <h2 className="text-2xl font-bold text-white">Why It Works</h2>
                                         </div>
                                         <p className="text-lg text-neutral-300 leading-relaxed">{generatedIdea.whyItWorks}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* The Mechanism - Key Differentiator */}
-                        <section className="mb-24 px-6 md:px-12">
-                            <div className="max-w-7xl mx-auto">
-                                <div className="flex items-center gap-3 mb-8">
-                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-                                    <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">The Mechanism</span>
-                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-                                </div>
-                                <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 md:p-12 backdrop-blur-sm">
-                                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Key Mechanism</h2>
-                                    <p className="text-xl md:text-2xl text-purple-200 leading-relaxed font-medium">{generatedIdea.keyMechanism}</p>
-                                </div>
-                                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="bg-gradient-to-br from-neutral-900/80 to-neutral-800/40 border border-neutral-700/50 rounded-2xl p-6 backdrop-blur-sm">
-                                        <h3 className="text-lg font-bold text-white mb-3">Unique Angle</h3>
-                                        <p className="text-base text-neutral-300 leading-relaxed">{generatedIdea.uniqueAngle}</p>
-                                    </div>
-                                    <div className="bg-gradient-to-br from-neutral-900/80 to-neutral-800/40 border border-neutral-700/50 rounded-2xl p-6 backdrop-blur-sm">
-                                        <h3 className="text-lg font-bold text-white mb-3">Trend Connection</h3>
-                                        <p className="text-base text-neutral-300 leading-relaxed">{generatedIdea.trendConnection}</p>
                                     </div>
                                 </div>
                             </div>
@@ -959,104 +923,6 @@ export default function CreateCoreIdeaPage() {
                                             </div>
                                             <p className="text-base text-neutral-300 leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.firstMoverAdvantage.whatHappensIfYouWait}</p>
                                         </div>
-                                    </div>
-
-                                    {/* Panel 4: Window Closes When - Enhanced with Timeline & Scenario Triggers */}
-                                    <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm">
-                                        <div className="flex items-center gap-3 mb-8">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
-                                            <h3 className="text-2xl font-bold text-white">Window Closes When</h3>
-                                        </div>
-                                        
-                                        {/* Timeline Visualization */}
-                                        {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline && (
-                                            <div className="mb-8 bg-gradient-to-br from-purple-950/40 to-neutral-800/50 rounded-2xl p-6 border border-purple-500/30">
-                                                <div className="flex items-center justify-between mb-6">
-                                                    <div>
-                                                        <p className="text-sm text-purple-400 font-semibold mb-2 uppercase tracking-wider">Action Window</p>
-                                                        <p className="text-xl font-bold text-white">{generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.actionWindow}</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="text-sm text-purple-400 font-semibold mb-2 uppercase tracking-wider">Estimated Close</p>
-                                                        <p className="text-xl font-bold text-white">{generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.estimatedClose}</p>
-                                                    </div>
-                                                </div>
-                                                
-                                                {/* Urgency Badge */}
-                                                <div className="mb-6">
-                                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30">
-                                                        <div className={`w-2 h-2 rounded-full ${
-                                                            generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel === 'critical' ? 'bg-red-400 animate-pulse' :
-                                                            generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel === 'high' ? 'bg-orange-400' :
-                                                            generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel === 'medium' ? 'bg-yellow-400' :
-                                                            'bg-green-400'
-                                                        }`}></div>
-                                                        <span className="text-sm font-semibold text-purple-300 uppercase tracking-wider">
-                                                            {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.urgencyLevel} Urgency
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                {/* Timeline Milestones */}
-                                                {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.milestones && generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.milestones.length > 0 && (
-                                                    <div>
-                                                        <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">Key Milestones</p>
-                                                        <div className="space-y-4">
-                                                            {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.timeline.milestones.map((milestone, idx) => (
-                                                                <div key={idx} className="flex items-start gap-4">
-                                                                    <div className="flex-shrink-0">
-                                                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                                            <span className="text-lg font-bold text-purple-300">{idx + 1}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="flex-1">
-                                                                        <div className="flex items-center gap-3 mb-2">
-                                                                            <p className="text-base font-semibold text-white">{milestone.milestone}</p>
-                                                                            <span className="text-xs text-purple-400 font-medium px-2 py-1 bg-purple-500/10 rounded-full border border-purple-500/20">
-                                                                                {milestone.date}
-                                                                            </span>
-                                                                        </div>
-                                                                        <p className="text-sm text-neutral-300 leading-relaxed">{milestone.significance}</p>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        {/* Scenario Triggers */}
-                                        {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.scenarioTriggers && generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.scenarioTriggers.length > 0 && (
-                                            <div className="mb-6">
-                                                <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">Scenario Triggers</p>
-                                                <div className="space-y-4">
-                                                    {generatedIdea.marketIntelligence.opportunityWindow.windowClosesWhen.scenarioTriggers.map((trigger, idx) => (
-                                                        <div key={idx} className="bg-neutral-800/50 rounded-xl p-5 border border-neutral-700/50">
-                                                            <div className="flex items-start justify-between gap-4 mb-3">
-                                                                <p className="text-base font-semibold text-white flex-1">{trigger.trigger}</p>
-                                                                <div className="flex items-center gap-2 flex-shrink-0">
-                                                                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                                                                        trigger.likelihood === 'high' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
-                                                                        trigger.likelihood === 'medium' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
-                                                                        'bg-green-500/20 text-green-300 border border-green-500/30'
-                                                                    }`}>
-                                                                        {trigger.likelihood} likelihood
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex items-center gap-4 text-sm">
-                                                                <span className="text-purple-400 font-medium">Timeline: {trigger.timeline}</span>
-                                                            </div>
-                                                            <p className="text-sm text-neutral-300 mt-3 leading-relaxed">{trigger.impact}</p>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-
                                     </div>
                                 </div>
                             </section>

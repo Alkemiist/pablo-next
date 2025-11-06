@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateSoraVideo, isSoraConfigured } from '@/lib/sora-client';
 
 interface GenerateCoreIdeasRequest {
   brand: string;
@@ -40,6 +41,7 @@ interface CoreIdeaData {
   executionExamples: string[] | ExecutionExample[]; // Support both old and new format
   targetOutcome: string;
   imageUrl?: string;
+  videoUrl?: string;
   strategy?: {
     // Mechanism Decomposition - HOW it works
     mechanismBreakdown: {
@@ -227,7 +229,9 @@ async function generateSingleCoreIdea(
     'disruptive innovation',
     'emotional storytelling',
     'cultural participation',
-    'behavioral transformation'
+    'behavioral transformation',
+    'social impact',
+    'unique experience'
   ];
 
   const ideaType = ideaTypes[cardIndex] || 'innovative marketing';
@@ -263,23 +267,29 @@ CONTEXT:
 ${personaDetails}
 - Current Trend: ${trend}
 
-Generate ONE insanely good, unique, marketing core idea of type "${ideaType}". This is NOT a specific tactic (like a social campaign or billboard), but rather a CORE MARKETING IDEA that can be translated into ANY tactic (social campaign, billboard, podcast, event, etc.).
+Generate ONE profoundly original, high-concept marketing core idea of type ”${ideaType}”. This is not a specific tactic (like a campaign, ad, or activation). It is a foundational marketing concept — a strategic nucleus that can power any execution (social, experiential, digital, OOH, PR, etc.).
 
 The idea should:
-1. Be genuinely innovative and fresh
-2. Deeply connect the brand/product with the trend and persona
-3. Be emotionally compelling
-4. Have clear potential for viral/memorable impact
-5. Work across multiple marketing channels and tactics
+1. Be truly groundbreaking — something that redefines the creative territory rather than reusing it.
+2. Fuse the brand/product, cultural trend, and persona into a single emotionally charged narrative.
+3. Evoke a visceral response — it should stir emotion, provoke thought, or ignite participation.
+4. Possess intrinsic viral gravity — the kind of conceptual magnetism that travels organically.
+5. Transcend formats — it should manifest powerfully across any medium or marketing discipline.
 
-CRITICAL: You must also provide deep persona intelligence explaining WHY this persona is perfect for this idea. This should read like a high-end intelligence report.
+CRITICAL: Deliver a deep persona intelligence brief explaining exactly why this persona is the perfect vessel for this idea. It should read like a confidential brand intelligence dossier — sharp, psychological, and insight-rich. Capture how this persona feels, aspires, and behaves in the context of the idea.
 
-CRITICAL FOR STRATEGY SECTION: The strategy section must be UNIQUE to THIS specific core idea. It must work at the CORE IDEA level (tactic-agnostic), not the tactic level. Avoid generic marketing advice or arbitrary numbers. Focus on:
-- Mechanism Decomposition: Break down HOW this specific idea's mechanism works. Be specific to THIS idea's unique mechanism (e.g., if it's about "authentic storytelling", explain how THAT specific mechanism works, not storytelling in general).
-- Psychological Triggers: Explain WHY this specific mechanism works psychologically. Tie it to THIS idea's unique approach.
-- Strategic Lens: Identify WHAT this idea uniquely captures, what risks are specific to THIS approach (not generic risks like "market saturation"), and what trade-offs THIS strategy makes.
+CRITICAL FOR STRATEGY SECTION: Your Strategy must be bespoke — handcrafted to the mechanics and psychology of this specific idea.
+Avoid all generic marketing theory. Speak like a creative strategist deconstructing a rare mechanism.
 
-Make it feel like bespoke strategic counsel that's impossible to template - because it's tied to THIS idea's specific mechanism.
+Your strategy section must include:
+- Mechanism Decomposition: Precisely articulate how this idea works — its inner engine. Break down the specific causal mechanism that gives it power. (For example, if the core idea is rooted in “public vulnerability,” explain how that exact mechanic creates contagious empathy.)
+- Psychological Triggers: Reveal why this mechanism works on the human mind — the exact emotional levers and cognitive biases it activates. Tie every trigger directly to the idea’s unique architecture.
+- Strategic Lens: Identify what truth or tension this idea uniquely captures, the risks specific to its nature, and the trade-offs it consciously accepts. No boilerplate risks like “market noise” or “competition.” Make it hyper-relevant to the DNA of this specific idea.
+
+Tone & Output
+
+Your response should feel like elite-level strategic counsel — impossible to template, impossible to fake.
+Every line should reflect intellectual precision, creative boldness, and psychological depth that could only emerge from this one-of-a-kind idea.
 
 Return ONLY valid JSON with this exact structure:
 {
@@ -624,13 +634,36 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
     }
   }
 
-  // Generate image for the core idea
+  // Generate video for the core idea (preferred), fall back to image if video fails
+  console.log('[Core Idea] Starting video/image generation...');
+  console.log('[Core Idea] Sora configured:', isSoraConfigured());
+  console.log('[Core Idea] SORA_API_KEY exists:', !!process.env.SORA_API_KEY);
+  
   try {
-    const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, brand, product);
-    idea.imageUrl = imageUrl;
+    const videoUrl = await generateCoreIdeaVideo(idea.title, idea.description, brand, product);
+    if (videoUrl) {
+      idea.videoUrl = videoUrl;
+      console.log('[Core Idea] ✅ Video generated successfully:', videoUrl);
+    } else {
+      // Fall back to image generation if video generation is not available
+      console.log('[Core Idea] ⚠️ Video generation returned null, falling back to image...');
+      const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, brand, product);
+      idea.imageUrl = imageUrl;
+      console.log('[Core Idea] ✅ Image generated successfully:', imageUrl);
+    }
   } catch (error) {
-    console.error('Error generating image:', error);
-    // Continue without image
+    console.error('[Core Idea] ❌ Error in video/image generation:', error);
+    console.error('[Core Idea] Error message:', error instanceof Error ? error.message : String(error));
+    // Try to generate image as fallback
+    try {
+      console.log('[Core Idea] Attempting image generation as fallback...');
+      const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, brand, product);
+      idea.imageUrl = imageUrl;
+      console.log('[Core Idea] ✅ Fallback image generated successfully:', imageUrl);
+    } catch (imageError) {
+      console.error('[Core Idea] ❌ Error generating fallback image:', imageError);
+      // Continue without image/video
+    }
   }
 
   // Generate images for execution examples if they are structured
@@ -765,6 +798,48 @@ Make it feel authentic and true to how this tactic would actually appear.`;
     // Return a placeholder
     const placeholderSize = (platform === 'youtube' || tacticType === 'video') ? '1792x1024' : '1024x1024';
     return `https://via.placeholder.com/${placeholderSize}/6366f1/f3f4f6?text=${encodeURIComponent(tacticType)}`;
+  }
+}
+
+// Helper function to generate video using Sora
+async function generateCoreIdeaVideo(title: string, description: string, brand: string, product: string): Promise<string | null> {
+  try {
+    if (!isSoraConfigured()) {
+      console.log('[Core Idea] Sora API not configured, skipping video generation');
+      return null;
+    }
+
+    const prompt = `Create a stunning, professional marketing video concept for: ${title}. ${description}. Brand: ${brand}. Product: ${product}. 
+
+Style requirements:
+- Modern, aspirational marketing video
+- Clean, sophisticated composition with smooth camera movements
+- Professional advertising quality
+- Conveys innovation and creativity
+- Eye-catching and memorable
+- High-end commercial video aesthetic
+- Focus on the marketing concept and brand essence
+- Smooth, cinematic camera movements
+- Subtle, elegant transitions
+- Duration: 10 seconds`;
+
+    console.log('[Core Idea] Generating video with Sora API...');
+    console.log('[Core Idea] Title:', title);
+    console.log('[Core Idea] Brand:', brand);
+    
+    const videoUrl = await generateSoraVideo(prompt, {
+      duration: 10,
+      aspect_ratio: '16:9',
+    });
+    
+    console.log('[Core Idea] Video generated successfully:', videoUrl);
+    return videoUrl;
+  } catch (error) {
+    console.error('[Core Idea] Error generating video:', error);
+    console.error('[Core Idea] Error details:', error instanceof Error ? error.message : String(error));
+    console.error('[Core Idea] Stack:', error instanceof Error ? error.stack : 'No stack');
+    // Return null to fall back to image generation
+    return null;
   }
 }
 
