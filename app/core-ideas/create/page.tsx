@@ -26,6 +26,28 @@ interface CoreIdeaData {
   executionExamples: string[] | ExecutionExample[] // Support both old and new format
   targetOutcome: string
   imageUrl?: string
+  strategy?: {
+    mechanismBreakdown: {
+      coreMechanism: string
+      activationPoints: string[]
+      amplificationFactors: string[]
+      sustainabilityApproach: string
+    }
+    psychologicalTriggers: {
+      primaryTrigger: string
+      supportingTriggers: string[]
+      cognitivePathway: string
+      emotionalPayoff: string
+    }
+    strategicLens: {
+      strategicOpportunity: string
+      strategicRisks: Array<{
+        risk: string
+        mitigation: string
+      }>
+      strategicTradeOffs: string
+    }
+  }
   personaFit: {
     whyThisPersona: string
     archetype: string
@@ -646,6 +668,160 @@ export default function CreateCoreIdeaPage() {
                                 </div>
                             </div>
                         </section>
+
+                        {/* The Strategy - Strategic Framework */}
+                        {generatedIdea.strategy && (
+                            <section className="mb-24 px-6 md:px-12">
+                                <div className="max-w-7xl mx-auto">
+                                    <div className="flex items-center gap-3 mb-12">
+                                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                                        <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">The Strategy</span>
+                                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                                    </div>
+
+                                    {/* Section 1: How It Works - Mechanism Decomposition */}
+                                    <div className="mb-16">
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                            </div>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-white">How It Works</h3>
+                                        </div>
+                                        
+                                        {/* Core Mechanism */}
+                                        <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 md:p-12 backdrop-blur-sm mb-8">
+                                            <h4 className="text-xl font-semibold text-white mb-4">Core Mechanism</h4>
+                                            <p className="text-lg text-neutral-200 leading-relaxed font-light">{generatedIdea.strategy.mechanismBreakdown.coreMechanism}</p>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {/* Activation Points */}
+                                            <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                                <h4 className="text-lg font-bold text-white mb-6">Activation Points</h4>
+                                                <div className="space-y-4">
+                                                    {generatedIdea.strategy.mechanismBreakdown.activationPoints.map((point, idx) => (
+                                                        <div key={idx} className="flex items-start gap-3">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center mt-0.5">
+                                                                <span className="text-sm font-bold text-purple-300">{idx + 1}</span>
+                                                            </div>
+                                                            <p className="text-sm text-neutral-200 leading-relaxed flex-1">{point}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Amplification Factors */}
+                                            <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                                <h4 className="text-lg font-bold text-white mb-6">Amplification Factors</h4>
+                                                <div className="space-y-4">
+                                                    {generatedIdea.strategy.mechanismBreakdown.amplificationFactors.map((factor, idx) => (
+                                                        <div key={idx} className="flex items-start gap-3">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center mt-0.5">
+                                                                <span className="text-sm font-bold text-purple-300">{idx + 1}</span>
+                                                            </div>
+                                                            <p className="text-sm text-neutral-200 leading-relaxed flex-1">{factor}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Sustainability Approach */}
+                                        <div className="mt-8 bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                            <h4 className="text-lg font-bold text-white mb-4">Sustainability Approach</h4>
+                                            <p className="text-base text-neutral-200 leading-relaxed">{generatedIdea.strategy.mechanismBreakdown.sustainabilityApproach}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Section 2: Why It Works - Psychological Triggers */}
+                                    <div className="mb-16">
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                            </div>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-white">Why It Works</h3>
+                                        </div>
+
+                                        {/* Primary Trigger */}
+                                        <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 md:p-10 backdrop-blur-sm mb-8">
+                                            <h4 className="text-xl font-semibold text-white mb-4">Primary Psychological Trigger</h4>
+                                            <p className="text-lg text-neutral-200 leading-relaxed font-light">{generatedIdea.strategy.psychologicalTriggers.primaryTrigger}</p>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {/* Supporting Triggers */}
+                                            <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                                <h4 className="text-lg font-bold text-white mb-6">Supporting Triggers</h4>
+                                                <div className="space-y-4">
+                                                    {generatedIdea.strategy.psychologicalTriggers.supportingTriggers.map((trigger, idx) => (
+                                                        <div key={idx} className="bg-neutral-800/50 rounded-xl p-4 border border-neutral-700/50">
+                                                            <p className="text-sm text-neutral-200 leading-relaxed">{trigger}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Cognitive Pathway & Emotional Payoff */}
+                                            <div className="space-y-6">
+                                                <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                                    <h4 className="text-lg font-bold text-white mb-4">Cognitive Pathway</h4>
+                                                    <p className="text-sm text-neutral-200 leading-relaxed">{generatedIdea.strategy.psychologicalTriggers.cognitivePathway}</p>
+                                                </div>
+                                                <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-sm">
+                                                    <h4 className="text-lg font-bold text-white mb-4">Emotional Payoff</h4>
+                                                    <p className="text-sm text-neutral-200 leading-relaxed">{generatedIdea.strategy.psychologicalTriggers.emotionalPayoff}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Section 3: What to Watch For - Strategic Lens */}
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-8">
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                            </div>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-white">What to Watch For</h3>
+                                        </div>
+
+                                        {/* Strategic Opportunity */}
+                                        <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 md:p-10 backdrop-blur-sm mb-8">
+                                            <h4 className="text-xl font-semibold text-white mb-4">Strategic Opportunity</h4>
+                                            <p className="text-lg text-neutral-200 leading-relaxed font-light">{generatedIdea.strategy.strategicLens.strategicOpportunity}</p>
+                                        </div>
+
+                                        {/* Strategic Risks & Mitigation */}
+                                        {generatedIdea.strategy.strategicLens.strategicRisks && generatedIdea.strategy.strategicLens.strategicRisks.length > 0 && (
+                                            <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm mb-8">
+                                                <h4 className="text-lg font-bold text-white mb-6">Strategic Risks & Mitigation</h4>
+                                                <div className="space-y-6">
+                                                    {generatedIdea.strategy.strategicLens.strategicRisks.map((riskItem, idx) => (
+                                                        <div key={idx} className="bg-neutral-800/50 rounded-xl p-6 border border-neutral-700/50">
+                                                            <div className="flex items-start gap-3 mb-3">
+                                                                <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30 flex items-center justify-center mt-0.5">
+                                                                    <span className="text-xs font-bold text-orange-300">!</span>
+                                                                </div>
+                                                                <p className="text-base font-semibold text-white flex-1">{riskItem.risk}</p>
+                                                            </div>
+                                                            <div className="ml-11">
+                                                                <p className="text-sm text-purple-300 font-medium mb-2">Mitigation:</p>
+                                                                <p className="text-sm text-neutral-300 leading-relaxed">{riskItem.mitigation}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Strategic Trade-offs */}
+                                        <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
+                                            <h4 className="text-lg font-bold text-white mb-4">Strategic Trade-offs</h4>
+                                            <p className="text-base text-neutral-200 leading-relaxed">{generatedIdea.strategy.strategicLens.strategicTradeOffs}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        )}
 
                         {/* Execution Examples - Visual Showcase */}
                         {generatedIdea.executionExamples.length > 0 && (

@@ -40,6 +40,31 @@ interface CoreIdeaData {
   executionExamples: string[] | ExecutionExample[]; // Support both old and new format
   targetOutcome: string;
   imageUrl?: string;
+  strategy?: {
+    // Mechanism Decomposition - HOW it works
+    mechanismBreakdown: {
+      coreMechanism: string; // 2-3 sentences explaining how the mechanism works
+      activationPoints: string[]; // 3-4 specific things that make this mechanism work
+      amplificationFactors: string[]; // How this idea spreads/gets stronger (2-3 factors)
+      sustainabilityApproach: string; // How to maintain power over time (2-3 sentences)
+    };
+    // Psychological Trigger Framework - WHY it works
+    psychologicalTriggers: {
+      primaryTrigger: string; // The main psychological mechanism (1-2 sentences)
+      supportingTriggers: string[]; // 2-3 secondary psychological triggers
+      cognitivePathway: string; // How the mind processes this (2-3 sentences)
+      emotionalPayoff: string; // What emotion/reward the audience gets (1-2 sentences)
+    };
+    // Risk-Reward Strategic Lens - WHAT to watch for
+    strategicLens: {
+      strategicOpportunity: string; // What this idea uniquely captures (2-3 sentences)
+      strategicRisks: Array<{
+        risk: string; // Specific risk (not generic)
+        mitigation: string; // How to navigate this risk (1-2 sentences)
+      }>;
+      strategicTradeOffs: string; // What this approach prioritizes vs avoids (2-3 sentences)
+    };
+  };
   personaFit: {
     whyThisPersona: string;
     archetype: string;
@@ -249,6 +274,13 @@ The idea should:
 
 CRITICAL: You must also provide deep persona intelligence explaining WHY this persona is perfect for this idea. This should read like a high-end intelligence report.
 
+CRITICAL FOR STRATEGY SECTION: The strategy section must be UNIQUE to THIS specific core idea. It must work at the CORE IDEA level (tactic-agnostic), not the tactic level. Avoid generic marketing advice or arbitrary numbers. Focus on:
+- Mechanism Decomposition: Break down HOW this specific idea's mechanism works. Be specific to THIS idea's unique mechanism (e.g., if it's about "authentic storytelling", explain how THAT specific mechanism works, not storytelling in general).
+- Psychological Triggers: Explain WHY this specific mechanism works psychologically. Tie it to THIS idea's unique approach.
+- Strategic Lens: Identify WHAT this idea uniquely captures, what risks are specific to THIS approach (not generic risks like "market saturation"), and what trade-offs THIS strategy makes.
+
+Make it feel like bespoke strategic counsel that's impossible to template - because it's tied to THIS idea's specific mechanism.
+
 Return ONLY valid JSON with this exact structure:
 {
   "title": "A catchy, memorable title for the core idea (3-8 words)",
@@ -286,6 +318,51 @@ Return ONLY valid JSON with this exact structure:
     }
   ],
   "targetOutcome": "The desired marketing outcome (1-2 sentences)",
+  "strategy": {
+    "mechanismBreakdown": {
+      "coreMechanism": "A 2-3 sentence explanation of HOW this specific idea's mechanism works. Be specific to THIS idea's unique mechanism. Explain the mechanics, not just the concept. This must work at the core idea level (tactic-agnostic).",
+      "activationPoints": [
+        "First specific thing that makes this mechanism work (e.g., 'The moment of vulnerability creates authentic connection')",
+        "Second activation point specific to THIS idea",
+        "Third activation point",
+        "Fourth activation point (if applicable)"
+      ],
+      "amplificationFactors": [
+        "First factor that makes this idea spread/strengthen (e.g., 'Peer sharing multiplies impact through social proof')",
+        "Second amplification factor",
+        "Third amplification factor"
+      ],
+      "sustainabilityApproach": "A 2-3 sentence explanation of how to maintain this mechanism's power over time. How does this idea stay fresh? What keeps it from losing impact?"
+    },
+    "psychologicalTriggers": {
+      "primaryTrigger": "The main psychological mechanism that makes THIS idea work (1-2 sentences). Be specific to this idea's approach, not generic psychology.",
+      "supportingTriggers": [
+        "First secondary psychological trigger specific to THIS idea",
+        "Second supporting trigger",
+        "Third supporting trigger"
+      ],
+      "cognitivePathway": "A 2-3 sentence explanation of how the mind processes THIS specific idea. What mental journey does the audience take?",
+      "emotionalPayoff": "What emotion or reward the audience gets from engaging with THIS idea (1-2 sentences). Be specific to this idea's mechanism."
+    },
+    "strategicLens": {
+      "strategicOpportunity": "A 2-3 sentence explanation of what THIS idea uniquely captures. What strategic opportunity does this specific mechanism open up?",
+      "strategicRisks": [
+        {
+          "risk": "First specific risk that's unique to THIS idea's approach (not generic - e.g., 'Authenticity fatigue could undermine the mechanism if overused')",
+          "mitigation": "How to navigate this specific risk (1-2 sentences, actionable)"
+        },
+        {
+          "risk": "Second strategic risk specific to THIS idea",
+          "mitigation": "How to mitigate this risk (1-2 sentences)"
+        },
+        {
+          "risk": "Third strategic risk (if applicable)",
+          "mitigation": "How to mitigate this risk (1-2 sentences)"
+        }
+      ],
+      "strategicTradeOffs": "A 2-3 sentence explanation of what THIS strategic approach prioritizes vs. what it avoids. What are you choosing to emphasize, and what are you choosing not to do?"
+    }
+  },
     "personaFit": {
       "whyThisPersona": "A compelling 2-3 sentence explanation of why this persona is the perfect match for this idea. Make it feel like high-end intelligence - specific, strategic, and compelling.",
       "archetype": "Identify the Jungian or marketing archetype (e.g., 'The Aspirational Creator', 'The Conscious Explorer', 'The Status Seeker') that best describes this persona",
@@ -494,8 +571,8 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
       'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      model: 'gpt-4',
+      body: JSON.stringify({
+      model: 'gpt-4o',
       messages: [
         {
           role: 'system',
@@ -507,12 +584,15 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
         }
       ],
       temperature: 0.9,
-      max_tokens: 4000,
+      max_tokens: 6000,
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`OpenAI API error: ${response.status}`);
+    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+    const errorMessage = errorData.error?.message || errorData.error || `OpenAI API error: ${response.status}`;
+    console.error('OpenAI API error details:', errorData);
+    throw new Error(errorMessage);
   }
 
   const data = await response.json();
