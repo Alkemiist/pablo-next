@@ -574,7 +574,6 @@ export default function CreateCoreIdeaPage() {
                             <div className="max-w-4xl mx-auto px-6 md:px-12">
                                 <div className="flex flex-col items-center justify-center min-h-[60vh] py-20 text-center">
                                     <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-purple-500/10 border border-purple-500/20 rounded-full">
-                                        <Sparkles className="w-4 h-4 text-purple-400" />
                                         <span className="text-sm font-medium text-purple-300">Core Idea</span>
                                     </div>
                                     <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight tracking-tight">
@@ -613,18 +612,12 @@ export default function CreateCoreIdeaPage() {
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                     <div className="bg-gradient-to-br from-neutral-900/80 to-neutral-800/40 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm hover:border-purple-500/30 transition-all duration-500 group">
                                         <div className="flex items-center gap-3 mb-6">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
                                             <h2 className="text-2xl font-bold text-white">Core Concept</h2>
                                         </div>
                                         <p className="text-lg text-neutral-300 leading-relaxed">{generatedIdea.coreConcept}</p>
                                     </div>
                                     <div className="bg-gradient-to-br from-neutral-900/80 to-neutral-800/40 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm hover:border-purple-500/30 transition-all duration-500 group">
                                         <div className="flex items-center gap-3 mb-6">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
                                             <h2 className="text-2xl font-bold text-white">Why It Works</h2>
                                         </div>
                                         <p className="text-lg text-neutral-300 leading-relaxed">{generatedIdea.whyItWorks}</p>
@@ -646,9 +639,6 @@ export default function CreateCoreIdeaPage() {
                                     {/* Section 1: How It Works - Mechanism Decomposition */}
                                     <div className="mb-16">
                                         <div className="flex items-center gap-3 mb-8">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
                                             <h3 className="text-2xl md:text-3xl font-bold text-white">How It Works</h3>
                                         </div>
                                         
@@ -700,9 +690,6 @@ export default function CreateCoreIdeaPage() {
                                     {/* Section 2: Why It Works - Psychological Triggers */}
                                     <div className="mb-16">
                                         <div className="flex items-center gap-3 mb-8">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
                                             <h3 className="text-2xl md:text-3xl font-bold text-white">Why It Works</h3>
                                         </div>
 
@@ -742,9 +729,6 @@ export default function CreateCoreIdeaPage() {
                                     {/* Section 3: What to Watch For - Strategic Lens */}
                                     <div>
                                         <div className="flex items-center gap-3 mb-8">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
                                             <h3 className="text-2xl md:text-3xl font-bold text-white">What to Watch For</h3>
                                         </div>
 
@@ -868,9 +852,6 @@ export default function CreateCoreIdeaPage() {
                                         <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-500/5 to-purple-600/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
                                         <div className="relative z-10">
                                             <div className="flex items-center gap-3 mb-6">
-                                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                    <Sparkles className="w-6 h-6 text-purple-400" />
-                                                </div>
                                                 <h3 className="text-2xl md:text-3xl font-bold text-white">Why This Window Exists</h3>
                                             </div>
                                             <p className="text-lg md:text-xl text-neutral-200 leading-relaxed font-light">{generatedIdea.marketIntelligence.opportunityWindow.whyThisWindowExists}</p>
@@ -880,9 +861,6 @@ export default function CreateCoreIdeaPage() {
                                     {/* Panel 2: Competitive Landscape - Visual Map */}
                                     <div className="mb-12 bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 md:p-10 backdrop-blur-sm">
                                         <div className="flex items-center gap-3 mb-8">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                <Sparkles className="w-6 h-6 text-purple-400" />
-                                            </div>
                                             <h3 className="text-2xl font-bold text-white">Competitive Landscape</h3>
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -907,18 +885,12 @@ export default function CreateCoreIdeaPage() {
                                     <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="bg-gradient-to-br from-purple-950/40 to-neutral-900/50 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-sm">
                                             <div className="flex items-center gap-3 mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                    <Sparkles className="w-5 h-5 text-purple-400" />
-                                                </div>
                                                 <h4 className="text-xl font-bold text-white">What You Gain</h4>
                                             </div>
                                             <p className="text-base text-neutral-200 leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.firstMoverAdvantage.whatYouGain}</p>
                                         </div>
                                         <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
                                             <div className="flex items-center gap-3 mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                    <Sparkles className="w-5 h-5 text-purple-400" />
-                                                </div>
                                                 <h4 className="text-xl font-bold text-white">What Happens If You Wait</h4>
                                             </div>
                                             <p className="text-base text-neutral-300 leading-relaxed">{generatedIdea.marketIntelligence.opportunityWindow.firstMoverAdvantage.whatHappensIfYouWait}</p>
@@ -1002,9 +974,6 @@ export default function CreateCoreIdeaPage() {
                                         {generatedIdea.personaFit?.motivations && generatedIdea.personaFit.motivations.length > 0 && (
                                             <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
                                                 <div className="flex items-center gap-3 mb-6">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                        <Sparkles className="w-6 h-6 text-purple-400" />
-                                                    </div>
                                                     <h3 className="text-2xl font-bold text-white">Key Motivations</h3>
                                                 </div>
                                                 <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">What Drives This Audience</p>
@@ -1027,9 +996,6 @@ export default function CreateCoreIdeaPage() {
                                         {generatedIdea.personaFit?.keyBehaviors && generatedIdea.personaFit.keyBehaviors.length > 0 && (
                                             <div className="bg-gradient-to-br from-neutral-900/80 to-purple-950/30 border border-neutral-700/50 rounded-3xl p-8 backdrop-blur-sm">
                                                 <div className="flex items-center gap-3 mb-6">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                                        <Sparkles className="w-6 h-6 text-purple-400" />
-                                                    </div>
                                                     <h3 className="text-2xl font-bold text-white">Key Behaviors</h3>
                                                 </div>
                                                 <p className="text-sm text-purple-400 font-semibold mb-4 uppercase tracking-wider">How They Engage</p>
@@ -1103,7 +1069,6 @@ export default function CreateCoreIdeaPage() {
                 ) : (
                     <div className="h-full flex items-center justify-center">
                         <div className="text-center px-4">
-                            <Sparkles className="w-16 h-16 text-purple-400/30 mx-auto mb-4" />
                             <p className="text-neutral-500 text-lg">Select your variables and click Create to generate a core idea</p>
                         </div>
                     </div>

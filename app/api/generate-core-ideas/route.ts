@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSoraVideo, isSoraConfigured } from '@/lib/sora-client';
 
+// Interface for the core idea 
 interface GenerateCoreIdeasRequest {
   brand: string;
   product: string;
@@ -21,6 +22,7 @@ interface GenerateCoreIdeasRequest {
   generateSingle?: boolean;
 }
 
+// interface for execution example
 interface ExecutionExample {
   tacticType: string; // e.g., "social-post", "event", "partnership", "video", "content"
   platform: string; // e.g., "instagram", "tiktok", "live-event", "youtube", "linkedin"
@@ -258,9 +260,9 @@ async function generateSingleCoreIdea(
 - Emotional Keywords: ${formatArrayField(persona.emotionalKeywords)}
 - Desired Transformation: ${formatArrayField(persona.desiredTransformation)}`;
 
-  const prompt = `You are an elite marketing intelligence strategist tasked with creating a groundbreaking marketing core idea with deep persona insights. 
+const prompt = `You are an elite marketing intelligence strategist tasked with creating a groundbreaking, unique, and out-of-the-box marketing core idea with deep persona insights. 
 
-CONTEXT:
+CONTEXT: 
 - Brand: ${brand}
 - Product: ${product}
 - Target Persona: ${personaName}
