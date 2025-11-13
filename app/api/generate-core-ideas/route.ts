@@ -305,28 +305,52 @@ Return ONLY valid JSON with this exact structure:
   "uniqueAngle": "What makes this different from standard approaches (1-2 sentences)",
   "executionExamples": [
     {
-      "tacticType": "social-post",
+      "tacticType": "video-content",
+      "platform": "instagram-reels",
+      "description": "How this could work as an Instagram Reels or TikTok video activation (2-3 sentences explaining the specific execution, format, and engagement strategy)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this short-form video content. Include: vertical video format (9:16), dynamic visual style, on-screen text/graphics, color palette, key visual elements, thumbnail aesthetic, and overall energetic feel that would make viewers stop scrolling and engage."
+    },
+    {
+      "tacticType": "carousel-post",
       "platform": "instagram",
-      "description": "How this could work as a social media campaign (2-3 sentences explaining the specific execution)",
-      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this Instagram post. Include: specific visual style, color palette, composition, key imagery elements, typography style, and overall aesthetic that would make this post engaging and on-brand."
+      "description": "How this could work as an Instagram carousel post with multiple slides (2-3 sentences explaining the swipeable storytelling approach and educational/informational format)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this Instagram carousel post. Include: square format (1:1), multi-slide composition preview, visual storytelling progression, typography hierarchy, color palette, key imagery elements, and overall aesthetic that encourages swiping through all slides."
     },
     {
-      "tacticType": "event",
+      "tacticType": "email-campaign",
+      "platform": "email",
+      "description": "How this could work as an email marketing campaign or nurture sequence (2-3 sentences explaining the email strategy, segmentation approach, and conversion focus)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this email campaign. Include: email template layout, header design, typography style, color scheme, call-to-action placement, visual hierarchy, brand integration, and overall professional email marketing aesthetic."
+    },
+    {
+      "tacticType": "landing-page",
+      "platform": "web",
+      "description": "How this could work as a dedicated landing page or microsite (2-3 sentences explaining the interactive experience, conversion optimization, and user journey)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this landing page or microsite. Include: web page layout, hero section design, visual hierarchy, color palette, typography, interactive elements, call-to-action placement, and overall modern web design aesthetic optimized for conversion."
+    },
+    {
+      "tacticType": "influencer-partnership",
+      "platform": "influencer",
+      "description": "How this could work as an influencer or creator partnership (2-3 sentences explaining the collaboration approach, content format, and authentic endorsement strategy)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this influencer partnership activation. Include: influencer content style, brand integration, authentic feel, platform-specific format (Instagram/TikTok/YouTube), visual aesthetic, and overall collaborative content that feels genuine and engaging."
+    },
+    {
+      "tacticType": "ugc-campaign",
+      "platform": "social",
+      "description": "How this could work as a user-generated content campaign or community challenge (2-3 sentences explaining the participation mechanism, hashtag strategy, and social proof amplification)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this UGC campaign. Include: campaign visual identity, hashtag presentation, user participation elements, social media grid aesthetic, community feel, brand integration, and overall engaging visual that encourages user participation and sharing."
+    },
+    {
+      "tacticType": "event-activation",
       "platform": "live-event",
-      "description": "How this could work as an event/experience (2-3 sentences explaining the specific execution)",
-      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this event. Include: venue atmosphere, lighting style, decor elements, attendee experience, brand integration, and overall immersive feel."
+      "description": "How this could work as an experiential event or IRL brand activation (2-3 sentences explaining the immersive experience, venue atmosphere, and engagement mechanics)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this event activation. Include: venue atmosphere, lighting style, decor elements, immersive experience design, attendee interaction points, brand integration, photo-worthy moments, and overall high-energy event aesthetic."
     },
     {
-      "tacticType": "partnership",
-      "platform": "collaboration",
-      "description": "How this could work as a partnership or collaboration (2-3 sentences explaining the specific execution)",
-      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this partnership activation. Include: how both brands are represented, visual harmony, campaign aesthetic, key elements, and overall collaborative feel."
-    },
-    {
-      "tacticType": "content",
-      "platform": "youtube",
-      "description": "How this could work as a content or influencer activation (2-3 sentences explaining the specific execution)",
-      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this content piece. Include: video thumbnail style, key visual elements, color scheme, typography, composition, and overall aesthetic that would make viewers want to click."
+      "tacticType": "interactive-tool",
+      "platform": "web",
+      "description": "How this could work as an interactive quiz, calculator, or engagement tool (2-3 sentences explaining the interactive mechanism, personalization approach, and data collection strategy)",
+      "visualPrompt": "A detailed 2-3 sentence description for generating a visual mockup of this interactive tool. Include: tool interface design, interactive elements, visual feedback mechanisms, color palette, typography, user experience flow, brand integration, and overall engaging and intuitive interface aesthetic."
     }
   ],
   "targetOutcome": "The desired marketing outcome (1-2 sentences)",
@@ -649,7 +673,7 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
     } else {
       // Fall back to image generation if video generation is not available
       console.log('[Core Idea] ⚠️ Video generation returned null, falling back to image...');
-      const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, brand, product);
+      const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, idea.coreConcept || '', brand, product);
       idea.imageUrl = imageUrl;
       console.log('[Core Idea] ✅ Image generated successfully:', imageUrl);
     }
@@ -659,7 +683,7 @@ Be specific, be creative, be strategic. Make the persona fit analysis feel like 
     // Try to generate image as fallback
     try {
       console.log('[Core Idea] Attempting image generation as fallback...');
-      const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, brand, product);
+      const imageUrl = await generateCoreIdeaImage(idea.title, idea.description, idea.coreConcept || '', brand, product);
       idea.imageUrl = imageUrl;
       console.log('[Core Idea] ✅ Fallback image generated successfully:', imageUrl);
     } catch (imageError) {
@@ -728,29 +752,46 @@ async function generateExecutionExampleImage(
   try {
     // Determine image size based on platform/tactic type
     let size: '1024x1024' | '1792x1024' = '1024x1024';
-    if (platform === 'instagram' || platform === 'tiktok') {
+    if (platform === 'instagram' || platform === 'instagram-reels' || platform === 'social' || platform === 'influencer') {
       size = '1024x1024'; // Square format for social
-    } else if (platform === 'youtube' || tacticType === 'video') {
-      size = '1792x1024'; // Wide format for video
+    } else if (platform === 'youtube' || platform === 'web' || platform === 'email' || tacticType === 'video-content' || tacticType === 'landing-page' || tacticType === 'interactive-tool') {
+      size = '1792x1024'; // Wide format for video/web
+    } else if (platform === 'live-event') {
+      size = '1792x1024'; // Wide format for event visuals
     }
 
     // Build platform-specific prompt
     let platformStyle = '';
     switch (platform) {
       case 'instagram':
-        platformStyle = 'Instagram post format, square composition, modern social media aesthetic, engaging visual';
+        platformStyle = 'Instagram carousel post format, square composition (1:1), modern social media aesthetic, engaging visual with multi-slide storytelling feel';
         break;
-      case 'tiktok':
-        platformStyle = 'TikTok video thumbnail, vertical format feel, dynamic and energetic, trend-forward';
+      case 'instagram-reels':
+        platformStyle = 'Instagram Reels or TikTok video thumbnail, vertical format (9:16), dynamic and energetic, trend-forward, attention-grabbing with on-screen text/graphics';
+        break;
+      case 'email':
+        platformStyle = 'Email marketing template visual, desktop email client preview, professional email design, clear visual hierarchy, call-to-action prominent';
+        break;
+      case 'web':
+        if (tacticType === 'landing-page') {
+          platformStyle = 'Landing page or microsite mockup, desktop web browser view, modern web design, hero section prominent, conversion-optimized layout';
+        } else if (tacticType === 'interactive-tool') {
+          platformStyle = 'Interactive tool or quiz interface mockup, web browser view, modern UI/UX design, engaging interface elements, intuitive user experience';
+        } else {
+          platformStyle = 'Web-based marketing visual, modern web design aesthetic, professional quality';
+        }
+        break;
+      case 'influencer':
+        platformStyle = 'Influencer partnership content visual, authentic creator-style aesthetic, platform-appropriate format (Instagram/TikTok/YouTube), genuine and engaging feel';
+        break;
+      case 'social':
+        platformStyle = 'User-generated content campaign visual, social media grid aesthetic, community-driven feel, hashtag integration, participatory and engaging';
+        break;
+      case 'live-event':
+        platformStyle = 'Event marketing visual, immersive experience aesthetic, venue atmosphere, high-energy event feel, photo-worthy moments';
         break;
       case 'youtube':
         platformStyle = 'YouTube video thumbnail, 16:9 aspect ratio, compelling and click-worthy, professional quality';
-        break;
-      case 'live-event':
-        platformStyle = 'Event marketing visual, poster or venue aesthetic, immersive experience feel, high energy';
-        break;
-      case 'collaboration':
-        platformStyle = 'Partnership collaboration visual, brand partnership aesthetic, joint campaign feel, premium quality';
         break;
       default:
         platformStyle = 'Professional marketing visual, modern and engaging, high-quality composition';
@@ -798,7 +839,7 @@ Make it feel authentic and true to how this tactic would actually appear.`;
   } catch (error) {
     console.error('Error generating execution example image:', error);
     // Return a placeholder
-    const placeholderSize = (platform === 'youtube' || tacticType === 'video') ? '1792x1024' : '1024x1024';
+    const placeholderSize = (platform === 'youtube' || platform === 'web' || platform === 'email' || tacticType === 'video-content' || tacticType === 'landing-page' || tacticType === 'interactive-tool' || platform === 'live-event') ? '1792x1024' : '1024x1024';
     return `https://via.placeholder.com/${placeholderSize}/6366f1/f3f4f6?text=${encodeURIComponent(tacticType)}`;
   }
 }
@@ -846,18 +887,24 @@ Style requirements:
 }
 
 // Helper function to generate image using DALL-E
-async function generateCoreIdeaImage(title: string, description: string, brand: string, product: string): Promise<string> {
+async function generateCoreIdeaImage(title: string, description: string, coreConcept: string, brand: string, product: string): Promise<string> {
   try {
-    const prompt = `Create a stunning, professional marketing visual concept for: ${title}. ${description}. Brand: ${brand}. Product: ${product}. 
+    const conceptContext = coreConcept ? `Core Concept: ${coreConcept}. ` : '';
+    const prompt = `Create a stunning, professional marketing hero image that visually captures the essence of this core idea: ${title}. 
+
+${description}
+
+${conceptContext}Brand: ${brand}. Product: ${product}.
 
 Style requirements:
-- Modern, aspirational marketing imagery
-- Clean, sophisticated composition with vibrant colors
-- Professional advertising quality
-- Conveys innovation and creativity
-- Eye-catching and memorable
-- High-end commercial photography aesthetic
-- Focus on the marketing concept and brand essence`;
+- Modern, aspirational marketing hero imagery suitable for above-the-fold display
+- Clean, sophisticated composition with strategic use of color
+- Professional advertising quality with high-end commercial photography aesthetic
+- Conveys the core concept and marketing idea visually
+- Eye-catching and memorable, designed to grab attention immediately
+- Wide format (16:9 aspect ratio) optimized for hero sections
+- Focus on visually representing the marketing concept and brand essence
+- Should feel premium, innovative, and aligned with the core idea's emotional hook`;
 
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
